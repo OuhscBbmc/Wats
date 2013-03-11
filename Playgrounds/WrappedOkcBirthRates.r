@@ -4,8 +4,9 @@ require(colorspace)
 # #path <- "F:/Users/wibeasley/Documents/School/Circular/BirthRatesRogers.txt"
 # #path <- "F:/Users/wibeasley/Documents/School/Circular/BirthRatesTulsa.txt"
 # setwd("F:/Users/wibeasley/Documents/School/Circular/PublicationGraphs")
-pathDirectory <- "F:/Users/wibeasley/Documents/School/Circular"
-pathInput <- file.path(pathDirectory, "BirthRatesOkc.txt")
+#pathDirectory <- "F:/Users/wibeasley/Documents/School/Circular"
+pathDirectory <- getwd()
+pathInput <- file.path(pathDirectory, "Datasets/BirthRatesOkc.txt")
 pathDirectoryOutput <-  file.path(pathDirectory, "PublicationGraphs")
 # setwd("F:/Users/wibeasley/Documents/School/Circular/PublicationGraphs")
 dsOkc <- read.table(pathInput, header=T)
@@ -49,7 +50,7 @@ if( colorSchemeVersion == 6) {
   smoothedLinear <- hcl(h=40, c=150, l=45)
 }
 windows.options(antialias = "cleartype")
-if( names(dev.cur()) != "null device" ) dev.off()
+# if( names(dev.cur()) != "null device" ) dev.off()
 # scale <- 2
 #Linear is 1/3 the height of the polars
 deviceWidth <- 9 #20 #10 #6.5
@@ -60,7 +61,7 @@ height <- 6.5 #For the two big ones
 # height <- 6.5/2 *1.5 #For the solor polar
 #windows(width=deviceWidth, height=height)
 # pdf(file=file.path(pathDirectoryOutput, "WatsWorkingPlot.pdf"), width=deviceWidth, height=height)
-png(file=file.path(pathDirectoryOutput, "WatsWorkingPlot.png"), width=deviceWidth, height=height, units="in", res=1200)
+# png(file=file.path(pathDirectoryOutput, "WatsWorkingPlot.png"), width=deviceWidth, height=height, units="in", res=1200)
 
 
 
@@ -302,7 +303,7 @@ polygon(x=linearVerticesXPre + xOffset, y=linearAfterVerticesYPre, border=NA, co
 polygon(x=linearVerticesXPost + xOffset, y=linearBeforeVerticesYPost, border=NA, col=bandColorBefore[2])
 polygon(x=linearVerticesXPost + xOffset, y=linearAfterVerticesYPost, border=NA, col=bandColorAfter[2])
 par(op)
-dev.off()
+# dev.off()
 
 ########################################################
 ### Linear Graphs
