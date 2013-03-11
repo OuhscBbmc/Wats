@@ -1,10 +1,14 @@
 rm(list=ls(all=TRUE))
 require(colorspace)
-path <- "F:/Users/wibeasley/Documents/School/Circular/BirthRatesOkc.txt"
-#path <- "F:/Users/wibeasley/Documents/School/Circular/BirthRatesRogers.txt"
-#path <- "F:/Users/wibeasley/Documents/School/Circular/BirthRatesTulsa.txt"
-setwd("F:/Users/wibeasley/Documents/School/Circular/HclColorSchemes/")
-dsOkc <- read.table(path, header=T)
+# path <- "F:/Users/wibeasley/Documents/School/Circular/BirthRatesOkc.txt"
+# #path <- "F:/Users/wibeasley/Documents/School/Circular/BirthRatesRogers.txt"
+# #path <- "F:/Users/wibeasley/Documents/School/Circular/BirthRatesTulsa.txt"
+# setwd("F:/Users/wibeasley/Documents/School/Circular/PublicationGraphs")
+pathDirectory <- "F:/Users/wibeasley/Documents/School/Circular"
+pathInput <- file.path(pathDirectory, "BirthRatesOkc.txt")
+pathDirectoryOutput <-  file.path(pathDirectory, "PublicationGraphs")
+# setwd("F:/Users/wibeasley/Documents/School/Circular/PublicationGraphs")
+dsOkc <- read.table(pathInput, header=T)
 firstYear <- 1990
 changePoint <- 74 #The 74th month is April 1996
 fullFebruaryCount <- 9 #The number of Februaries with a full preceeding 12 month period.
@@ -13,7 +17,7 @@ monthsPerYear <- 12
 monthCount <- nrow(dsOkc)
 yearCount <- monthCount / monthsPerYear
 #lineColors <- terrain.colors(n=monthCount)[monthCount:1]
-colorSchemeVersion <- 5
+colorSchemeVersion <-6
 if( colorSchemeVersion == 1) {
   colorBefore <- "peru"
   colorAfter <- "springgreen4"
@@ -38,12 +42,25 @@ if( colorSchemeVersion == 5) {
   colorBefore <- rainbow_hcl(2, start=0+offset, end=240+offset, c=100, l=65)[1]
   colorAfter <- rainbow_hcl(2, start=0+offset, end=240+offset, c=100, l=65)[2]
 }
-# if( names(dev.cur()) != "null device" ) dev.off()
+if( colorSchemeVersion == 6) {
+  offset <- 240
+  colorBefore <- rainbow_hcl(2, start=0+offset, end=240+offset, c=100, l=65)[1]
+  colorAfter <- rainbow_hcl(2, start=0+offset, end=240+offset, c=100, l=65)[2] #h=120
+  smoothedLinear <- hcl(h=40, c=150, l=45)
+}
+windows.options(antialias = "cleartype")
+if( names(dev.cur()) != "null device" ) dev.off()
 # scale <- 2
-# deviceWidth <-9 #20 #10 #6.5
-# #heightToWidthRatio <- .5#
-# height <- 6.5
-# windows(width=deviceWidth, height=height)
+#Linear is 1/3 the height of the polars
+deviceWidth <- 9 #20 #10 #6.5
+# deviceWidth <- 9/2.8 * 1.5 #For the solo polar
+
+height <- 6.5 #For the two big ones
+# height <- 6.5/3 #For the solo linears
+# height <- 6.5/2 *1.5 #For the solor polar
+#windows(width=deviceWidth, height=height)
+# pdf(file=file.path(pathDirectoryOutput, "WatsWorkingPlot.pdf"), width=deviceWidth, height=height)
+png(file=file.path(pathDirectoryOutput, "WatsWorkingPlot.png"), width=deviceWidth, height=height, units="in", res=1200)
 
 
 
@@ -52,6 +69,8 @@ transparencyFocus <- .5
 transparencyBackground <- .3
 #transparencyFocus <- .8
 #transparencyBackground <- .4
+# transparencyFocus <- 0
+# transparencyBackground <- 0
 FadeColor <- function( color, transparency ) {
     rgb <- col2rgb(color) / 255 #break it into components and rescale
 		color <- rgb(red=rgb[1], green=rgb[2], blue=rgb[3], alpha=transparency)
@@ -143,10 +162,14 @@ for( cycleID in sort(unique(dsInterpolated$CycleID)) ) {
 
   dsBands[rowTally, 'CycleID'] <- cycleID
   dsBands[rowTally, 'Radians'] <- dsSliceBefore$Radians[1] #They should all have the same radians
-  dsBands[rowTally, 'LowerBefore'] <- quantile(dsSliceBefore$BirthRate, prob=lowerQuantile)
-  dsBands[rowTally, 'UpperBefore'] <- quantile(dsSliceBefore$BirthRate, prob=upperQuantile)
-  dsBands[rowTally, 'LowerAfter'] <- quantile(dsSliceAfter$BirthRate, prob=lowerQuantile)
-    dsBands[rowTally, 'UpperAfter'] <- quantile(dsSliceAfter$BirthRate, prob=upperQuantile)
+#   dsBands[rowTally, 'LowerBefore'] <- quantile(dsSliceBefore$BirthRate, prob=lowerQuantile)
+#   dsBands[rowTally, 'UpperBefore'] <- quantile(dsSliceBefore$BirthRate, prob=upperQuantile)
+#   dsBands[rowTally, 'LowerAfter'] <- quantile(dsSliceAfter$BirthRate, prob=lowerQuantile)
+#   dsBands[rowTally, 'UpperAfter'] <- quantile(dsSliceAfter$BirthRate, prob=upperQuantile)
+  dsBands[rowTally, 'LowerBefore'] <- as.numeric(quantile(dsSliceBefore$BirthRate, prob=lowerQuantile))
+  dsBands[rowTally, 'UpperBefore'] <- as.numeric(quantile(dsSliceBefore$BirthRate, prob=upperQuantile))
+  dsBands[rowTally, 'LowerAfter'] <- as.numeric(quantile(dsSliceAfter$BirthRate, prob=lowerQuantile))
+  dsBands[rowTally, 'UpperAfter'] <- as.numeric(quantile(dsSliceAfter$BirthRate, prob=upperQuantile))
     
   rowTally <- rowTally + 1
 }
@@ -172,14 +195,14 @@ circle <- function(radius, segments=100, color=gray(0)) {
 
 PlotPolar <- function( drawLines ) {
   plot(dsInterpolated$X, dsInterpolated$Y, xlim=c(-graphHeight, graphHeight), ylim=c(-graphHeight, graphHeight), type="n", xaxt="n", yaxt="n",  bty="n",
-    xlab="", ylab="")
+    xlab="", ylab="", cex.axis=1.5)
 #    main=substitute(list(beta[Season]==slopeSeasonal, beta[Duration]==slopeDuration, paste(italic(e), "~", italic(N)(0, sigma))),
     #main=substitute(list(beta[Season]==over(1,slopeSeasonalInv), beta[Duration]==over(1,slopeDurationInv), paste(italic(e), "~", italic(N)(0, over(1,sigmaInv)))),
 #      list(slopeSeasonalInv=1/slopeSeasonal, slopeDurationInv=1/slopeDuration,sigmaInv=1/sigma))
-  if( drawLines ) mtext(paste("A point at the origin represents a GFR of", graphFloor), side=1, col=labelColor, cex=.7)
+  if( drawLines ) mtext(paste("A point at the origin represents a GFR of", graphFloor), side=1, col=labelColor, cex=1.2)
   abline(v=0, col=gridColor, lty=polarGridLty)
   abline(h=0, col=gridColor, lty=polarGridLty)
-  text(c("Dec","Mar","June","Sept"), x=c(0, graphHeight, 0, -graphHeight), y=c(graphHeight, 0, -graphHeight, 0), xpd=T, col=labelColor)
+  text(c("Dec","Mar","June","Sept"), x=c(0, graphHeight, 0, -graphHeight), y=c(graphHeight, 0, -graphHeight, 0), xpd=T, col=labelColor, cex=1.5)
   circle(radius=seq(from=0, to=graphHeight, by=graphHeight/3), color=gridColor)
 
   for( i in 2:interpolatedCount ) {
@@ -204,17 +227,20 @@ op <- par( pty="s", mar=c(1, 0, 0, 0) + 0.1)
 PlotPolar(drawLines=TRUE)
 PlotPolar(drawLines=FALSE)
 
-#par(pty="m",  mar=c(5, 4, 3, 1) + 0.1) #When it's plotted by itself
+# par(pty="m",  mar=c(.8, 4, 1, 1) + 0.1) #When it's plotted by itself
 par(pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars
 plot(NA, xlim=c(0, monthCount), ylim=c(graphFloor, graphCeiling), type="n", xaxt="n", xaxs="i", yaxt="n", yaxs="i", bty="n",
-    xlab="Time", ylab="General Fertility Rate", 
-    sub=paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"), col.sub=labelColor)
+ #  ylab="General Fertility Rate", xlab="",#xlab="Time",
+  ylab="", xlab="",#xlab="Time",
+  sub=paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"), 
+  col.sub=labelColor, cex.lab=1.2)
 
   axis(1, at=seq(from=0, to=changePoint-monthsPerYear, by=12)+6, labels=seq(from=firstYear, to=firstYear+5, by=1),
-    col=gridColor, line=-1, tick=F, col.axis=colorBefore)
+    col=gridColor, line=-1, tick=F, col.axis=colorBefore, cex.axis=1.5)
   axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
-    col=gridColor, line=-1, tick=F, col.axis=colorAfter)
-  axis(2, at=yAxisTicks, col=labelColor, col.axis=labelColor, line=-0, tick=T)  
+    col=gridColor, line=-1, tick=F, col.axis=colorAfter, cex.axis=1.5)
+  axis(2, at=yAxisTicks, col=labelColor, col.axis=labelColor, line=-0, tick=T, cex.axis=1.5)  
+  mtext("General Fertility Rate", side=2,line=2.5, cex=1.25) 
     
     
 #  axis(1, at=seq(from=6, to=(monthCount), by=6), labels=rep(c("(Jun)", "(Dec)"), 5), col.axis=labelColor, line=0, tick=F, lty=0, cex.axis=.7)
@@ -276,9 +302,11 @@ polygon(x=linearVerticesXPre + xOffset, y=linearAfterVerticesYPre, border=NA, co
 polygon(x=linearVerticesXPost + xOffset, y=linearBeforeVerticesYPost, border=NA, col=bandColorBefore[2])
 polygon(x=linearVerticesXPost + xOffset, y=linearAfterVerticesYPost, border=NA, col=bandColorAfter[2])
 par(op)
+dev.off()
 
-
+########################################################
 ### Linear Graphs
+########################################################
 monthsInAverage <- 12
 dsMoving <- data.frame(matrix(NA, nrow=nrow(ds), ncol=4))
 colnames(dsMoving) <- c("MonthID", "BirthRate", "UpperQuantile", "LowerQuantile")
@@ -315,12 +343,14 @@ PlotLinear <- function( displayMovingAverage=TRUE, displayMovingAverageBands=TRU
     subTitle <- ""
 
   plot(c(0,0), xlim=c(0, monthCount), ylim=c(graphFloor, graphCeiling), type="n", xaxt="n", xaxs="i", yaxt="n", yaxs="i", bty="n",
-    xlab="Time", ylab="General Fertility Rate", sub=subTitle, col.sub=labelColor)
+    ylab="", sub=subTitle, col.sub=labelColor, xlab="",#xlab="Time",
+       cex.lab=2, cex.sub=1.5)
   axis(1, at=seq(from=0, to=changePoint-monthsPerYear, by=12)+6, labels=seq(from=firstYear, to=firstYear+5, by=1),
-    col=gridColor, line=-1, tick=F, col.axis=colorBefore)
-    axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
-      col=gridColor, line=-1, tick=F, col.axis=colorAfter)
-  axis(2, at=yAxisTicks, col=labelColor, col.axis=labelColor, line=-0, tick=T)
+    col=gridColor, line=-1, tick=F, col.axis=colorBefore, cex.axis=1.5)
+  axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
+    col=gridColor, line=-1, tick=F, col.axis=colorAfter, cex.axis=1.5)
+  axis(2, at=yAxisTicks, col=labelColor, col.axis=labelColor, line=-0, tick=T, cex.axis=1.5)
+  mtext("General Fertility Rate", side=2,line=2.5, cex=1) 
 
   abline(v=seq(from=monthsPerYear, to=monthCount, by=monthsPerYear), col=gridColor, lty=2)
   if( displayMovingAverage ) {
@@ -342,7 +372,7 @@ PlotLinear <- function( displayMovingAverage=TRUE, displayMovingAverageBands=TRU
     }
   }
 
-  points(x=ds$MonthID + xOffset, y=ds$BirthRate+ graphFloor, col=lineColors, cex=.6)
+  points(x=ds$MonthID + xOffset, y=ds$BirthRate+ graphFloor, col=lineColors, cex=1, xpd=NA)
   abline(v=changePoint + xOffset, col=colorAfter)
   mtext("Bombing Effect", side=3, at=changePoint + xOffset, col=colorAfter, cex=.8)
   if( displayMovingAverageBands ) {
@@ -373,17 +403,21 @@ PlotLinear <- function( displayMovingAverage=TRUE, displayMovingAverageBands=TRU
     polygon(x=linearVerticesXPre + xOffset, y=linearBeforeVerticesY, border=NA, col=bandColorBefore[1])
     polygon(x=linearVerticesXPost + xOffset, y=linearAfterVerticesY, border=NA, col=bandColorAfter[2])
   }
-  colorTrendLine <- "tomato"
-  colorTrendLine <- "springgreen3"
+  colorTrendLine <- smoothedLinear#"tomato"
+#   colorTrendLine <- "springgreen3"
 #  colorTrendLine <- "purple"
 
   lines(x=dsAnnualAverage$MonthID + xOffset, y=dsAnnualAverage$BirthRate+ graphFloor, col=colorTrendLine)
   points(x=dsAnnualAverage$MonthID + xOffset, y=dsAnnualAverage$BirthRate+ graphFloor, col=colorTrendLine, pch=3)
 }
+# pdf(file=file.path(pathDirectoryOutput, "Figure2.pdf"), width=deviceWidth, height=height)
+# png(file=file.path(pathDirectoryOutput, "Figure2.png"), width=deviceWidth, height=height, units="in", res=1200)
 
 layout(rbind(1, 2,3), heights=c(.5, .5, .5))
-par(pty="m",  mar=c(5, 4, 1, 1) + 0.1)
+par(pty="m",  mar=c(5, 4.5, 1, 1) + 0.1)
 PlotLinear(displayMovingAverage=FALSE, displayMovingAverageBands=FALSE)
 PlotLinear(displayMovingAverageBands=FALSE)
 PlotLinear()
 par(op)
+# dev.off()
+# savePlot(filename="Linear6", type="tiff")
