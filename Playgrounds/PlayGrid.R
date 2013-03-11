@@ -76,8 +76,8 @@ tail(ds)
 ###
 ### Only manipulations specific to graphic in this section
 ###
-c1 <- c("orange", "blue")
-c2 <- adjustcolor(c1, alpha.f=.5)
+
+
 offset <- 240
 colorBefore <- rainbow_hcl(2, start=0+offset, end=240+offset, c=100, l=65)[1]
 colorAfter <- rainbow_hcl(2, start=0+offset, end=240+offset, c=100, l=65)[2] #h=120
@@ -91,6 +91,9 @@ FadeColor <- function( color, transparency ) {
 }
 bandColorBefore <- c(FadeColor(colorBefore, transparencyFocus), FadeColor(colorBefore, transparencyBackground))
 bandColorAfter <- c(FadeColor(colorAfter, transparencyBackground), FadeColor(colorAfter, transparencyFocus))
+# c1 <- c("orange", "blue")
+c1 <- c(colorBefore, colorAfter)
+c2 <- adjustcolor(c1, alpha.f=.5)
 
 
 # xOffset <- -.5 #So the points are plotted in the middle of the month.
