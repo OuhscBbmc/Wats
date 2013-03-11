@@ -1,10 +1,14 @@
 rm(list=ls(all=TRUE))
+# opar <- par(no.readonly=TRUE)
 require(colorspace)
 require(grid)
 require(plyr)
 require(MASS) #For rlm
 require(lubridate)
+require(gridBase)
 path <- "Datasets/BirthRatesOkc.csv"
+pathDirectoryOutput <-  file.path(getwd(), "PublicationGraphs")
+
 #path <- "F:/Projects/RDev/WatsStaging/Datasets/BirthRatesRogers.csv"
 #path <- "F:/Projects/RDev/WatsStaging/Datasets/BirthRatesTulsa.csv"
 # setwd("F:/Projects/RDev/WatsStaging/Images/")
@@ -146,9 +150,27 @@ vpRange <- c(-graphHeight, graphHeight) * 1.02
 ###
 ### Graphics settings above this line; drawing below this line.
 ###
+
+windows.options(antialias = "cleartype")
+# if( names(dev.cur()) != "null device" ) dev.off()
+# scale <- 2
+#Linear is 1/3 the height of the polars
+deviceWidth <- 6.5*4/3 #20 #10 #6.5
+# deviceWidth <- 9/2.8 * 1.5 #For the solo polar
+
+height <- 6.5 #For the two big ones
+# height <- 6.5/3 #For the solo linears
+# height <- 6.5/2 *1.5 #For the solo polar
+# windows(width=deviceWidth, height=height)
+# opar <- par(no.readonly=TRUE)
+pdf(file=file.path(pathDirectoryOutput, "WatsWorkingPlot.pdf"), width=deviceWidth, height=height)
+# png(file=file.path(pathDirectoryOutput, "WatsWorkingPlot.png"), width=deviceWidth, height=height, units="in", res=1200)
+# opar <- par(no.readonly=TRUE)
+
+
 grid.newpage()
 
-#pushViewport(viewport(layout=grid.layout(nrow=1, ncol=1, respect=T), gp=gpar(cex=0.6, fill=NA)))
+# pushViewport(viewport(layout=grid.layout(nrow=1, ncol=1, respect=T), gp=gpar(cex=0.6, fill=NA)))
 pushViewport(viewport(layout=grid.layout(nrow=2, ncol=2, respect=T, widths=unit(c(1,1), c("null", "null")), heights=unit(c(1,.5), c("null", "null"))), gp=gpar(cex=0.6, fill=NA)))
 
 ###
@@ -163,7 +185,8 @@ pushViewport(dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
 grid.lines(x=c(-2,2), y=c(0,0), gp=gpar(col="gray80"), default.units="native")
 grid.lines(x=c(0,0), y=c(-2,2), gp=gpar(col="gray80"), default.units="native")
 grid.circle(x=0, y=0, r=0:2, default.units="native", gp=gpar(col="gray80"))
-grid.text(c("Jan1", "Mar1", "July1", "Oct1"), x=c(0, 2, 0, -2), y=c(2, 0, -2, 0), gp=gpar(cex=2, col="gray50"), default.units="native")
+grid.text(c("Jan1", "Apr1", "July1", "Oct1"), x=c(0, 2, 0, -2), y=c(2, 0, -2, 0), gp=gpar(cex=2, col="gray50"), default.units="native")
+grid.text(c("A point at the origin represents a GFR of 5"), x=c(0), y=c(-2.2), gp=gpar(cex=1.5, col="gray70"), default.units="native")
 
 # grid.text(label=1:nrow(dsCart), x=dsCart$X, y=dsCart$Y, default.units="native")
 # grid.points(x=dsCart$X[c(1, 75, 76, nrow(dsCart))], y=dsCart$Y[c(1, 75, 76, nrow(dsCart))]) #Works when there's no interpolation
@@ -176,20 +199,21 @@ for( stageID in stageIDs ) {
   
   x <- c(lowerX, rev(upperX))
   y <- c(lowerY, rev(upperY))
-  grid.polygon(x=x, y=y, default.units="native", gp=gpar(fill=c2[stageID], col="transparent"))
+#   grid.polygon(x=x, y=y, default.units="native", gp=gpar(fill=c2[stageID], col="transparent"))
 }
 
 # for( stageID in sort(unique(ds$Stage)) ) { #for( stageID in 2 ) {
 #   grid.lines(x=dsCart[dsCart$Stage==stageID, "X"], y=dsCart[dsCart$Stage==stageID, "Y"], gp=gpar(col=c1[stageID], lwd=.2), default.units="native", name="l") #summary(lg) #lg$gp  
 # }
-lg <- polylineGrob(x=dsCart$X, y=dsCart$Y, id=dsCart$StageID, gp=gpar(col=c1, lwd=.2), default.units="native", name="l") #summary(lg) #lg$gp
+#lg <- polylineGrob(x=dsCart$X, y=dsCart$Y, id=dsCart$StageID, gp=gpar(col=c1, lwd=.2), default.units="native", name="l") #summary(lg) #lg$gp
+lg <- polylineGrob(x=dsCart$X, y=dsCart$Y, id=dsCart$StageID, gp=gpar(col=c1, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
 grid.draw(lg)
 
 upViewport(n=3)
-
+# dev.off()
 
 ###
-### Top left pane
+### Top right pane
 ###
 pushViewport(viewport(layout.pos.col=2, layout.pos.row=1))
 pushViewport(plotViewport(c(2, 2, 2, 2))) 
@@ -223,21 +247,25 @@ upViewport(n=3)
 linearVPRangeX <- range(dsLinear$Horizontal)
 linearVPRangeY <- range(dsLinear$BirthRate)
 pushViewport(viewport(layout.pos.col=1:2, layout.pos.row=2))
-pushViewport(plotViewport(c(2, 2, 2, 2))) 
+pushViewport(plotViewport(c(0, 0, 0, 0))) 
 pushViewport(dataViewport(xscale=linearVPRangeX, yscale=linearVPRangeY, name="plotRegion"))
 # grid.lines(dsLinear$Horizontal, dsLinear$BirthRate, default.units="native")
 # grid.points(dsLinear$Horizontal, dsLinear$BirthRate, default.units="native")
 # upViewport(n=3)
 
+#opar <- par(no.readonly=TRUE, new=TRUE, pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars)
+# opar <- par(no.readonly=TRUE, pty="m",  mar=c(0, 0, 0, 1) + 0.1) #When it's plotted with the polars)
+# par(fig=gridFIG())
+# par(new=TRUE)#, pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars)
 par(fig=gridFIG())
-par(new=TRUE)
+# par(new=TRUE)
 
 yearCount <- monthCount / monthsPerYear
 
 gridColor <- gray(.9)
 labelColor <- gray(.7)
 polarGridLty <- 3
-interpolationPoints <- 50
+interpolationPoints <- 0
 interpolatedCount <- (monthCount - 1) * interpolationPoints + monthCount
 #For Okc
 graphCeiling <- 7
@@ -246,18 +274,20 @@ yAxisTicks <- c(5, 6, 7)
 xOffset <- -.5 #So the points are plotted in the middle of the month.
 
 
-op <- par( pty="s", mar=c(1, 0, 0, 0) + 0.1)
+# op <- par( pty="s", mar=c(1, 0, 0, 0) + 0.1)
 
 
 
 # par(pty="m",  mar=c(.8, 4, 1, 1) + 0.1) #When it's plotted by itself
-par(pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars
+#par(pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars
+par(pty="m",  mar=c(2, 4, 0, 1) + 0.1) #When it's plotted with the polars
 plot(NA, xlim=c(0, monthCount), ylim=c(graphFloor, graphCeiling), type="n", xaxt="n", xaxs="i", yaxt="n", yaxs="i", bty="n",
      #  ylab="General Fertility Rate", xlab="",#xlab="Time",
      ylab="", xlab="",#xlab="Time",
-     sub=paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"), 
+#      sub=paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"), 
      col.sub=labelColor, cex.lab=1.2)
 
+mtext(side=1, line=1, paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"), col=labelColor)
 axis(1, at=seq(from=0, to=changePoint-monthsPerYear, by=12)+6, labels=seq(from=firstYear, to=firstYear+5, by=1),
      col=gridColor, line=-1, tick=F, col.axis=colorBefore, cex.axis=1.5)
 axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
@@ -310,6 +340,7 @@ mtext("Bombing Effect", side=3, at=changePoint + xOffset, col=colorAfter, cex=.8
 
 #maxRate <- max(ds$BirthRate)
 tail(ds)
+
 dsInterpolated <-data.frame(matrix(NA, nrow=interpolatedCount, ncol=6))
 colnames(dsInterpolated) <- c("DurationID", "CycleID", "Radians", "BirthRate", "X", "Y")
 dsInterpolated[1, ] <- ds[1, ]
@@ -403,9 +434,9 @@ polygon(x=linearVerticesXPre + xOffset, y=linearBeforeVerticesYPre, border=NA, c
 polygon(x=linearVerticesXPre + xOffset, y=linearAfterVerticesYPre, border=NA, col=bandColorAfter[1])
 polygon(x=linearVerticesXPost + xOffset, y=linearBeforeVerticesYPost, border=NA, col=bandColorBefore[2])
 polygon(x=linearVerticesXPost + xOffset, y=linearAfterVerticesYPost, border=NA, col=bandColorAfter[2])
-par(op)
+# par(op)
 
-
+dev.off()
 ###
 ### Debugging code
 ###
@@ -423,3 +454,4 @@ par(op)
 
 
 #  showViewport(newpage=TRUE, leaves=TRUE)
+opar <- par(no.readonly=TRUE)
