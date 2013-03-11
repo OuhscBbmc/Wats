@@ -268,16 +268,6 @@ mtext("General Fertility Rate", side=2,line=2.5, cex=1.25)
 
 #  axis(1, at=seq(from=6, to=(monthCount), by=6), labels=rep(c("(Jun)", "(Dec)"), 5), col.axis=labelColor, line=0, tick=F, lty=0, cex.axis=.7)
 
-abline(v=seq(from=monthsPerYear, to=monthCount, by=monthsPerYear), col=gridColor, lty=2)
-for( i in 2:monthCount ) {
-  x1 <- ds[i-1, 'MonthID'] + xOffset
-  x2 <- ds[i, 'MonthID'] + xOffset
-  y1 <- ds[i-1, 'BirthRate'] + graphFloor
-  y2 <- ds[i, 'BirthRate'] + graphFloor
-  lines(x=c(x1, x2), y=c(y1, y2), col=lineColors[i], lwd=2)
-}
-abline(v=changePoint + xOffset, col=colorAfter)
-mtext("Bombing Effect", side=3, at=changePoint + xOffset, col=colorAfter, cex=.8)
 
 linearVerticesXPre <- rep(NA,changePoint) 
 linearVerticesXPost <- numeric(0)
@@ -307,6 +297,17 @@ for( yearIndex in 1:yearCount ) {
 }
 ds$X <- ds$BirthRate * sin(ds$Radians)
 ds$Y <- ds$BirthRate * cos(ds$Radians)
+abline(v=seq(from=monthsPerYear, to=monthCount, by=monthsPerYear), col=gridColor, lty=2)
+for( i in 2:monthCount ) {
+  x1 <- ds[i-1, 'MonthID'] + xOffset
+  x2 <- ds[i, 'MonthID'] + xOffset
+  y1 <- ds[i-1, 'BirthRate'] + graphFloor
+  y2 <- ds[i, 'BirthRate'] + graphFloor
+  lines(x=c(x1, x2), y=c(y1, y2), col=lineColors[i], lwd=2)
+}
+abline(v=changePoint + xOffset, col=colorAfter)
+mtext("Bombing Effect", side=3, at=changePoint + xOffset, col=colorAfter, cex=.8)
+
 #maxRate <- max(ds$BirthRate)
 tail(ds)
 dsInterpolated <-data.frame(matrix(NA, nrow=interpolatedCount, ncol=6))
