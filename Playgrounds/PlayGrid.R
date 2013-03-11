@@ -44,20 +44,6 @@ lowerQuantile <- .25
 upperQuantile <- .75
 
 ddply(.data=dsLinear, .variables=.(MonthIndex, Stage), .fun=nrow)
-# ddply(.data=dsLinear, .variables=.(MonthIndex, Stage), .fun=colMeans(BirthRate)
-# ddply(.data=dsLinear, .variables=.(MonthIndex, Stage), .fun=splat()
-# f <- function(BirthRate, ...) data.frame(MeanRate = mean(BirthRate, na.rm=T))
-# ddply(.data=dsLinear, .variables=.(MonthIndex, Stage), .fun=splat(f))
-# 
-# ddply(.data=dsLinear[, c("MonthIndex", "Stage", "BirthRate")], .variables=.(MonthIndex, Stage), .fun=colMeans)
-# ddply(.data=dsLinear[, c("MonthIndex", "Stage", "BirthRate")], .variables=.(MonthIndex, Stage), .fun=colwise(mean))
-# ddply(.data=dsLinear[, c("MonthIndex", "Stage", "BirthRate")], .variables=.(MonthIndex, Stage), .fun=each(min, max))
-#ddply(.data=dsLinear[, c("MonthIndex", "Stage", "BirthRate")], .variables=.(MonthIndex, Stage), .fun=fivenum)
-# f <- function(BirthRate, ...) data.frame(MeanRate = mean(BirthRate, na.rm=T))
-# ddply(.data=dsLinear, .variables=.(MonthIndex, Stage), .fun=splat(f))
-
-
-#ds <- data.frame(CycleID=rep(NA_integer_, sampleSize), Radians=NA_real_, Radius=NA_real_, StageID=NA_integer_)
 ds <- dsLinear[ , c("CycleID", "Stage", "Angle", "AngleTotal")]
 ds$Radius <- dsLinear$BirthRate
 ds$AngleBin <- dsLinear$MonthIndex
@@ -86,7 +72,8 @@ tail(ds)
 ###
 ### Only manipulations specific to graphic in this section
 ###
-
+c1 <- c("orange", "blue")
+c2 <- adjustcolor(c1, alpha.f=.5)
 
 # xOffset <- -.5 #So the points are plotted in the middle of the month.
 # For Okc
@@ -94,7 +81,7 @@ graphCeiling <- 7
 graphFloor <- 5
 yAxisTicks <- c(5, 6, 7)
 graphHeight <- graphCeiling - graphFloor
-interpolationPointsPerCycle <- 12*1 #100
+interpolationPointsPerCycle <- 12*100
 totalCycles <- max(ds$CycleID, na.rm=T) - min(ds$CycleID, na.rm=T) + 1
 interpolationPointsTotal <- interpolationPointsPerCycle*totalCycles
 
@@ -140,30 +127,25 @@ vpRange <- c(-graphHeight, graphHeight) * 1.02
 ###
 grid.newpage()
 
-#from line 295 "customgrid.Rnw"
-pushViewport(viewport(layout=grid.layout(nrow=1, ncol=1, respect=T), gp=gpar(cex=0.6, fill=NA)))
+#pushViewport(viewport(layout=grid.layout(nrow=1, ncol=1, respect=T), gp=gpar(cex=0.6, fill=NA)))
+pushViewport(viewport(layout=grid.layout(nrow=2, ncol=2, respect=T), gp=gpar(cex=0.6, fill=NA)))
+
+###
+### Top left pane
+###
 pushViewport(viewport(layout.pos.col=1, layout.pos.row=1))
 
-pushViewport(plotViewport(c(2, 2, 2, 2)))
-pushViewport(plotViewport(c(0)))
+pushViewport(plotViewport(c(2, 2, 2, 2))) # pushViewport(plotViewport(c(0)))
 pushViewport(dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
-grid.abline(intercept=0, slope=0, gp=gpar(col="gray80"))
-grid.abline(intercept=0, slope=1e30, gp=gpar(col="gray80"))
+# grid.abline(intercept=0, slope=0, gp=gpar(col="gray80"))
+# grid.abline(intercept=0, slope=1e300, gp=gpar(col="gray80"))
+grid.lines(x=c(-2,2), y=c(0,0), gp=gpar(col="gray80"), default.units="native")
+grid.lines(x=c(0,0), y=c(-2,2), gp=gpar(col="gray80"), default.units="native")
 grid.circle(x=0, y=0, r=0:2, default.units="native", gp=gpar(col="gray80"))
-
-
-c1 <- c("orange", "blue")
-c2 <- adjustcolor(c1, alpha.f=.5)
-# l2 <- round(seq(90, 10, length=length(dsCart$X)))
-# c2 <- paste("gray", l2, sep="")
-#grid.lines(x=dsCart$X, y=dsCart$Y, gp=gpar(col=c2), default.units="native")
+grid.text(c("Jan1", "Mar1", "July1", "Oct1"), x=c(0, 2, 0, -2), y=c(2, 0, -2, 0), gp=gpar(cex=2, col="gray50"), default.units="native")
 
 # grid.text(label=1:nrow(dsCart), x=dsCart$X, y=dsCart$Y, default.units="native")
-grid.points(x=dsCart$X[c(1, 75, 76, nrow(dsCart))], y=dsCart$Y[c(1, 75, 76, nrow(dsCart))]) #Works when there's no interpolation
-
-# for( stageID in sort(unique(ds$Stage)) ) { #for( stageID in 2 ) {
-#   grid.lines(x=dsCart[dsCart$Stage==stageID, "X"], y=dsCart[dsCart$Stage==stageID, "Y"], gp=gpar(col=c1[stageID], lwd=.2), default.units="native", name="l") #summary(lg) #lg$gp  
-# }
+# grid.points(x=dsCart$X[c(1, 75, 76, nrow(dsCart))], y=dsCart$Y[c(1, 75, 76, nrow(dsCart))]) #Works when there's no interpolation
 
 for( stageID in stageIDs ) {
   lowerX <- dsCartBands[dsCartBands$StageID==stageID, "XLower"]
@@ -176,8 +158,62 @@ for( stageID in stageIDs ) {
   grid.polygon(x=x, y=y, default.units="native", gp=gpar(fill=c2[stageID], col="transparent"))
 }
 
+# for( stageID in sort(unique(ds$Stage)) ) { #for( stageID in 2 ) {
+#   grid.lines(x=dsCart[dsCart$Stage==stageID, "X"], y=dsCart[dsCart$Stage==stageID, "Y"], gp=gpar(col=c1[stageID], lwd=.2), default.units="native", name="l") #summary(lg) #lg$gp  
+# }
 lg <- polylineGrob(x=dsCart$X, y=dsCart$Y, id=dsCart$StageID, gp=gpar(col=c1, lwd=.2), default.units="native", name="l") #summary(lg) #lg$gp
 grid.draw(lg)
+
+upViewport(n=3)
+
+
+###
+### Top left pane
+###
+pushViewport(viewport(layout.pos.col=2, layout.pos.row=1))
+pushViewport(plotViewport(c(2, 2, 2, 2))) 
+pushViewport(dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
+grid.lines(x=c(-2,2), y=c(0,0), gp=gpar(col="gray80"), default.units="native")
+grid.lines(x=c(0,0), y=c(-2,2), gp=gpar(col="gray80"), default.units="native")
+grid.circle(x=0, y=0, r=0:2, default.units="native", gp=gpar(col="gray80"))
+
+for( stageID in stageIDs ) {
+  lowerX <- dsCartBands[dsCartBands$StageID==stageID, "XLower"]
+  lowerY <- dsCartBands[dsCartBands$StageID==stageID, "YLower"]
+  upperX <- dsCartBands[dsCartBands$StageID==stageID, "XUpper"]
+  upperY <- dsCartBands[dsCartBands$StageID==stageID, "YUpper"]  
+  
+  x <- c(lowerX, rev(upperX))
+  y <- c(lowerY, rev(upperY))
+  grid.polygon(x=x, y=y, default.units="native", gp=gpar(fill=c2[stageID], col="transparent"))
+}
+upViewport(n=3)
+
+
+###
+### Bottom pane
+###
+pushViewport(viewport(layout.pos.col=1:2, layout.pos.row=2))
+pushViewport(plotViewport(c(2, 2, 2, 2))) 
+pushViewport(dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
+grid.lines(x=c(-2,2), y=c(0,0), gp=gpar(col="gray80"), default.units="native")
+grid.lines(x=c(0,0), y=c(-2,2), gp=gpar(col="gray80"), default.units="native")
+grid.circle(x=0, y=0, r=0:2, default.units="native", gp=gpar(col="gray80"))
+
+for( stageID in stageIDs ) {
+  lowerX <- dsCartBands[dsCartBands$StageID==stageID, "XLower"]
+  lowerY <- dsCartBands[dsCartBands$StageID==stageID, "YLower"]
+  upperX <- dsCartBands[dsCartBands$StageID==stageID, "XUpper"]
+  upperY <- dsCartBands[dsCartBands$StageID==stageID, "YUpper"]  
+  
+  x <- c(lowerX, rev(upperX))
+  y <- c(lowerY, rev(upperY))
+  grid.polygon(x=x, y=y, default.units="native", gp=gpar(fill=c2[stageID], col="transparent"))
+}
+
+
+
+
 
 ###
 ### Debugging code
