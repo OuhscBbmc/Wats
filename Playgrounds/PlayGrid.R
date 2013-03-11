@@ -31,6 +31,7 @@ dsLinear$Angle <- (dsLinear$Tick / ticksPerCycle) * 2* pi
 dsLinear$AngleTotal <- (dsLinear$CycleID * 2* pi) + dsLinear$Angle
 #dsLinear$MonthIndex <- as.POSIXlt(dsLinear$Date)$mon
 dsLinear$MonthIndex <- month(dsLinear$Date)
+dsLinear$Horizontal <- dsLinear$CycleID + (dsLinear$MonthIndex-1)/12
 
 #totalPositionCount <- range(dsLinear$Date)[2]-range(dsLinear$Date)[1]
 #cycleCount <- monthCount / ticksPerCycle
@@ -128,7 +129,7 @@ vpRange <- c(-graphHeight, graphHeight) * 1.02
 grid.newpage()
 
 #pushViewport(viewport(layout=grid.layout(nrow=1, ncol=1, respect=T), gp=gpar(cex=0.6, fill=NA)))
-pushViewport(viewport(layout=grid.layout(nrow=2, ncol=2, respect=T), gp=gpar(cex=0.6, fill=NA)))
+pushViewport(viewport(layout=grid.layout(nrow=2, ncol=2, respect=T, widths=unit(c(1,1), c("null", "null")), heights=unit(c(1,.5), c("null", "null"))), gp=gpar(cex=0.6, fill=NA)))
 
 ###
 ### Top left pane
@@ -187,32 +188,44 @@ for( stageID in stageIDs ) {
   y <- c(lowerY, rev(upperY))
   grid.polygon(x=x, y=y, default.units="native", gp=gpar(fill=c2[stageID], col="transparent"))
 }
+rm(x, y)
 upViewport(n=3)
 
 
 ###
 ### Bottom pane
 ###
+linearVPRangeX <- range(dsLinear$Horizontal)
+linearVPRangeY <- range(dsLinear$BirthRate)
 pushViewport(viewport(layout.pos.col=1:2, layout.pos.row=2))
 pushViewport(plotViewport(c(2, 2, 2, 2))) 
-pushViewport(dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
-grid.lines(x=c(-2,2), y=c(0,0), gp=gpar(col="gray80"), default.units="native")
-grid.lines(x=c(0,0), y=c(-2,2), gp=gpar(col="gray80"), default.units="native")
-grid.circle(x=0, y=0, r=0:2, default.units="native", gp=gpar(col="gray80"))
+pushViewport(dataViewport(xscale=linearVPRangeX, yscale=linearVPRangeY, name="plotRegion"))
+# grid.lines(x=c(-2,2), y=c(0,0), gp=gpar(col="gray80"), default.units="native")
+# grid.lines(x=c(0,0), y=c(-2,2), gp=gpar(col="gray80"), default.units="native")
+# grid.circle(x=0, y=0, r=0:2, default.units="native", gp=gpar(col="gray80"))
+# 
+# for( stageID in stageIDs ) {
+#   lowerX <- dsCartBands[dsCartBands$StageID==stageID, "XLower"]
+#   lowerY <- dsCartBands[dsCartBands$StageID==stageID, "YLower"]
+#   upperX <- dsCartBands[dsCartBands$StageID==stageID, "XUpper"]
+#   upperY <- dsCartBands[dsCartBands$StageID==stageID, "YUpper"]  
+#   
+#   x <- c(lowerX, rev(upperX))
+#   y <- c(lowerY, rev(upperY))
+#   grid.polygon(x=x, y=y, default.units="native", gp=gpar(fill=c2[stageID], col="transparent"))
+# }
+# dv <- dataViewport(xData=x, yData=y, name="plotRegion")
+# pushViewport(dv)
+#pushViewport(viewport())
+# grid.rect()
+# grid.xaxis()
+# grid.yaxis()
 
-for( stageID in stageIDs ) {
-  lowerX <- dsCartBands[dsCartBands$StageID==stageID, "XLower"]
-  lowerY <- dsCartBands[dsCartBands$StageID==stageID, "YLower"]
-  upperX <- dsCartBands[dsCartBands$StageID==stageID, "XUpper"]
-  upperY <- dsCartBands[dsCartBands$StageID==stageID, "YUpper"]  
-  
-  x <- c(lowerX, rev(upperX))
-  y <- c(lowerY, rev(upperY))
-  grid.polygon(x=x, y=y, default.units="native", gp=gpar(fill=c2[stageID], col="transparent"))
-}
 
+grid.lines(dsLinear$Horizontal, dsLinear$BirthRate, default.units="native")
+grid.points(dsLinear$Horizontal, dsLinear$BirthRate, default.units="native")
 
-
+upViewport(n=3)
 
 
 ###

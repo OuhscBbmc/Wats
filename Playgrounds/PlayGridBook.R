@@ -2,7 +2,7 @@ rm(list=ls(all=TRUE))
 require(colorspace)
 require(grid)
 
-setwd("F:/Projects/RDev/WatsStaging/Images/")
+# setwd("F:/Projects/RDev/WatsStaging/Images/")
 set.seed(33)
 periodLength <- 60
 stageCount <- 2
@@ -66,14 +66,14 @@ groupColors <- rev(rainbow_hcl(n=stageCount))
 grid.newpage()
 
 
-#line 295 "customgrid.Rnw"
+#from line 295 "customgrid.Rnw"
 pushViewport(viewport(layout=grid.layout(2, 2), gp=gpar(cex=0.6, fill=NA)))
 pushViewport(viewport(layout.pos.col=1, layout.pos.row=1))
-#line 177 "customgrid.Rnw"
+#from line 177 "customgrid.Rnw"
 pushViewport(plotViewport(c(2, 2, 2, 2)))
 pushViewport(dataViewport(xData=ds$X, yData=ds$Y, name="plotRegion"))
 
-#line 298 "customgrid.Rnw"
+#from line 298 "customgrid.Rnw"
 grid.points(x=ds$X, y=ds$Y, gp=gpar(cex=.5))
 grid.lines(x=ds$X, y=ds$Y, gp=gpar(cex=.5), default.units="native")
 #grid.points(pressure$temperature, pressure$pressure, gp=gpar(cex=0.5))
@@ -83,51 +83,51 @@ grid.rect()
 
 grid.xaxis()
 grid.yaxis()
-#line 224 "customgrid.Rnw"
+#from line 224 "customgrid.Rnw"
 grid.text("temperature", y=unit(-3, "line"))
 grid.text("pressure", x=unit(-3, "line"), rot=90)
 
-#line 304 "customgrid.Rnw"
+#from line 304 "customgrid.Rnw"
 popViewport(3)
 pushViewport(viewport(layout.pos.col=2, layout.pos.row=1))
-#line 177 "customgrid.Rnw"
+#from line 177 "customgrid.Rnw"
 pushViewport(plotViewport(c(5, 4, 2, 2)))
 pushViewport(dataViewport(pressure$temperature, pressure$pressure, name="plotRegion"))
 
-#line 307 "customgrid.Rnw"
+#from line 307 "customgrid.Rnw"
 grid.points(pressure$temperature, pressure$pressure, pch=2, gp=gpar(cex=0.5))
 grid.rect()
 grid.xaxis()
 grid.yaxis()
-#line 224 "customgrid.Rnw"
+#from line 224 "customgrid.Rnw"
 grid.text("temperature", y=unit(-3, "line"))
 grid.text("pressure", x=unit(-3, "line"), rot=90)
 
-#line 313 "customgrid.Rnw"
+#from line 313 "customgrid.Rnw"
 popViewport(3)
 pushViewport(viewport(layout.pos.col=2, layout.pos.row=2))
-#line 177 "customgrid.Rnw"
+#from line 177 "customgrid.Rnw"
 pushViewport(plotViewport(c(5, 4, 2, 2)))
 pushViewport(dataViewport(pressure$temperature, pressure$pressure, name="plotRegion"))
 
-#line 316 "customgrid.Rnw"
+#from line 316 "customgrid.Rnw"
 grid.points(pressure$temperature, pressure$pressure, pch=2, gp=gpar(cex=0.5))
 grid.rect()
 grid.xaxis()
 grid.yaxis()
-#line 224 "customgrid.Rnw"
+#from line 224 "customgrid.Rnw"
 grid.text("temperature", y=unit(-3, "line"))
 grid.text("pressure", x=unit(-3, "line"), rot=90)
 
-#line 322 "customgrid.Rnw"
-#line 271 "customgrid.Rnw"
+#from line 322 "customgrid.Rnw"
+#from line 271 "customgrid.Rnw"
 upViewport(2)
 grid.rect(gp=gpar(lty="dashed"))
 
-#line 323 "customgrid.Rnw"
-#line 290 "customgrid.Rnw"
+#from line 323 "customgrid.Rnw"
+#from line 290 "customgrid.Rnw"
 downViewport("plotRegion")
 grid.text("Pressure (mm Hg)\nversus\nTemperature (Celsius)",  x=unit(150, "native"), y=unit(600, "native"))
 upViewport(4)
-#line 324 "customgrid.Rnw"
+#from line 324 "customgrid.Rnw"
 
