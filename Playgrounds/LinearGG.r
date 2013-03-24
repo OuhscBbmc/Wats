@@ -90,31 +90,41 @@ dsLabelsX <- data.frame(
   stringsAsFactors=FALSE
 )
 dsLabelsX$Label <- lubridate::year(dsLabelsX$X)
-# dsLabelsX$Color <- as.character(dsLabelsX$Color)
 
+dsBreak <- data.frame(X=changeMonth,XEnd=changeMonth, Y=5, YEnd=6.9, Label="Bombing Effect")
 
-g <- ggplot(ds, aes(x=Date, y=BirthRate, color=StageID))
-#g <- ggplot(ds, aes(x=MonthID, y=BirthRate, color=StageID))
-g <- g + geom_ribbon(data=dsStage1, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorBefore[2], color=NA )
-g <- g + geom_ribbon(data=dsStage2, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorAfter[2], color=NA )
-g <- g + geom_point(shape=1)
-g <- g + geom_line(size=1)
-g <- g + geom_line(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling), size=2)
-
-g <- g + geom_line(data=dsFebruary, aes(y=Rolling), size=1, color=smoothedLinear)
-g <- g + geom_point(data=dsFebruary, aes(y=Rolling), size=4, shape=3, color=smoothedLinear)
-
-g <- g + annotate("text", x=dsLabelsX$X, y=dsLabelsX$Y, color=dsLabelsX$Color, label=dsLabelsX$Label, vjust=-.5, size=8)
-g <- g + scale_x_date(breaks=dateLocations, labels=scales::date_format("%Y"))
-g <- g + scale_y_continuous(breaks=yAxisTicks)
-g <- g + scale_color_continuous(low=colorBefore, high=colorAfter, guide=FALSE)
-g <- g + geom_vline(x=as.integer(changeMonth), color=colorAfter)
-# g <- g + annotate("segment", x=as.integer(changeMonth), xend=as.integer(changeMonth), y=5, yend=7, color=colorAfter)
-# g <- g + annotate("segment", x=changeMonth, xend=changeMonth, y=5, yend=7, color=colorAfter)
-g <- g + annotate("text", x=changeMonth, y=max(ds$BirthRate), color=colorAfter, label="Bombing Effect")
-g <- g + theme_bw()
-g <- g + theme(axis.text.x=element_text(colour=dateColors, size=16))
-g <- g + labs(x="", y="General Fertility Rate")
-g
-
+LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE ) { 
+  g <- ggplot(ds, aes(x=Date, y=BirthRate, color=StageID))
+  #g <- ggplot(ds, aes(x=MonthID, y=BirthRate, color=StageID))
+  if( showRibbon ) g <- g + geom_ribbon(data=dsStage1, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorBefore[2], color=NA )
+  if( showRibbon ) g <- g + geom_ribbon(data=dsStage2, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorAfter[2], color=NA )
+  g <- g + geom_point(shape=1)
+  if( showLine ) g <- g + geom_line(size=1)
+  if( showSmoother) g <- g + geom_line(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling), size=2)
+  
+  g <- g + geom_line(data=dsFebruary, aes(y=Rolling), size=1, color=smoothedLinear)
+  g <- g + geom_point(data=dsFebruary, aes(y=Rolling), size=4, shape=3, color=smoothedLinear)
+  
+  g <- g + annotate("text", x=dsLabelsX$X, y=dsLabelsX$Y, color=dsLabelsX$Color, label=dsLabelsX$Label, vjust=-.5, size=8)
+  g <- g + scale_x_date(breaks=dateLocations, labels=scales::date_format("%Y"))
+  g <- g + scale_y_continuous(breaks=yAxisTicks)
+  g <- g + scale_color_continuous(low=colorBefore, high=colorAfter, guide=FALSE)
+  
+  
+  # g <- g + geom_vline(x=as.integer(changeMonth), color=colorAfter)
+  # g <- g + annotate("text", x=changeMonth, y=max(dsBreak$YEnd), color=colorAfter, label="Bombing Effect", vjust=-.1)
+  g <- g + geom_segment(data=dsBreak, aes(x=X, xend=XEnd, y=Y, yend=YEnd), color=colorAfter, size=1)
+  g <- g + geom_text(data=dsBreak, aes(x=X, y=YEnd, label=Label), color=colorAfter, size=6)
+  
+  g <- g + theme_minimal()
+  g <- g + theme(axis.text.x=element_blank())
+  g <- g + theme(axis.ticks=element_blank())
+  g <- g + theme(panel.grid.minor.y=element_line(color="gray90"))
+  g <- g + labs(x="", y="General Fertility Rate")
+  g
+}
+LinearPlot()
+top <- LinearPlot(showSmoother=FALSE, showRibbon=FALSE) #Top Panel
+middle <- LinearPlot(showLine=FALSE, showRibbon=FALSE) #Middle Panel
+bottom <- LinearPlot(showLine=FALSE) #Bottom Panel
 # ggsave(file.path(pathDirectoryOutput, "LinearGGTry1.pdf"))
