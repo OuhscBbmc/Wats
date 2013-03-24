@@ -1,4 +1,5 @@
 rm(list=ls(all=TRUE))
+require(grid)
 require(colorspace)
 require(lubridate)
 require(plyr)
@@ -8,6 +9,8 @@ require(zoo)
 pathDirectory <- getwd()
 pathInput <- file.path(pathDirectory, "Datasets/BirthRatesOkc.txt")
 pathDirectoryOutput <-  file.path(pathDirectory, "PublicationGraphs")
+widthTotal <- 6.5
+heightTotal <- 4.5
 
 ds <- read.table(pathInput, header=TRUE, stringsAsFactor=F)
 ds$Date <- as.Date(ds$Date)
@@ -32,15 +35,9 @@ transparencyBackground <- .3
 bandColorBefore <- c(adjustcolor(colorBefore, transparencyFocus), adjustcolor(colorBefore, transparencyBackground))
 bandColorAfter <- c(adjustcolor(colorAfter, transparencyBackground), adjustcolor(colorAfter, transparencyFocus))
 
-gridColor <- gray(.9)
-labelColor <- gray(.7)
-
 graphCeiling <- 7
 graphFloor <- 5
 yAxisTicks <- c(5, 6, 7)
-
-graphHeight <- graphCeiling - graphFloor
-xOffset <- -.5 #So the points are plotted in the middle of the month.
 
 lowerQuantile <- .25
 upperQuantile <- .75
@@ -51,7 +48,7 @@ ds$StageID <- ifelse(ds$MonthID<=changePoint, 1, 2)
 # ds$X <- ds$BirthRate * sin(ds$Radians)
 # ds$Y <- ds$BirthRate * cos(ds$Radians)
 #maxRate <- max(ds$BirthRate)
-tail(ds)
+# tail(ds)
 
 Summarize <- function( df ) {
   data.frame( 
@@ -70,17 +67,10 @@ ds$Rolling <- rollapply(ds$BirthRate, 12, mean, align="right", fill=NA)
 ds$RollingLower <- rollapply(ds$BirthRate, 12, CalculateLowerBand, align="right", fill=NA)
 ds$RollingUpper <- rollapply(ds$BirthRate, 12, CalculateUpperBand, align="right", fill=NA)
 
-
 dsFebruary <- ds[ds$MonthIndex==2 & !is.na(ds$Rolling), ]
 dsStage1 <- ds[!is.na(ds$Rolling) & ds$MonthID<=changePoint, ]
 dsStage2 <- ds[!is.na(ds$Rolling) & ds$MonthID>=changePoint, ]
-# ds$level <- ds$BirthRate
 
-# axis(1, at=seq(from=0, to=changePoint-monthsPerYear, by=12)+6, labels=seq(from=firstYear, to=firstYear+5, by=1),
-#      col=gridColor, line=-1, tick=F, col.axis=colorBefore, cex.axis=1.5)
-# axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
-#      col=gridColor, line=-1, tick=F, col.axis=colorAfter, cex.axis=1.5)
-#dateLocations <- seq.Date(from=as.Date("1990-07-01"), to=as.Date("1999-07-01"), by="year")
 dateLocations <- seq.Date(from=as.Date("1990-01-01"), to=as.Date("2000-01-01"), by="year")
 dateColors <- c(rep(colorBefore, 6), rep(colorAfter, 5))
 dsLabelsX <- data.frame(
@@ -91,40 +81,67 @@ dsLabelsX <- data.frame(
 )
 dsLabelsX$Label <- lubridate::year(dsLabelsX$X)
 
-dsBreak <- data.frame(X=changeMonth,XEnd=changeMonth, Y=5, YEnd=6.9, Label="Bombing Effect")
+dsBreak <- data.frame(X=changeMonth,XEnd=changeMonth, Y=5, YEnd=6.8, Label="Bombing Effect")
 
-LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE ) { 
+LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showYears=TRUE, labelBreak=TRUE ) { 
   g <- ggplot(ds, aes(x=Date, y=BirthRate, color=StageID))
+  g <- g + geom_segment(data=dsBreak, aes(x=X, xend=XEnd, y=Y, yend=YEnd), color=colorAfter, size=3, alpha=.3)
+  
+  if( labelBreak ) g <- g + geom_text(data=dsBreak, aes(x=X, y=YEnd, label=Label), color=colorAfter, vjust=-.5, alpha=.8, size=4)#6
+  
+  g <- g + geom_line(data=dsFebruary, aes(y=Rolling), color=smoothedLinear)
+  g <- g + geom_point(data=dsFebruary, aes(y=Rolling), size=2, shape=3, color=smoothedLinear)
+  
   #g <- ggplot(ds, aes(x=MonthID, y=BirthRate, color=StageID))
   if( showRibbon ) g <- g + geom_ribbon(data=dsStage1, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorBefore[2], color=NA )
   if( showRibbon ) g <- g + geom_ribbon(data=dsStage2, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorAfter[2], color=NA )
-  g <- g + geom_point(shape=1)
-  if( showLine ) g <- g + geom_line(size=1)
-  if( showSmoother) g <- g + geom_line(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling), size=2)
+  g <- g + geom_point(shape=1, alpha=.5)
+  if( showLine ) g <- g + geom_line()#size=1)
+  if( showSmoother) g <- g + geom_path(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling))#, size=1)
   
-  g <- g + geom_line(data=dsFebruary, aes(y=Rolling), size=1, color=smoothedLinear)
-  g <- g + geom_point(data=dsFebruary, aes(y=Rolling), size=4, shape=3, color=smoothedLinear)
   
-  g <- g + annotate("text", x=dsLabelsX$X, y=dsLabelsX$Y, color=dsLabelsX$Color, label=dsLabelsX$Label, vjust=-.5, size=8)
+  if( showYears ) 
+    g <- g + annotate("text", x=dsLabelsX$X, y=dsLabelsX$Y, color=dsLabelsX$Color, label=dsLabelsX$Label, vjust=-.5, size=4) #8
+  if( !showYears ) 
+    g <- g + annotate("text", x=dsLabelsX$X, y=dsLabelsX$Y, color=dsLabelsX$Color, label=dsLabelsX$Label, vjust=-.5, size=4, alpha=.3) #8
+
   g <- g + scale_x_date(breaks=dateLocations, labels=scales::date_format("%Y"))
   g <- g + scale_y_continuous(breaks=yAxisTicks)
   g <- g + scale_color_continuous(low=colorBefore, high=colorAfter, guide=FALSE)
   
-  
   # g <- g + geom_vline(x=as.integer(changeMonth), color=colorAfter)
   # g <- g + annotate("text", x=changeMonth, y=max(dsBreak$YEnd), color=colorAfter, label="Bombing Effect", vjust=-.1)
-  g <- g + geom_segment(data=dsBreak, aes(x=X, xend=XEnd, y=Y, yend=YEnd), color=colorAfter, size=1)
-  g <- g + geom_text(data=dsBreak, aes(x=X, y=YEnd, label=Label), color=colorAfter, size=6)
   
   g <- g + theme_minimal()
+  g <- g + theme(axis.title=element_text(color="gray60", size=9))
   g <- g + theme(axis.text.x=element_blank())
-  g <- g + theme(axis.ticks=element_blank())
+  g <- g + theme(axis.text.y=element_text(color="gray70"))
+  #g <- g + theme(axis.ticks=element_blank())
+  g <- g + theme(axis.ticks.length = unit(0, "cm"))
+  g <- g + theme(axis.ticks.margin = unit(.00001, "cm"))
   g <- g + theme(panel.grid.minor.y=element_line(color="gray90"))
+  g <- g + theme(panel.grid.major=element_line(color="gray85"))  
+  g <- g + theme(panel.margin = unit(c(0, 0, 0, 0), "cm"))
+  g <- g + theme(plot.margin = unit(c(0, 0, 0, 0), "cm"))
   g <- g + labs(x="", y="General Fertility Rate")
   g
 }
+
+
 LinearPlot()
-top <- LinearPlot(showSmoother=FALSE, showRibbon=FALSE) #Top Panel
-middle <- LinearPlot(showLine=FALSE, showRibbon=FALSE) #Middle Panel
-bottom <- LinearPlot(showLine=FALSE) #Bottom Panel
+top <- LinearPlot(showSmoother=FALSE, showRibbon=FALSE, showYears=FALSE) #Top Panel
+middle <- LinearPlot(showLine=FALSE, showRibbon=FALSE, showYears=FALSE, labelBreak=FALSE) #Middle Panel
+bottom <- LinearPlot(showLine=FALSE, labelBreak=FALSE) #Bottom Panel
 # ggsave(file.path(pathDirectoryOutput, "LinearGGTry1.pdf"))
+
+vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
+# pdf(file.path(pathDirectoryOutput, "Fig2.pdf"), width=widthTotal, height=heightTotal)
+png(file.path(pathDirectoryOutput, "Fig2.png"), width=widthTotal, height=heightTotal, units="in", res=600)
+grid.newpage()
+pushViewport(viewport(layout=grid.layout(3,1)))
+print(top, vp=vpLayout(1,1))
+print(middle, vp=vpLayout(2,1))
+print(bottom, vp=vpLayout(3,1))
+dev.off()
+
+
