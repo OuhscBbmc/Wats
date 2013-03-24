@@ -71,6 +71,31 @@ dsFebruary <- ds[ds$MonthIndex==2 & !is.na(ds$Rolling), ]
 dsStage1 <- ds[!is.na(ds$Rolling) & ds$MonthID<=changePoint, ]
 dsStage2 <- ds[!is.na(ds$Rolling) & ds$MonthID>=changePoint, ]
 
+#################
+### This is a quick graph that should be easy to understand & generalize to other datasets.
+#################
+p <- ggplot(ds, aes(x=Date, y=BirthRate, color=StageID))
+p <- p + geom_line(data=dsFebruary, aes(y=Rolling), size=1, color=smoothedLinear)
+p <- p + geom_point(data=dsFebruary, aes(y=Rolling), size=4, shape=3, color=smoothedLinear)
+
+p <- p + geom_ribbon(data=dsStage1, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorBefore[2], color=NA )
+p <- p + geom_ribbon(data=dsStage2, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorAfter[2], color=NA )
+p <- p + geom_point(shape=1)
+p <- p + geom_line(size=1)
+p <- p + geom_line(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling), size=2)
+p <- p + scale_color_continuous(low=colorBefore, high=colorAfter, guide=FALSE)
+p <- p + geom_vline(x=as.integer(changeMonth), color=colorAfter)
+p <- p + annotate("text", x=changeMonth, y=max(ds$BirthRate), color=colorAfter, label="Bombing Effect")
+p <- p + theme_minimal()
+p <- p + labs(x="", y="General Fertility Rate")
+p
+
+ggsave(file.path(pathDirectoryOutput, "QuickFig2.png"), plot=p, dpi=600)
+
+#################
+### This is a lot fancier and heavily customized for this dataset to produce the publication graph.
+#################
+
 dateLocations <- seq.Date(from=as.Date("1990-01-01"), to=as.Date("2000-01-01"), by="year")
 dateColors <- c(rep(colorBefore, 6), rep(colorAfter, 5))
 dsLabelsX <- data.frame(
@@ -81,7 +106,7 @@ dsLabelsX <- data.frame(
 )
 dsLabelsX$Label <- lubridate::year(dsLabelsX$X)
 
-dsBreak <- data.frame(X=changeMonth,XEnd=changeMonth, Y=5, YEnd=6.8, Label="Bombing Effect")
+dsBreak <- data.frame(X=changeMonth, XEnd=changeMonth, Y=5, YEnd=6.8, Label="Bombing Effect")
 
 LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showYears=TRUE, labelBreak=TRUE ) { 
   g <- ggplot(ds, aes(x=Date, y=BirthRate, color=StageID))#
@@ -92,21 +117,21 @@ LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showY
   g <- g + geom_line(data=dsFebruary, aes(y=Rolling), color=smoothedLinear, alpha=.5)
   g <- g + geom_point(data=dsFebruary, aes(y=Rolling), size=2, shape=3, color=smoothedLinear)
   
-  if( showRibbon ) g <- g + geom_ribbon(data=dsStage1, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorBefore[2], color=NA )
-  if( showRibbon ) g <- g + geom_ribbon(data=dsStage2, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorAfter[2], color=NA )
+  if( showRibbon ) {
+    g <- g + geom_ribbon(data=dsStage1, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorBefore[2], color=NA )
+    g <- g + geom_ribbon(data=dsStage2, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorAfter[2], color=NA )
+  }
   g <- g + geom_point(shape=1, alpha=.5)
-  if( showLine ) {
-    #g <- g + geom_line() #This produces blocky lines, b/c it's checking for color switches
+  
+  if( showLine ) { #g <- g + geom_line() #This produces blocky lines, b/c it's checking for color switches
     g <- g + geom_line(data=dsStage1, color=colorBefore )
     g <- g + geom_line(data=dsStage2, color=colorAfter )
   }
-  if( showSmoother) {
-    #g <- g + geom_path(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling)) #This produces blocky lines, b/c it's checking for color switches
+  if( showSmoother) { #g <- g + geom_path(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling)) #This produces blocky lines, b/c it's checking for color switches
     g <- g + geom_line(data=dsStage1, aes(y=Rolling), color=colorBefore )
     g <- g + geom_line(data=dsStage2, aes(y=Rolling), color=colorAfter )
-  }
-  
-  
+  }  
+ 
   if( showYears ) 
     g <- g + annotate("text", x=dsLabelsX$X, y=dsLabelsX$Y, color=dsLabelsX$Color, label=dsLabelsX$Label, vjust=-.5, size=3) #8
   if( !showYears ) 
@@ -127,25 +152,21 @@ LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showY
   g <- g + theme(panel.margin = unit(c(0, 0, 0, 0), "cm"))
   g <- g + theme(plot.margin = unit(c(0, 0, 0, 0), "cm"))
   g <- g + labs(x="", y="General Fertility Rate")
-  if( showRibbon ) g <- g + labs(x="Bands Mark the .25 and .75 quantile for the previous 12 months")
+  if( showRibbon ) g <- g + labs(x="(Bands Mark the .25 and .75 quantile for the previous 12 months)")
   g
 }
-
 
 LinearPlot()
 top <- LinearPlot(showSmoother=FALSE, showRibbon=FALSE, showYears=FALSE) #Top Panel
 middle <- LinearPlot(showLine=FALSE, showRibbon=FALSE, showYears=FALSE, labelBreak=FALSE) #Middle Panel
 bottom <- LinearPlot(showLine=FALSE, labelBreak=FALSE) #Bottom Panel
-# ggsave(file.path(pathDirectoryOutput, "LinearGGTry1.pdf"))
-
 vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
-pdf(file.path(pathDirectoryOutput, "Fig2.pdf"), width=widthTotal, height=heightTotal)
-# png(file.path(pathDirectoryOutput, "Fig2.png"), width=widthTotal, height=heightTotal, units="in", res=600)
+
+# pdf(file.path(pathDirectoryOutput, "Fig2.pdf"), width=widthTotal, height=heightTotal)
+png(file.path(pathDirectoryOutput, "Fig2.png"), width=widthTotal, height=heightTotal, units="in", res=600)
 grid.newpage()
 pushViewport(viewport(layout=grid.layout(3,1)))
 print(top, vp=vpLayout(1,1))
 print(middle, vp=vpLayout(2,1))
 print(bottom, vp=vpLayout(3,1))
 dev.off()
-
-
