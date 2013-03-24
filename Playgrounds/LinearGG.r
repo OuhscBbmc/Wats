@@ -76,6 +76,23 @@ dsStage1 <- ds[!is.na(ds$Rolling) & ds$MonthID<=changePoint, ]
 dsStage2 <- ds[!is.na(ds$Rolling) & ds$MonthID>=changePoint, ]
 # ds$level <- ds$BirthRate
 
+# axis(1, at=seq(from=0, to=changePoint-monthsPerYear, by=12)+6, labels=seq(from=firstYear, to=firstYear+5, by=1),
+#      col=gridColor, line=-1, tick=F, col.axis=colorBefore, cex.axis=1.5)
+# axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
+#      col=gridColor, line=-1, tick=F, col.axis=colorAfter, cex.axis=1.5)
+#dateLocations <- seq.Date(from=as.Date("1990-07-01"), to=as.Date("1999-07-01"), by="year")
+dateLocations <- seq.Date(from=as.Date("1990-01-01"), to=as.Date("2000-01-01"), by="year")
+dateColors <- c(rep(colorBefore, 6), rep(colorAfter, 5))
+dsLabelsX <- data.frame(
+  X=seq.Date(from=as.Date("1990-07-01"), to=as.Date("1999-07-01"), by="year"), 
+  Y=graphFloor, 
+  Color=c(rep(colorBefore, 6), rep(colorAfter, 4)),
+  stringsAsFactors=FALSE
+)
+dsLabelsX$Label <- lubridate::year(dsLabelsX$X)
+# dsLabelsX$Color <- as.character(dsLabelsX$Color)
+
+
 g <- ggplot(ds, aes(x=Date, y=BirthRate, color=StageID))
 #g <- ggplot(ds, aes(x=MonthID, y=BirthRate, color=StageID))
 g <- g + geom_ribbon(data=dsStage1, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorBefore[2], color=NA )
@@ -87,13 +104,17 @@ g <- g + geom_line(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling), size=2)
 g <- g + geom_line(data=dsFebruary, aes(y=Rolling), size=1, color=smoothedLinear)
 g <- g + geom_point(data=dsFebruary, aes(y=Rolling), size=4, shape=3, color=smoothedLinear)
 
+g <- g + annotate("text", x=dsLabelsX$X, y=dsLabelsX$Y, color=dsLabelsX$Color, label=dsLabelsX$Label, vjust=-.5, size=8)
+g <- g + scale_x_date(breaks=dateLocations, labels=scales::date_format("%Y"))
+g <- g + scale_y_continuous(breaks=yAxisTicks)
 g <- g + scale_color_continuous(low=colorBefore, high=colorAfter, guide=FALSE)
 g <- g + geom_vline(x=as.integer(changeMonth), color=colorAfter)
 # g <- g + annotate("segment", x=as.integer(changeMonth), xend=as.integer(changeMonth), y=5, yend=7, color=colorAfter)
 # g <- g + annotate("segment", x=changeMonth, xend=changeMonth, y=5, yend=7, color=colorAfter)
 g <- g + annotate("text", x=changeMonth, y=max(ds$BirthRate), color=colorAfter, label="Bombing Effect")
 g <- g + theme_bw()
+g <- g + theme(axis.text.x=element_text(colour=dateColors, size=16))
 g <- g + labs(x="", y="General Fertility Rate")
 g
 
-ggsave(file.path(pathDirectoryOutput, "LinearGGTry1.pdf"))
+# ggsave(file.path(pathDirectoryOutput, "LinearGGTry1.pdf"))
