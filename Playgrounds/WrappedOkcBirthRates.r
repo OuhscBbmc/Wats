@@ -3,12 +3,9 @@ require(colorspace)
 # path <- "F:/Users/wibeasley/Documents/School/Circular/BirthRatesOkc.txt"
 # #path <- "F:/Users/wibeasley/Documents/School/Circular/BirthRatesRogers.txt"
 # #path <- "F:/Users/wibeasley/Documents/School/Circular/BirthRatesTulsa.txt"
-# setwd("F:/Users/wibeasley/Documents/School/Circular/PublicationGraphs")
-#pathDirectory <- "F:/Users/wibeasley/Documents/School/Circular"
-pathDirectory <- getwd()
-pathInput <- file.path(pathDirectory, "Datasets/BirthRatesOkc.txt")
-pathDirectoryOutput <-  file.path(pathDirectory, "PublicationGraphs")
-# setwd("F:/Users/wibeasley/Documents/School/Circular/PublicationGraphs")
+
+pathInput <- "./Datasets/BirthRatesOkc.txt"
+pathDirectoryOutput <-  "./PublicationGraphs"
 dsOkc <- read.table(pathInput, header=T)
 firstYear <- 1990
 changePoint <- 74 #The 74th month is April 1996
