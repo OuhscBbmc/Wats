@@ -3,6 +3,7 @@
 # bottom right: Cartesian, polar with x position mapped to angle, polar
 # with y position mapped to angle, flipped, transformed with log in y
 # direction, and equal scales.
+require(ggplot2)
 
 line <- data.frame(x = c(1, 200), y = c(100, 1))
 base <- ggplot(mapping = aes(x, y)) + geom_line(data = line)
