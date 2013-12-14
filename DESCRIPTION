@@ -12,7 +12,16 @@ Maintainer: Will Beasley <wibeasley@hotmail.com>
 URL: https://github.com/wibeasley/Wats,
     https://r-forge.r-project.org/projects/wats/
 Depends:
-    R (>= 3.0.0)
+    R (>= 3.0.0),
+    stats
+Imports:
+    plyr,
+    ggplot2
+Suggests:
+    devtools,
+    knitr,
+    testit,
+    testthat
 License: GPL (>= 2)
 LazyData: true
 Date: 2013-12-13

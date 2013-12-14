@@ -6,7 +6,7 @@ require(plyr)
 require(ggplot2)
 require(zoo)
 
-pathInput <- "./Datasets/BirthRatesOkc.txt"
+pathInput <- "./Datasets/BirthRatesOk.txt"
 pathDirectoryOutput <-  "./PublicationGraphs"
 widthTotal <- 6.5
 heightTotal <- 4.5
