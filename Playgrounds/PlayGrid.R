@@ -43,20 +43,22 @@ dsLinear$Horizontal <- dsLinear$CycleID + (dsLinear$MonthIndex-1)/12
 stageIDs <- 1:2
 stageCount <- length(stageIDs)
 stageBreaks <- as.POSIXct(c(startDate, changeDate, max(dsLinear$Date)+1))
-dsLinear$Stage <- as.numeric(cut.POSIXt(as.POSIXct(dsLinear$Date), breaks=stageBreaks, labels=c("Pre", "Post")))
+dsLinear$StageID <- as.numeric(cut.POSIXt(as.POSIXct(dsLinear$Date), breaks=stageBreaks, labels=c("Pre", "Post")))
 ### Only manipulations specific the sample above this line;
 ###
 lowerQuantile <- .25
 upperQuantile <- .75
 
-ddply(.data=dsLinear, .variables=.(MonthIndex, Stage), .fun=nrow)
-ds <- dsLinear[ , c("CycleID", "Stage", "Angle", "AngleTotal")]
+ddply(.data=dsLinear, .variables=.(MonthIndex, StageID), .fun=nrow)
+ds <- dsLinear[ , c("CycleID", "StageID", "Angle", "AngleTotal")]
 ds$Radius <- dsLinear$BirthRate
 ds$AngleBin <- dsLinear$MonthIndex
 #rm(dsLinear)
 
-Bands <- function( Radius, ...) { return( c(Lower=as.numeric(quantile(Radius, lowerQuantile)), Upper=as.numeric(quantile(Radius, upperQuantile))) ) }
-dsBands <- ddply(.data=ds[, c("AngleBin", "Stage", "Radius")], .variables=.(AngleBin, Stage), .fun=splat(Bands))
+Bands <- function( Radius, ...) { 
+  return( c(Lower=as.numeric(quantile(Radius, lowerQuantile)), Upper=as.numeric(quantile(Radius, upperQuantile))) ) 
+}
+dsBands <- ddply(.data=ds[, c("AngleBin", "StageID", "Radius")], .variables=.(AngleBin, StageID), .fun=splat(Bands))
 dsBands$Angle <- NA
 for( binIndex in sort(unique(dsBands$AngleBin)) ) {
   meanAngle <- mean(ds[ds$AngleBin==binIndex, "Angle"], na.rm=T)
@@ -200,8 +202,8 @@ for( stageID in stageIDs ) {
 #   grid.polygon(x=x, y=y, default.units="native", gp=gpar(fill=c2[stageID], col="transparent"))
 }
 
-# for( stageID in sort(unique(ds$Stage)) ) { #for( stageID in 2 ) {
-#   grid.lines(x=dsCart[dsCart$Stage==stageID, "X"], y=dsCart[dsCart$Stage==stageID, "Y"], gp=gpar(col=c1[stageID], lwd=.2), default.units="native", name="l") #summary(lg) #lg$gp  
+# for( stageID in sort(unique(ds$StageID)) ) { #for( stageID in 2 ) {
+#   grid.lines(x=dsCart[dsCart$StageID==stageID, "X"], y=dsCart[dsCart$StageID==stageID, "Y"], gp=gpar(col=c1[stageID], lwd=.2), default.units="native", name="l") #summary(lg) #lg$gp  
 # }
 #lg <- polylineGrob(x=dsCart$X, y=dsCart$Y, id=dsCart$StageID, gp=gpar(col=c1, lwd=.2), default.units="native", name="l") #summary(lg) #lg$gp
 lg <- polylineGrob(x=dsCart$X, y=dsCart$Y, id=dsCart$StageID, gp=gpar(col=c1, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
