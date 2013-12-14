@@ -1,14 +1,18 @@
 Package: Wats
 Title: Wrap Around Time Series graphics
-Description: Wrap-around Time Series Plots (WATS Plots) for Interrupted Time
+Description: Wrap-around Time Series (WATS) Plots for Interrupted Time
     Series Designs
-Version: 0.1
+Version: 0.1-1
 Authors@R: c(person("Will", "Beasley", role = c("aut", "cre"), email =
     "wibeasley@hotmail.com"), person("Joe", "Rodgers", role = "aut", email =
     "joseph.l.rodgers@vanderbilt.edu"), person("Matthew", "Schuelke", role =
     "ctb", email = "matthew.schuelke.ctr@us.af.mil"))
+Author: Will Beasley, Joe Rodgers, Matt Schuelke
+Maintainer: Will Beasley <wibeasley@hotmail.com>
+URL: https://github.com/wibeasley/Wats,
+    https://r-forge.r-project.org/projects/wats/
 Depends:
-    R (>= 3.1.0)
+    R (>= 3.0.0)
 License: GPL (>= 2)
 LazyData: true
 Date: 2013-12-13
