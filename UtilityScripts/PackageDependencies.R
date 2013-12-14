@@ -4,7 +4,8 @@
 rm(list=ls(all=TRUE)) #Clear the memory for any variables set from any previous runs.
 
 packagesToInstall <- c(
-  "colorspace" #Explicit control over the HCL color scheme
+  "circular" #For circular statistics and graphs
+  , "colorspace" #Explicit control over the HCL color scheme
   , "devtools" #package development
   , "ggplot2" #Graphing
   , "ggthemes" #Extra themes, scales and geoms for ggplot
