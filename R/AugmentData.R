@@ -1,27 +1,24 @@
 ##' @name AugmentCycleData
-##' @export AugmentYearDataWithMonthResolution
+##' @aliases AugmentYearDataWithMonthResolution AugmentYearDataWithSecondResolution
+##' @export AugmentYearDataWithMonthResolution AugmentYearDataWithSecondResolution
 ##' 
 ##' @title Shows the interrupted time series in Cartesian coordinates
 ##' 
 ##' @description Shows the interrupted time series in Cartesian coordinates.
 ##' 
-##' @param dsPlot The \code{data.frame} to cotaining the detailed data.
-##' @param xName The variable name in \code{dsPlot} containing the date
-##' @param linksPair The \code{data.frame} to validate.
-##' @return Returns a \code{ggplot2} graphing object
+##' @param ds The \code{data.frame} to containing the detailed data.
+##' @param dateName The variable name in \code{ds} containing the date or datetime value.
+##' @return Returns a \code{data.frame} with two additional variables: \code{CycleIndex} and \code{ProportionThroughCycle}.
 ##' @author Will Beasley
-##' @keywords linear
 ##' @examples
 ##' a <- 32+323
 ##' 
 AugmentYearDataWithMonthResolution <- function( ds, dateName ) {
   yearOfEvent <- lubridate::year(ds[, dateName])
-  firstOfYear <- as.Date(ISOdate(year=yearOfEvent, month=1, day=1, tz="GMT"))
-  lastOfYear <- firstOfYear + lubridate::years(1)  
-  
+
   minYearOfEvent <- min(yearOfEvent)
   ds$CycleIndex <- (yearOfEvent - minYearOfEvent)
-  monthsThroughTheYear <- month(ds[, dateName]) - .5
+  monthsThroughTheYear <- lubridate::month(ds[, dateName]) - .5
   monthsInTheYear <- 12L
   ds$ProportionThroughCycle <- monthsThroughTheYear /  monthsInTheYear
   
@@ -29,7 +26,7 @@ AugmentYearDataWithMonthResolution <- function( ds, dateName ) {
 }
 AugmentYearDataWithSecondResolution <- function( ds, dateName ) {
   yearOfEvent <- lubridate::year(ds[, dateName])
-  firstOfYear <- ISOdate(year=yearOfEvent, month=1, day=1, tz="GMT")
+  firstOfYear <- base::ISOdate(year=yearOfEvent, month=1, day=1, tz="GMT")
   lastOfYear <- firstOfYear + lubridate::years(1)  #ISOdate(year=yearOfEvent + 1, month=1, day=1, tz="GMT") 
   
   minYearOfEvent <- min(yearOfEvent)
