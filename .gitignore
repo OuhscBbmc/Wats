@@ -1,3 +1,6 @@
+#SVN -if using R-Forge
+.svn
+
 # History files
 .Rhistory
 
