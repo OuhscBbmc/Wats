@@ -1,5 +1,5 @@
 library(testthat)
 library(Wats)
 
-test_check("Wats")
-# test_package("Wats")
+testthat::test_check("Wats")
+# testthat::test_package("Wats")
