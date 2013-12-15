@@ -71,22 +71,8 @@ AnnotateData <- function( dsLinear,
 # sapply(dsCombined, head, 20)
 
 # dsLinear$DV <- dsLinear$BirthRate
-# 
-# SummarizePosition <- function( df ) {
-#   positionBounds <- hSpread(df$DV)
-# #   print(positionBounds)
-#   data.frame(    
-#     PositionLower=positionBounds[1],
-#     PositionCenter=median(df$DV),
-#     PositionUpper=positionBounds[2]
-#   )
-# }
-# plyr::ddply(dsLinear, .variables=c("StageID", "ProportionID"), SummarizePosition)
 
 
-
-# 
-# # (z <- zoo::zooreg(x=dsLinear frequency=12))
 # (z <- zoo::zooreg(data=dsLinear$BirthRate, frequency=12))
 # 
 # 
@@ -94,13 +80,4 @@ AnnotateData <- function( dsLinear,
 # cycle(z)
 # index(z)
 # is.regular(z)
-# plot.zoo(z)
-# rollmean(z, k=12, 1)
-# rollapply(data=z, width=12, FUN=max)
-# 
-# # hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# 
-# rollapply(data=z, width=12, FUN=hSpread)[, 1]
-# 
-# dsLinear$RollingCenter[-(1:11)]
 
