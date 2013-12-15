@@ -6,7 +6,7 @@
 ##' @description Finds midpoints and bands for the within and between cycles.
 ##' 
 ##' @param dsLinear The \code{data.frame} to containing the detailed data.
-##' @param dvName The name of the dependent variable.
+##' @param dvName The name of the dependent/criterion variable.
 ##' @param centerFunction A function to calculate the center of a subsample.
 ##' @param spreadFunction A function to calculate the bands of a subsample.
 ##' @param cycleTallyName The variable name indicating how many cycles have been completed.

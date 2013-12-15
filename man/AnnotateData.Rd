@@ -12,7 +12,8 @@ AnnotateData(dsLinear, dvName, centerFunction, spreadFunction,
   \item{dsLinear}{The \code{data.frame} to containing the
   detailed data.}
 
-  \item{dvName}{The name of the dependent variable.}
+  \item{dvName}{The name of the dependent/criterion
+  variable.}
 
   \item{centerFunction}{A function to calculate the center
   of a subsample.}
