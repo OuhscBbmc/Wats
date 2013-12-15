@@ -17,7 +17,7 @@ test_that("AugmentYearDataWithMonthResolution", {
   expectedColumnNames <- c(colnames(dsBirthRate), "CycleIndex", "ProportionThroughCycle")
   actual <- Wats::AugmentYearDataWithMonthResolution(ds=dsBirthRate, dateName="Date")
   
-  expect_equal(mean(actual$ProportionThroughCycle), expected=.5, label="The mean of the proportion should be 0.5.")
+  expect_equal(mean(actual$ProportionThroughCycle), expected=0.5, label="The mean of the proportion should be 0.5.")
   expect_equal(actual$MonthID, expected=seq_len(120), label="There should be 120 Month IDs")
   expect_equal(actual$CycleIndex, expected=rep(0:9, each=12), label="There should be 120 Cycle Indicies.")
   expect_equal(colnames(actual), expected=expectedColumnNames, label="Two columns should be added (ie, CycleIndex, ProportionThroughCycle).")
