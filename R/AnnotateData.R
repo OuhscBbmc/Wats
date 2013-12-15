@@ -5,7 +5,7 @@
 ##' 
 ##' @description Finds midpoints and bands for the within and between cycles.
 ##' 
-##' @param ds The \code{data.frame} to containing the detailed data.
+##' @param dsLinear The \code{data.frame} to containing the detailed data.
 ##' @param dvName The name of the dependent variable.
 ##' @param centerFunction A function to calculate the center of a subsample.
 ##' @param spreadFunction A function to calculate the bands of a subsample.
@@ -18,7 +18,7 @@
 ##' @examples
 ##' a <- 32+323
 ##' 
-AnnotateData <- function( ds, 
+AnnotateData <- function( dsLinear, 
                           dvName,
                           centerFunction,
                           spreadFunction,
@@ -28,34 +28,66 @@ AnnotateData <- function( ds,
                           proportionIDName="ProportionID",
                           terminalPointInCycleName="TerminalPointInCycle" ) {
   
-  pointsInCycle <- max(ds[, proportionIDName])
-  z <- zoo::zooreg(data=ds[, dvName], frequency=pointsInCycle)
-  rollingBounds <- rollapply(data=z, width=pointsInCycle, FUN=spreadFunction)
+  pointsInCycle <- max(dsLinear[, proportionIDName])
+  testit::assert("The should be at least one point in a cycle", max(pointsInCycle)>=1)
+  dsLinear$DV <- dsLinear[, dvName]
+  z <- zoo::zooreg(data=dsLinear$DV, frequency=pointsInCycle)
+  rollingBounds <- zoo::rollapply(data=z, width=pointsInCycle, FUN=spreadFunction)
   
-  ds$RollingLower <-  NA
-  ds$RollingCenter <-  NA
-  ds$RollingUpper <-  NA
-  ds$RollingLower[-seq_len(pointsInCycle-1) ] <- rollingBounds[, 1]
-  ds$RollingCenter[-seq_len(pointsInCycle-1) ] <- rollapply(data=z, width=pointsInCycle, FUN=centerFunction)
-  ds$RollingUpper[-seq_len(pointsInCycle-1) ] <- rollingBounds[, 2]
+  dsLinear$RollingLower <- NA
+  dsLinear$RollingCenter <- NA
+  dsLinear$RollingUpper <- NA
+  dsLinear$RollingLower[-seq_len(pointsInCycle-1) ] <- rollingBounds[, 1]
+  dsLinear$RollingCenter[-seq_len(pointsInCycle-1) ] <- zoo::rollapply(data=z, width=pointsInCycle, FUN=centerFunction)
+  dsLinear$RollingUpper[-seq_len(pointsInCycle-1) ] <- rollingBounds[, 2]
   
-  return( ds )
+  
+  summarizePosition <- function( df ) {
+    positionBounds <- hSpread(df$DV)
+    #   print(positionBounds)
+    data.frame(    
+      PositionLower=positionBounds[1],
+      PositionCenter=median(df$DV),
+      PositionUpper=positionBounds[2]
+    )
+  }
+  dsPositional <- plyr::ddply(dsLinear, .variables=c("StageID", "ProportionID"), .fun=summarizePosition)
+  
+  
+  dsLinear$DV <- NULL
+  return( list(dsLinear=dsLinear, dsPositional=dsPositional) )
 }
 
-# ds <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
-# ds$Date <- as.Date(ds$Date) 
-# ds$MonthID <- NULL
+# dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
+# dsLinear$Date <- as.Date(dsLinear$Date) 
+# dsLinear$MonthID <- NULL
 # changeMonth <- as.Date("1996-02-15")
-# ds$StageID <- ifelse(ds$Date < changeMonth, 1L, 2L)
-# ds <- AugmentYearDataWithMonthResolution(ds=ds, dateName="Date")
+# dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
+# dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 # 
 # 
 # hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# ds <- AnnotateData(ds, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
-# head(ds, 20)
+# dsCombined <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
+# sapply(dsCombined, head, 20)
+
+# dsLinear$DV <- dsLinear$BirthRate
 # 
-# # (z <- zoo::zooreg(x=ds frequency=12))
-# (z <- zoo::zooreg(data=ds$BirthRate, frequency=12))
+# SummarizePosition <- function( df ) {
+#   positionBounds <- hSpread(df$DV)
+# #   print(positionBounds)
+#   data.frame(    
+#     PositionLower=positionBounds[1],
+#     PositionCenter=median(df$DV),
+#     PositionUpper=positionBounds[2]
+#   )
+# }
+# plyr::ddply(dsLinear, .variables=c("StageID", "ProportionID"), SummarizePosition)
+
+
+
+# 
+# # (z <- zoo::zooreg(x=dsLinear frequency=12))
+# (z <- zoo::zooreg(data=dsLinear$BirthRate, frequency=12))
 # 
 # 
 # summary(z)
@@ -70,5 +102,5 @@ AnnotateData <- function( ds,
 # 
 # rollapply(data=z, width=12, FUN=hSpread)[, 1]
 # 
-# ds$RollingCenter[-(1:11)]
+# dsLinear$RollingCenter[-(1:11)]
 

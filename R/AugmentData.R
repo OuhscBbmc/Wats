@@ -6,64 +6,66 @@
 ##' 
 ##' @description Calculates variables necessary for WATS Plots
 ##' 
-##' @param ds The \code{data.frame} to containing the detailed data.
-##' @param dateName The variable name in \code{ds} containing the date or datetime value.
+##' @param dsLinear The \code{data.frame} to containing the detailed data.
+##' @param dateName The variable name in \code{dsLinear} containing the date or datetime value.
 ##' @return Returns a \code{data.frame} with additional variables: \code{CycleTally}, \code{ProportionThroughCycle}, \code{ProportionID}, and \code{TerminalPointInCycle}.
 ##' @examples
 ##' a <- 32+323
 ##' 
-AugmentYearDataWithMonthResolution <- function( ds, dateName ) {
-  yearOfEvent <- lubridate::year(ds[, dateName])
+AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
+  yearOfEvent <- lubridate::year(dsLinear[, dateName])
 
   minYearOfEvent <- min(yearOfEvent)
-  ds$CycleTally <- (yearOfEvent - minYearOfEvent)
-  monthsThroughTheYear <- lubridate::month(ds[, dateName]) - .5
+  dsLinear$CycleTally <- (yearOfEvent - minYearOfEvent)
+  monthsThroughTheYear <- lubridate::month(dsLinear[, dateName]) - .5
   monthsInTheYear <- 12L
-  ds$ProportionThroughCycle <- monthsThroughTheYear /  monthsInTheYear
-  ds$ProportionID <- rank(ds$ProportionThroughCycle, ties.method="max") / max(ds$CycleTally + 1)
-  ds <- plyr::ddply(ds, 
-                    "CycleTally", 
-                    transform, 
-                    TerminalPointInCycle=(rank(ProportionThroughCycle)==max(rank(ProportionThroughCycle))))  
+  dsLinear$ProportionThroughCycle <- monthsThroughTheYear /  monthsInTheYear
+  dsLinear$ProportionID <- rank(dsLinear$ProportionThroughCycle, ties.method="max") / max(dsLinear$CycleTally + 1)
+  dsLinear$TerminalPointInCycle <- (dsLinear$ProportionID==max(dsLinear$ProportionID))
+#   dsLinear <- plyr::ddply(dsLinear, 
+#                     "CycleTally", 
+#                     transform, 
+#                     TerminalPointInCycle=(rank(ProportionThroughCycle)==max(rank(ProportionThroughCycle))))  
   
-  return( ds )
+  return( dsLinear )
 }
-AugmentYearDataWithSecondResolution <- function( ds, dateName ) {
-  yearOfEvent <- lubridate::year(ds[, dateName])
+AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
+  yearOfEvent <- lubridate::year(dsLinear[, dateName])
   firstOfYear <- base::ISOdate(year=yearOfEvent, month=1, day=1, tz="GMT")
   lastOfYear <- firstOfYear + lubridate::years(1)  #ISOdate(year=yearOfEvent + 1, month=1, day=1, tz="GMT") 
   
   minYearOfEvent <- min(yearOfEvent)
-  ds$CycleTally <- (yearOfEvent - minYearOfEvent)
-  secondsThroughTheYear <- as.integer(base::difftime(time1=ds[, dateName], firstOfYear, units="sec")) - .5
+  dsLinear$CycleTally <- (yearOfEvent - minYearOfEvent)
+  secondsThroughTheYear <- as.integer(base::difftime(time1=dsLinear[, dateName], firstOfYear, units="sec")) - .5
   secondsInTheYear <- as.integer(base::difftime(lastOfYear, firstOfYear, units="sec"))
-  ds$ProportionThroughCycle <- secondsThroughTheYear /  secondsInTheYear
-  ds$ProportionID <- rank(ds$ProportionThroughCycle, ties.method="max") / max(ds$CycleTally + 1)
-  ds <- plyr::ddply(ds, 
-                    "CycleTally", 
-                    transform, 
-                    TerminalPointInCycle=(rank(ProportionThroughCycle)==max(rank(ProportionThroughCycle))))  
-  return( ds )
+  dsLinear$ProportionThroughCycle <- secondsThroughTheYear /  secondsInTheYear
+  dsLinear$ProportionID <- rank(dsLinear$ProportionThroughCycle, ties.method="max") / max(dsLinear$CycleTally + 1)
+  dsLinear$TerminalPointInCycle <- (dsLinear$ProportionID==max(dsLinear$ProportionID))  
+#   dsLinear <- plyr::ddply(dsLinear, 
+#                     "CycleTally", 
+#                     transform, 
+#                     TerminalPointInCycle=(rank(ProportionThroughCycle)==max(rank(ProportionThroughCycle))))  
+  return( dsLinear )
 }
 
 # dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
 # dsLinear$Date <- as.Date(dsLinear$Date) 
 # dsLinear$MonthID <- NULL
 # sapply(dsLinear, class)
-# ds <- AugmentYearDataWithMonthResolution(ds=dsLinear, dateName="Date")
-# # dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
-# # dsLinear$Date <- as.POSIXct(dsLinear$Date, tz="GMT")
-# # ds <- AugmentYearDataWithSecondResolution(ds=dsLinear, dateName="Date")
-# 
-# 
-# 
-# head(ds, 20)
+# dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+# # # dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
+# # # dsLinear$Date <- as.POSIXct(dsLinear$Date, tz="GMT")
+# # # dsLinear <- AugmentYearDataWithSecondResolution(dsLinear=dsLinear, dateName="Date")
+# # 
+# # 
+# # 
+# head(dsLinear, 20)
 
 
 
-# julian(ds[, dateName])
-# yday(ds[, dateName])
-# month(ds[, dateName])
-# leap_year(ds[, dateName])
+# julian(dsLinear[, dateName])
+# yday(dsLinear[, dateName])
+# month(dsLinear[, dateName])
+# leap_year(dsLinear[, dateName])
 
 

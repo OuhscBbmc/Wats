@@ -2,14 +2,14 @@
 \alias{AnnotateData}
 \title{Finds midpoints and bands for the within and between cycles.}
 \usage{
-AnnotateData(ds, dvName, centerFunction, spreadFunction,
+AnnotateData(dsLinear, dvName, centerFunction, spreadFunction,
   cycleTallyName = "CycleTally", stageIDName = "StageID",
   proportionThroughCycleName = "ProportionThroughCycle",
   proportionIDName = "ProportionID",
   terminalPointInCycleName = "TerminalPointInCycle")
 }
 \arguments{
-  \item{ds}{The \code{data.frame} to containing the
+  \item{dsLinear}{The \code{data.frame} to containing the
   detailed data.}
 
   \item{dvName}{The name of the dependent variable.}

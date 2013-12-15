@@ -4,14 +4,14 @@
 \alias{AugmentYearDataWithSecondResolution}
 \title{Calculates variables necessary for WATS Plots}
 \usage{
-AugmentYearDataWithMonthResolution(ds, dateName)
+AugmentYearDataWithMonthResolution(dsLinear, dateName)
 }
 \arguments{
-  \item{ds}{The \code{data.frame} to containing the
+  \item{dsLinear}{The \code{data.frame} to containing the
   detailed data.}
 
-  \item{dateName}{The variable name in \code{ds} containing
-  the date or datetime value.}
+  \item{dateName}{The variable name in \code{dsLinear}
+  containing the date or datetime value.}
 }
 \value{
 Returns a \code{data.frame} with additional variables:
