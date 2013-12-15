@@ -24,15 +24,9 @@ AugmentYearDataWithMonthResolution <- function( dsLinear, dateName, stageIDName 
   dsLinear$ProportionID <- rank(dsLinear$ProportionThroughCycle, ties.method="max") / max(dsLinear$CycleTally + 1)
   dsLinear$StartingPointInCycle <- (dsLinear$ProportionID==min(dsLinear$ProportionID))
   dsLinear$TerminalPointInCycle <- (dsLinear$ProportionID==max(dsLinear$ProportionID))
-#   dsLinear$StageProgress <- dsLinear$StageID + ifelse(dsLinear$StartingPointInCycle | dsLinear$TerminalPointInCycle, 0, 0.5)
-  
   
   SummarizeWithinStage <- function( df ) {
-    minValue <- min(df[, dateName])
-#     maxValue <- max(df[, dateName])
-#     isBetween <- ( (min(df[, dateName]) < df[, dateName]) & (df[, dateName] < max(df[, dateName])))
     isMin <-  (min(df[, dateName]) < df[, dateName])
-#     
     return( df$StageID + isMin*0.5 )
   }
   dsLinear$StageProgress <- unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
@@ -49,16 +43,23 @@ AugmentYearDataWithSecondResolution <- function( dsLinear, dateName, stageIDName
   secondsInTheYear <- as.integer(base::difftime(lastOfYear, firstOfYear, units="sec"))
   dsLinear$ProportionThroughCycle <- secondsThroughTheYear /  secondsInTheYear
   dsLinear$ProportionID <- rank(dsLinear$ProportionThroughCycle, ties.method="max") / max(dsLinear$CycleTally + 1)
+  dsLinear$StartingPointInCycle <- (dsLinear$ProportionID==min(dsLinear$ProportionID))
   dsLinear$TerminalPointInCycle <- (dsLinear$ProportionID==max(dsLinear$ProportionID))  
 #   dsLinear <- plyr::ddply(dsLinear, 
 #                     "CycleTally", 
 #                     transform, 
 #                     TerminalPointInCycle=(rank(ProportionThroughCycle)==max(rank(ProportionThroughCycle))))  
-
-  dsLinear$DV <- NULL
+  SummarizeWithinStage <- function( df ) {
+    #     minValue <- min(df[, dateName])
+    #     maxValue <- max(df[, dateName])
+    #     isBetween <- ( (min(df[, dateName]) < df[, dateName]) & (df[, dateName] < max(df[, dateName])))
+    isMin <-  (min(df[, dateName]) < df[, dateName])
+    return( df$StageID + isMin*0.5 )
+  }
+  dsLinear$StageProgress <- unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
   return( dsLinear )
 }
-# 
+ 
 # dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
 # dsLinear$Date <- as.Date(dsLinear$Date) 
 # dsLinear$MonthID <- NULL

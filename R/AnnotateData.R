@@ -43,7 +43,7 @@ AnnotateData <- function( dsLinear,
   
   
   summarizePosition <- function( df ) {
-    positionBounds <- hSpread(df$DV)
+    positionBounds <- spreadFunction(df$DV)
     #   print(positionBounds)
     data.frame(    
       PositionLower=positionBounds[1],
