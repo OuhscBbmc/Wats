@@ -2,14 +2,15 @@
 \alias{AnnotateData}
 \title{Finds midpoints and bands for the within and between cycles.}
 \usage{
-AnnotateData(ds, cycleIndexName = "cycleIndex", stageIDName = "StageID",
-  proportionThroughCycleName = "ProportionThroughCycle")
+AnnotateData(ds, cycleTallyName = "CycleTally", stageIDName = "StageID",
+  proportionThroughCycleName = "ProportionThroughCycle",
+  terminalPointInCycleName = "TerminalPointInCycle")
 }
 \arguments{
   \item{ds}{The \code{data.frame} to containing the
   detailed data.}
 
-  \item{cycleIndexName}{The variable name indicating how
+  \item{cycleTallyName}{The variable name indicating how
   many cycles have been completed.}
 
   \item{stageIDName}{The variable name indicating the

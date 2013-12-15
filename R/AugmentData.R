@@ -8,7 +8,7 @@
 ##' 
 ##' @param ds The \code{data.frame} to containing the detailed data.
 ##' @param dateName The variable name in \code{ds} containing the date or datetime value.
-##' @return Returns a \code{data.frame} with two additional variables: \code{CycleTally} and \code{ProportionThroughCycle}.
+##' @return Returns a \code{data.frame} with two additional variables: \code{CycleTally}, \code{ProportionThroughCycle}, and \code{TerminalPointInCycle}.
 ##' @examples
 ##' a <- 32+323
 ##' 
@@ -20,6 +20,10 @@ AugmentYearDataWithMonthResolution <- function( ds, dateName ) {
   monthsThroughTheYear <- lubridate::month(ds[, dateName]) - .5
   monthsInTheYear <- 12L
   ds$ProportionThroughCycle <- monthsThroughTheYear /  monthsInTheYear
+  ds <- plyr::ddply(ds, 
+                    "CycleTally", 
+                    transform, 
+                    TerminalPointInCycle=(rank(ProportionThroughCycle)==max(rank(ProportionThroughCycle))))  
   
   return( ds )
 }
@@ -33,20 +37,23 @@ AugmentYearDataWithSecondResolution <- function( ds, dateName ) {
   secondsThroughTheYear <- as.integer(base::difftime(time1=ds[, dateName], firstOfYear, units="sec")) - .5
   secondsInTheYear <- as.integer(base::difftime(lastOfYear, firstOfYear, units="sec"))
   ds$ProportionThroughCycle <- secondsThroughTheYear /  secondsInTheYear
-  
+  ds <- plyr::ddply(ds, 
+                    "CycleTally", 
+                    transform, 
+                    TerminalPointInCycle=(rank(ProportionThroughCycle)==max(rank(ProportionThroughCycle))))  
   return( ds )
 }
 
-dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
-dsLinear$Date <- as.Date(dsLinear$Date) 
-dsLinear$MonthID <- NULL
-sapply(dsLinear, class)
-AugmentYearDataWithMonthResolution(ds=dsLinear, dateName="Date")
-dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
-dsLinear$Date <- as.POSIXct(dsLinear$Date, tz="GMT")
-ds <- AugmentYearDataWithSecondResolution(ds=dsLinear, dateName="Date")
-head(ds, 20)
-ds <- plyr::ddply(ds, "CycleTally")
+# dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
+# dsLinear$Date <- as.Date(dsLinear$Date) 
+# dsLinear$MonthID <- NULL
+# sapply(dsLinear, class)
+# AugmentYearDataWithMonthResolution(ds=dsLinear, dateName="Date")
+# dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
+# dsLinear$Date <- as.POSIXct(dsLinear$Date, tz="GMT")
+# ds <- AugmentYearDataWithSecondResolution(ds=dsLinear, dateName="Date")
+# 
+# head(ds, 20)
 
 
 

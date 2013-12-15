@@ -13,7 +13,11 @@
 ##' @examples
 ##' a <- 32+323
 ##' 
-AnnotateData <- function( ds, cycleTallyName="CycleTally", stageIDName="StageID", proportionThroughCycleName="ProportionThroughCycle" ) {
+AnnotateData <- function( ds, 
+                          cycleTallyName="CycleTally", 
+                          stageIDName="StageID", 
+                          proportionThroughCycleName="ProportionThroughCycle",
+                          terminalPointInCycleName="TerminalPointInCycle") {
 
   
   return( ds )
