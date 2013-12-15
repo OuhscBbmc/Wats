@@ -163,8 +163,8 @@ height <- 6.5 #For the two big ones
 # height <- 6.5/2 *1.5 #For the solo polar
 # windows(width=deviceWidth, height=height)
 # opar <- par(no.readonly=TRUE)
-pdf(file=file.path(pathDirectoryOutput, "WatsWorkingPlot.pdf"), width=deviceWidth, height=height)
-# png(file=file.path(pathDirectoryOutput, "WatsWorkingPlot.png"), width=deviceWidth, height=height, units="in", res=1200)
+# pdf(file=file.path(pathDirectoryOutput, "WatsWorkingPlot.pdf"), width=deviceWidth, height=height)
+png(file=file.path(pathDirectoryOutput, "WatsWorkingPlot.png"), width=deviceWidth, height=height, units="in", res=1200)
 # opar <- par(no.readonly=TRUE)
 
 

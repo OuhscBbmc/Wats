@@ -2,7 +2,7 @@
 \alias{AugmentCycleData}
 \alias{AugmentYearDataWithMonthResolution}
 \alias{AugmentYearDataWithSecondResolution}
-\title{Shows the interrupted time series in Cartesian coordinates}
+\title{Calculates variables necessary for WATS Plots}
 \usage{
 AugmentYearDataWithMonthResolution(ds, dateName)
 }
@@ -18,12 +18,9 @@ Returns a \code{data.frame} with two additional variables:
 \code{CycleIndex} and \code{ProportionThroughCycle}.
 }
 \description{
-Shows the interrupted time series in Cartesian coordinates.
+Calculates variables necessary for WATS Plots
 }
 \examples{
 a <- 32+323
-}
-\author{
-Will Beasley
 }
 

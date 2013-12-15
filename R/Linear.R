@@ -25,7 +25,7 @@
 # #   p <- p + geom_point(shape=1)
 #   p <- p + geom_line(size=1)
 # # #   p <- p + geom_line(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling), size=2)
-# # #   p <- p + scale_color_continuous(low=colorBefore, high=colorAfter, guide=FALSE)
+#   p <- p + scale_color_continuous(guide=FALSE)#low=colorBefore, high=colorAfter, 
 # # #   p <- p + geom_vline(x=as.integer(changeMonth), color=colorAfter)
 # # #   p <- p + annotate("text", x=changeMonth, y=max(ds$BirthRate), color=colorAfter, label="Bombing Effect")
 # #   p <- p + theme_minimal()
@@ -33,6 +33,16 @@
 #   
 #   return( p )
 # }
+# 
+# 
+# # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt") #This approach accounts for working on developmental box.
+# # dsBirthRate <- read.table(filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
+# # dsBirthRate$Date <- as.Date(dsBirthRate$Date)
+# # changeMonth <- as.Date("1996-02-15")
+# # dsBirthRate$StageID <- ifelse(dsBirthRate$Date < changeMonth, 1L, 2L)
+# # dsBirthRate <- Wats::AugmentYearDataWithMonthResolution(ds=dsBirthRate, dateName="Date")
+# # 
+# # LinearPlot(dsBirthRate, "Date", "BirthRate", "StageID")
 # 
 # # p <- ggplot(ds, aes(x=Date, y=BirthRate, color=StageID))
 # # p <- p + geom_line(data=dsFebruary, aes(y=Rolling), size=1, color=smoothedLinear)

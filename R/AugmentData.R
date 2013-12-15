@@ -2,14 +2,13 @@
 ##' @aliases AugmentYearDataWithMonthResolution AugmentYearDataWithSecondResolution
 ##' @export AugmentYearDataWithMonthResolution AugmentYearDataWithSecondResolution
 ##' 
-##' @title Shows the interrupted time series in Cartesian coordinates
+##' @title Calculates variables necessary for WATS Plots
 ##' 
-##' @description Shows the interrupted time series in Cartesian coordinates.
+##' @description Calculates variables necessary for WATS Plots
 ##' 
 ##' @param ds The \code{data.frame} to containing the detailed data.
 ##' @param dateName The variable name in \code{ds} containing the date or datetime value.
 ##' @return Returns a \code{data.frame} with two additional variables: \code{CycleIndex} and \code{ProportionThroughCycle}.
-##' @author Will Beasley
 ##' @examples
 ##' a <- 32+323
 ##' 
@@ -43,6 +42,7 @@ AugmentYearDataWithSecondResolution <- function( ds, dateName ) {
 # dsLinear$MonthID <- NULL
 # sapply(dsLinear, class)
 # AugmentYearDataWithMonthResolution(ds=dsLinear, dateName="Date")
+# dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
 # dsLinear$Date <- as.POSIXct(dsLinear$Date, tz="GMT")
 # AugmentYearDataWithSecondResolution(ds=dsLinear, dateName="Date")
 
