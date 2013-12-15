@@ -4,7 +4,7 @@
 \alias{AugmentYearDataWithSecondResolution}
 \title{Calculates variables necessary for WATS Plots}
 \usage{
-AugmentYearDataWithMonthResolution(dsLinear, dateName)
+AugmentYearDataWithMonthResolution(dsLinear, dateName, stageIDName)
 }
 \arguments{
   \item{dsLinear}{The \code{data.frame} to containing the
@@ -12,6 +12,10 @@ AugmentYearDataWithMonthResolution(dsLinear, dateName)
 
   \item{dateName}{The variable name in \code{dsLinear}
   containing the date or datetime value.}
+
+  \item{stageIDName}{The variable name indicating the
+  stage. In a typical interrupted time series, these values
+  are \code{1} before the interruption and \code{2} after.}
 }
 \value{
 Returns a \code{data.frame} with additional variables:

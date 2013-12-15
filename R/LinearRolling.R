@@ -17,20 +17,32 @@
 LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName, 
                               rollingLowerName="RollingLower", rollingCenterName="RollingCenter", rollingUpperName="RollingUpper",
                               title=NULL, xTitle=NULL, yTitle=NULL ) {
+  
   p <- ggplot2::ggplot(dsLinear, ggplot2::aes_string(x=xName, y=yName, color=stageIDName))
-  p <- p + ggplot2::geom_line(ggplot2::aes_string(y=rollingCenterName), size=1, na.rm=T)
+  
+  stageColor <- c("red", "blue")
+  
+  stages <- sort(unique(dsLinear[, stageIDName]))
+  for( stage in stages) {
+    print(stage)
+    dsStage <- dsLinear[stage<=dsLinear$StageProgress & dsLinear$StageProgress<=(stage+1),]
+    print(dsStage)
+    p <- p + ggplot2::geom_line(ggplot2::aes_string(y=rollingCenterName), data=dsStage, size=1, color=stageColor[stage], na.rm=T)
+    p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rollingLowerName, ymax=rollingUpperName), data=dsStage, fill=stageColor[stage], color=NA, alpha=.2)
+  }
+  
   p <- p + ggplot2::geom_point(data=dsLinear[dsLinear$TerminalPointInCycle,], ggplot2::aes_string(y=rollingCenterName), size=4, shape=3)
 
 #   p <- p + geom_ribbon(aes_string(ymin=rollingLowerName, ymax=rollingUpperName))
-p <- p + ggplot2::geom_ribbon(data=dsLinear[1<=dsLinear$StageID & dsLinear$StageID<=2,], ggplot2::aes_string(ymin=rollingLowerName, ymax=rollingUpperName), fill="red", color=NA, alpha=.2)
-p <- p + ggplot2::geom_ribbon(data=dsLinear[2<=dsLinear$StageID & dsLinear$StageID<=3,], ggplot2::aes_string(ymin=rollingLowerName, ymax=rollingUpperName), fill="blue", color=NA, alpha=.2)
+# p <- p + ggplot2::geom_ribbon(data=dsLinear[1<=dsLinear$StageID & dsLinear$StageID<=2,], ggplot2::aes_string(ymin=rollingLowerName, ymax=rollingUpperName), fill="red", color=NA, alpha=.2)
+# p <- p + ggplot2::geom_ribbon(data=dsLinear[2<=dsLinear$StageID & dsLinear$StageID<=3,], ggplot2::aes_string(ymin=rollingLowerName, ymax=rollingUpperName), fill="blue", color=NA, alpha=.2)
 #   p <- p + geom_ribbon(aes_string(ymin=rollingLowerName, ymax=rollingUpperName), fill="blue", color=NA )
-#   p <- p + geom_point(shape=1)
-  p <- p + ggplot2::geom_line(size=.5)
-# #   p <- p + geom_line(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling), size=2)
+# #   p <- p + geom_point(shape=1)
+#   p <- p + ggplot2::geom_line(size=.5)
+# # #   p <- p + geom_line(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling), size=2)
   p <- p + ggplot2::scale_color_continuous(guide=FALSE)#low=colorBefore, high=colorAfter, 
-# #   p <- p + geom_vline(x=as.integer(changeMonth), color=colorAfter)
-# #   p <- p + annotate("text", x=changeMonth, y=max(ds$BirthRate), color=colorAfter, label="Bombing Effect")
+#   p <- p + ggplot2::geom_vline(x=as.integer(changeMonth), color=colorAfter)
+# # #   p <- p + ggplot2::annotate("text", x=changeMonth, y=max(ds$BirthRate), color=colorAfter, label="Bombing Effect")
   p <- p + ggplot2::theme_minimal()
   p <- p + ggplot2::labs(title=title, x=xTitle, y=yTitle)
   
