@@ -160,10 +160,6 @@ for( cycleID in sort(unique(dsInterpolated$CycleID)) ) {
 
   dsBands[rowTally, 'CycleID'] <- cycleID
   dsBands[rowTally, 'Radians'] <- dsSliceBefore$Radians[1] #They should all have the same radians
-#   dsBands[rowTally, 'LowerBefore'] <- quantile(dsSliceBefore$BirthRate, prob=lowerQuantile)
-#   dsBands[rowTally, 'UpperBefore'] <- quantile(dsSliceBefore$BirthRate, prob=upperQuantile)
-#   dsBands[rowTally, 'LowerAfter'] <- quantile(dsSliceAfter$BirthRate, prob=lowerQuantile)
-#   dsBands[rowTally, 'UpperAfter'] <- quantile(dsSliceAfter$BirthRate, prob=upperQuantile)
   dsBands[rowTally, 'LowerBefore'] <- as.numeric(quantile(dsSliceBefore$BirthRate, prob=lowerQuantile))
   dsBands[rowTally, 'UpperBefore'] <- as.numeric(quantile(dsSliceBefore$BirthRate, prob=upperQuantile))
   dsBands[rowTally, 'LowerAfter'] <- as.numeric(quantile(dsSliceAfter$BirthRate, prob=lowerQuantile))

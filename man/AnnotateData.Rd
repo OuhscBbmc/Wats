@@ -4,6 +4,7 @@
 \usage{
 AnnotateData(ds, cycleTallyName = "CycleTally", stageIDName = "StageID",
   proportionThroughCycleName = "ProportionThroughCycle",
+  proportionIDName = "ProportionID",
   terminalPointInCycleName = "TerminalPointInCycle")
 }
 \arguments{
@@ -22,6 +23,12 @@ AnnotateData(ds, cycleTallyName = "CycleTally", stageIDName = "StageID",
   example, 0 degrees would be \code{0}, 180 degrees would
   be \code{0.5}, 359 degrees would be \code{0.9972}, and
   360 degrees would be \code{0}.}
+
+  \item{proportionIDName}{The variable name indicating the
+  ordinal position through a cycle.}
+
+  \item{terminalPointInCycleName}{The variable name
+  indicating the last point within a given cycle.}
 }
 \value{
 Returns a \code{data.frame} with additional variables <<Say

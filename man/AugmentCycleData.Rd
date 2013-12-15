@@ -14,9 +14,9 @@ AugmentYearDataWithMonthResolution(ds, dateName)
   the date or datetime value.}
 }
 \value{
-Returns a \code{data.frame} with two additional variables:
-\code{CycleTally}, \code{ProportionThroughCycle}, and
-\code{TerminalPointInCycle}.
+Returns a \code{data.frame} with additional variables:
+\code{CycleTally}, \code{ProportionThroughCycle},
+\code{ProportionID}, and \code{TerminalPointInCycle}.
 }
 \description{
 Calculates variables necessary for WATS Plots
