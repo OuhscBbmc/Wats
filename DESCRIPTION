@@ -18,7 +18,7 @@ Imports:
     ggplot2,
     lubridate,
     plyr,
-	zoo
+    zoo
 Suggests:
     devtools,
     knitr,

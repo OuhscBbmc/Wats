@@ -2,7 +2,8 @@
 \alias{AnnotateData}
 \title{Finds midpoints and bands for the within and between cycles.}
 \usage{
-AnnotateData(ds, cycleTallyName = "CycleTally", stageIDName = "StageID",
+AnnotateData(ds, dvName, centerFunction, spreadFunction,
+  cycleTallyName = "CycleTally", stageIDName = "StageID",
   proportionThroughCycleName = "ProportionThroughCycle",
   proportionIDName = "ProportionID",
   terminalPointInCycleName = "TerminalPointInCycle")
@@ -10,6 +11,14 @@ AnnotateData(ds, cycleTallyName = "CycleTally", stageIDName = "StageID",
 \arguments{
   \item{ds}{The \code{data.frame} to containing the
   detailed data.}
+
+  \item{dvName}{The name of the dependent variable.}
+
+  \item{centerFunction}{A function to calculate the center
+  of a subsample.}
+
+  \item{spreadFunction}{A function to calculate the bands
+  of a subsample.}
 
   \item{cycleTallyName}{The variable name indicating how
   many cycles have been completed.}
