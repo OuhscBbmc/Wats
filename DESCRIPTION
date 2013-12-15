@@ -16,10 +16,10 @@ Depends:
     stats
 Imports:
     colorspace,
-	ggplot2,
+    ggplot2,
     lubridate,
     plyr,
-	RColorBrewer,
+    RColorBrewer,
     zoo
 Suggests:
     devtools,

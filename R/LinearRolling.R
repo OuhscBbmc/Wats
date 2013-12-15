@@ -16,35 +16,53 @@
 # ##' 
 LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName, 
                               rollingLowerName="RollingLower", rollingCenterName="RollingCenter", rollingUpperName="RollingUpper",
-                              colorPalette=NULL,
+                              paletteDark=NULL, paletteLight=NULL, colorPeriodic="brown",
+                              changePoints=NULL, changePointLabels=NULL,
+                              drawJaggedLine=TRUE, drawRollingLine=TRUE, drawBands=TRUE, drawPeriodicLineAndPoints=TRUE, 
                               title=NULL, xTitle=NULL, yTitle=NULL ) {
   
   stages <- sort(unique(dsLinear[, stageIDName]))
   p <- ggplot2::ggplot(dsLinear, ggplot2::aes_string(x=xName, y=yName, color=stageIDName))
   
-#   stageColor <- c("red", "blue")
-  if( missing(colorPalette) | is.null(colorPalette) ) {
-    if( length(stages) <= 9L)
-      colorPalette <- RColorBrewer::brewer.pal(n=9L, name="Pastel1") #There's not a risk of defining more colors than levels
+  if( is.null(paletteDark) ) {
+    if( length(stages) <= 4L)
+      paletteDark <- RColorBrewer::brewer.pal(n=10, name="Paired")[c(2,4,6,8)] #There's not a risk of defining more colors than levels
     else
-      colorPalette <- colorspace::rainbow_hcl(n=length(stages))
-  }
-  
+      paletteDark <- colorspace::rainbow_hcl(n=length(stages))
+  }  
+  if( is.null(paletteLight) ) {
+    if( length(stages) <= 4L)
+      paletteLight <- RColorBrewer::brewer.pal(n=10, name="Paired")[c(1,3,5,7)] #There's not a risk of defining more colors than levels
+    else
+      paletteLight <- colorspace::rainbow_hcl(n=length(stages))
+  }  
+    
   for( stage in stages) {
-#     print(stage)
     dsStage <- dsLinear[stage<=dsLinear$StageProgress & dsLinear$StageProgress<=(stage+1),]
-#     print(dsStage)
-    p <- p + ggplot2::geom_line(ggplot2::aes_string(y=rollingCenterName), data=dsStage, size=1, color=colorPalette[stage], na.rm=T)
-    p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rollingLowerName, ymax=rollingUpperName), data=dsStage, fill=colorPalette[stage], color=NA, alpha=.2)
+    if( drawJaggedLine )
+      p <- p + ggplot2::geom_line(size=.5, color=paletteLight[stage], data=dsStage)
+    if( drawRollingLine )
+      p <- p + ggplot2::geom_line(ggplot2::aes_string(y=rollingCenterName), data=dsStage, size=1, color=paletteLight[stage], na.rm=T)
+    if( drawBands )
+      p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rollingLowerName, ymax=rollingUpperName), data=dsStage, fill=paletteLight[stage], color=NA, alpha=.2)
+    
+    p <- p + ggplot2::geom_point(shape=1, color=paletteLight[stage], data=dsStage)
   }
   
-  p <- p + ggplot2::geom_point(data=dsLinear[dsLinear$TerminalPointInCycle,], ggplot2::aes_string(y=rollingCenterName, color=stageIDName), size=4, shape=3)
+  if( drawPeriodicLineAndPoints ) {
+    p <- p + ggplot2::geom_line(data=dsLinear[dsLinear$TerminalPointInCycle,], ggplot2::aes_string(y=rollingCenterName), size=.5, color=colorPeriodic)
+    p <- p + ggplot2::geom_point(data=dsLinear[dsLinear$TerminalPointInCycle,], ggplot2::aes_string(y=rollingCenterName), size=4, shape=3, color=colorPeriodic)
+  }  
+  
+#   p <- p + ggplot2::geom_vline(x=as.integer(changeMonth))
+  if( !is.null(changePoints) ) {
+    for( i in seq_along(changePoints) )  {
+      p <- p + ggplot2::geom_vline(x=as.integer(changePoints[i]), color=paletteLight[i+1], alpha=.5, size=4)
+      p <- p + ggplot2::annotate("text", x=changeMonth, y=max(dsLinear[, yName]), color=paletteDark[i+1], label=changePointLabels[i])
+    }
+  }
 
-# #   p <- p + geom_point(shape=1)
-#   p <- p + ggplot2::geom_line(size=.5)
-# # #   p <- p + geom_line(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling), size=2)
-#   p <- p + ggplot2::scale_color_continuous(guide=FALSE)#low=colorBefore, high=colorAfter, 
-#   p <- p + ggplot2::geom_vline(x=as.integer(changeMonth), color=colorAfter)
+#   p <- p + ggplot2::geom_vline(x=as.integer(changeMonth), color="gray70")
 # # #   p <- p + ggplot2::annotate("text", x=changeMonth, y=max(ds$BirthRate), color=colorAfter, label="Bombing Effect")
   p <- p + ggplot2::theme_minimal()
   p <- p + ggplot2::theme(legend.position="none")
@@ -54,22 +72,21 @@ LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName,
 }
 
 
-# 
 # dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
 # dsLinear$Date <- as.Date(dsLinear$Date) 
 # dsLinear$MonthID <- NULL
 # changeMonth <- as.Date("1996-02-15")
-# dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
+# dsLinear$StageID <- ifelse(dsLinear$Date < as.Date("1996-02-15"), 1L, 2L)
 # dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
-# 
 # 
 # hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 # dsCombined <- Wats::AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
-# sapply(dsCombined, head, 20)
+# # sapply(dsCombined, head, 20)
 # 
-# LinearRollingPlot(dsCombined$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID")
-# 
-# 
+# LinearRollingPlot(dsCombined$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", 
+#                   changePoints=as.Date("1996-02-15"), changePointLabels="Bombing Effect")
+
+
 
 
 # # LinearPlot(dsBirthRate, "Date", "BirthRate", "StageID")
