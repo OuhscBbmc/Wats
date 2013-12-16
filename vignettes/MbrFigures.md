@@ -23,7 +23,7 @@ For the sake of documentation and reproducibility, the current vignette was buil
 
 
 ```
-Report created by Will at 12/15/2013 7:39:36 PM, Central Standard Time
+Report created by Will at 12/15/2013 9:12:26 PM, Central Standard Time
 ```
 
 ```
@@ -38,9 +38,13 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] Wats_0.1-7 knitr_1.5 
+ [1] NlsyLinks_1.302    knitr_1.5          Wats_0.1-8         devtools_1.4.1     testit_0.3         zoo_1.7-10        
+ [7] RColorBrewer_1.0-5 plyr_1.8           lubridate_1.3.2    ggplot2_0.9.3.1    colorspace_1.2-4   roxygen2_3.0.0    
 
 loaded via a namespace (and not attached):
-[1] evaluate_0.5.1 formatR_0.10   stringr_0.6.2  tools_3.1.0   
+ [1] brew_1.0-6      codetools_0.2-8 dichromat_2.0-0 digest_0.6.4    evaluate_0.5.1  formatR_0.10    grid_3.1.0     
+ [8] gtable_0.1.2    httr_0.2        labeling_0.2    lattice_0.20-24 MASS_7.3-29     memoise_0.1     munsell_0.4.2  
+[15] parallel_3.1.0  proto_0.3-10    RCurl_1.95-4.1  reshape2_1.2.2  scales_0.2.3    stringr_0.6.2   tools_3.1.0    
+[22] whisker_0.3-2  
 ```
 

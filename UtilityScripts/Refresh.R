@@ -8,6 +8,7 @@ devtools::check_doc() #Should return NULL
 devtools::run_examples(); dev.off() #This overwrites the NAMESPACE file too
 # devtools::run_examples(, "redcap_read.Rd")
 test_results <- devtools::test()
+devtools::clean_vignettes()
 devtools::build_vignettes()
 
 # system("R CMD build --resave-data .") #Then move it up one directory.
