@@ -1,0 +1,36 @@
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Figures for the MBR Manuscript}
+-->
+
+# Figures for the MBR Manuscript
+This vignette produces the graphs included in the initial MBR manuscript.
+
+```{r set_options, echo=FALSE, results='hide'}
+require(knitr)
+opts_chunk$set(
+    comment=NA, 
+    tidy=FALSE
+)
+# options(markdown.HTML.header = system.file("misc", "vignette.css", package = "knitr"))
+# options(markdown.HTML.header = system.file("misc", "vignette.css", package = "REDCapR"))
+# options(markdown.HTML.header = file.path(devtools::inst("REDCapR"), "misc", "vignette.css"))
+
+options(width=120) #So the output is 50% wider than the default.
+```
+
+## Figure 2: Rolling Linear
+Smoothed monthly birth rates (General Fertility Rates; GFRs) for Oklahoma County, 1990-1999, plotted in a linear plot.  The top plot shows the connected raw data with a February smoother; the middle plot shows smoothing with a 12-month moving average, blue/green line, superimposed on a February smoother, red line); the bottom plot shows the smoothers and confidence bands, which are H-spreads defined using the distribution of GFR's for the given month and 11 previous months.
+
+```{r project_values}
+library(Wats) #Load the package into the current R session.
+
+```
+
+## Session Info
+For the sake of documentation and reproducibility, the current vignette was build on a system using the following software.
+
+```{r session_info, echo=FALSE}
+cat("Report created by", Sys.info()["user"], "at", strftime(Sys.time(), "%c, %z"))
+sessionInfo()
+```
