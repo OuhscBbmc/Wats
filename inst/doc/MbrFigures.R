@@ -5,9 +5,11 @@ opts_chunk$set(
     comment=NA, 
     tidy=FALSE,
     fig.width=6.5, 
-    fig.height=5,
+    fig.height=1.6,
     fig.path='figure_rmd/'
 )
+
+publicationResolution <- 60
 # options(markdown.HTML.header = system.file("misc", "vignette.css", package = "knitr"))
 # options(markdown.HTML.header = system.file("misc", "vignette.css", package = "REDCapR"))
 # options(markdown.HTML.header = file.path(devtools::inst("REDCapR"), "misc", "vignette.css"))
@@ -15,7 +17,7 @@ opts_chunk$set(
 options(width=120) #So the output is 50% wider than the default.
 
 
-## ----Figure2IndividualBasic, fig.height=1.6------------------------------
+## ----Figure2IndividualBasic----------------------------------------------
 library(Wats)
 library(grid)
 library(ggplot2) 
@@ -28,12 +30,12 @@ dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 
 hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-Portfolio <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
+portfolio <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
 
-LinearRollingPlot(Portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
+LinearRollingPlot(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
 
 
-## ----Figure2IndividualStylized, fig.height=1.6---------------------------
+## ----Figure2IndividualStylized-------------------------------------------
 fig2Theme <- ggplot2::theme(
   axis.title          = element_text(color="gray60", size=9),
   axis.text.x         = element_text(color="gray80", hjust=0),
@@ -50,15 +52,15 @@ xScale <- scale_x_date(breaks=seq.Date(from=as.Date("1990-01-01"), to=as.Date("1
 yScale <- scale_y_continuous(breaks=5:7)
 yExpand <- expand_limits(y=c(5, 7))
 
-topPanel <- LinearRollingPlot(Portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate",
+topPanel <- LinearRollingPlot(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate",
                               changePointLabels="Bombing Effect", 
                               drawRollingBands=FALSE, 
                               drawRollingLine=FALSE)
-middlePanel <- LinearRollingPlot(Portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate",
+middlePanel <- LinearRollingPlot(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate",
                               changePointLabels="", 
                               drawRollingBands=FALSE, 
                               drawJaggedLine=FALSE)
-bottomPanel <- LinearRollingPlot(Portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate", 
+bottomPanel <- LinearRollingPlot(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate", 
                               changePointLabels="", 
                               drawJaggedLine=FALSE)
 topPanel <- topPanel + xScale + yScale + yExpand + fig2Theme 
@@ -70,15 +72,70 @@ middlePanel
 bottomPanel
 
 
-## ----Figure2Combined, fig.height=4.8, dpi=600----------------------------
+## ----Figure2Combined, fig.height=4.8, dpi=publicationResolution----------
 #out.height=4.8, out.width=6.5,
 vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
 grid.newpage()
 pushViewport(viewport(layout=grid.layout(3,1)))
-print(topPanel, vp=vpLayout(1,1))
-print(middlePanel, vp=vpLayout(2,1))
-print(bottomPanel, vp=vpLayout(3,1))
+print(topPanel, vp=vpLayout(1, 1))
+print(middlePanel, vp=vpLayout(2, 1))
+print(bottomPanel, vp=vpLayout(3, 1))
 popViewport()
+
+
+## ----Figure4Basic--------------------------------------------------------
+linearPeriodicSimple <- LinearPeriodicPlot(
+  portfolio$dsLinear, 
+  portfolio$dsPeriodic, 
+  xName = "Date", 
+  yName = "BirthRate",
+  stageIDName = "StageID", 
+  changePoints = changeMonth, 
+  changePointLabels = "Bombing Effect",
+  yTitle="General Fertility Rate",
+  drawBands=FALSE
+)
+linearPeriodicSimple
+
+
+## ----Figure4Stylized-----------------------------------------------------
+fig4Theme <- ggplot2::theme(
+  axis.title          = element_text(color="gray60", size=9),
+  axis.text.x         = element_text(color="gray80", hjust=0),
+  axis.text.y         = element_text(color="gray80"),
+  axis.ticks.length   = grid::unit(0, "cm"), #g <- g + theme(axis.ticks=element_blank())
+  axis.ticks.margin   = grid::unit(.00001, "cm"),
+  panel.grid.minor.y  = element_line(color="gray90", size=.1),
+  panel.grid.major    = element_line(color="gray85", size=.15),
+  panel.margin        = grid::unit(c(0, 0, 0, 0), "cm"),
+  plot.margin         = grid::unit(c(0, 0, 0, 0), "cm")
+)
+xScale <- scale_x_date(breaks=seq.Date(from=as.Date("1990-01-01"), to=as.Date("1999-01-01"), by="years"), labels=scales::date_format("%Y"))
+yScale <- scale_y_continuous(breaks=5:7)
+yExpand <- expand_limits(y=c(5, 7))
+
+linearPeriodicSimple <- linearPeriodicSimple + xScale + yScale + yExpand + fig4Theme
+linearPeriodicSimple
+
+
+## ----Figure5Basic--------------------------------------------------------
+linearPeriodic <- LinearPeriodicPlot(
+  portfolio$dsLinear, 
+  portfolio$dsPeriodic, 
+  xName = "Date", 
+  yName = "BirthRate",
+  stageIDName = "StageID", 
+  changePoints = changeMonth, 
+  changePointLabels = "Bombing Effect",
+  yTitle="General Fertility Rate",
+  drawBands=TRUE #The only difference from the simple linear graph above
+)
+linearPeriodic
+
+
+## ----Figure5Stylized-----------------------------------------------------
+linearPeriodic <- linearPeriodic + xScale + yScale + yExpand + fig4Theme
+linearPeriodic
 
 
 ## ----session_info, echo=FALSE--------------------------------------------

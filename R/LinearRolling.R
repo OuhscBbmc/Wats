@@ -5,7 +5,7 @@
 ##' 
 ##' @description Shows the interrupted time series in Cartesian coordinates without a periodic/cyclic components.
 ##' 
-##' @param dsLinear The \code{data.frame} to cotaining the data.
+##' @param dsLinear The \code{data.frame} to containing the data.
 ##' @param xName The variable name containing the date.
 ##' @param yName The variable name containing the dependent/criterion variable.
 ##' @param stageIDName The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.
