@@ -28,21 +28,31 @@ LinearPeriodicPlot <- function(dsLinear, dsPeriodic,
     
   for( stage in stages ) {
     dsStageLinear <- dsLinear[stage<=dsLinear$StageProgress & dsLinear$StageProgress<=(stage+1), ]
-    dsStagePeriodicFocus <- dsPeriodic[(stage<=dsPeriodic$StageProgress) & (dsPeriodic$StageProgress<=(stage+1)) & dsPeriodic$Focus , ]
-    dsStagePeriodicNotFocus <- dsPeriodic[(stage<=dsPeriodic$StageProgress) & (dsPeriodic$StageProgress<=(stage+1)) & !dsPeriodic$Focus, ]
-    #     print((dsStagePeriodicFocus))
-    
-    p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=periodicLowerName, ymax=periodicUpperName, y=NULL), data=dsStagePeriodicFocus, 
-#                                   fill=paletteLight[stage], 
-                                  color=NA, alpha=bandAlphaDark, na.rm=T)
-    p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=periodicLowerName, ymax=periodicUpperName, y=NULL), data=dsStagePeriodicNotFocus, 
-#                                   fill=paletteLight[stage], 
-                                  color=NA, alpha=bandAlphaLight, na.rm=T)
+#     dsStagePeriodicFocus <- dsPeriodic[(stage<=dsPeriodic$StageProgress) & (dsPeriodic$StageProgress<=(stage+1)) & dsPeriodic$Focus , ]
+#     dsStagePeriodicNotFocus <- dsPeriodic[(stage<=dsPeriodic$StageProgress) & (dsPeriodic$StageProgress<=(stage+1)) & !dsPeriodic$Focus, ]
+#     #     print((dsStagePeriodicFocus))
+#     
+#     p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=periodicLowerName, ymax=periodicUpperName, y=NULL), data=dsStagePeriodicFocus, 
+# #                                   fill=paletteLight[stage], 
+#                                   color=NA, alpha=bandAlphaDark, na.rm=T)
+#     p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=periodicLowerName, ymax=periodicUpperName, y=NULL), data=dsStagePeriodicNotFocus, 
+# #                                   fill=paletteLight[stage], 
+#                                   color=NA, alpha=bandAlphaLight, na.rm=T)
+    for( stageInner in stages ) {
+      dsStagePeriodic <- dsPeriodic[(stage<=dsPeriodic$StageProgress) & (dsPeriodic$StageProgress<=(stage+1)) & (dsPeriodic$StageIDBand==stageInner), ]
+      
+      print(stage)
+      print(stageInner)
+      print(dsStagePeriodic)
+      ribbonPalette <- ifelse(stage==stageInner, paletteDark, paletteLight)
+      p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=periodicLowerName, ymax=periodicUpperName, y=NULL), data=dsStagePeriodic, 
+                                    fill=ribbonPalette[stageInner], 
+                                    color=NA, alpha=bandAlphaDark, na.rm=T)
+      
+    }
         
     p <- p + ggplot2::geom_line(size=jaggedLineSize, color=paletteDark[stage], data=dsStageLinear)    
     p <- p + ggplot2::geom_point(shape=1, color=paletteLight[stage], data=dsStageLinear, size=jaggedPointSize)
-# , fill="StageIDTime"#     
-    
   }
   p <- p + ggplot2::scale_fill_manual(values=paletteLight)
   

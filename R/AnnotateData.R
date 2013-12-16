@@ -63,7 +63,7 @@ AnnotateData <- function( dsLinear,
   
   dsPeriodic <- merge(x=dsLinearTemp, y=dsPositionalTemp, by=c(proportionIDName), all.x=TRUE, all.y=TRUE)
   dsPeriodic <- dsPeriodic[order(dsPeriodic[, "Date"], dsPeriodic[, "StageIDTime"], dsPeriodic[, "StageIDBand"]), ]
-  dsPeriodic$Focus <- (dsPeriodic$StageIDTime == dsPeriodic$StageIDBand)
+#   dsPeriodic$Focus <- (dsPeriodic$StageIDTime == dsPeriodic$StageIDBand)
   
   return( list(dsLinear=dsLinear, dsPositional=dsPositional, dsPeriodic=dsPeriodic) )
 }
