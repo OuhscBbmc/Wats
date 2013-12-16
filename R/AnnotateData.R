@@ -68,16 +68,7 @@ AnnotateData <- function( dsLinear,
 # 
 # hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 # dsCombined <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
-# sapply(dsCombined, head, 20)
-
+# sapply(dsCombined, tail, n=10L)
+# 
 # dsLinear$DV <- dsLinear$BirthRate
-
-
-# (z <- zoo::zooreg(data=dsLinear$BirthRate, frequency=12))
-# 
-# 
-# summary(z)
-# cycle(z)
-# index(z)
-# is.regular(z)
 

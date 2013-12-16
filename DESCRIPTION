@@ -21,6 +21,7 @@ Imports:
     lubridate,
     plyr,
     RColorBrewer,
+    scales,
     testit,
     zoo
 Suggests:
