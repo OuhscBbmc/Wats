@@ -67,8 +67,26 @@ AnnotateData <- function( dsLinear,
 # 
 # 
 # hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# dsCombined <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
-# sapply(dsCombined, tail, n=10L)
+# Portfolio <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
+# #sapply(Portfolio, tail, n=10L)
+# head(Portfolio$dsLinear, 10L)
+# Portfolio$dsPositional
+# 
+# 
+# 
 # 
 # dsLinear$DV <- dsLinear$BirthRate
+# 
+# stages <- sort(unique(dsLinear$StageID))
+# stageCount <- length(stages)
+# listOfDs <- vector("list", stageCount)
+# for( i in seq_along(stages) ){
+# #   stage <- 
+#   dsStage <- dsLinear
+#   dsStage$InFocus <- (dsStage$StageID==stages[i])
+#   listOfDs[[i]] <- dsStage  
+# }
+
+# dsPeriodicStack <- data.frame(do.call(plyr::rbind.fill, listOfDs), stringsAsFactors=FALSE)
+
 

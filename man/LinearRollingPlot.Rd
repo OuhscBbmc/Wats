@@ -5,12 +5,12 @@
 LinearRollingPlot(dsLinear, xName, yName, stageIDName,
   rollingLowerName = "RollingLower", rollingCenterName = "RollingCenter",
   rollingUpperName = "RollingUpper", paletteDark = NULL,
-  paletteLight = NULL, colorPeriodic = grDevices::adjustcolor("tan1", 0.5),
+  paletteLight = NULL, colorSparse = grDevices::adjustcolor("tan1", 0.5),
   changePoints = NULL, changePointLabels = NULL, drawJaggedLine = TRUE,
   drawRollingLine = TRUE, drawRollingBands = TRUE,
-  drawPeriodicLineAndPoints = TRUE, jaggedPointSize = 2,
-  jaggedLineSize = 0.5, rollingLineSize = 1, periodicPointSize = 4,
-  periodicLineSize = 0.5, bandAlpha = 0.4, changeLineAlpha = 0.5,
+  drawSparseLineAndPoints = TRUE, jaggedPointSize = 2,
+  jaggedLineSize = 0.5, rollingLineSize = 1, sparsePointSize = 4,
+  sparseLineSize = 0.5, bandAlpha = 0.4, changeLineAlpha = 0.5,
   changeLineSize = 3, title = NULL, xTitle = NULL, yTitle = NULL)
 }
 \arguments{
@@ -47,8 +47,8 @@ LinearRollingPlot(dsLinear, xName, yName, stageIDName,
   each \code{StageID} value.  If no vector is specified, a
   default will be chosen, based on the number of stages.}
 
-  \item{colorPeriodic}{The color of the `slowest' trend
-  line, which plots only one value per cycle.}
+  \item{colorSparse}{The color of the `slowest' trend line,
+  which plots only one value per cycle.}
 
   \item{changePoints}{A vector of values indicate the
   interruptions between stages.  It typically works best as
@@ -70,9 +70,8 @@ LinearRollingPlot(dsLinear, xName, yName, stageIDName,
   estimates (whose values are take from the
   \code{rollingLowerName} and \code{rollingUpperName}.}
 
-  \item{drawPeriodicLineAndPoints}{A boolean value
-  indicating if the periodic line and points should be
-  plotted.}
+  \item{drawSparseLineAndPoints}{A boolean value indicating
+  if the sparse line and points should be plotted.}
 
   \item{jaggedPointSize}{The size of the observed data
   points.}
@@ -83,11 +82,10 @@ LinearRollingPlot(dsLinear, xName, yName, stageIDName,
   \item{rollingLineSize}{The size of the line connecting
   the rolling estimates.}
 
-  \item{periodicPointSize}{The size of the periodic
-  estimates.}
+  \item{sparsePointSize}{The size of the sparse estimates.}
 
-  \item{periodicLineSize}{The size of the line connecting
-  the periodic estimates.}
+  \item{sparseLineSize}{The size of the line connecting the
+  sparse estimates.}
 
   \item{bandAlpha}{The amount of transparency of the
   rolling estimate band.}
@@ -118,9 +116,9 @@ dsLinear$Date <- as.Date(dsLinear$Date)
 dsLinear$MonthID <- NULL
 changeMonth <- as.Date("1996-02-15")
 dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
-dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-dsCombined <- Wats::AnnotateData(
+Portfolio <- AnnotateData(
     dsLinear,
     dvName = "BirthRate",
     centerFunction = median,
@@ -128,7 +126,7 @@ dsCombined <- Wats::AnnotateData(
 )
 
 LinearRollingPlot(
-    dsCombined$dsLinear,
+    Portfolio$dsLinear,
     xName = "Date",
     yName = "BirthRate",
     stageIDName = "StageID",

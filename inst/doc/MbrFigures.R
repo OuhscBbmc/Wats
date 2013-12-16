@@ -15,7 +15,7 @@ opts_chunk$set(
 options(width=120) #So the output is 50% wider than the default.
 
 
-## ----Figure2Individual, fig.height=1.6-----------------------------------
+## ----Figure2IndividualBasic, fig.height=1.6------------------------------
 library(Wats)
 library(grid)
 library(ggplot2) 
@@ -28,11 +28,12 @@ dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 
 hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-dsCombined <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
+Portfolio <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
+
+LinearRollingPlot(Portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
 
 
-LinearRollingPlot(dsCombined$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
-
+## ----Figure2IndividualStylized, fig.height=1.6---------------------------
 fig2Theme <- ggplot2::theme(
   axis.title          = element_text(color="gray60", size=9),
   axis.text.x         = element_text(color="gray80", hjust=0),
@@ -44,24 +45,25 @@ fig2Theme <- ggplot2::theme(
   panel.margin        = grid::unit(c(0, 0, 0, 0), "cm"),
   plot.margin         = grid::unit(c(0, 0, 0, 0), "cm")
 )
-xScaleBlank <- scale_x_date(breaks=seq.Date(from=as.Date("1990-01-01"), to=as.Date("1999-01-01"), by="years"), labels = NULL)
-xScale <- scale_x_date(breaks=seq.Date(from=as.Date("1990-01-01"), to=as.Date("1999-01-01"), by="years"), labels = scales::date_format("%Y"))
+xScaleBlank <- scale_x_date(breaks=seq.Date(from=as.Date("1990-01-01"), to=as.Date("1999-01-01"), by="years"), labels=NULL)
+xScale <- scale_x_date(breaks=seq.Date(from=as.Date("1990-01-01"), to=as.Date("1999-01-01"), by="years"), labels=scales::date_format("%Y"))
 yScale <- scale_y_continuous(breaks=5:7)
+yExpand <- expand_limits(y=c(5, 7))
 
-topPanel <- LinearRollingPlot(dsCombined$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate",
+topPanel <- LinearRollingPlot(Portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate",
                               changePointLabels="Bombing Effect", 
                               drawRollingBands=FALSE, 
                               drawRollingLine=FALSE)
-middlePanel <- LinearRollingPlot(dsCombined$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate",
+middlePanel <- LinearRollingPlot(Portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate",
                               changePointLabels="", 
                               drawRollingBands=FALSE, 
                               drawJaggedLine=FALSE)
-bottomPanel <- LinearRollingPlot(dsCombined$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate", 
+bottomPanel <- LinearRollingPlot(Portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate", 
                               changePointLabels="", 
                               drawJaggedLine=FALSE)
-topPanel <- topPanel + xScale + yScale + fig2Theme 
-middlePanel <- middlePanel + xScale + yScale + fig2Theme
-bottomPanel <- bottomPanel + xScaleBlank + yScale + fig2Theme
+topPanel <- topPanel + xScale + yScale + yExpand + fig2Theme 
+middlePanel <- middlePanel + xScale + yScale + yExpand + fig2Theme
+bottomPanel <- bottomPanel + xScaleBlank + yScale + yExpand + fig2Theme
 
 topPanel
 middlePanel

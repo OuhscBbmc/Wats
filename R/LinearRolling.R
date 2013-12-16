@@ -14,19 +14,19 @@
 ##' @param rollingUpperName The variable name showing the upper bound of the rolling estimate.
 ##' @param paletteDark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.
 ##' @param paletteLight A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.
-##' @param colorPeriodic The color of the `slowest' trend line, which plots only one value per cycle. 
+##' @param colorSparse The color of the `slowest' trend line, which plots only one value per cycle. 
 ##' @param changePoints A vector of values indicate the interruptions between stages.  It typically works best as a \code{Date} or a \code{POSIXct} class.
 ##' @param changePointLabels The text plotted above each interruption.
 ##' @param drawJaggedLine A boolean value indicating if a line should be plotted that connects the observed data points.
 ##' @param drawRollingLine A boolean value indicating if a line should be plotted that connects the rolling estimates specified by \code{rollingCenterName}.
 ##' @param drawRollingBands A boolean value indicating if a band should be plotted that envelopes the rolling estimates (whose values are take from the \code{rollingLowerName} and \code{rollingUpperName}.
-##' @param drawPeriodicLineAndPoints A boolean value indicating if the periodic line and points should be plotted.
+##' @param drawSparseLineAndPoints A boolean value indicating if the sparse line and points should be plotted.
 ##' 
 ##' @param jaggedPointSize The size of the observed data points.
 ##' @param jaggedLineSize The size of the line connecting the observed data points.
 ##' @param rollingLineSize The size of the line connecting the rolling estimates.
-##' @param periodicPointSize The size of the periodic estimates.
-##' @param periodicLineSize The size of the line connecting the periodic estimates.
+##' @param sparsePointSize The size of the sparse estimates.
+##' @param sparseLineSize The size of the line connecting the sparse estimates.
 ##' 
 ##' @param bandAlpha The amount of transparency of the rolling estimate band.
 ##' @param changeLineAlpha The amount of transparency marking each interruption.
@@ -45,9 +45,9 @@
 ##' dsLinear$MonthID <- NULL
 ##' changeMonth <- as.Date("1996-02-15")
 ##' dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
-##' dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+##' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 ##' hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-##' dsCombined <- Wats::AnnotateData(
+##' Portfolio <- AnnotateData(
 ##'     dsLinear, 
 ##'     dvName = "BirthRate",
 ##'     centerFunction = median, 
@@ -55,7 +55,7 @@
 ##' )
 ##' 
 ##' LinearRollingPlot(
-##'     dsCombined$dsLinear,
+##'     Portfolio$dsLinear,
 ##'     xName = "Date", 
 ##'     yName = "BirthRate",
 ##'     stageIDName = "StageID", 
@@ -64,10 +64,10 @@
 
 LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName, 
                               rollingLowerName="RollingLower", rollingCenterName="RollingCenter", rollingUpperName="RollingUpper",
-                              paletteDark=NULL, paletteLight=NULL, colorPeriodic=grDevices::adjustcolor("tan1", .5),
+                              paletteDark=NULL, paletteLight=NULL, colorSparse=grDevices::adjustcolor("tan1", .5),
                               changePoints=NULL, changePointLabels=NULL,
-                              drawJaggedLine=TRUE, drawRollingLine=TRUE, drawRollingBands=TRUE, drawPeriodicLineAndPoints=TRUE, 
-                              jaggedPointSize=2, jaggedLineSize=.5, rollingLineSize=1, periodicPointSize=4, periodicLineSize=.5,
+                              drawJaggedLine=TRUE, drawRollingLine=TRUE, drawRollingBands=TRUE, drawSparseLineAndPoints=TRUE, 
+                              jaggedPointSize=2, jaggedLineSize=.5, rollingLineSize=1, sparsePointSize=4, sparseLineSize=.5,
                               bandAlpha=.4, changeLineAlpha=.5, changeLineSize=3,
                               title=NULL, xTitle=NULL, yTitle=NULL ) {
   
@@ -102,9 +102,9 @@ LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName,
     p <- p + ggplot2::geom_point(shape=1, color=paletteLight[stage], data=dsStage, size=jaggedPointSize)
   }
   
-  if( drawPeriodicLineAndPoints ) {
-    p <- p + ggplot2::geom_line(data=dsLinear[dsLinear$TerminalPointInCycle,], ggplot2::aes_string(y=rollingCenterName), size=periodicLineSize, color=colorPeriodic)
-    p <- p + ggplot2::geom_point(data=dsLinear[dsLinear$TerminalPointInCycle,], ggplot2::aes_string(y=rollingCenterName), size=periodicPointSize, shape=3, color=colorPeriodic)
+  if( drawSparseLineAndPoints ) {
+    p <- p + ggplot2::geom_line(data=dsLinear[dsLinear$TerminalPointInCycle,], ggplot2::aes_string(y=rollingCenterName), size=sparseLineSize, color=colorSparse)
+    p <- p + ggplot2::geom_point(data=dsLinear[dsLinear$TerminalPointInCycle,], ggplot2::aes_string(y=rollingCenterName), size=sparsePointSize, shape=3, color=colorSparse)
   }  
   
   if( !is.null(changePoints) ) {
