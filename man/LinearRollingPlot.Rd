@@ -5,13 +5,13 @@
 LinearRollingPlot(dsLinear, xName, yName, stageIDName,
   rollingLowerName = "RollingLower", rollingCenterName = "RollingCenter",
   rollingUpperName = "RollingUpper", paletteDark = NULL,
-  paletteLight = NULL, colorPeriodic = "brown", changePoints = NULL,
-  changePointLabels = NULL, drawJaggedLine = TRUE, drawRollingLine = TRUE,
-  drawRollingBands = TRUE, drawPeriodicLineAndPoints = TRUE,
-  jaggedPointSize = 4, jaggedLineSize = 0.5, rollingLineSize = 1,
-  periodicPointSize = 4, periodicLineSize = 0.5, bandAlpha = 0.3,
-  changeLineAlpha = 0.5, changeLineSize = 5, title = NULL,
-  xTitle = NULL, yTitle = NULL)
+  paletteLight = NULL, colorPeriodic = grDevices::adjustcolor("tan1", 0.5),
+  changePoints = NULL, changePointLabels = NULL, drawJaggedLine = TRUE,
+  drawRollingLine = TRUE, drawRollingBands = TRUE,
+  drawPeriodicLineAndPoints = TRUE, jaggedPointSize = 2,
+  jaggedLineSize = 0.5, rollingLineSize = 1, periodicPointSize = 4,
+  periodicLineSize = 0.5, bandAlpha = 0.4, changeLineAlpha = 0.5,
+  changeLineSize = 3, title = NULL, xTitle = NULL, yTitle = NULL)
 }
 \arguments{
   \item{dsLinear}{The \code{data.frame} to cotaining the
@@ -117,7 +117,7 @@ dsLinear <- read.table(filePathOutcomes, header=TRUE, sep="\\t", stringsAsFactor
 dsLinear$Date <- as.Date(dsLinear$Date)
 dsLinear$MonthID <- NULL
 changeMonth <- as.Date("1996-02-15")
-dsLinear$StageID <- ifelse(dsLinear$Date < as.Date("1996-02-15"), 1L, 2L)
+dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
 dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 dsCombined <- Wats::AnnotateData(
@@ -132,7 +132,7 @@ LinearRollingPlot(
     xName = "Date",
     yName = "BirthRate",
     stageIDName = "StageID",
-    changePoints = as.Date("1996-02-15"),
+    changePoints = changeMonth,
     changePointLabels = "Bombing Effect")
 }
 \keyword{linear}

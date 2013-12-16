@@ -44,7 +44,7 @@
 ##' dsLinear$Date <- as.Date(dsLinear$Date) 
 ##' dsLinear$MonthID <- NULL
 ##' changeMonth <- as.Date("1996-02-15")
-##' dsLinear$StageID <- ifelse(dsLinear$Date < as.Date("1996-02-15"), 1L, 2L)
+##' dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
 ##' dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 ##' hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 ##' dsCombined <- Wats::AnnotateData(
@@ -59,16 +59,16 @@
 ##'     xName = "Date", 
 ##'     yName = "BirthRate",
 ##'     stageIDName = "StageID", 
-##'     changePoints = as.Date("1996-02-15"), 
+##'     changePoints = changeMonth, 
 ##'     changePointLabels = "Bombing Effect")
 ##' 
 LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName, 
                               rollingLowerName="RollingLower", rollingCenterName="RollingCenter", rollingUpperName="RollingUpper",
-                              paletteDark=NULL, paletteLight=NULL, colorPeriodic="brown",
+                              paletteDark=NULL, paletteLight=NULL, colorPeriodic=grDevices::adjustcolor("tan1", .5),
                               changePoints=NULL, changePointLabels=NULL,
                               drawJaggedLine=TRUE, drawRollingLine=TRUE, drawRollingBands=TRUE, drawPeriodicLineAndPoints=TRUE, 
-                              jaggedPointSize=4, jaggedLineSize=.5, rollingLineSize=1, periodicPointSize=4, periodicLineSize=.5,
-                              bandAlpha=.3, changeLineAlpha=.5, changeLineSize=5,
+                              jaggedPointSize=2, jaggedLineSize=.5, rollingLineSize=1, periodicPointSize=4, periodicLineSize=.5,
+                              bandAlpha=.4, changeLineAlpha=.5, changeLineSize=3,
                               title=NULL, xTitle=NULL, yTitle=NULL ) {
   
   stages <- sort(unique(dsLinear[, stageIDName]))
@@ -92,11 +92,11 @@ LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName,
   for( stage in stages) {
     dsStage <- dsLinear[stage<=dsLinear$StageProgress & dsLinear$StageProgress<=(stage+1),]
     if( drawJaggedLine )
-      p <- p + ggplot2::geom_line(size=jaggedLineSize, color=paletteLight[stage], data=dsStage)
+      p <- p + ggplot2::geom_line(size=jaggedLineSize, color=paletteDark[stage], data=dsStage)
     if( drawRollingLine )
       p <- p + ggplot2::geom_line(ggplot2::aes_string(y=rollingCenterName), data=dsStage, size=rollingLineSize, color=paletteLight[stage], na.rm=T)
     if( drawRollingBands )
-      p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rollingLowerName, ymax=rollingUpperName), data=dsStage, fill=paletteLight[stage], color=NA, alpha=bandAlpha)
+      p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rollingLowerName, ymax=rollingUpperName), data=dsStage, fill=paletteLight[stage], color=NA, alpha=bandAlpha, na.rm=T)
     
     p <- p + ggplot2::geom_point(shape=1, color=paletteLight[stage], data=dsStage, size=jaggedPointSize)
   }
@@ -109,7 +109,7 @@ LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName,
   if( !is.null(changePoints) ) {
     for( i in seq_along(changePoints) )  {
       p <- p + ggplot2::geom_vline(x=as.integer(changePoints[i]), color=paletteLight[i+1], alpha=changeLineAlpha, size=changeLineSize)
-      p <- p + ggplot2::annotate("text", x=changePoints[i], y=max(dsLinear[, yName]), color=paletteDark[i+1], label=changePointLabels[i])
+      p <- p + ggplot2::annotate("text", x=changePoints[i], y=Inf, vjust=1.1, color=paletteLight[i+1], label=changePointLabels[i])
     }
   }
 
@@ -119,20 +119,3 @@ LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName,
   
   return( p )
 }
-
-
-# dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
-# dsLinear$Date <- as.Date(dsLinear$Date) 
-# dsLinear$MonthID <- NULL
-# changeMonth <- as.Date("1996-02-15")
-# dsLinear$StageID <- ifelse(dsLinear$Date < as.Date("1996-02-15"), 1L, 2L)
-# dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
-# 
-# hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# dsCombined <- Wats::AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
-# # sapply(dsCombined, head, 20)
-# 
-# LinearRollingPlot(dsCombined$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", 
-#                   changePoints=as.Date("1996-02-15"), changePointLabels="Bombing Effect")
-# 
-# 
