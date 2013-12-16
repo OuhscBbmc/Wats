@@ -1,9 +1,10 @@
-LinearPeriodicPlot <- function(dsLinear, xName, yName, stageIDName, 
-                              periodicLowerName="RollingLower", periodicUpperName="RollingUpper",
+LinearPeriodicPlot <- function(dsLinear, dsPeriodic,
+                               xName, yName, stageIDName, 
+                              periodicLowerName="PositionLower", periodicUpperName="PositionUpper",
                               paletteDark=NULL, paletteLight=NULL, colorPeriodic=grDevices::adjustcolor("tan1", .5),
                               changePoints=NULL, changePointLabels=NULL,
                               jaggedPointSize=2, jaggedLineSize=.5, 
-                              bandAlphaDark=.4, bandAlphaLight=.4, 
+                              bandAlphaDark=.4, bandAlphaLight=.2, 
                               changeLineAlpha=.5, changeLineSize=3,
                               title=NULL, xTitle=NULL, yTitle=NULL ) {
   
@@ -14,7 +15,7 @@ LinearPeriodicPlot <- function(dsLinear, xName, yName, stageIDName,
   if( !is.null(paletteDark) ) testit::assert("The number of `paletteDark` colors should equal the number of unique `StageID` values.", stageCount==length(paletteDark))
   if( !is.null(paletteLight) ) testit::assert("The number of `paletteLight` colors should equal the number of unique `StageID` values.", stageCount==length(paletteLight))
   
-  p <- ggplot2::ggplot(dsLinear, ggplot2::aes_string(x=xName, y=yName, color=stageIDName))
+  p <- ggplot2::ggplot(dsLinear, ggplot2::aes_string(x=xName, y=yName))
   
   if( is.null(paletteDark) ) {
     if( length(stages) <= 4L) paletteDark <- RColorBrewer::brewer.pal(n=10, name="Paired")[c(2,4,6,8)] #There's not a risk of defining more colors than levels
@@ -25,16 +26,28 @@ LinearPeriodicPlot <- function(dsLinear, xName, yName, stageIDName,
     else paletteLight <- colorspace::rainbow_hcl(n=length(stages), l=70)
   }  
     
-  for( stage in stages) {
-    dsStage <- dsLinear[stage<=dsLinear$StageProgress & dsLinear$StageProgress<=(stage+1), ]
+  for( stage in stages ) {
+    dsStageLinear <- dsLinear[stage<=dsLinear$StageProgress & dsLinear$StageProgress<=(stage+1), ]
+    dsStagePeriodicFocus <- dsPeriodic[(stage<=dsPeriodic$StageProgress) & (dsPeriodic$StageProgress<=(stage+1)) & dsPeriodic$Focus , ]
+    dsStagePeriodicNotFocus <- dsPeriodic[(stage<=dsPeriodic$StageProgress) & (dsPeriodic$StageProgress<=(stage+1)) & !dsPeriodic$Focus, ]
+    #     print((dsStagePeriodicFocus))
     
-    p <- p + ggplot2::geom_line(size=jaggedLineSize, color=paletteDark[stage], data=dsStage)
+    p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=periodicLowerName, ymax=periodicUpperName, y=NULL), data=dsStagePeriodicFocus, 
+#                                   fill=paletteLight[stage], 
+                                  color=NA, alpha=bandAlphaDark, na.rm=T)
+    p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=periodicLowerName, ymax=periodicUpperName, y=NULL), data=dsStagePeriodicNotFocus, 
+#                                   fill=paletteLight[stage], 
+                                  color=NA, alpha=bandAlphaLight, na.rm=T)
+        
+    p <- p + ggplot2::geom_line(size=jaggedLineSize, color=paletteDark[stage], data=dsStageLinear)    
+    p <- p + ggplot2::geom_point(shape=1, color=paletteLight[stage], data=dsStageLinear, size=jaggedPointSize)
+# , fill="StageIDTime"#     
     
-    p <- p + ggplot2::geom_point(shape=1, color=paletteLight[stage], data=dsStage, size=jaggedPointSize)
   }
+  p <- p + ggplot2::scale_fill_manual(values=paletteLight)
   
   #Remove this line:
-  p <- p + ggplot2::geom_point(shape=1, color=paletteLight[stage], data=dsStage, size=jaggedPointSize)
+#   p <- p + ggplot2::geom_point(shape=1, color=paletteLight[stage], data=dsStage, size=jaggedPointSize)
   
   
 
@@ -58,10 +71,10 @@ LinearPeriodicPlot <- function(dsLinear, xName, yName, stageIDName,
 # dsLinear$MonthID <- NULL
 # changeMonth <- as.Date("1996-02-15")
 # dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
-# dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+# dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 # 
 # hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+# portfolio <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 # 
-# LinearPeriodicPlot(portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
+# LinearPeriodicPlot(portfolio$dsLinear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
 
