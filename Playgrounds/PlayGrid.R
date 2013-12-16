@@ -6,12 +6,14 @@ require(plyr)
 require(MASS) #For rlm
 require(lubridate)
 require(gridBase)
-path <- "./Datasets/BirthRatesOkc.csv"
+filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
 pathDirectoryOutput <- "./PublicationGraphs"
 
 #path <- "F:/Projects/RDev/WatsStaging/Datasets/BirthRatesRogers.csv"
 #path <- "F:/Projects/RDev/WatsStaging/Datasets/BirthRatesTulsa.csv"
-dsLinear <- read.csv(path, colClasses=c("Date", "integer", "numeric"))
+dsLinear <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
+dsLinear$Date <- as.Date(dsLinear$Date) 
+dsLinear$MonthID <- NULL
 summary(dsLinear)
 sapply(dsLinear, class)
 ticksPerCycle <- 365
@@ -89,12 +91,9 @@ smoothedLinear <- hcl(h=40, c=150, l=45)
 lineColors <- c(rep(colorBefore, times=changePoint), rep(colorAfter, times=monthCount-changePoint))
 transparencyFocus <- .5
 transparencyBackground <- .3
-FadeColor <- function( color, transparency ) {
-  rgb <- col2rgb(color) / 255 #break it into components and rescale
-  color <- rgb(red=rgb[1], green=rgb[2], blue=rgb[3], alpha=transparency)
-}
-bandColorBefore <- c(FadeColor(colorBefore, transparencyFocus), FadeColor(colorBefore, transparencyBackground))
-bandColorAfter <- c(FadeColor(colorAfter, transparencyBackground), FadeColor(colorAfter, transparencyFocus))
+
+bandColorBefore <- c(adjustcolor(colorBefore, transparencyFocus), adjustcolor(colorBefore, transparencyBackground))
+bandColorAfter <- c(adjustcolor(colorAfter, transparencyBackground), adjustcolor(colorAfter, transparencyFocus))
 # c1 <- c("orange", "blue")
 c1 <- c(colorBefore, colorAfter)
 c2 <- adjustcolor(c1, alpha.f=.5)

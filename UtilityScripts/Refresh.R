@@ -6,7 +6,7 @@ devtools::check_doc() #Should return NULL
 #  system("R CMD Rd2pdf --force --output=./WatsDocumentationPeek.pdf ." )
 
 devtools::run_examples(); dev.off() #This overwrites the NAMESPACE file too
-# devtools::run_examples(, "redcap_read.Rd")
+# devtools::run_examples(, "LinearRollingPlot.Rd")
 test_results <- devtools::test()
 devtools::clean_vignettes()
 devtools::build_vignettes()

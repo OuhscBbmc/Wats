@@ -61,7 +61,7 @@
 ##'     stageIDName = "StageID", 
 ##'     changePoints = changeMonth, 
 ##'     changePointLabels = "Bombing Effect")
-##' 
+
 LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName, 
                               rollingLowerName="RollingLower", rollingCenterName="RollingCenter", rollingUpperName="RollingUpper",
                               paletteDark=NULL, paletteLight=NULL, colorPeriodic=grDevices::adjustcolor("tan1", .5),
@@ -90,7 +90,8 @@ LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName,
   }  
     
   for( stage in stages) {
-    dsStage <- dsLinear[stage<=dsLinear$StageProgress & dsLinear$StageProgress<=(stage+1),]
+    dsStage <- dsLinear[stage<=dsLinear$StageProgress & dsLinear$StageProgress<=(stage+1), ]
+    
     if( drawJaggedLine )
       p <- p + ggplot2::geom_line(size=jaggedLineSize, color=paletteDark[stage], data=dsStage)
     if( drawRollingLine )
