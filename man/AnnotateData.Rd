@@ -4,6 +4,7 @@
 \usage{
 AnnotateData(dsLinear, dvName, centerFunction, spreadFunction,
   cycleTallyName = "CycleTally", stageIDName = "StageID",
+  stageProgressName = "StageProgress",
   proportionThroughCycleName = "ProportionThroughCycle",
   proportionIDName = "ProportionID",
   terminalPointInCycleName = "TerminalPointInCycle")
@@ -27,6 +28,10 @@ AnnotateData(dsLinear, dvName, centerFunction, spreadFunction,
   \item{stageIDName}{The variable name indicating the
   stage. In a typical interrupted time series, these values
   are \code{1} before the interruption and \code{2} after.}
+
+  \item{stageProgressName}{The variable name indicating the
+  stage in a decimal form.  This is mostly for internal
+  uses.}
 
   \item{proportionThroughCycleName}{The variable name
   indicating how far the point is through a cycle.  For

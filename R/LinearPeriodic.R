@@ -61,7 +61,7 @@ LinearPeriodicPlot <- function(dsLinear, xName, yName, stageIDName,
 # dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 # 
 # hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# Portfolio <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
+# portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 # 
-# LinearPeriodicPlot(Portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
+# LinearPeriodicPlot(portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
 

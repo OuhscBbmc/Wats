@@ -11,6 +11,7 @@
 ##' @param spreadFunction A function to calculate the bands of a subsample.
 ##' @param cycleTallyName The variable name indicating how many cycles have been completed.
 ##' @param stageIDName The variable name indicating the stage. In a typical interrupted time series, these values are \code{1} before the interruption and \code{2} after.
+##' @param stageProgressName The variable name indicating the stage in a decimal form.  This is mostly for internal uses.
 ##' @param proportionThroughCycleName The variable name indicating how far the point is through a cycle.  For example, 0 degrees would be \code{0}, 180 degrees would be \code{0.5}, 359 degrees would be \code{0.9972}, and 360 degrees would be \code{0}.
 ##' @param proportionIDName The variable name indicating the ordinal position through a cycle.  
 ##' @param terminalPointInCycleName The variable name indicating the last point within a given cycle.
@@ -24,6 +25,7 @@ AnnotateData <- function( dsLinear,
                           spreadFunction,
                           cycleTallyName="CycleTally", 
                           stageIDName="StageID", 
+                          stageProgressName="StageProgress",
                           proportionThroughCycleName="ProportionThroughCycle",
                           proportionIDName="ProportionID",
                           terminalPointInCycleName="TerminalPointInCycle" ) {
@@ -51,15 +53,15 @@ AnnotateData <- function( dsLinear,
       PositionUpper=positionBounds[2]
     )
   }
-  dsPositional <- plyr::ddply(dsLinear, .variables=c("StageID", "ProportionID"), .fun=summarizePosition)
+  dsPositional <- plyr::ddply(dsLinear, .variables=c(stageIDName, proportionIDName), .fun=summarizePosition)
   
-  dsLinearTemp <- dsLinear[, c("Date", "StageID", "ProportionID", "StageProgress")]
-  colnames(dsLinearTemp)[colnames(dsLinearTemp)=="StageID"] <- "StageIDTime"
+  dsLinearTemp <- dsLinear[, c("Date", stageIDName, proportionIDName, stageProgressName)]
+  colnames(dsLinearTemp)[colnames(dsLinearTemp)==stageIDName] <- "StageIDTime" #Make sure `StageIDTime` matches the two calls below.
   
   dsPositionalTemp <- dsPositional
-  colnames(dsPositionalTemp)[colnames(dsPositionalTemp)=="StageID"] <- "StageIDBand"
+  colnames(dsPositionalTemp)[colnames(dsPositionalTemp)==stageIDName] <- "StageIDBand" #Make sure `StageIDBand` matches the calls below.
   
-  dsPeriodic <- merge(x=dsLinearTemp, y=dsPositionalTemp, by=c("ProportionID"), all.x=TRUE, all.y=TRUE)
+  dsPeriodic <- merge(x=dsLinearTemp, y=dsPositionalTemp, by=c(proportionIDName), all.x=TRUE, all.y=TRUE)
   dsPeriodic <- dsPeriodic[order(dsPeriodic[, "Date"], dsPeriodic[, "StageIDTime"], dsPeriodic[, "StageIDBand"]), ]
   dsPeriodic$Focus <- (dsPeriodic$StageIDTime == dsPeriodic$StageIDBand)
   
@@ -75,7 +77,9 @@ AnnotateData <- function( dsLinear,
 # 
 # 
 # hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# Portfolio <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
+# portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+
+
 # sapply(Portfolio, tail, n=10L)
 # head(Portfolio$dsLinear, 10L)
 # Portfolio$dsPositional
