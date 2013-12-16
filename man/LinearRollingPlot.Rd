@@ -112,7 +112,28 @@ Shows the interrupted time series in Cartesian coordinates
 without a periodic/cyclic components.
 }
 \examples{
-a <- 32+323
+filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
+dsLinear <- read.table(filePathOutcomes, header=TRUE, sep="\\t", stringsAsFactors=FALSE)
+dsLinear$Date <- as.Date(dsLinear$Date)
+dsLinear$MonthID <- NULL
+changeMonth <- as.Date("1996-02-15")
+dsLinear$StageID <- ifelse(dsLinear$Date < as.Date("1996-02-15"), 1L, 2L)
+dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+dsCombined <- Wats::AnnotateData(
+    dsLinear,
+    dvName = "BirthRate",
+    centerFunction = median,
+    spreadFunction = hSpread
+)
+
+LinearRollingPlot(
+    dsCombined$dsLinear,
+    xName = "Date",
+    yName = "BirthRate",
+    stageIDName = "StageID",
+    changePoints = as.Date("1996-02-15"),
+    changePointLabels = "Bombing Effect")
 }
 \keyword{linear}
 

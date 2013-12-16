@@ -39,7 +39,28 @@
 ##' @return Returns a \code{ggplot2} graphing object
 ##' @keywords linear
 ##' @examples
-##' a <- 32+323
+##' filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
+##' dsLinear <- read.table(filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=FALSE)
+##' dsLinear$Date <- as.Date(dsLinear$Date) 
+##' dsLinear$MonthID <- NULL
+##' changeMonth <- as.Date("1996-02-15")
+##' dsLinear$StageID <- ifelse(dsLinear$Date < as.Date("1996-02-15"), 1L, 2L)
+##' dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+##' hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+##' dsCombined <- Wats::AnnotateData(
+##'     dsLinear, 
+##'     dvName = "BirthRate",
+##'     centerFunction = median, 
+##'     spreadFunction = hSpread
+##' )
+##' 
+##' LinearRollingPlot(
+##'     dsCombined$dsLinear,
+##'     xName = "Date", 
+##'     yName = "BirthRate",
+##'     stageIDName = "StageID", 
+##'     changePoints = as.Date("1996-02-15"), 
+##'     changePointLabels = "Bombing Effect")
 ##' 
 LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName, 
                               rollingLowerName="RollingLower", rollingCenterName="RollingCenter", rollingUpperName="RollingUpper",
@@ -51,6 +72,12 @@ LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName,
                               title=NULL, xTitle=NULL, yTitle=NULL ) {
   
   stages <- sort(unique(dsLinear[, stageIDName]))
+  stageCount <- length(stages)
+  testit::assert("The number of unique `StageID` values should be 1 greater than the number of `changePoints`.", stageCount==1+length(changePoints))
+  if( !is.null(changePoints) ) testit::assert("The number of `changePoints` should equal the number of `changeLabels`.", length(changePoints)==length(changePointLabels))
+  if( !is.null(paletteDark) ) testit::assert("The number of `paletteDark` colors should equal the number of unique `StageID` values.", stageCount==length(paletteDark))
+  if( !is.null(paletteLight) ) testit::assert("The number of `paletteLight` colors should equal the number of unique `StageID` values.", stageCount==length(paletteLight))
+  
   p <- ggplot2::ggplot(dsLinear, ggplot2::aes_string(x=xName, y=yName, color=stageIDName))
   
   if( is.null(paletteDark) ) {
@@ -93,7 +120,7 @@ LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName,
   return( p )
 }
 
-# 
+
 # dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
 # dsLinear$Date <- as.Date(dsLinear$Date) 
 # dsLinear$MonthID <- NULL
@@ -107,24 +134,5 @@ LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName,
 # 
 # LinearRollingPlot(dsCombined$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", 
 #                   changePoints=as.Date("1996-02-15"), changePointLabels="Bombing Effect")
-
-
-
-
-# # LinearPlot(dsBirthRate, "Date", "BirthRate", "StageID")
 # 
-# # p <- ggplot(ds, aes(x=Date, y=BirthRate, color=StageID))
-# # p <- p + geom_line(data=dsFebruary, aes(y=Rolling), size=1, color=smoothedLinear)
-# # p <- p + geom_point(data=dsFebruary, aes(y=Rolling), size=4, shape=3, color=smoothedLinear)
-# # 
-# # p <- p + geom_ribbon(data=dsStage1, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorBefore[2], color=NA )
-# # p <- p + geom_ribbon(data=dsStage2, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorAfter[2], color=NA )
-# # p <- p + geom_point(shape=1)
-# # p <- p + geom_line(size=1)
-# # p <- p + geom_line(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling), size=2)
-# # p <- p + scale_color_continuous(low=colorBefore, high=colorAfter, guide=FALSE)
-# # p <- p + geom_vline(x=as.integer(changeMonth), color=colorAfter)
-# # p <- p + annotate("text", x=changeMonth, y=max(ds$BirthRate), color=colorAfter, label="Bombing Effect")
-# # p <- p + theme_minimal()
-# # p <- p + labs(x="", y="General Fertility Rate")
-# # p
+# 
