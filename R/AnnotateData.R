@@ -30,8 +30,8 @@ AnnotateData <- function( dsLinear,
   
   pointsInCycle <- max(dsLinear[, proportionIDName])
   testit::assert("The should be at least one point in a cycle", max(pointsInCycle)>=1)
-  dsLinear$DV <- dsLinear[, dvName]
-  z <- zoo::zooreg(data=dsLinear$DV, frequency=pointsInCycle)
+  
+  z <- zoo::zooreg(data=dsLinear[, dvName], frequency=pointsInCycle)
   rollingBounds <- zoo::rollapply(data=z, width=pointsInCycle, FUN=spreadFunction)
   
   dsLinear$RollingLower <- NA
@@ -43,19 +43,27 @@ AnnotateData <- function( dsLinear,
   
   
   summarizePosition <- function( df ) {
-    positionBounds <- spreadFunction(df$DV)
+    positionBounds <- spreadFunction(df[, dvName])
     #   print(positionBounds)
     data.frame(    
       PositionLower=positionBounds[1],
-      PositionCenter=median(df$DV),
+      PositionCenter=median(df[, dvName]),
       PositionUpper=positionBounds[2]
     )
   }
   dsPositional <- plyr::ddply(dsLinear, .variables=c("StageID", "ProportionID"), .fun=summarizePosition)
   
+  dsLinearTemp <- dsLinear[, c("Date", "StageID", "ProportionID", "StageProgress")]
+  colnames(dsLinearTemp)[colnames(dsLinearTemp)=="StageID"] <- "StageIDTime"
   
-  dsLinear$DV <- NULL
-  return( list(dsLinear=dsLinear, dsPositional=dsPositional) )
+  dsPositionalTemp <- dsPositional
+  colnames(dsPositionalTemp)[colnames(dsPositionalTemp)=="StageID"] <- "StageIDBand"
+  
+  dsPeriodic <- merge(x=dsLinearTemp, y=dsPositionalTemp, by=c("ProportionID"), all.x=TRUE, all.y=TRUE)
+  dsPeriodic <- dsPeriodic[order(dsPeriodic[, "Date"], dsPeriodic[, "StageIDTime"], dsPeriodic[, "StageIDBand"]), ]
+  dsPeriodic$Focus <- (dsPeriodic$StageIDTime == dsPeriodic$StageIDBand)
+  
+  return( list(dsLinear=dsLinear, dsPositional=dsPositional, dsPeriodic=dsPeriodic) )
 }
 
 # dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
@@ -68,13 +76,22 @@ AnnotateData <- function( dsLinear,
 # 
 # hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 # Portfolio <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
-# #sapply(Portfolio, tail, n=10L)
+# sapply(Portfolio, tail, n=10L)
 # head(Portfolio$dsLinear, 10L)
 # Portfolio$dsPositional
 # 
+# dsLinearTemp <- Portfolio$dsLinear[, c("Date", "StageID", "ProportionID", "StageProgress")]
+# colnames(dsLinearTemp)[colnames(dsLinearTemp)=="StageID"] <- "StageIDTime"
 # 
+# dsPositionalTemp <- Portfolio$dsPositional
+# colnames(dsPositionalTemp)[colnames(dsPositionalTemp)=="StageID"] <- "StageIDBand"
 # 
-# 
+# dsJ <- merge(x=dsLinearTemp, y=dsPositionalTemp, by=c("ProportionID"), all.x=TRUE, all.y=TRUE)
+# dsJ <- dsJ[order(dsJ[, "Date"], dsJ[, "StageIDTime"], dsJ[, "StageIDBand"]), ]
+# dsJ$Focus <- (dsJ$StageIDTime == dsJ$StageIDBand)
+
+
+
 # dsLinear$DV <- dsLinear$BirthRate
 # 
 # stages <- sort(unique(dsLinear$StageID))

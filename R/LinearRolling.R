@@ -39,6 +39,7 @@
 ##' @return Returns a \code{ggplot2} graphing object
 ##' @keywords linear
 ##' @examples
+##' require(Wats) #Load the package
 ##' filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
 ##' dsLinear <- read.table(filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=FALSE)
 ##' dsLinear$Date <- as.Date(dsLinear$Date) 
@@ -46,8 +47,8 @@
 ##' changeMonth <- as.Date("1996-02-15")
 ##' dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
 ##' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
-##' hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-##' Portfolio <- AnnotateData(
+##' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+##' portfolio <- AnnotateData(
 ##'     dsLinear, 
 ##'     dvName = "BirthRate",
 ##'     centerFunction = median, 
@@ -55,12 +56,13 @@
 ##' )
 ##' 
 ##' LinearRollingPlot(
-##'     Portfolio$dsLinear,
+##'     portfolio$dsLinear,
 ##'     xName = "Date", 
 ##'     yName = "BirthRate",
 ##'     stageIDName = "StageID", 
 ##'     changePoints = changeMonth, 
-##'     changePointLabels = "Bombing Effect")
+##'     changePointLabels = "Bombing Effect"
+##' )
 
 LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName, 
                               rollingLowerName="RollingLower", rollingCenterName="RollingCenter", rollingUpperName="RollingUpper",
