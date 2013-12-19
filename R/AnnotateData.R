@@ -44,28 +44,29 @@ AnnotateData <- function( dsLinear,
   dsLinear$RollingUpper[-seq_len(pointsInCycle-1) ] <- rollingBounds[, 2]
   
   
-  summarizePosition <- function( df ) {
+  summarizeStageCycle <- function( df ) {
     positionBounds <- spreadFunction(df[, dvName])
     #   print(positionBounds)
     data.frame(    
-      PositionLower=positionBounds[1],
-      PositionCenter=median(df[, dvName]),
-      PositionUpper=positionBounds[2]
+      ProportionThroughCycleMean = mean(df$ProportionThroughCycle, na.rm=TRUE),
+      PositionLower = positionBounds[1],
+      PositionCenter = median(df[, dvName]),
+      PositionUpper = positionBounds[2]
     )
   }
-  dsCycle <- plyr::ddply(dsLinear, .variables=c(stageIDName, proportionIDName), .fun=summarizePosition)
+  dsStageCycle <- plyr::ddply(dsLinear, .variables=c(stageIDName, proportionIDName), .fun=summarizeStageCycle)
   
   dsLinearTemp <- dsLinear[, c("Date", stageIDName, proportionIDName, stageProgressName)]
   colnames(dsLinearTemp)[colnames(dsLinearTemp)==stageIDName] <- "StageIDTime" #Make sure `StageIDTime` matches the two calls below.
   
-  dsCycleTemp <- dsCycle
-  colnames(dsCycleTemp)[colnames(dsCycleTemp)==stageIDName] <- "StageIDBand" #Make sure `StageIDBand` matches the calls below.
+  dsStageCycleTemp <- dsStageCycle
+  colnames(dsStageCycleTemp)[colnames(dsStageCycleTemp)==stageIDName] <- "StageIDBand" #Make sure `StageIDBand` matches the calls below.
   
-  dsPeriodic <- merge(x=dsLinearTemp, y=dsCycleTemp, by=c(proportionIDName), all.x=TRUE, all.y=TRUE)
+  dsPeriodic <- merge(x=dsLinearTemp, y=dsStageCycleTemp, by=c(proportionIDName), all.x=TRUE, all.y=TRUE)
   dsPeriodic <- dsPeriodic[order(dsPeriodic[, "Date"], dsPeriodic[, "StageIDTime"], dsPeriodic[, "StageIDBand"]), ]
 #   dsPeriodic$Focus <- (dsPeriodic$StageIDTime == dsPeriodic$StageIDBand)
   
-  return( list(dsLinear=dsLinear, dsCycle=dsCycle, dsPeriodic=dsPeriodic) )
+  return( list(dsLinear=dsLinear, dsStageCycle=dsStageCycle, dsPeriodic=dsPeriodic) )
 }
 
 # dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
@@ -75,9 +76,9 @@ AnnotateData <- function( dsLinear,
 # dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
 # dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 # 
-# 
 # hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 # portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+# portfolio$dsStageCycle
 
 
 # sapply(Portfolio, tail, n=10L)

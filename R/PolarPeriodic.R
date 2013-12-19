@@ -34,29 +34,30 @@
 # ##' @keywords polar
 # ##' @examples
 # 
-# PolarCycle <- function(dsLinear, dsPeriodic,
-#                           xName, yName, stageIDName, 
-#                           periodicLowerName="PositionLower", periodicUpperName="PositionUpper",
-#                           paletteDark=NULL, paletteLight=NULL, 
-#                           changePoints=NULL, changePointLabels=NULL,
-#                           drawPeriodicBand=TRUE,
-#                           jaggedPointSize=2, jaggedLineSize=.5, 
-#                           bandAlphaDark=.4, bandAlphaLight=.15, 
-#                           changeLineAlpha=.5, changeLineSize=3,
-#                           interpolatedPointCountPerCycle=10,
-#                           title=NULL, xTitle=NULL, yTitle=NULL ) {
-#   
-#   stages <- sort(unique(dsLinear[, stageIDName]))
-#   stageCount <- length(stages)
-#   testit::assert("The number of unique `StageID` values should be 1 greater than the number of `changePoints`.", stageCount==1+length(changePoints))
-#   if( !is.null(changePoints) ) testit::assert("The number of `changePoints` should equal the number of `changeLabels`.", length(changePoints)==length(changePointLabels))
-#   if( !is.null(paletteDark) ) testit::assert("The number of `paletteDark` colors should equal the number of unique `StageID` values.", stageCount==length(paletteDark))
-#   if( !is.null(paletteLight) ) testit::assert("The number of `paletteLight` colors should equal the number of unique `StageID` values.", stageCount==length(paletteLight))
-#   
-#  
-#   
-# #   return( p )
-# }
+PolarCycle <- function(dsLinear, dsStageCycle,
+                      xName, yName, stageIDName, 
+                      periodicLowerName="PositionLower", periodicUpperName="PositionUpper",
+                      paletteDark=NULL, paletteLight=NULL, 
+                      changePoints=NULL, changePointLabels=NULL,
+                      drawPeriodicBand=TRUE,
+                      jaggedPointSize=2, jaggedLineSize=.5, 
+                      bandAlphaDark=.4, bandAlphaLight=.15, 
+                      changeLineAlpha=.5, changeLineSize=3,
+                      plottedPointCountPerCycle=36,
+                      graphFloor=min(base::pretty(x=dsLinear[, yName])),
+                      title=NULL, xTitle=NULL, yTitle=NULL ) {
+  
+  stages <- base::sort(base::unique(dsLinear[, stageIDName]))
+  stageCount <- length(stages)
+  testit::assert("The number of unique `StageID` values should be 1 greater than the number of `changePoints`.", stageCount==1+length(changePoints))
+  if( !is.null(changePoints) ) testit::assert("The number of `changePoints` should equal the number of `changeLabels`.", length(changePoints)==length(changePointLabels))
+  if( !is.null(paletteDark) ) testit::assert("The number of `paletteDark` colors should equal the number of unique `StageID` values.", stageCount==length(paletteDark))
+  if( !is.null(paletteLight) ) testit::assert("The number of `paletteLight` colors should equal the number of unique `StageID` values.", stageCount==length(paletteLight))
+  
+ 
+  
+#   return( p )
+}
 # 
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
 # dsLinear <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
@@ -65,11 +66,38 @@
 # changeMonth <- as.Date("1996-02-15")
 # dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
 # dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
-# 
+# # 
 # hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 # portfolio <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 # 
-# # PolarCycle(portfolio$dsLinear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
+# # PolarCycle(portfolio$dsLinear, portfolio$dsStageCycle, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
+# # 
+# closeLoop <- function( df ) {
+#   df[nrow(df)+1, ] <- df[1, ]
+#   df[nrow(df), "ProportionThroughCycleMean"] <- 1 + df[nrow(df), "ProportionThroughCycleMean"]
+#   return( df )
+# }
 # 
-# portfolio$dsCycleTemp
+# dsStageCycleClosed <- plyr::ddply(portfolio$dsStageCycle, .variables="StageID", .fun=closeLoop)
+# # dsStageCycle[nrow(dsStageCycle) + 1, ] <- dsStageCycle[1, ]
+# interpolate <- function( df, pointsPerCycleCount ) {
+#   base::data.frame(stats::approx(x=df$ProportionThroughCycleMean, y=df$PositionCenter, n=pointsPerCycleCount))
+# }
+# dsStageCycleInterpolated <- plyr::ddply(dsStageCycleClosed, .variables="StageID", .fun=interpolate, pointsPerCycleCount=13*10)
+# # interpolatedCycle <- stats::approx(x=dsStageCycleClosed$ProportionThroughCycleMean, y=dsStageCycleClosed$PositionCenter, n=72)
+# #dsStageCycleInterpolated <- base::data.frame(ProportionThroughCycleMean=interpolatedCycle$x, PositionCenter=interpolatedCycle$y)
+# # dsStageCycleInterpolated <- base::data.frame(interpolatedCycle)
+# 
+# graphFloor <- min(base::pretty(x=dsLinear$BirthRate))
+# Polarize <- function( df, graphFloor=0 ) {
+#   data.frame(
+#     PolarX = (df$y - graphFloor) * sinpi(2 * df$x),
+#     PolarY = (df$y - graphFloor) * cospi(2 * df$x)  
+#   )
+# }
+# dsStageCyclePolar <- plyr::ddply(dsStageCycleInterpolated, .variables="StageID", .fun=Polarize, graphFloor=graphFloor)
+# # dsDummy <- data.frame(StageID=1, x=0:100/100, y=10)
+# # dsStageCycleClosed <- plyr::ddply(dsDummy, .variables="StageID", .fun=Polarize)
+# 
+# ggplot2::ggplot(dsStageCyclePolar, ggplot2::aes(x=PolarX, y=PolarY, color=factor(StageID))) + ggplot2::geom_path() + ggplot2::geom_point()
 

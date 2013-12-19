@@ -130,6 +130,7 @@ for( stageID in stageIDs ) {
 }
 rm(dsStageBands)
 
+# curve(sinpi(x*2), 0, 6)
 
 ###
 ### No graphics above this line; no manipulation below this line.
