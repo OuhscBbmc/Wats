@@ -189,6 +189,9 @@ hr {
 
 <p>This vignette produces the graphs included in the initial MBR manuscript.</p>
 
+<pre><code>## Loading required package: knitr
+</code></pre>
+
 <h2>Figure 2: Rolling Linear</h2>
 
 <p>Smoothed monthly birth rates (General Fertility Rates; GFRs) for Oklahoma County, 1990-1999, plotted in a linear plot.  The top plot shows the connected raw data with a February smoother; the middle plot shows smoothing with a 12-month moving average, blue/green line, superimposed on a February smoother, red line); the bottom plot shows the smoothers and confidence bands, which are H-spreads defined using the distribution of GFR&#39;s for the given month and 11 previous months.</p>
@@ -211,7 +214,7 @@ dsLinear &lt;- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName=&q
 hSpread &lt;- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio &lt;- AnnotateData(dsLinear, dvName=&quot;BirthRate&quot;,centerFunction=median, spreadFunction=hSpread)
 
-LinearRollingPlot(portfolio$dsLinear, xName=&quot;Date&quot;, yName=&quot;BirthRate&quot;, stageIDName=&quot;StageID&quot;, changePoints=changeMonth, changePointLabels=&quot;Bombing Effect&quot;)
+CartesianRolling(portfolio$dsLinear, xName=&quot;Date&quot;, yName=&quot;BirthRate&quot;, stageIDName=&quot;StageID&quot;, changePoints=changeMonth, changePointLabels=&quot;Bombing Effect&quot;)
 </code></pre>
 
 <pre><code>Warning: Removed 11 rows containing missing values (geom_path).
@@ -237,15 +240,15 @@ xScale &lt;- scale_x_date(breaks=seq.Date(from=as.Date(&quot;1990-01-01&quot;), 
 yScale &lt;- scale_y_continuous(breaks=5:7)
 yExpand &lt;- expand_limits(y=c(5, 7))
 
-topPanel &lt;- LinearRollingPlot(portfolio$dsLinear, xName=&quot;Date&quot;, yName=&quot;BirthRate&quot;, stageIDName=&quot;StageID&quot;, changePoints=changeMonth, yTitle=&quot;General Fertility Rate&quot;,
+topPanel &lt;- CartesianRolling(portfolio$dsLinear, xName=&quot;Date&quot;, yName=&quot;BirthRate&quot;, stageIDName=&quot;StageID&quot;, changePoints=changeMonth, yTitle=&quot;General Fertility Rate&quot;,
                               changePointLabels=&quot;Bombing Effect&quot;, 
                               drawRollingBands=FALSE, 
                               drawRollingLine=FALSE)
-middlePanel &lt;- LinearRollingPlot(portfolio$dsLinear, xName=&quot;Date&quot;, yName=&quot;BirthRate&quot;, stageIDName=&quot;StageID&quot;, changePoints=changeMonth, yTitle=&quot;General Fertility Rate&quot;,
+middlePanel &lt;- CartesianRolling(portfolio$dsLinear, xName=&quot;Date&quot;, yName=&quot;BirthRate&quot;, stageIDName=&quot;StageID&quot;, changePoints=changeMonth, yTitle=&quot;General Fertility Rate&quot;,
                               changePointLabels=&quot;&quot;, 
                               drawRollingBands=FALSE, 
                               drawJaggedLine=FALSE)
-bottomPanel &lt;- LinearRollingPlot(portfolio$dsLinear, xName=&quot;Date&quot;, yName=&quot;BirthRate&quot;, stageIDName=&quot;StageID&quot;, changePoints=changeMonth, yTitle=&quot;General Fertility Rate&quot;, 
+bottomPanel &lt;- CartesianRolling(portfolio$dsLinear, xName=&quot;Date&quot;, yName=&quot;BirthRate&quot;, stageIDName=&quot;StageID&quot;, changePoints=changeMonth, yTitle=&quot;General Fertility Rate&quot;, 
                               changePointLabels=&quot;&quot;, 
                               drawJaggedLine=FALSE)
 topPanel &lt;- topPanel + xScale + yScale + yExpand + fig2Theme 
@@ -370,7 +373,7 @@ linearPeriodic
 
 <p>For the sake of documentation and reproducibility, the current vignette was build on a system using the following software.</p>
 
-<pre><code>Report created by Will at 12/16/2013 3:07:01 AM, Central Standard Time
+<pre><code>Report created by Will at 12/19/2013 12:32:08 PM, Central Standard Time
 </code></pre>
 
 <pre><code>R Under development (unstable) (2013-12-06 r64409)
@@ -384,14 +387,13 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] Wats_0.1-12        testthat_0.8       devtools_1.4.1     zoo_1.7-10         testit_0.3         scales_0.2.3      
- [7] RColorBrewer_1.0-5 plyr_1.8           lubridate_1.3.2    colorspace_1.2-4   roxygen2_3.0.0     ggplot2_0.9.3.1   
-[13] knitr_1.5         
+ [1] knitr_1.5          zoo_1.7-10         testit_0.3         scales_0.2.3       RColorBrewer_1.0-5 plyr_1.8          
+ [7] lubridate_1.3.2    ggplot2_0.9.3.1    colorspace_1.2-4   roxygen2_3.0.0     Wats_0.1-12       
 
 loaded via a namespace (and not attached):
- [1] brew_1.0-6      codetools_0.2-8 dichromat_2.0-0 digest_0.6.4    evaluate_0.5.1  formatR_0.10    gtable_0.1.2   
- [8] httr_0.2        labeling_0.2    lattice_0.20-24 MASS_7.3-29     memoise_0.1     munsell_0.4.2   parallel_3.1.0 
-[15] proto_0.3-10    RCurl_1.95-4.1  reshape2_1.2.2  stringr_0.6.2   tools_3.1.0     whisker_0.3-2  
+ [1] brew_1.0-6      codetools_0.2-8 devtools_1.4.1  dichromat_2.0-0 digest_0.6.4    evaluate_0.5.1  formatR_0.10   
+ [8] gtable_0.1.2    httr_0.2        labeling_0.2    lattice_0.20-24 MASS_7.3-29     memoise_0.1     munsell_0.4.2  
+[15] parallel_3.1.0  proto_0.3-10    RCurl_1.95-4.1  reshape2_1.2.2  stringr_0.6.2   tools_3.1.0     whisker_0.3-2  
 </code></pre>
 
 </body>

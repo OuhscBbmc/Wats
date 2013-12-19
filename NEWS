@@ -1,5 +1,5 @@
-﻿Version 0.1 (2013-12)
+Version 0.1 (2013-12)
 ------------------------------------------------------------------------------
 New Features:
 * `Augmentxxx()` and `Annotatexxx()` functions
-* `LinearRollingPlot()` functions
+* `CartesianRolling()` functions

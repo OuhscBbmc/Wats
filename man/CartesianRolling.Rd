@@ -1,8 +1,8 @@
-\name{LinearRollingPlot}
-\alias{LinearRollingPlot}
+\name{CartesianRolling}
+\alias{CartesianRolling}
 \title{Linear Plot with Rolling Summaries}
 \usage{
-LinearRollingPlot(dsLinear, xName, yName, stageIDName,
+CartesianRolling(dsLinear, xName, yName, stageIDName,
   rollingLowerName = "RollingLower", rollingCenterName = "RollingCenter",
   rollingUpperName = "RollingUpper", paletteDark = NULL,
   paletteLight = NULL, colorSparse = grDevices::adjustcolor("tan1", 0.5),
@@ -126,7 +126,7 @@ portfolio <- AnnotateData(
     spreadFunction = hSpread
 )
 
-LinearRollingPlot(
+CartesianRolling(
     portfolio$dsLinear,
     xName = "Date",
     yName = "BirthRate",

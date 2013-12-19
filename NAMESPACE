@@ -1,5 +1,5 @@
 export(AnnotateData)
 export(AugmentYearDataWithMonthResolution)
 export(AugmentYearDataWithSecondResolution)
+export(CartesianRolling)
 export(LinearPeriodicPlot)
-export(LinearRollingPlot)

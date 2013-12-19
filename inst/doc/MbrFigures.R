@@ -32,7 +32,7 @@ dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date
 hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
 
-LinearRollingPlot(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
+CartesianRolling(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
 
 
 ## ----Figure2IndividualStylized-------------------------------------------
@@ -52,15 +52,15 @@ xScale <- scale_x_date(breaks=seq.Date(from=as.Date("1990-01-01"), to=as.Date("1
 yScale <- scale_y_continuous(breaks=5:7)
 yExpand <- expand_limits(y=c(5, 7))
 
-topPanel <- LinearRollingPlot(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate",
+topPanel <- CartesianRolling(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate",
                               changePointLabels="Bombing Effect", 
                               drawRollingBands=FALSE, 
                               drawRollingLine=FALSE)
-middlePanel <- LinearRollingPlot(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate",
+middlePanel <- CartesianRolling(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate",
                               changePointLabels="", 
                               drawRollingBands=FALSE, 
                               drawJaggedLine=FALSE)
-bottomPanel <- LinearRollingPlot(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate", 
+bottomPanel <- CartesianRolling(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate", 
                               changePointLabels="", 
                               drawJaggedLine=FALSE)
 topPanel <- topPanel + xScale + yScale + yExpand + fig2Theme 

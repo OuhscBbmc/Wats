@@ -1,4 +1,4 @@
-##' @name LinearRollingPlot
+##' @name CartesianRolling
 ##' @export
 ##' 
 ##' @title Linear Plot with Rolling Summaries
@@ -55,7 +55,7 @@
 ##'     spreadFunction = hSpread
 ##' )
 ##' 
-##' LinearRollingPlot(
+##' CartesianRolling(
 ##'     portfolio$dsLinear,
 ##'     xName = "Date", 
 ##'     yName = "BirthRate",
@@ -64,7 +64,7 @@
 ##'     changePointLabels = "Bombing Effect"
 ##' )
 
-LinearRollingPlot <- function(dsLinear, xName, yName, stageIDName, 
+CartesianRolling <- function(dsLinear, xName, yName, stageIDName, 
                               rollingLowerName="RollingLower", rollingCenterName="RollingCenter", rollingUpperName="RollingUpper",
                               paletteDark=NULL, paletteLight=NULL, colorSparse=grDevices::adjustcolor("tan1", .5),
                               changePoints=NULL, changePointLabels=NULL,
