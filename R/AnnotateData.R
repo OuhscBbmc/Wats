@@ -53,19 +53,19 @@ AnnotateData <- function( dsLinear,
       PositionUpper=positionBounds[2]
     )
   }
-  dsPositional <- plyr::ddply(dsLinear, .variables=c(stageIDName, proportionIDName), .fun=summarizePosition)
+  dsCycle <- plyr::ddply(dsLinear, .variables=c(stageIDName, proportionIDName), .fun=summarizePosition)
   
   dsLinearTemp <- dsLinear[, c("Date", stageIDName, proportionIDName, stageProgressName)]
   colnames(dsLinearTemp)[colnames(dsLinearTemp)==stageIDName] <- "StageIDTime" #Make sure `StageIDTime` matches the two calls below.
   
-  dsPositionalTemp <- dsPositional
-  colnames(dsPositionalTemp)[colnames(dsPositionalTemp)==stageIDName] <- "StageIDBand" #Make sure `StageIDBand` matches the calls below.
+  dsCycleTemp <- dsCycle
+  colnames(dsCycleTemp)[colnames(dsCycleTemp)==stageIDName] <- "StageIDBand" #Make sure `StageIDBand` matches the calls below.
   
-  dsPeriodic <- merge(x=dsLinearTemp, y=dsPositionalTemp, by=c(proportionIDName), all.x=TRUE, all.y=TRUE)
+  dsPeriodic <- merge(x=dsLinearTemp, y=dsCycleTemp, by=c(proportionIDName), all.x=TRUE, all.y=TRUE)
   dsPeriodic <- dsPeriodic[order(dsPeriodic[, "Date"], dsPeriodic[, "StageIDTime"], dsPeriodic[, "StageIDBand"]), ]
 #   dsPeriodic$Focus <- (dsPeriodic$StageIDTime == dsPeriodic$StageIDBand)
   
-  return( list(dsLinear=dsLinear, dsPositional=dsPositional, dsPeriodic=dsPeriodic) )
+  return( list(dsLinear=dsLinear, dsCycle=dsCycle, dsPeriodic=dsPeriodic) )
 }
 
 # dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
@@ -82,15 +82,15 @@ AnnotateData <- function( dsLinear,
 
 # sapply(Portfolio, tail, n=10L)
 # head(Portfolio$dsLinear, 10L)
-# Portfolio$dsPositional
+# Portfolio$dsCycleTemp
 # 
 # dsLinearTemp <- Portfolio$dsLinear[, c("Date", "StageID", "ProportionID", "StageProgress")]
 # colnames(dsLinearTemp)[colnames(dsLinearTemp)=="StageID"] <- "StageIDTime"
 # 
-# dsPositionalTemp <- Portfolio$dsPositional
-# colnames(dsPositionalTemp)[colnames(dsPositionalTemp)=="StageID"] <- "StageIDBand"
+# dsCycleTemp <- Portfolio$dsCycleTemp
+# colnames(dsCycleTemp)[colnames(dsCycleTemp)=="StageID"] <- "StageIDBand"
 # 
-# dsJ <- merge(x=dsLinearTemp, y=dsPositionalTemp, by=c("ProportionID"), all.x=TRUE, all.y=TRUE)
+# dsJ <- merge(x=dsLinearTemp, y=dsCycleTemp, by=c("ProportionID"), all.x=TRUE, all.y=TRUE)
 # dsJ <- dsJ[order(dsJ[, "Date"], dsJ[, "StageIDTime"], dsJ[, "StageIDBand"]), ]
 # dsJ$Focus <- (dsJ$StageIDTime == dsJ$StageIDBand)
 

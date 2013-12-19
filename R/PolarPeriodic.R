@@ -34,7 +34,7 @@
 # ##' @keywords polar
 # ##' @examples
 # 
-# PolarPeriodic <- function(dsLinear, dsPeriodic,
+# PolarCycle <- function(dsLinear, dsPeriodic,
 #                           xName, yName, stageIDName, 
 #                           periodicLowerName="PositionLower", periodicUpperName="PositionUpper",
 #                           paletteDark=NULL, paletteLight=NULL, 
@@ -69,7 +69,7 @@
 # hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 # portfolio <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 # 
-# # PolarPeriodic(portfolio$dsLinear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
+# # PolarCycle(portfolio$dsLinear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
 # 
-# portfolio$dsPositional
+# portfolio$dsCycleTemp
 
