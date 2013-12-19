@@ -117,5 +117,5 @@ CartesianPeriodic(
   changePointLabels = "Bombing Effect"
 )
 }
-\keyword{linear}
+\keyword{Cartesian}
 

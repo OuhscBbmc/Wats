@@ -31,7 +31,7 @@
 ##' @param yTitle TThe string describing the \emph{y}-axis. 
 ##' 
 ##' @return Returns a \code{ggplot2} graphing object
-##' @keywords linear
+##' @keywords Cartesian
 ##' @examples
 ##' require(Wats) #Load the package
 ##' filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")

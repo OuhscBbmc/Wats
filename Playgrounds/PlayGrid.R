@@ -163,7 +163,7 @@ height <- 6.5 #For the two big ones
 # windows(width=deviceWidth, height=height)
 # opar <- par(no.readonly=TRUE)
 # pdf(file=file.path(pathDirectoryOutput, "WatsWorkingPlot.pdf"), width=deviceWidth, height=height)
-png(file=file.path(pathDirectoryOutput, "WatsWorkingPlot.png"), width=deviceWidth, height=height, units="in", res=1200)
+# png(file=file.path(pathDirectoryOutput, "WatsWorkingPlot.png"), width=deviceWidth, height=height, units="in", res=1200)
 # opar <- par(no.readonly=TRUE)
 
 
@@ -233,224 +233,224 @@ for( stageID in stageIDs ) {
 }
 rm(x, y)
 upViewport(n=3)
-
-
-####################################################################################################
-####################################################################################################
-### Bottom pane
-####################################################################################################
-####################################################################################################
-
-
-
-linearVPRangeX <- range(dsLinear$Horizontal)
-linearVPRangeY <- range(dsLinear$BirthRate)
-pushViewport(viewport(layout.pos.col=1:2, layout.pos.row=2))
-pushViewport(plotViewport(c(0, 0, 0, 0))) 
-pushViewport(dataViewport(xscale=linearVPRangeX, yscale=linearVPRangeY, name="plotRegion"))
-# grid.lines(dsLinear$Horizontal, dsLinear$BirthRate, default.units="native")
-# grid.points(dsLinear$Horizontal, dsLinear$BirthRate, default.units="native")
-# upViewport(n=3)
-
-#opar <- par(no.readonly=TRUE, new=TRUE, pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars)
-# opar <- par(no.readonly=TRUE, pty="m",  mar=c(0, 0, 0, 1) + 0.1) #When it's plotted with the polars)
+# 
+# 
+# ####################################################################################################
+# ####################################################################################################
+# ### Bottom pane
+# ####################################################################################################
+# ####################################################################################################
+# 
+# 
+# 
+# linearVPRangeX <- range(dsLinear$Horizontal)
+# linearVPRangeY <- range(dsLinear$BirthRate)
+# pushViewport(viewport(layout.pos.col=1:2, layout.pos.row=2))
+# pushViewport(plotViewport(c(0, 0, 0, 0))) 
+# pushViewport(dataViewport(xscale=linearVPRangeX, yscale=linearVPRangeY, name="plotRegion"))
+# # grid.lines(dsLinear$Horizontal, dsLinear$BirthRate, default.units="native")
+# # grid.points(dsLinear$Horizontal, dsLinear$BirthRate, default.units="native")
+# # upViewport(n=3)
+# 
+# #opar <- par(no.readonly=TRUE, new=TRUE, pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars)
+# # opar <- par(no.readonly=TRUE, pty="m",  mar=c(0, 0, 0, 1) + 0.1) #When it's plotted with the polars)
+# # par(fig=gridFIG())
+# # par(new=TRUE)#, pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars)
 # par(fig=gridFIG())
-# par(new=TRUE)#, pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars)
-par(fig=gridFIG())
-# par(new=TRUE)
-
-yearCount <- monthCount / monthsPerYear
-
-gridColor <- gray(.9)
-labelColor <- gray(.7)
-polarGridLty <- 3
-interpolationPoints <- 0
-interpolatedCount <- (monthCount - 1) * interpolationPoints + monthCount
-#For Okc
-graphCeiling <- 7
-graphFloor <- 5
-yAxisTicks <- c(5, 6, 7)
-xOffset <- -.5 #So the points are plotted in the middle of the month.
-
-
-# op <- par( pty="s", mar=c(1, 0, 0, 0) + 0.1)
-
-
-
-# par(pty="m",  mar=c(.8, 4, 1, 1) + 0.1) #When it's plotted by itself
-#par(pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars
-par(pty="m",  mar=c(2, 4, 0, 1) + 0.1) #When it's plotted with the polars
-plot(NA, xlim=c(0, monthCount), ylim=c(graphFloor, graphCeiling), type="n", xaxt="n", xaxs="i", yaxt="n", yaxs="i", bty="n",
-     #  ylab="General Fertility Rate", xlab="",#xlab="Time",
-     ylab="", xlab="",#xlab="Time",
-#      sub=paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"), 
-     col.sub=labelColor, cex.lab=1.2)
-
-mtext(side=1, line=1, paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"), col=labelColor)
-axis(1, at=seq(from=0, to=changePoint-monthsPerYear, by=12)+6, labels=seq(from=firstYear, to=firstYear+5, by=1),
-     col=gridColor, line=-1, tick=F, col.axis=colorBefore, cex.axis=1.5)
-axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
-     col=gridColor, line=-1, tick=F, col.axis=colorAfter, cex.axis=1.5)
-axis(2, at=yAxisTicks, col=labelColor, col.axis=labelColor, line=-0, tick=T, cex.axis=1.5)  
-mtext("General Fertility Rate", side=2,line=2.5, cex=1.25) 
-
-
-#  axis(1, at=seq(from=6, to=(monthCount), by=6), labels=rep(c("(Jun)", "(Dec)"), 5), col.axis=labelColor, line=0, tick=F, lty=0, cex.axis=.7)
-
-
-linearVerticesXPre <- rep(NA,changePoint) 
-linearVerticesXPost <- numeric(0)
-linearBeforeLowerVerticesYPre <- rep(NA,changePoint) 
-linearBeforeUpperVerticesYPre <- rep(NA,changePoint) 
-linearBeforeLowerVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
-linearBeforeUpperVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
-linearAfterLowerVerticesYPre <- rep(NA,changePoint) 
-linearAfterUpperVerticesYPre <- rep(NA,changePoint) 
-linearAfterLowerVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
-linearAfterUpperVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
-monthOffset <- rep(0:(yearCount-1), each=monthsPerYear) * monthsPerYear
-
-ds <- data.frame(matrix(NA, nrow=monthCount, ncol=6))
-colnames(ds) <- c("MonthID", "MonthIndex", "Radians", "BirthRate", "X", "Y")
-
-for( yearIndex in 1:yearCount ) {
-  for( monthIndex in 1:monthsPerYear ) {
-    monthID <- (yearIndex - 1) * monthsPerYear + monthIndex
-    
-    ds[monthID, 'MonthID'] <- monthID
-    ds[monthID, 'MonthIndex'] <- monthIndex
-    degrees <- monthIndex * (360 / monthsPerYear)
-    ds[monthID, 'Radians'] <- degrees / 180 * pi
-    ds[monthID, 'BirthRate'] <- dsLinear$BirthRate[monthID] - graphFloor
-  }
-}
-ds$X <- ds$BirthRate * sin(ds$Radians)
-ds$Y <- ds$BirthRate * cos(ds$Radians)
-abline(v=seq(from=monthsPerYear, to=monthCount, by=monthsPerYear), col=gridColor, lty=2)
-for( i in 2:monthCount ) {
-  x1 <- ds[i-1, 'MonthID'] + xOffset
-  x2 <- ds[i, 'MonthID'] + xOffset
-  y1 <- ds[i-1, 'BirthRate'] + graphFloor
-  y2 <- ds[i, 'BirthRate'] + graphFloor
-  lines(x=c(x1, x2), y=c(y1, y2), col=lineColors[i], lwd=2)
-}
-abline(v=changePoint + xOffset, col=colorAfter)
-mtext("Bombing Effect", side=3, at=changePoint + xOffset, col=colorAfter, cex=.8)
-
-#maxRate <- max(ds$BirthRate)
-tail(ds)
-
-dsInterpolated <-data.frame(matrix(NA, nrow=interpolatedCount, ncol=6))
-colnames(dsInterpolated) <- c("DurationID", "CycleID", "Radians", "BirthRate", "X", "Y")
-dsInterpolated[1, ] <- ds[1, ]
-rowTally <- 1
-for( pointIndex in 2:monthCount ) {
-  monthStart <- ds[pointIndex - 1, 'MonthIndex']
-  monthStop <- ds[pointIndex, 'MonthIndex']
-  birthStart <- ds[pointIndex - 1, 'BirthRate']
-  birthStop <- ds[pointIndex, 'BirthRate']
-  
-  for( interpolationIndex in 1:(interpolationPoints+1) ) {
-    if( monthStop < monthStart ) monthStart <- 0
-    proportion <- interpolationIndex / (interpolationPoints + 1)
-    monthEst <- monthStart + proportion * (monthStop - monthStart)
-    birthRateEst <- birthStart + proportion * (birthStop - birthStart)
-    degrees <- monthEst * (360 / monthsPerYear)
-    radians <- degrees / 180 * pi
-    rowTally <- rowTally + 1
-    dsInterpolated[rowTally, 'DurationID'] <- rowTally
-    dsInterpolated[rowTally, 'CycleID'] <- monthEst
-    dsInterpolated[rowTally, 'Radians'] <- radians      
-    dsInterpolated[rowTally, 'BirthRate'] <- birthRateEst
-  }
-}
-dsInterpolated$X <- dsInterpolated$BirthRate * sin(dsInterpolated$Radians)
-dsInterpolated$Y <- dsInterpolated$BirthRate * cos(dsInterpolated$Radians)
-
-dsBands <- data.frame(matrix(NA, nrow=length(unique(dsInterpolated$CycleID)), ncol=14))
-colnames(dsBands) <- c("CycleID", "Radians", "LowerBefore", "UpperBefore", "LowerAfter", "UpperAfter", 
-                       "LowerBeforeX", "LowerBeforeY", "UpperBeforeX", "UpperBeforeY", "LowerAfterX", "LowerAfterY", "UpperAfterX", "UpperAfterY")
-
-rowTally <- 1
-for( cycleID in sort(unique(dsInterpolated$CycleID)) ) {
-  dsSliceBefore <- subset(dsInterpolated, CycleID==cycleID & DurationID <= changePoint * (interpolationPoints + 1))
-  dsSliceAfter <- subset(dsInterpolated, CycleID==cycleID & DurationID > changePoint * (interpolationPoints + 1))  
-  
-  dsBands[rowTally, 'CycleID'] <- cycleID
-  dsBands[rowTally, 'Radians'] <- dsSliceBefore$Radians[1] #They should all have the same radians
-  #   dsBands[rowTally, 'LowerBefore'] <- quantile(dsSliceBefore$BirthRate, prob=lowerQuantile)
-  #   dsBands[rowTally, 'UpperBefore'] <- quantile(dsSliceBefore$BirthRate, prob=upperQuantile)
-  #   dsBands[rowTally, 'LowerAfter'] <- quantile(dsSliceAfter$BirthRate, prob=lowerQuantile)
-  #   dsBands[rowTally, 'UpperAfter'] <- quantile(dsSliceAfter$BirthRate, prob=upperQuantile)
-  dsBands[rowTally, 'LowerBefore'] <- as.numeric(quantile(dsSliceBefore$BirthRate, prob=lowerQuantile))
-  dsBands[rowTally, 'UpperBefore'] <- as.numeric(quantile(dsSliceBefore$BirthRate, prob=upperQuantile))
-  dsBands[rowTally, 'LowerAfter'] <- as.numeric(quantile(dsSliceAfter$BirthRate, prob=lowerQuantile))
-  dsBands[rowTally, 'UpperAfter'] <- as.numeric(quantile(dsSliceAfter$BirthRate, prob=upperQuantile))
-  
-  rowTally <- rowTally + 1
-}
-
-rowTally <- NA
-dsBands$LowerBeforeX <- dsBands$LowerBefore * sin(dsBands$Radians)
-dsBands$LowerBeforeY <- dsBands$LowerBefore * cos(dsBands$Radians)
-dsBands$UpperBeforeX <- dsBands$UpperBefore * sin(dsBands$Radians)
-dsBands$UpperBeforeY <- dsBands$UpperBefore * cos(dsBands$Radians)
-dsBands$LowerAfterX <- dsBands$LowerAfter * sin(dsBands$Radians)
-dsBands$LowerAfterY <- dsBands$LowerAfter * cos(dsBands$Radians)
-dsBands$UpperAfterX <- dsBands$UpperAfter * sin(dsBands$Radians)
-dsBands$UpperAfterY <- dsBands$UpperAfter * cos(dsBands$Radians)
-
-for( monthID in 1:changePoint ) { 
-  desiredCycle <- monthID %% monthsPerYear
-  if(desiredCycle==0) desiredCycle <- 12
-  
-  linearVerticesXPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$CycleID + monthOffset[monthID]
-  linearBeforeLowerVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$LowerBefore
-  linearBeforeUpperVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperBefore  
-  linearAfterLowerVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$LowerAfter
-  linearAfterUpperVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperAfter
-}
-for( monthID in (changePoint+1):monthCount ) {  
-  desiredCycle <- monthID %% monthsPerYear
-  if(desiredCycle==0) desiredCycle <- 12
-  
-  linearVerticesXPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$CycleID + monthOffset[monthID]
-  linearBeforeLowerVerticesYPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$LowerBefore
-  linearBeforeUpperVerticesYPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperBefore  
-  linearAfterLowerVerticesYPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$LowerAfter
-  linearAfterUpperVerticesYPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperAfter 
-}
-
-linearVerticesXPre <- c(linearVerticesXPre, rev(linearVerticesXPre))
-linearVerticesXPost <- c(linearVerticesXPost, rev(linearVerticesXPost))
-
-linearBeforeVerticesYPre <- c(linearBeforeLowerVerticesYPre, rev(linearBeforeUpperVerticesYPre))+graphFloor
-linearAfterVerticesYPre <- c(linearAfterLowerVerticesYPre, rev(linearAfterUpperVerticesYPre))+graphFloor
-linearBeforeVerticesYPost <- c(linearBeforeLowerVerticesYPost, rev(linearBeforeUpperVerticesYPost))+graphFloor
-linearAfterVerticesYPost <- c(linearAfterLowerVerticesYPost, rev(linearAfterUpperVerticesYPost))+graphFloor
-
-polygon(x=linearVerticesXPre + xOffset, y=linearBeforeVerticesYPre, border=NA, col=bandColorBefore[1])
-polygon(x=linearVerticesXPre + xOffset, y=linearAfterVerticesYPre, border=NA, col=bandColorAfter[1])
-polygon(x=linearVerticesXPost + xOffset, y=linearBeforeVerticesYPost, border=NA, col=bandColorBefore[2])
-polygon(x=linearVerticesXPost + xOffset, y=linearAfterVerticesYPost, border=NA, col=bandColorAfter[2])
-# par(op)
-
-dev.off()
-###
-### Debugging code
-###
-# grid.get("l")$gp
-# grid.remove("l")
-# grid.points(x=dsCart$X, y=dsCart$Y, gp=gpar(cex=.5, col=c1))
-# grid.rect()
-# grid.xaxis()
-# grid.yaxis()
-# grid.points(x=c(-2,-1,0, 1), y=c(0, 0, 0,0), default.units="native")
-# grid.points(x=c(0,0,0,0), y=c(-2, -1, 0, 1), default.units="native")
-#from line 224 "customgrid.Rnw"
-# grid.text("temperature", y=unit(-3, "line"))
-# grid.text("pressure", x=unit(-3, "line"), rot=90)
-
-
-#  showViewport(newpage=TRUE, leaves=TRUE)
-opar <- par(no.readonly=TRUE)
+# # par(new=TRUE)
+# 
+# yearCount <- monthCount / monthsPerYear
+# 
+# gridColor <- gray(.9)
+# labelColor <- gray(.7)
+# polarGridLty <- 3
+# interpolationPoints <- 0
+# interpolatedCount <- (monthCount - 1) * interpolationPoints + monthCount
+# #For Okc
+# graphCeiling <- 7
+# graphFloor <- 5
+# yAxisTicks <- c(5, 6, 7)
+# xOffset <- -.5 #So the points are plotted in the middle of the month.
+# 
+# 
+# # op <- par( pty="s", mar=c(1, 0, 0, 0) + 0.1)
+# 
+# 
+# 
+# # par(pty="m",  mar=c(.8, 4, 1, 1) + 0.1) #When it's plotted by itself
+# #par(pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars
+# par(pty="m",  mar=c(2, 4, 0, 1) + 0.1) #When it's plotted with the polars
+# plot(NA, xlim=c(0, monthCount), ylim=c(graphFloor, graphCeiling), type="n", xaxt="n", xaxs="i", yaxt="n", yaxs="i", bty="n",
+#      #  ylab="General Fertility Rate", xlab="",#xlab="Time",
+#      ylab="", xlab="",#xlab="Time",
+# #      sub=paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"), 
+#      col.sub=labelColor, cex.lab=1.2)
+# 
+# mtext(side=1, line=1, paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"), col=labelColor)
+# axis(1, at=seq(from=0, to=changePoint-monthsPerYear, by=12)+6, labels=seq(from=firstYear, to=firstYear+5, by=1),
+#      col=gridColor, line=-1, tick=F, col.axis=colorBefore, cex.axis=1.5)
+# axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
+#      col=gridColor, line=-1, tick=F, col.axis=colorAfter, cex.axis=1.5)
+# axis(2, at=yAxisTicks, col=labelColor, col.axis=labelColor, line=-0, tick=T, cex.axis=1.5)  
+# mtext("General Fertility Rate", side=2,line=2.5, cex=1.25) 
+# 
+# 
+# #  axis(1, at=seq(from=6, to=(monthCount), by=6), labels=rep(c("(Jun)", "(Dec)"), 5), col.axis=labelColor, line=0, tick=F, lty=0, cex.axis=.7)
+# 
+# 
+# linearVerticesXPre <- rep(NA,changePoint) 
+# linearVerticesXPost <- numeric(0)
+# linearBeforeLowerVerticesYPre <- rep(NA,changePoint) 
+# linearBeforeUpperVerticesYPre <- rep(NA,changePoint) 
+# linearBeforeLowerVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
+# linearBeforeUpperVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
+# linearAfterLowerVerticesYPre <- rep(NA,changePoint) 
+# linearAfterUpperVerticesYPre <- rep(NA,changePoint) 
+# linearAfterLowerVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
+# linearAfterUpperVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
+# monthOffset <- rep(0:(yearCount-1), each=monthsPerYear) * monthsPerYear
+# 
+# ds <- data.frame(matrix(NA, nrow=monthCount, ncol=6))
+# colnames(ds) <- c("MonthID", "MonthIndex", "Radians", "BirthRate", "X", "Y")
+# 
+# for( yearIndex in 1:yearCount ) {
+#   for( monthIndex in 1:monthsPerYear ) {
+#     monthID <- (yearIndex - 1) * monthsPerYear + monthIndex
+#     
+#     ds[monthID, 'MonthID'] <- monthID
+#     ds[monthID, 'MonthIndex'] <- monthIndex
+#     degrees <- monthIndex * (360 / monthsPerYear)
+#     ds[monthID, 'Radians'] <- degrees / 180 * pi
+#     ds[monthID, 'BirthRate'] <- dsLinear$BirthRate[monthID] - graphFloor
+#   }
+# }
+# ds$X <- ds$BirthRate * sin(ds$Radians)
+# ds$Y <- ds$BirthRate * cos(ds$Radians)
+# abline(v=seq(from=monthsPerYear, to=monthCount, by=monthsPerYear), col=gridColor, lty=2)
+# for( i in 2:monthCount ) {
+#   x1 <- ds[i-1, 'MonthID'] + xOffset
+#   x2 <- ds[i, 'MonthID'] + xOffset
+#   y1 <- ds[i-1, 'BirthRate'] + graphFloor
+#   y2 <- ds[i, 'BirthRate'] + graphFloor
+#   lines(x=c(x1, x2), y=c(y1, y2), col=lineColors[i], lwd=2)
+# }
+# abline(v=changePoint + xOffset, col=colorAfter)
+# mtext("Bombing Effect", side=3, at=changePoint + xOffset, col=colorAfter, cex=.8)
+# 
+# #maxRate <- max(ds$BirthRate)
+# tail(ds)
+# 
+# dsInterpolated <-data.frame(matrix(NA, nrow=interpolatedCount, ncol=6))
+# colnames(dsInterpolated) <- c("DurationID", "CycleID", "Radians", "BirthRate", "X", "Y")
+# dsInterpolated[1, ] <- ds[1, ]
+# rowTally <- 1
+# for( pointIndex in 2:monthCount ) {
+#   monthStart <- ds[pointIndex - 1, 'MonthIndex']
+#   monthStop <- ds[pointIndex, 'MonthIndex']
+#   birthStart <- ds[pointIndex - 1, 'BirthRate']
+#   birthStop <- ds[pointIndex, 'BirthRate']
+#   
+#   for( interpolationIndex in 1:(interpolationPoints+1) ) {
+#     if( monthStop < monthStart ) monthStart <- 0
+#     proportion <- interpolationIndex / (interpolationPoints + 1)
+#     monthEst <- monthStart + proportion * (monthStop - monthStart)
+#     birthRateEst <- birthStart + proportion * (birthStop - birthStart)
+#     degrees <- monthEst * (360 / monthsPerYear)
+#     radians <- degrees / 180 * pi
+#     rowTally <- rowTally + 1
+#     dsInterpolated[rowTally, 'DurationID'] <- rowTally
+#     dsInterpolated[rowTally, 'CycleID'] <- monthEst
+#     dsInterpolated[rowTally, 'Radians'] <- radians      
+#     dsInterpolated[rowTally, 'BirthRate'] <- birthRateEst
+#   }
+# }
+# dsInterpolated$X <- dsInterpolated$BirthRate * sin(dsInterpolated$Radians)
+# dsInterpolated$Y <- dsInterpolated$BirthRate * cos(dsInterpolated$Radians)
+# 
+# dsBands <- data.frame(matrix(NA, nrow=length(unique(dsInterpolated$CycleID)), ncol=14))
+# colnames(dsBands) <- c("CycleID", "Radians", "LowerBefore", "UpperBefore", "LowerAfter", "UpperAfter", 
+#                        "LowerBeforeX", "LowerBeforeY", "UpperBeforeX", "UpperBeforeY", "LowerAfterX", "LowerAfterY", "UpperAfterX", "UpperAfterY")
+# 
+# rowTally <- 1
+# for( cycleID in sort(unique(dsInterpolated$CycleID)) ) {
+#   dsSliceBefore <- subset(dsInterpolated, CycleID==cycleID & DurationID <= changePoint * (interpolationPoints + 1))
+#   dsSliceAfter <- subset(dsInterpolated, CycleID==cycleID & DurationID > changePoint * (interpolationPoints + 1))  
+#   
+#   dsBands[rowTally, 'CycleID'] <- cycleID
+#   dsBands[rowTally, 'Radians'] <- dsSliceBefore$Radians[1] #They should all have the same radians
+#   #   dsBands[rowTally, 'LowerBefore'] <- quantile(dsSliceBefore$BirthRate, prob=lowerQuantile)
+#   #   dsBands[rowTally, 'UpperBefore'] <- quantile(dsSliceBefore$BirthRate, prob=upperQuantile)
+#   #   dsBands[rowTally, 'LowerAfter'] <- quantile(dsSliceAfter$BirthRate, prob=lowerQuantile)
+#   #   dsBands[rowTally, 'UpperAfter'] <- quantile(dsSliceAfter$BirthRate, prob=upperQuantile)
+#   dsBands[rowTally, 'LowerBefore'] <- as.numeric(quantile(dsSliceBefore$BirthRate, prob=lowerQuantile))
+#   dsBands[rowTally, 'UpperBefore'] <- as.numeric(quantile(dsSliceBefore$BirthRate, prob=upperQuantile))
+#   dsBands[rowTally, 'LowerAfter'] <- as.numeric(quantile(dsSliceAfter$BirthRate, prob=lowerQuantile))
+#   dsBands[rowTally, 'UpperAfter'] <- as.numeric(quantile(dsSliceAfter$BirthRate, prob=upperQuantile))
+#   
+#   rowTally <- rowTally + 1
+# }
+# 
+# rowTally <- NA
+# dsBands$LowerBeforeX <- dsBands$LowerBefore * sin(dsBands$Radians)
+# dsBands$LowerBeforeY <- dsBands$LowerBefore * cos(dsBands$Radians)
+# dsBands$UpperBeforeX <- dsBands$UpperBefore * sin(dsBands$Radians)
+# dsBands$UpperBeforeY <- dsBands$UpperBefore * cos(dsBands$Radians)
+# dsBands$LowerAfterX <- dsBands$LowerAfter * sin(dsBands$Radians)
+# dsBands$LowerAfterY <- dsBands$LowerAfter * cos(dsBands$Radians)
+# dsBands$UpperAfterX <- dsBands$UpperAfter * sin(dsBands$Radians)
+# dsBands$UpperAfterY <- dsBands$UpperAfter * cos(dsBands$Radians)
+# 
+# for( monthID in 1:changePoint ) { 
+#   desiredCycle <- monthID %% monthsPerYear
+#   if(desiredCycle==0) desiredCycle <- 12
+#   
+#   linearVerticesXPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$CycleID + monthOffset[monthID]
+#   linearBeforeLowerVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$LowerBefore
+#   linearBeforeUpperVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperBefore  
+#   linearAfterLowerVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$LowerAfter
+#   linearAfterUpperVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperAfter
+# }
+# for( monthID in (changePoint+1):monthCount ) {  
+#   desiredCycle <- monthID %% monthsPerYear
+#   if(desiredCycle==0) desiredCycle <- 12
+#   
+#   linearVerticesXPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$CycleID + monthOffset[monthID]
+#   linearBeforeLowerVerticesYPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$LowerBefore
+#   linearBeforeUpperVerticesYPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperBefore  
+#   linearAfterLowerVerticesYPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$LowerAfter
+#   linearAfterUpperVerticesYPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperAfter 
+# }
+# 
+# linearVerticesXPre <- c(linearVerticesXPre, rev(linearVerticesXPre))
+# linearVerticesXPost <- c(linearVerticesXPost, rev(linearVerticesXPost))
+# 
+# linearBeforeVerticesYPre <- c(linearBeforeLowerVerticesYPre, rev(linearBeforeUpperVerticesYPre))+graphFloor
+# linearAfterVerticesYPre <- c(linearAfterLowerVerticesYPre, rev(linearAfterUpperVerticesYPre))+graphFloor
+# linearBeforeVerticesYPost <- c(linearBeforeLowerVerticesYPost, rev(linearBeforeUpperVerticesYPost))+graphFloor
+# linearAfterVerticesYPost <- c(linearAfterLowerVerticesYPost, rev(linearAfterUpperVerticesYPost))+graphFloor
+# 
+# polygon(x=linearVerticesXPre + xOffset, y=linearBeforeVerticesYPre, border=NA, col=bandColorBefore[1])
+# polygon(x=linearVerticesXPre + xOffset, y=linearAfterVerticesYPre, border=NA, col=bandColorAfter[1])
+# polygon(x=linearVerticesXPost + xOffset, y=linearBeforeVerticesYPost, border=NA, col=bandColorBefore[2])
+# polygon(x=linearVerticesXPost + xOffset, y=linearAfterVerticesYPost, border=NA, col=bandColorAfter[2])
+# # par(op)
+# 
+# # dev.off()
+# ###
+# ### Debugging code
+# ###
+# # grid.get("l")$gp
+# # grid.remove("l")
+# # grid.points(x=dsCart$X, y=dsCart$Y, gp=gpar(cex=.5, col=c1))
+# # grid.rect()
+# # grid.xaxis()
+# # grid.yaxis()
+# # grid.points(x=c(-2,-1,0, 1), y=c(0, 0, 0,0), default.units="native")
+# # grid.points(x=c(0,0,0,0), y=c(-2, -1, 0, 1), default.units="native")
+# #from line 224 "customgrid.Rnw"
+# # grid.text("temperature", y=unit(-3, "line"))
+# # grid.text("pressure", x=unit(-3, "line"), rot=90)
+# 
+# 
+# #  showViewport(newpage=TRUE, leaves=TRUE)
+# opar <- par(no.readonly=TRUE)

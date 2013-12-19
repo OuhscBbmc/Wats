@@ -135,5 +135,5 @@ CartesianRolling(
     changePointLabels = "Bombing Effect"
 )
 }
-\keyword{linear}
+\keyword{Cartesian}
 
