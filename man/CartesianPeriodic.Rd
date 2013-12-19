@@ -1,11 +1,11 @@
-\name{LinearPeriodicPlot}
-\alias{LinearPeriodicPlot}
+\name{CartesianPeriodic}
+\alias{CartesianPeriodic}
 \title{Linear Plot with Periodic Elements}
 \usage{
-LinearPeriodicPlot(dsLinear, dsPeriodic, xName, yName, stageIDName,
+CartesianPeriodic(dsLinear, dsPeriodic, xName, yName, stageIDName,
   periodicLowerName = "PositionLower", periodicUpperName = "PositionUpper",
   paletteDark = NULL, paletteLight = NULL, changePoints = NULL,
-  changePointLabels = NULL, drawBands = TRUE, jaggedPointSize = 2,
+  changePointLabels = NULL, drawPeriodicBand = TRUE, jaggedPointSize = 2,
   jaggedLineSize = 0.5, bandAlphaDark = 0.4, bandAlphaLight = 0.15,
   changeLineAlpha = 0.5, changeLineSize = 3, title = NULL,
   xTitle = NULL, yTitle = NULL)
@@ -55,8 +55,8 @@ LinearPeriodicPlot(dsLinear, dsPeriodic, xName, yName, stageIDName,
   \item{changePointLabels}{The text plotted above each
   interruption.}
 
-  \item{drawBands}{A boolean value indicating if the bands
-  should be plotted (whose values are take from the
+  \item{drawPeriodicBand}{A boolean value indicating if the
+  bands should be plotted (whose values are take from the
   \code{periodicLowerName} and \code{periodicUpperName}.}
 
   \item{jaggedPointSize}{The size of the observed data
@@ -107,7 +107,7 @@ portfolio <- AnnotateData(
     spreadFunction = hSpread
 )
 
-LinearPeriodicPlot(
+CartesianPeriodic(
   portfolio$dsLinear,
   portfolio$dsPeriodic,
   xName = "Date",

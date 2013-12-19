@@ -1,4 +1,4 @@
-##' @name LinearPeriodicPlot
+##' @name CartesianPeriodic
 ##' @export
 ##' 
 ##' @title Linear Plot with Periodic Elements
@@ -16,7 +16,7 @@
 ##' @param paletteLight A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.
 ##' @param changePoints A vector of values indicate the interruptions between stages.  It typically works best as a \code{Date} or a \code{POSIXct} class.
 ##' @param changePointLabels The text plotted above each interruption.
-##' @param drawBands A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodicLowerName} and \code{periodicUpperName}.
+##' @param drawPeriodicBand A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodicLowerName} and \code{periodicUpperName}.
 
 ##' @param jaggedPointSize The size of the observed data points.
 ##' @param jaggedLineSize The size of the line connecting the observed data points.
@@ -49,7 +49,7 @@
 ##'     spreadFunction = hSpread
 ##' )
 ##' 
-##' LinearPeriodicPlot(
+##' CartesianPeriodic(
 ##'   portfolio$dsLinear, 
 ##'   portfolio$dsPeriodic, 
 ##'   xName = "Date", 
@@ -61,12 +61,12 @@
 
 
 
-LinearPeriodicPlot <- function(dsLinear, dsPeriodic,
+CartesianPeriodic <- function(dsLinear, dsPeriodic,
                                xName, yName, stageIDName, 
                               periodicLowerName="PositionLower", periodicUpperName="PositionUpper",
                               paletteDark=NULL, paletteLight=NULL, 
                               changePoints=NULL, changePointLabels=NULL,
-                              drawBands=TRUE,
+                              drawPeriodicBand=TRUE,
                               jaggedPointSize=2, jaggedLineSize=.5, 
                               bandAlphaDark=.4, bandAlphaLight=.15, 
                               changeLineAlpha=.5, changeLineSize=3,
@@ -93,7 +93,7 @@ LinearPeriodicPlot <- function(dsLinear, dsPeriodic,
   for( stage in stages ) {
     dsStageLinear <- dsLinear[stage<=dsLinear$StageProgress & dsLinear$StageProgress<=(stage+1), ]
     
-    if( drawBands ) {
+    if( drawPeriodicBand ) {
       for( stageInner in stages ) {
         dsStagePeriodic <- dsPeriodic[(stage<=dsPeriodic$StageProgress) & (dsPeriodic$StageProgress<=(stage+1)) & (dsPeriodic$StageIDBand==stageInner), ]
         ribbonAlpha <- ifelse(stage==stageInner, bandAlphaDark, bandAlphaLight)
@@ -131,6 +131,6 @@ LinearPeriodicPlot <- function(dsLinear, dsPeriodic,
 # hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 # portfolio <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 # 
-# LinearPeriodicPlot(portfolio$dsLinear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect",
-#                    drawBands=FALSE)
-# LinearPeriodicPlot(portfolio$dsLinear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
+# CartesianPeriodic(portfolio$dsLinear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect",
+#                    drawPeriodicBand=FALSE)
+# CartesianPeriodic(portfolio$dsLinear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")

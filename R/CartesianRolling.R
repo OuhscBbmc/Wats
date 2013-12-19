@@ -19,7 +19,7 @@
 ##' @param changePointLabels The text plotted above each interruption.
 ##' @param drawJaggedLine A boolean value indicating if a line should be plotted that connects the observed data points.
 ##' @param drawRollingLine A boolean value indicating if a line should be plotted that connects the rolling estimates specified by \code{rollingCenterName}.
-##' @param drawRollingBands A boolean value indicating if a band should be plotted that envelopes the rolling estimates (whose values are take from the \code{rollingLowerName} and \code{rollingUpperName}.
+##' @param drawRollingBand A boolean value indicating if a band should be plotted that envelopes the rolling estimates (whose values are take from the \code{rollingLowerName} and \code{rollingUpperName}.
 ##' @param drawSparseLineAndPoints A boolean value indicating if the sparse line and points should be plotted.
 ##' 
 ##' @param jaggedPointSize The size of the observed data points.
@@ -68,7 +68,7 @@ CartesianRolling <- function(dsLinear, xName, yName, stageIDName,
                               rollingLowerName="RollingLower", rollingCenterName="RollingCenter", rollingUpperName="RollingUpper",
                               paletteDark=NULL, paletteLight=NULL, colorSparse=grDevices::adjustcolor("tan1", .5),
                               changePoints=NULL, changePointLabels=NULL,
-                              drawJaggedLine=TRUE, drawRollingLine=TRUE, drawRollingBands=TRUE, drawSparseLineAndPoints=TRUE, 
+                              drawJaggedLine=TRUE, drawRollingLine=TRUE, drawRollingBand=TRUE, drawSparseLineAndPoints=TRUE, 
                               jaggedPointSize=2, jaggedLineSize=.5, rollingLineSize=1, sparsePointSize=4, sparseLineSize=.5,
                               bandAlpha=.4, changeLineAlpha=.5, changeLineSize=3,
                               title=NULL, xTitle=NULL, yTitle=NULL ) {
@@ -98,7 +98,7 @@ CartesianRolling <- function(dsLinear, xName, yName, stageIDName,
       p <- p + ggplot2::geom_line(size=jaggedLineSize, color=paletteDark[stage], data=dsStage)
     if( drawRollingLine )
       p <- p + ggplot2::geom_line(ggplot2::aes_string(y=rollingCenterName), data=dsStage, size=rollingLineSize, color=paletteLight[stage], na.rm=T)
-    if( drawRollingBands )
+    if( drawRollingBand )
       p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rollingLowerName, ymax=rollingUpperName), data=dsStage, fill=paletteLight[stage], color=NA, alpha=bandAlpha, na.rm=T)
     
     p <- p + ggplot2::geom_point(shape=1, color=paletteLight[stage], data=dsStage, size=jaggedPointSize)

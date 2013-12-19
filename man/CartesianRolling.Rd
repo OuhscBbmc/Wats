@@ -7,7 +7,7 @@ CartesianRolling(dsLinear, xName, yName, stageIDName,
   rollingUpperName = "RollingUpper", paletteDark = NULL,
   paletteLight = NULL, colorSparse = grDevices::adjustcolor("tan1", 0.5),
   changePoints = NULL, changePointLabels = NULL, drawJaggedLine = TRUE,
-  drawRollingLine = TRUE, drawRollingBands = TRUE,
+  drawRollingLine = TRUE, drawRollingBand = TRUE,
   drawSparseLineAndPoints = TRUE, jaggedPointSize = 2,
   jaggedLineSize = 0.5, rollingLineSize = 1, sparsePointSize = 4,
   sparseLineSize = 0.5, bandAlpha = 0.4, changeLineAlpha = 0.5,
@@ -65,7 +65,7 @@ CartesianRolling(dsLinear, xName, yName, stageIDName,
   line should be plotted that connects the rolling
   estimates specified by \code{rollingCenterName}.}
 
-  \item{drawRollingBands}{A boolean value indicating if a
+  \item{drawRollingBand}{A boolean value indicating if a
   band should be plotted that envelopes the rolling
   estimates (whose values are take from the
   \code{rollingLowerName} and \code{rollingUpperName}.}

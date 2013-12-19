@@ -32,7 +32,7 @@ dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date
 hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
 
-CartesianRolling(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
+CartesianRolling(dsLinear=portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
 
 
 ## ----Figure2IndividualStylized-------------------------------------------
@@ -52,13 +52,13 @@ xScale <- scale_x_date(breaks=seq.Date(from=as.Date("1990-01-01"), to=as.Date("1
 yScale <- scale_y_continuous(breaks=5:7)
 yExpand <- expand_limits(y=c(5, 7))
 
-topPanel <- CartesianRolling(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate",
+topPanel <- CartesianRolling(dsLinear=portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate", 
                               changePointLabels="Bombing Effect", 
-                              drawRollingBands=FALSE, 
+                              drawRollingBand=FALSE, 
                               drawRollingLine=FALSE)
 middlePanel <- CartesianRolling(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate",
                               changePointLabels="", 
-                              drawRollingBands=FALSE, 
+                              drawRollingBand=FALSE, 
                               drawJaggedLine=FALSE)
 bottomPanel <- CartesianRolling(portfolio$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate", 
                               changePointLabels="", 
@@ -84,7 +84,7 @@ popViewport()
 
 
 ## ----Figure4Basic--------------------------------------------------------
-linearPeriodicSimple <- LinearPeriodicPlot(
+cartesianPeriodicSimple <- CartesianPeriodic(
   portfolio$dsLinear, 
   portfolio$dsPeriodic, 
   xName = "Date", 
@@ -93,9 +93,9 @@ linearPeriodicSimple <- LinearPeriodicPlot(
   changePoints = changeMonth, 
   changePointLabels = "Bombing Effect",
   yTitle="General Fertility Rate",
-  drawBands=FALSE
+  drawPeriodicBand=FALSE
 )
-linearPeriodicSimple
+cartesianPeriodicSimple
 
 
 ## ----Figure4Stylized-----------------------------------------------------
@@ -114,12 +114,12 @@ xScale <- scale_x_date(breaks=seq.Date(from=as.Date("1990-01-01"), to=as.Date("1
 yScale <- scale_y_continuous(breaks=5:7)
 yExpand <- expand_limits(y=c(5, 7))
 
-linearPeriodicSimple <- linearPeriodicSimple + xScale + yScale + yExpand + fig4Theme
-linearPeriodicSimple
+cartesianPeriodicSimple <- cartesianPeriodicSimple + xScale + yScale + yExpand + fig4Theme
+cartesianPeriodicSimple
 
 
 ## ----Figure5Basic--------------------------------------------------------
-linearPeriodic <- LinearPeriodicPlot(
+cartesianPeriodic <- CartesianPeriodic(
   portfolio$dsLinear, 
   portfolio$dsPeriodic, 
   xName = "Date", 
@@ -128,14 +128,14 @@ linearPeriodic <- LinearPeriodicPlot(
   changePoints = changeMonth, 
   changePointLabels = "Bombing Effect",
   yTitle="General Fertility Rate",
-  drawBands=TRUE #The only difference from the simple linear graph above
+  drawPeriodicBand=TRUE #The only difference from the simple linear graph above
 )
-linearPeriodic
+cartesianPeriodic
 
 
 ## ----Figure5Stylized-----------------------------------------------------
-linearPeriodic <- linearPeriodic + xScale + yScale + yExpand + fig4Theme
-linearPeriodic
+cartesianPeriodic <- cartesianPeriodic + xScale + yScale + yExpand + fig4Theme
+cartesianPeriodic
 
 
 ## ----session_info, echo=FALSE--------------------------------------------
