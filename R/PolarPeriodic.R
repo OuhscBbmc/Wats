@@ -52,29 +52,55 @@ PolarPeriodic <- function(dsLinear, dsStageCycle, dsStageCyclePolar,
                           graphCeiling=max(tickLocations),
                           title=NULL, xTitle=NULL, yTitle=NULL 
                           ) {
-#   require(grid)T
   
-  graphHeight <- graphCeiling - graphFloor
-#   stages <- base::sort(base::unique(dsLinear[, stageIDName]))
-#   stageCount <- length(stages)
-#   testit::assert("The number of unique `StageID` values should be 1 greater than the number of `changePoints`.", stageCount==1+length(changePoints))
-#   if( !is.null(changePoints) ) testit::assert("The number of `changePoints` should equal the number of `changeLabels`.", length(changePoints)==length(changePointLabels))
-#   if( !is.null(paletteDark) ) testit::assert("The number of `paletteDark` colors should equal the number of unique `StageID` values.", stageCount==length(paletteDark))
-#   if( !is.null(paletteLight) ) testit::assert("The number of `paletteLight` colors should equal the number of unique `StageID` values.", stageCount==length(paletteLight))
+  graphRadius <- graphCeiling - graphFloor
+  stages <- base::sort(base::unique(dsLinear[, stageIDName]))
+  stageCount <- length(stages)
+  #     testit::assert("The number of unique `StageID` values should be 1 greater than the number of `changePoints`.", stageCount==1+length(changePoints))
+  if( !is.null(changePoints) ) testit::assert("The number of `changePoints` should equal the number of `changeLabels`.", length(changePoints)==length(changePointLabels))
+  if( !is.null(paletteDark) ) testit::assert("The number of `paletteDark` colors should equal the number of unique `StageID` values.", stageCount==length(paletteDark))
+  if( !is.null(paletteLight) ) testit::assert("The number of `paletteLight` colors should equal the number of unique `StageID` values.", stageCount==length(paletteLight))
 
-vpRange <- c(-graphHeight, graphHeight) * 1.02
+  if( is.null(paletteDark) ) {
+    if( length(stages) <= 4L) paletteDark <- RColorBrewer::brewer.pal(n=10, name="Paired")[c(2,4,6,8)] #There's not a risk of defining more colors than levels
+    else paletteDark <- colorspace::rainbow_hcl(n=length(stages), l=40)
+  }  
+  if( is.null(paletteLight) ) {
+    if( length(stages) <= 4L) paletteLight <- RColorBrewer::brewer.pal(n=10, name="Paired")[c(1,3,5,7)] #There's not a risk of defining more colors than levels
+    else paletteLight <- colorspace::rainbow_hcl(n=length(stages), l=70)
+  } 
 
+  vpRange <- c(-graphRadius, graphRadius) * 1.02
+  # pushViewport(viewport(layout=grid.layout(nrow=1, ncol=1, respect=T), gp=gpar(cex=0.6, fill=NA)))
+  pushViewport(viewport(layout=grid.layout(nrow=2, ncol=2, respect=T, widths=unit(c(1,1), c("null", "null")), heights=unit(c(1,.5), c("null", "null"))), gp=gpar(cex=0.6, fill=NA)))
 
-# pushViewport(viewport(layout.pos.col=2, layout.pos.row=1))
-# pushViewport(plotViewport(c(2, 2, 2, 2))) 
-# pushViewport(dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
-# grid.lines(x=c(-2,2), y=c(0,0), gp=gpar(col="gray80"), default.units="native")
-# grid.lines(x=c(0,0), y=c(-2,2), gp=gpar(col="gray80"), default.units="native")
-# grid.circle(x=0, y=0, r=0:2, default.units="native", gp=gpar(col="gray80"))
+  pushViewport(plotViewport(margins=c(2, 2, 2, 2) )) # pushViewport(plotViewport(c(0)))
+  pushViewport(dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
   
+  #Draw the gridlines
+  grid.lines(x=c(-graphRadius,graphRadius), y=c(0,0), gp=gpar(col="gray80"), default.units="native")
+  grid.lines(x=c(0,0), y=c(-graphRadius,graphRadius), gp=gpar(col="gray80"), default.units="native")
+  #grid.circle(x=0, y=0, r=seq_len(graphRadius), default.units="native", gp=gpar(col="gray80", fill=NA))
+  gc <- circleGrob(x=0, y=0, r=seq_len(graphRadius), default.units="native", gp=gpar(col="gray80", fill=NA))
+  # grid.draw(gc)
+  
+  
+
+
+  grid.text(paste("A point at the origin represents a GFR of", graphFloor), x=c(0), y=c(-2.2), gp=gpar(cex=1.5, col="gray70"), default.units="native")
+
+  lg <- polylineGrob(x=dsStageCyclePolar$PolarX, y=dsStageCyclePolar$PolarY, id=dsStageCyclePolar$StageID, gp=gpar(col=paletteDark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
+  grid.draw(lg)
+
+  popViewport(n=3)
+
+
+#   fg <- frameGrob(layout=grid.layout(nrow=1, ncol=1, respect=T), gp=gpar(cex=0.6, fill=NA))
+
 #   return( g )
 }
 
+require(grid)
 filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
 dsLinear <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
 dsLinear$Date <- as.Date(dsLinear$Date) 
@@ -86,10 +112,10 @@ dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName
 hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 
-dsStageCyclePolar <- PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
-
+dsStageCyclePolar <- Wats::PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
+grid.newpage()
 # ggplot2::ggplot(dsStageCyclePolar, ggplot2::aes(x=PolarX, y=PolarY, color=factor(StageID))) + ggplot2::geom_path() + ggplot2::geom_point() #+ ggthemes::theme_few()
-PolarPeriodic(dsLinear=portfolio$dsLinear, dsStageCycle=portfolio$dsStageCycle, dsStageCyclePolar=dsStageCyclePolar, yName="BirthRate")
+PolarPeriodic(dsLinear=portfolio$dsLinear, dsStageCycle=portfolio$dsStageCycle, dsStageCyclePolar=dsStageCyclePolar, yName="BirthRate", stageIDName="StageID")
 
 
 
