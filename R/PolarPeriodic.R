@@ -6,7 +6,6 @@
 ##' @description Shows the interrupted time series in Cartesian coordinates and its a periodic/cyclic components.
 ##' 
 ##' @param dsLinear The \code{data.frame} to containing the simple linear data.  There should be one record per observation.
-##' @param dsStageCycle The \code{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \code{data.frame} should have three times as many rows as \code{dsLinear}.
 ##' @param dsStageCyclePolar The \code{data.frame} to containing the bands for a single period.  There should be one record per theta per stage.  If there are three stages, this \code{data.frame} should have three times as many rows as \code{dsLinear}.
 ##' @param xName The variable name containing the date.
 ##' @param yName The variable name containing the dependent/criterion variable.
@@ -18,40 +17,43 @@
 ##' @param paletteLight A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.
 ##' @param changePoints A vector of values indicate the interruptions between stages.  It typically works best as a \code{Date} or a \code{POSIXct} class.
 ##' @param changePointLabels The text plotted above each interruption.
-##' @param drawPeriodicBand A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodicLowerName} and \code{periodicUpperName}.
+##' @param drawObservedLine A boolean value indicating if the longitudinal observed line should be plotted (whose values are take from \code{dsLinear}.
+##' @param drawPeriodicBand A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodicLowerName} and \code{periodicUpperName} fields.
 ##' @param jaggedPointSize The size of the observed data points.
 ##' @param jaggedLineSize The size of the line connecting the observed data points.
 ##' 
 ##' @param bandAlphaDark The amount of transparency of the band appropriate for a stage's \emph{x} values.
 ##' @param bandAlphaLight The amount of transparency of the band comparison stages for a given \emph{x} value.
 ##' @param changeLineAlpha The amount of transparency marking each interruption.
+##' @param colorLabels The color for \code{cardinalLabels} and \code{originLabel}.
+##' @param colorGridlines The color for the gridlines.
 ##' @param changeLineSize The width of a line marking an interruption.
 ##' @param tickLocations The desired locations for ticks showing the value of the criterion/dependent variable.
 ##' @param graphFloor The value of the criterion/dependent variable at the center of the polar plot.
 ##' @param graphCeiling The value of the criterion/dependent variable at the outside of the polar plot.
 ##' 
-##' @param title The string describing the plot.
-##' @param xTitle The string describing the \emph{x}-axis.
-##' @param yTitle The string describing the \emph{y}-axis. 
+##' @param cardinalLabels The four labels placed  where `North', `East', `South', and `West' typically are.
+##' @param originLabel Explains what the criterion variable's value is at the origin.  Use \code{NULL} if no explanation is desired.
 ##' 
 ##' @return Returns a \code{grid} graphical object (ie, a \href{http://stat.ethz.ch/R-manual/R-devel/library/grid/html/grid.grob.html}{\code{grob}}.)
 ##' @keywords polar
 ##' @examples
 ##' 32+7854
 
-PolarPeriodic <- function(dsLinear, dsStageCycle, dsStageCyclePolar,
+PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
                           xName, yName, stageIDName, 
                           periodicLowerName="PositionLower", periodicUpperName="PositionUpper",
                           paletteDark=NULL, paletteLight=NULL, 
                           changePoints=NULL, changePointLabels=NULL,
-                          drawPeriodicBand=TRUE,
+                          drawObservedLine=TRUE, drawPeriodicBand=TRUE,
                           jaggedPointSize=2, jaggedLineSize=.5, 
                           bandAlphaDark=.4, bandAlphaLight=.15, 
+                          colorLabels="gray50", colorGridlines="gray80",
                           changeLineAlpha=.5, changeLineSize=3,
                           tickLocations=base::pretty(x=dsLinear[, yName]),
                           graphFloor=min(tickLocations),
                           graphCeiling=max(tickLocations),
-                          title=NULL, xTitle=NULL, yTitle=NULL 
+                          cardinalLabels=NULL, originLabel=paste("A point at the origin represents a value of", graphFloor)
                           ) {
   
   graphRadius <- graphCeiling - graphFloor
@@ -74,35 +76,39 @@ PolarPeriodic <- function(dsLinear, dsStageCycle, dsStageCyclePolar,
   
   grid::pushViewport(grid::viewport(layout=grid::grid.layout(nrow=1, ncol=1, respect=T), gp=grid::gpar(cex=0.6, fill=NA)))
   grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=1)) #This simple viewport is very important for the respected aspect ratio of 1.
-  grid::grid.text(c("A point at the origin represents a GFR of 5"), x=.5, y=0, vjust=-.5, gp=grid::gpar(cex=1.5, col="gray70"), default.units="npc")
+  grid::grid.text(originLabel, x=.5, y=0, vjust=-.5, gp=grid::gpar(cex=1.5, col=colorLabels), default.units="npc")
   grid::pushViewport(grid::plotViewport(margins=c(2, 2, 2, 2))) 
   grid::pushViewport(grid::dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
   
-  grid::grid.lines(x=c(-graphRadius,graphRadius), y=c(0,0), gp=grid::gpar(col="gray80"), default.units="native")
-  grid::grid.lines(x=c(0,0), y=c(-graphRadius,graphRadius), gp=grid::gpar(col="gray80"), default.units="native")
-  grid::grid.circle(x=0, y=0, r=seq_len(floor(graphRadius)), default.units="native", gp=grid::gpar(col="gray80"))
-  grid::grid.text(c("Jan1", "Apr1", "July1", "Oct1"), x=c(0, graphRadius, 0, -graphRadius), y=c(graphRadius, 0, -graphRadius, 0), gp=grid::gpar(cex=2, col="gray50"), default.units="native")
-  #grid.text(c("A point at the origin represents a GFR of 5"), x=c(0), y=c(-2.2), gp=gpar(cex=1.5, col="gray70"), default.units="native")
-  
-  
-  lg <- grid::polylineGrob(x=dsStageCyclePolar$PolarLowerX, y=dsStageCyclePolar$PolarLowerY, id=dsStageCyclePolar$StageID, gp=grid::gpar(col=paletteDark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
-  grid::grid.draw(lg) 
-  
-  cg <- grid::polylineGrob(x=dsStageCyclePolar$PolarCenterX, y=dsStageCyclePolar$PolarCenterY, id=dsStageCyclePolar$StageID, gp=grid::gpar(col=paletteDark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
-  grid::grid.draw(cg) 
-  
-  ug <- grid::polylineGrob(x=dsStageCyclePolar$PolarUpperX, y=dsStageCyclePolar$PolarUpperY, id=dsStageCyclePolar$StageID, gp=grid::gpar(col=paletteDark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
-  grid::grid.draw(ug)
-
-  for( stageID in stages ) {
-    lowerX <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarLowerX"]
-    lowerY <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarLowerY"]
-    upperX <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarUpperX"]
-    upperY <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarUpperY"]  
+  grid::grid.lines(x=c(-graphRadius,graphRadius), y=c(0,0), gp=grid::gpar(col=colorGridlines, lty=3), default.units="native")
+  grid::grid.lines(x=c(0,0), y=c(-graphRadius,graphRadius), gp=grid::gpar(col=colorGridlines, lty=3), default.units="native")
+  grid::grid.circle(x=0, y=0, r=seq_len(floor(graphRadius)), default.units="native", gp=grid::gpar(col=colorGridlines))
+  grid::grid.text(cardinalLabels, x=c(0, graphRadius, 0, -graphRadius), y=c(graphRadius, 0, -graphRadius, 0), gp=grid::gpar(cex=2, col=colorLabels), default.units="native")
     
-    x <- c(lowerX, rev(upperX))
-    y <- c(lowerY, rev(upperY))
-    grid::grid.polygon(x=x, y=y, default.units="native", gp=grid::gpar(fill=paletteDark[stageID], col="transparent", alpha=bandAlphaDark))
+#   lg <- grid::polylineGrob(x=dsStageCyclePolar$PolarLowerX, y=dsStageCyclePolar$PolarLowerY, id=dsStageCyclePolar$StageID, gp=grid::gpar(col=paletteDark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
+#   grid::grid.draw(lg)   
+#   cg <- grid::polylineGrob(x=dsStageCyclePolar$PolarCenterX, y=dsStageCyclePolar$PolarCenterY, id=dsStageCyclePolar$StageID, gp=grid::gpar(col=paletteDark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
+#   grid::grid.draw(cg)    
+#   ug <- grid::polylineGrob(x=dsStageCyclePolar$PolarUpperX, y=dsStageCyclePolar$PolarUpperY, id=dsStageCyclePolar$StageID, gp=grid::gpar(col=paletteDark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
+#   grid::grid.draw(ug)
+
+  if( drawPeriodicBand ) {
+    for( stageID in stages ) {
+      lowerX <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarLowerX"]
+      lowerY <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarLowerY"]
+      upperX <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarUpperX"]
+      upperY <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarUpperY"]  
+      
+      x <- c(lowerX, rev(upperX))
+      y <- c(lowerY, rev(upperY))
+      grid::grid.polygon(x=x, y=y, default.units="native", gp=grid::gpar(fill=paletteDark[stageID], col="transparent", alpha=bandAlphaDark))
+    }
+  }
+  
+  if( drawObservedLine ) {
+    gObserved <- grid::polylineGrob(x=dsLinear$ObservedX, y=dsLinear$ObservedY, id=dsLinear$StageID, gp=grid::gpar(col=paletteDark, lwd=2), default.units="native", name="l") 
+  #   gObserved <- polylineGrob(x=dsLinear$ObservedX, y=dsLinear$ObservedY, gp=gpar(col=paletteDark, lwd=2), default.units="native", name="l")
+  grid::grid.draw(gObserved)
   }
   
   grid::upViewport(n=4)
@@ -118,10 +124,13 @@ PolarPeriodic <- function(dsLinear, dsStageCycle, dsStageCyclePolar,
 # dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 # 
 # hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+# portfolioCartesian <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 # 
-# dsStageCyclePolar <- Wats::PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
+# portfolioPolar <- PolarizeCartesian(portfolioCartesian$dsLinear, portfolioCartesian$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
 # # ggplot2::ggplot(dsStageCyclePolar, ggplot2::aes(x=PolarX, y=PolarY, color=factor(StageID))) + ggplot2::geom_path() + ggplot2::geom_point() #+ ggthemes::theme_few()
+# 
+# windows.options(antialias = "cleartype")
 # grid.newpage()
-# Wats::PolarPeriodic(dsLinear=portfolio$dsLinear, dsStageCycle=portfolio$dsStageCycle, dsStageCyclePolar=dsStageCyclePolar, yName="BirthRate", stageIDName="StageID")
-
+# PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, portfolioPolar$dsStageCyclePolar, yName="Radius", stageIDName="StageID", graphCeiling=7, cardinalLabels=c("Jan1", "Apr1", "July1", "Oct1"))
+# # PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, portfolioPolar$dsStageCyclePolar, yName="Radius", stageIDName="StageID", graphCeiling=7, drawPeriodicBand=F)
+# # PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, portfolioPolar$dsStageCyclePolar, yName="Radius", stageIDName="StageID", graphCeiling=7, drawObservedLine=F, cardinalLabels=c("Jan1", "Apr1", "July1", "Oct1"))

@@ -2,26 +2,23 @@
 \alias{PolarPeriodic}
 \title{Polar Plot with Periodic Elements}
 \usage{
-PolarPeriodic(dsLinear, dsStageCycle, dsStageCyclePolar, xName, yName,
-  stageIDName, periodicLowerName = "PositionLower",
-  periodicUpperName = "PositionUpper", paletteDark = NULL,
-  paletteLight = NULL, changePoints = NULL, changePointLabels = NULL,
+PolarPeriodic(dsLinear, dsStageCyclePolar, xName, yName, stageIDName,
+  periodicLowerName = "PositionLower", periodicUpperName = "PositionUpper",
+  paletteDark = NULL, paletteLight = NULL, changePoints = NULL,
+  changePointLabels = NULL, drawObservedLine = TRUE,
   drawPeriodicBand = TRUE, jaggedPointSize = 2, jaggedLineSize = 0.5,
-  bandAlphaDark = 0.4, bandAlphaLight = 0.15, changeLineAlpha = 0.5,
-  changeLineSize = 3, tickLocations = base::pretty(x = dsLinear[, yName]),
+  bandAlphaDark = 0.4, bandAlphaLight = 0.15, colorLabels = "gray50",
+  colorGridlines = "gray80", changeLineAlpha = 0.5, changeLineSize = 3,
+  tickLocations = base::pretty(x = dsLinear[, yName]),
   graphFloor = min(tickLocations), graphCeiling = max(tickLocations),
-  title = NULL, xTitle = NULL, yTitle = NULL)
+  cardinalLabels = NULL,
+  originLabel = paste("A point at the origin represents a value of",
+  graphFloor))
 }
 \arguments{
   \item{dsLinear}{The \code{data.frame} to containing the
   simple linear data.  There should be one record per
   observation.}
-
-  \item{dsStageCycle}{The \code{data.frame} to containing
-  the reoccurring/periodic bands.  There should be one
-  record per observation per stage.  If there are three
-  stages, this \code{data.frame} should have three times as
-  many rows as \code{dsLinear}.}
 
   \item{dsStageCyclePolar}{The \code{data.frame} to
   containing the bands for a single period.  There should
@@ -63,9 +60,14 @@ PolarPeriodic(dsLinear, dsStageCycle, dsStageCyclePolar, xName, yName,
   \item{changePointLabels}{The text plotted above each
   interruption.}
 
+  \item{drawObservedLine}{A boolean value indicating if the
+  longitudinal observed line should be plotted (whose
+  values are take from \code{dsLinear}.}
+
   \item{drawPeriodicBand}{A boolean value indicating if the
   bands should be plotted (whose values are take from the
-  \code{periodicLowerName} and \code{periodicUpperName}.}
+  \code{periodicLowerName} and \code{periodicUpperName}
+  fields.}
 
   \item{jaggedPointSize}{The size of the observed data
   points.}
@@ -82,6 +84,11 @@ PolarPeriodic(dsLinear, dsStageCycle, dsStageCyclePolar, xName, yName,
   \item{changeLineAlpha}{The amount of transparency marking
   each interruption.}
 
+  \item{colorLabels}{The color for \code{cardinalLabels}
+  and \code{originLabel}.}
+
+  \item{colorGridlines}{The color for the gridlines.}
+
   \item{changeLineSize}{The width of a line marking an
   interruption.}
 
@@ -94,11 +101,12 @@ PolarPeriodic(dsLinear, dsStageCycle, dsStageCyclePolar, xName, yName,
   \item{graphCeiling}{The value of the criterion/dependent
   variable at the outside of the polar plot.}
 
-  \item{title}{The string describing the plot.}
+  \item{cardinalLabels}{The four labels placed where
+  `North', `East', `South', and `West' typically are.}
 
-  \item{xTitle}{The string describing the \emph{x}-axis.}
-
-  \item{yTitle}{The string describing the \emph{y}-axis.}
+  \item{originLabel}{Explains what the criterion variable's
+  value is at the origin.  Use \code{NULL} if no
+  explanation is desired.}
 }
 \value{
 Returns a \code{grid} graphical object (ie, a

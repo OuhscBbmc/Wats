@@ -48,7 +48,7 @@ AnnotateData <- function( dsLinear,
     positionBounds <- spreadFunction(d[, dvName])
     #   print(positionBounds)
     data.frame(    
-      ProportionThroughCycleMean = mean(d$ProportionThroughCycle, na.rm=TRUE),
+      ProportionThroughCycle = mean(d$ProportionThroughCycle, na.rm=TRUE),
       PositionLower = positionBounds[1],
       PositionCenter = median(d[, dvName]),
       PositionUpper = positionBounds[2]

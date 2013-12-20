@@ -3,7 +3,8 @@
 \title{Manipulate Cartesian data to use in the WATS polar plot}
 \usage{
 PolarizeCartesian(dsLinear, dsStageCycle, yName, stageIDName,
-  proportionThroughCycleName = "ProportionThroughCycleMean",
+  cycleTallyName = "CycleTally",
+  proportionThroughCycleName = "ProportionThroughCycle",
   periodicLowerName = "PositionLower",
   periodicCenterName = "PositionCenter",
   periodicUpperName = "PositionUpper", plottedPointCountPerCycle = 120,
@@ -27,6 +28,10 @@ PolarizeCartesian(dsLinear, dsStageCycle, yName, stageIDName,
   stage the record belongs to.  For example, before the
   first interruption, the \code{StageID} is \code{1}, and
   is \code{2} afterwards.}
+
+  \item{cycleTallyName}{The variable name indicating how
+  many \emph{complete} cycles have occurred at that
+  observation.}
 
   \item{proportionThroughCycleName}{The variable name
   showing how far through a cycle the observation (or
