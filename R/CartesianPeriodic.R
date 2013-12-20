@@ -27,8 +27,8 @@
 ##' @param changeLineSize The width of a line marking an interruption.
 ##' 
 ##' @param title The string describing the plot.
-##' @param xTitle TThe string describing the \emph{x}-axis.
-##' @param yTitle TThe string describing the \emph{y}-axis. 
+##' @param xTitle The string describing the \emph{x}-axis.
+##' @param yTitle The string describing the \emph{y}-axis. 
 ##' 
 ##' @return Returns a \code{ggplot2} graphing object
 ##' @keywords Cartesian

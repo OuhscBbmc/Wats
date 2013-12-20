@@ -26,10 +26,12 @@
 ##' @param bandAlphaLight The amount of transparency of the band comparison stages for a given \emph{x} value.
 ##' @param changeLineAlpha The amount of transparency marking each interruption.
 ##' @param changeLineSize The width of a line marking an interruption.
+##' @param graphFloor The value of the criterion/dependent variable at the center of the polar plot.
+##' @param graphCeiling The value of the criterion/dependent variable at the outside of the polar plot.
 ##' 
 ##' @param title The string describing the plot.
-##' @param xTitle TThe string describing the \emph{x}-axis.
-##' @param yTitle TThe string describing the \emph{y}-axis. 
+##' @param xTitle The string describing the \emph{x}-axis.
+##' @param yTitle The string describing the \emph{y}-axis. 
 ##' 
 ##' @return Returns a \code{grid} graphical object (ie, a \href{http://stat.ethz.ch/R-manual/R-devel/library/grid/html/grid.grob.html}{\code{grob}}.)
 ##' @keywords polar
@@ -45,10 +47,14 @@ PolarPeriodic <- function(dsLinear, dsStageCycle, dsStageCyclePolar,
                           jaggedPointSize=2, jaggedLineSize=.5, 
                           bandAlphaDark=.4, bandAlphaLight=.15, 
                           changeLineAlpha=.5, changeLineSize=3,
+                          tickLocations=base::pretty(x=dsLinear[, yName]),
+                          graphFloor=min(tickLocations),
+                          graphCeiling=max(tickLocations),
                           title=NULL, xTitle=NULL, yTitle=NULL 
                           ) {
-#   require(grid)
+#   require(grid)T
   
+  graphHeight <- graphCeiling - graphFloor
 #   stages <- base::sort(base::unique(dsLinear[, stageIDName]))
 #   stageCount <- length(stages)
 #   testit::assert("The number of unique `StageID` values should be 1 greater than the number of `changePoints`.", stageCount==1+length(changePoints))
@@ -56,14 +62,9 @@ PolarPeriodic <- function(dsLinear, dsStageCycle, dsStageCyclePolar,
 #   if( !is.null(paletteDark) ) testit::assert("The number of `paletteDark` colors should equal the number of unique `StageID` values.", stageCount==length(paletteDark))
 #   if( !is.null(paletteLight) ) testit::assert("The number of `paletteLight` colors should equal the number of unique `StageID` values.", stageCount==length(paletteLight))
 
+vpRange <- c(-graphHeight, graphHeight) * 1.02
 
-  g <- ggplot2::ggplot(dsStageCyclePolar, ggplot2::aes(x=PolarX, y=PolarY, color=factor(StageID)))
-  g <- g + ggplot2::geom_path()
-  g <- g + ggplot2::geom_point() #This are interpolation points, not real data points.  Comment out this line for production version.
-  g <- g + ggplot2::coord_fixed(ratio=1) 
-#   g <- g + ggthemes::theme_solid() 
-  g <- g + ggplot2::guides(color="none") 
-  g <- g + ggplot2::labs(x=NULL, y=NULL) 
+
 # pushViewport(viewport(layout.pos.col=2, layout.pos.row=1))
 # pushViewport(plotViewport(c(2, 2, 2, 2))) 
 # pushViewport(dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
@@ -71,22 +72,32 @@ PolarPeriodic <- function(dsLinear, dsStageCycle, dsStageCyclePolar,
 # grid.lines(x=c(0,0), y=c(-2,2), gp=gpar(col="gray80"), default.units="native")
 # grid.circle(x=0, y=0, r=0:2, default.units="native", gp=gpar(col="gray80"))
   
-  return( g )
+#   return( g )
 }
 
-# filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
-# dsLinear <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
-# dsLinear$Date <- as.Date(dsLinear$Date) 
-# dsLinear$MonthID <- NULL
-# changeMonth <- as.Date("1996-02-15")
-# dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
-# dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
-# 
-# hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
-# 
-# dsStageCyclePolar <- PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
-# 
-# # ggplot2::ggplot(dsStageCyclePolar, ggplot2::aes(x=PolarX, y=PolarY, color=factor(StageID))) + ggplot2::geom_path() + ggplot2::geom_point() #+ ggthemes::theme_few()
-# PolarPeriodic(dsLinear=NULL, dsStageCycle=NULL, dsStageCyclePolar=dsStageCyclePolar)
+filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
+dsLinear <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
+dsLinear$Date <- as.Date(dsLinear$Date) 
+dsLinear$MonthID <- NULL
+changeMonth <- as.Date("1996-02-15")
+dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
+dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 
+hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+portfolio <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+
+dsStageCyclePolar <- PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
+
+# ggplot2::ggplot(dsStageCyclePolar, ggplot2::aes(x=PolarX, y=PolarY, color=factor(StageID))) + ggplot2::geom_path() + ggplot2::geom_point() #+ ggthemes::theme_few()
+PolarPeriodic(dsLinear=portfolio$dsLinear, dsStageCycle=portfolio$dsStageCycle, dsStageCyclePolar=dsStageCyclePolar, yName="BirthRate")
+
+
+
+
+#   g <- ggplot2::ggplot(dsStageCyclePolar, ggplot2::aes(x=PolarX, y=PolarY, color=factor(StageID)))
+#   g <- g + ggplot2::geom_path()
+#   g <- g + ggplot2::geom_point() #This are interpolation points, not real data points.  Comment out this line for production version.
+#   g <- g + ggplot2::coord_fixed(ratio=1) 
+# #   g <- g + ggthemes::theme_solid() 
+#   g <- g + ggplot2::guides(color="none") 
+#   g <- g + ggplot2::labs(x=NULL, y=NULL) 
