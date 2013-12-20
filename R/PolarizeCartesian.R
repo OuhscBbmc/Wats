@@ -37,25 +37,33 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
     return( d )
   }
   interpolate <- function( d, pointsPerCycleCount ) {
+    lower <- stats::approx(x = d[, proportionThroughCycleName], y = d[, periodicLowerName], n = pointsPerCycleCount)
+    center <- stats::approx(x = d[, proportionThroughCycleName], y = d[, periodicCenterName], n = pointsPerCycleCount)
+    upper <- stats::approx(x = d[, proportionThroughCycleName], y = d[, periodicUpperName], n = pointsPerCycleCount)
+    
     base::data.frame(
-      stats::approx(
-        x = d[, proportionThroughCycleName], 
-        y = d[, periodicCenterName], 
-        n = pointsPerCycleCount
-      )
+      LowerX = lower$x,
+      LowerY = lower$y,
+      CenterX = center$x,
+      CenterY = center$y,
+      UpperX = upper$x,
+      UpperY = upper$y
+
     )   
   }
   Polarize <- function( d, graphFloor=0 ) {
     base::data.frame(
-      PolarX = (d$y - graphFloor) * sinpi(2 * d$x),
-      PolarY = (d$y - graphFloor) * cospi(2 * d$x)  
+      PolarLowerX = (d$LowerY - graphFloor) * sinpi(2 * d$LowerX),
+      PolarLowerY = (d$LowerY - graphFloor) * cospi(2 * d$LowerX),  
+      PolarCenterX = (d$CenterY - graphFloor) * sinpi(2 * d$CenterX),
+      PolarCenterY = (d$CenterY - graphFloor) * cospi(2 * d$CenterX) ,  
+      PolarUpperX = (d$UpperY - graphFloor) * sinpi(2 * d$UpperX),
+      PolarUpperY = (d$UpperY - graphFloor) * cospi(2 * d$UpperX)  
     )
   }
   
   dsStageCycleClosed <- plyr::ddply(dsStageCycle, .variables=stageIDName, .fun=closeLoop)
-
   dsStageCycleInterpolated <- plyr::ddply(dsStageCycleClosed, .variables="StageID", .fun=interpolate, pointsPerCycleCount=plottedPointCountPerCycle)
-
   dsStageCyclePolar <- plyr::ddply(dsStageCycleInterpolated, .variables="StageID", .fun=Polarize, graphFloor=graphFloor)
   
   return( dsStageCyclePolar )
@@ -74,5 +82,7 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
 # 
 # dsStageCyclePolar <- PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
 
-# ggplot2::ggplot(dsStageCyclePolar, ggplot2::aes(x=PolarX, y=PolarY, color=factor(StageID))) + ggplot2::geom_path() + ggplot2::geom_point() + ggthemes::theme_solarized_2()
+# ggplot2::ggplot(dsStageCyclePolar, ggplot2::aes(x=PolarLowerX, y=PolarLowerY, color=factor(StageID))) + ggplot2::geom_path() + ggplot2::geom_point() + ggthemes::theme_solarized_2()
+# ggplot2::ggplot(dsStageCyclePolar, ggplot2::aes(x=PolarCenterX, y=PolarCenterY, color=factor(StageID))) + ggplot2::geom_path() + ggplot2::geom_point() + ggthemes::theme_solarized_2()
+
 

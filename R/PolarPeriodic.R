@@ -26,6 +26,7 @@
 ##' @param bandAlphaLight The amount of transparency of the band comparison stages for a given \emph{x} value.
 ##' @param changeLineAlpha The amount of transparency marking each interruption.
 ##' @param changeLineSize The width of a line marking an interruption.
+##' @param tickLocations The desired locations for ticks showing the value of the criterion/dependent variable.
 ##' @param graphFloor The value of the criterion/dependent variable at the center of the polar plot.
 ##' @param graphCeiling The value of the criterion/dependent variable at the outside of the polar plot.
 ##' 
@@ -54,6 +55,7 @@ PolarPeriodic <- function(dsLinear, dsStageCycle, dsStageCyclePolar,
                           ) {
   
   graphRadius <- graphCeiling - graphFloor
+  vpRange <- c(-graphRadius, graphRadius) * 1.02
   stages <- base::sort(base::unique(dsLinear[, stageIDName]))
   stageCount <- length(stages)
   #     testit::assert("The number of unique `StageID` values should be 1 greater than the number of `changePoints`.", stageCount==1+length(changePoints))
@@ -62,58 +64,64 @@ PolarPeriodic <- function(dsLinear, dsStageCycle, dsStageCyclePolar,
   if( !is.null(paletteLight) ) testit::assert("The number of `paletteLight` colors should equal the number of unique `StageID` values.", stageCount==length(paletteLight))
 
   if( is.null(paletteDark) ) {
-    if( length(stages) <= 4L) paletteDark <- RColorBrewer::brewer.pal(n=10, name="Paired")[c(2,4,6,8)] #There's not a risk of defining more colors than levels
+    if( length(stages) <= 4L) paletteDark <- RColorBrewer::brewer.pal(n=10L, name="Paired")[c(2L,4L,6L,8L)] #There's not a risk of defining more colors than levels
     else paletteDark <- colorspace::rainbow_hcl(n=length(stages), l=40)
   }  
   if( is.null(paletteLight) ) {
-    if( length(stages) <= 4L) paletteLight <- RColorBrewer::brewer.pal(n=10, name="Paired")[c(1,3,5,7)] #There's not a risk of defining more colors than levels
+    if( length(stages) <= 4L) paletteLight <- RColorBrewer::brewer.pal(n=10L, name="Paired")[c(1L,3L,5L,7L)] #There's not a risk of defining more colors than levels
     else paletteLight <- colorspace::rainbow_hcl(n=length(stages), l=70)
-  } 
+  }   
+  
+  grid::pushViewport(grid::viewport(layout=grid::grid.layout(nrow=1, ncol=1, respect=T), gp=grid::gpar(cex=0.6, fill=NA)))
+  grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=1)) #This simple viewport is very important for the respected aspect ratio of 1.
+  grid::grid.text(c("A point at the origin represents a GFR of 5"), x=.5, y=0, vjust=-.5, gp=grid::gpar(cex=1.5, col="gray70"), default.units="npc")
+  grid::pushViewport(grid::plotViewport(margins=c(2, 2, 2, 2))) 
+  grid::pushViewport(grid::dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
+  
+  grid::grid.lines(x=c(-graphRadius,graphRadius), y=c(0,0), gp=grid::gpar(col="gray80"), default.units="native")
+  grid::grid.lines(x=c(0,0), y=c(-graphRadius,graphRadius), gp=grid::gpar(col="gray80"), default.units="native")
+  grid::grid.circle(x=0, y=0, r=seq_len(floor(graphRadius)), default.units="native", gp=grid::gpar(col="gray80"))
+  grid::grid.text(c("Jan1", "Apr1", "July1", "Oct1"), x=c(0, graphRadius, 0, -graphRadius), y=c(graphRadius, 0, -graphRadius, 0), gp=grid::gpar(cex=2, col="gray50"), default.units="native")
+  #grid.text(c("A point at the origin represents a GFR of 5"), x=c(0), y=c(-2.2), gp=gpar(cex=1.5, col="gray70"), default.units="native")
+  
+  
+  lg <- grid::polylineGrob(x=dsStageCyclePolar$PolarLowerX, y=dsStageCyclePolar$PolarLowerY, id=dsStageCyclePolar$StageID, gp=grid::gpar(col=paletteDark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
+  grid::grid.draw(lg) 
+  
+  cg <- grid::polylineGrob(x=dsStageCyclePolar$PolarCenterX, y=dsStageCyclePolar$PolarCenterY, id=dsStageCyclePolar$StageID, gp=grid::gpar(col=paletteDark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
+  grid::grid.draw(cg) 
+  
+  ug <- grid::polylineGrob(x=dsStageCyclePolar$PolarUpperX, y=dsStageCyclePolar$PolarUpperY, id=dsStageCyclePolar$StageID, gp=grid::gpar(col=paletteDark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
+  grid::grid.draw(ug)
 
+  for( stageID in stages ) {
+    lowerX <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarLowerX"]
+    lowerY <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarLowerY"]
+    upperX <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarUpperX"]
+    upperY <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarUpperY"]  
+    
+    x <- c(lowerX, rev(upperX))
+    y <- c(lowerY, rev(upperY))
+    grid::grid.polygon(x=x, y=y, default.units="native", gp=grid::gpar(fill=paletteDark[stageID], col="transparent", alpha=bandAlphaDark))
+  }
   
-  
-  pushViewport(viewport(layout=grid.layout(nrow=1, ncol=1, respect=T), gp=gpar(cex=0.6, fill=NA)))
-  pushViewport(viewport(layout.pos.col=1, layout.pos.row=1))
-  pushViewport(plotViewport(c(2, 2, 2, 2))) 
-  pushViewport(dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
-  
-  grid.lines(x=c(-2,2), y=c(0,0), gp=gpar(col="gray80"), default.units="native")
-  grid.lines(x=c(0,0), y=c(-2,2), gp=gpar(col="gray80"), default.units="native")
-  grid.circle(x=0, y=0, r=0:2, default.units="native", gp=gpar(col="gray80"))
-  grid.text(c("Jan1", "Apr1", "July1", "Oct1"), x=c(0, 2, 0, -2), y=c(2, 0, -2, 0), gp=gpar(cex=2, col="gray50"), default.units="native")
-  grid.text(c("A point at the origin represents a GFR of 5"), x=c(0), y=c(-2.2), gp=gpar(cex=1.5, col="gray70"), default.units="native")
-  
-  lg <- polylineGrob(x=dsStageCyclePolar$PolarX, y=dsStageCyclePolar$PolarY, id=dsStageCyclePolar$StageID, gp=gpar(col=paletteDark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
-  grid.draw(lg)
-
-  
-  upViewport(n=4)
+  grid::upViewport(n=4)
 }
 
-require(grid)
-filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
-dsLinear <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
-dsLinear$Date <- as.Date(dsLinear$Date) 
-dsLinear$MonthID <- NULL
-changeMonth <- as.Date("1996-02-15")
-dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
-dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+# require(grid)
+# filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
+# dsLinear <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
+# dsLinear$Date <- as.Date(dsLinear$Date) 
+# dsLinear$MonthID <- NULL
+# changeMonth <- as.Date("1996-02-15")
+# dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
+# dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+# 
+# hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+# portfolio <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+# 
+# dsStageCyclePolar <- Wats::PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
+# # ggplot2::ggplot(dsStageCyclePolar, ggplot2::aes(x=PolarX, y=PolarY, color=factor(StageID))) + ggplot2::geom_path() + ggplot2::geom_point() #+ ggthemes::theme_few()
+# grid.newpage()
+# Wats::PolarPeriodic(dsLinear=portfolio$dsLinear, dsStageCycle=portfolio$dsStageCycle, dsStageCyclePolar=dsStageCyclePolar, yName="BirthRate", stageIDName="StageID")
 
-hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-portfolio <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
-
-dsStageCyclePolar <- Wats::PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
-# ggplot2::ggplot(dsStageCyclePolar, ggplot2::aes(x=PolarX, y=PolarY, color=factor(StageID))) + ggplot2::geom_path() + ggplot2::geom_point() #+ ggthemes::theme_few()
-grid.newpage()
-PolarPeriodic(dsLinear=portfolio$dsLinear, dsStageCycle=portfolio$dsStageCycle, dsStageCyclePolar=dsStageCyclePolar, yName="BirthRate", stageIDName="StageID")
-
-
-
-
-#   g <- ggplot2::ggplot(dsStageCyclePolar, ggplot2::aes(x=PolarX, y=PolarY, color=factor(StageID)))
-#   g <- g + ggplot2::geom_path()
-#   g <- g + ggplot2::geom_point() #This are interpolation points, not real data points.  Comment out this line for production version.
-#   g <- g + ggplot2::coord_fixed(ratio=1) 
-# #   g <- g + ggthemes::theme_solid() 
-#   g <- g + ggplot2::guides(color="none") 
-#   g <- g + ggplot2::labs(x=NULL, y=NULL) 

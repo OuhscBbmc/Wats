@@ -98,9 +98,9 @@ CartesianRolling(dsLinear, xName, yName, stageIDName,
 
   \item{title}{The string describing the plot.}
 
-  \item{xTitle}{TThe string describing the \emph{x}-axis.}
+  \item{xTitle}{The string describing the \emph{x}-axis.}
 
-  \item{yTitle}{TThe string describing the \emph{y}-axis.}
+  \item{yTitle}{The string describing the \emph{y}-axis.}
 }
 \value{
 Returns a \code{ggplot2} graphing object

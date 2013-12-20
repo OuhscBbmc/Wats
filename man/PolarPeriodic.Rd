@@ -8,7 +8,9 @@ PolarPeriodic(dsLinear, dsStageCycle, dsStageCyclePolar, xName, yName,
   paletteLight = NULL, changePoints = NULL, changePointLabels = NULL,
   drawPeriodicBand = TRUE, jaggedPointSize = 2, jaggedLineSize = 0.5,
   bandAlphaDark = 0.4, bandAlphaLight = 0.15, changeLineAlpha = 0.5,
-  changeLineSize = 3, title = NULL, xTitle = NULL, yTitle = NULL)
+  changeLineSize = 3, tickLocations = base::pretty(x = dsLinear[, yName]),
+  graphFloor = min(tickLocations), graphCeiling = max(tickLocations),
+  title = NULL, xTitle = NULL, yTitle = NULL)
 }
 \arguments{
   \item{dsLinear}{The \code{data.frame} to containing the
@@ -83,11 +85,20 @@ PolarPeriodic(dsLinear, dsStageCycle, dsStageCyclePolar, xName, yName,
   \item{changeLineSize}{The width of a line marking an
   interruption.}
 
+  \item{tickLocations}{The desired locations for ticks
+  showing the value of the criterion/dependent variable.}
+
+  \item{graphFloor}{The value of the criterion/dependent
+  variable at the center of the polar plot.}
+
+  \item{graphCeiling}{The value of the criterion/dependent
+  variable at the outside of the polar plot.}
+
   \item{title}{The string describing the plot.}
 
-  \item{xTitle}{TThe string describing the \emph{x}-axis.}
+  \item{xTitle}{The string describing the \emph{x}-axis.}
 
-  \item{yTitle}{TThe string describing the \emph{y}-axis.}
+  \item{yTitle}{The string describing the \emph{y}-axis.}
 }
 \value{
 Returns a \code{grid} graphical object (ie, a
