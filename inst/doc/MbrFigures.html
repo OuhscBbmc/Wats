@@ -189,16 +189,6 @@ hr {
 
 <p>This vignette produces the graphs included in the initial MBR manuscript.</p>
 
-<!-- For some reason, this works better in an isolated chunk. Force knitr to use the repository's root directory as the working directory. -->
-
-<!-- Load the packages.  Suppress the output when loading packages. --> 
-
-<pre><code class="r">############################
-library(Wats)
-library(grid)
-library(ggplot2) 
-</code></pre>
-
 <h2>Figure 2: Rolling Linear</h2>
 
 <p>Smoothed monthly birth rates (General Fertility Rates; GFRs) for Oklahoma County, 1990-1999, plotted in a linear plot.  The top plot shows the connected raw data with a February smoother; the middle plot shows smoothing with a 12-month moving average, blue/green line, superimposed on a February smoother, red line); the bottom plot shows the smoothers and confidence bands, which are H-spreads defined using the distribution of GFR&#39;s for the given month and 11 previous months.</p>
@@ -207,7 +197,9 @@ library(ggplot2)
 
 <p>Here is the basic linear rolling graph.  It doesn&#39;t require much specification, and will work with a wide range of approriate datasets.</p>
 
-<pre><code class="r">############################
+<pre><code class="r">library(Wats)
+library(grid)
+library(ggplot2) 
 filePathOutcomes &lt;- file.path(devtools::inst(name=&quot;Wats&quot;), &quot;extdata&quot;, &quot;BirthRatesOk.txt&quot;)
 dsLinear &lt;- read.table(file=filePathOutcomes, header=TRUE, sep=&quot;\t&quot;, stringsAsFactors=F)
 dsLinear$Date &lt;- as.Date(dsLinear$Date) 
@@ -229,8 +221,7 @@ CartesianRolling(dsLinear=portfolio$dsLinear, xName=&quot;Date&quot;, yName=&quo
 
 <p>The version for the manuscript was tweak to take advantage of certain features of the dataset.</p>
 
-<pre><code class="r">############################
-fig2Theme &lt;- ggplot2::theme(
+<pre><code class="r">fig2Theme &lt;- ggplot2::theme(
   axis.title          = element_text(color=&quot;gray60&quot;, size=9),
   axis.text.x         = element_text(color=&quot;gray80&quot;, hjust=0),
   axis.text.y         = element_text(color=&quot;gray80&quot;),
@@ -247,16 +238,16 @@ yScale &lt;- scale_y_continuous(breaks=5:7)
 yExpand &lt;- expand_limits(y=c(5, 7))
 
 topPanel &lt;- CartesianRolling(dsLinear=portfolio$dsLinear, xName=&quot;Date&quot;, yName=&quot;BirthRate&quot;, stageIDName=&quot;StageID&quot;, changePoints=changeMonth, yTitle=&quot;General Fertility Rate&quot;, 
-                             changePointLabels=&quot;Bombing Effect&quot;, 
-                             drawRollingBand=FALSE, 
-                             drawRollingLine=FALSE)
+                              changePointLabels=&quot;Bombing Effect&quot;, 
+                              drawRollingBand=FALSE, 
+                              drawRollingLine=FALSE)
 middlePanel &lt;- CartesianRolling(portfolio$dsLinear, xName=&quot;Date&quot;, yName=&quot;BirthRate&quot;, stageIDName=&quot;StageID&quot;, changePoints=changeMonth, yTitle=&quot;General Fertility Rate&quot;,
-                                changePointLabels=&quot;&quot;, 
-                                drawRollingBand=FALSE, 
-                                drawJaggedLine=FALSE)
+                              changePointLabels=&quot;&quot;, 
+                              drawRollingBand=FALSE, 
+                              drawJaggedLine=FALSE)
 bottomPanel &lt;- CartesianRolling(portfolio$dsLinear, xName=&quot;Date&quot;, yName=&quot;BirthRate&quot;, stageIDName=&quot;StageID&quot;, changePoints=changeMonth, yTitle=&quot;General Fertility Rate&quot;, 
-                                changePointLabels=&quot;&quot;, 
-                                drawJaggedLine=FALSE)
+                              changePointLabels=&quot;&quot;, 
+                              drawJaggedLine=FALSE)
 topPanel &lt;- topPanel + xScale + yScale + yExpand + fig2Theme 
 middlePanel &lt;- middlePanel + xScale + yScale + yExpand + fig2Theme
 bottomPanel &lt;- bottomPanel + xScaleBlank + yScale + yExpand + fig2Theme
@@ -286,7 +277,7 @@ topPanel
 
 <p>This is what it looks like when all three stylized panels are combined.</p>
 
-<pre><code class="r">############################
+<pre><code class="r">#out.height=4.8, out.width=6.5,
 vpLayout &lt;- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
 grid.newpage()
 pushViewport(viewport(layout=grid.layout(3,1)))
@@ -312,8 +303,7 @@ print(middlePanel, vp=vpLayout(2, 1))
 
 <p>Re-portrayal of the linear plot of the GFR time series in Oklahoma County.</p>
 
-<pre><code class="r">############################
-cartesianPeriodicSimple &lt;- CartesianPeriodic(
+<pre><code class="r">cartesianPeriodicSimple &lt;- CartesianPeriodic(
   portfolio$dsLinear, 
   portfolio$dsPeriodic, 
   xName = &quot;Date&quot;, 
@@ -329,8 +319,7 @@ cartesianPeriodicSimple
 
 <p><img src="data:image/png;base64,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" alt="plot of chunk Figure4Basic"/> </p>
 
-<pre><code class="r">############################
-fig4Theme &lt;- ggplot2::theme(
+<pre><code class="r">fig4Theme &lt;- ggplot2::theme(
   axis.title          = element_text(color=&quot;gray60&quot;, size=9),
   axis.text.x         = element_text(color=&quot;gray80&quot;, hjust=0),
   axis.text.y         = element_text(color=&quot;gray80&quot;),
@@ -355,8 +344,7 @@ cartesianPeriodicSimple
 
 <p>Linear plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.</p>
 
-<pre><code class="r">############################
-cartesianPeriodic &lt;- CartesianPeriodic(
+<pre><code class="r">cartesianPeriodic &lt;- CartesianPeriodic(
   portfolio$dsLinear, 
   portfolio$dsPeriodic, 
   xName = &quot;Date&quot;, 
@@ -372,8 +360,7 @@ cartesianPeriodic
 
 <p><img src="data:image/png;base64,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" alt="plot of chunk Figure5Basic"/> </p>
 
-<pre><code class="r">############################
-cartesianPeriodic &lt;- cartesianPeriodic + xScale + yScale + yExpand + fig4Theme
+<pre><code class="r">cartesianPeriodic &lt;- cartesianPeriodic + xScale + yScale + yExpand + fig4Theme
 cartesianPeriodic
 </code></pre>
 
@@ -383,7 +370,7 @@ cartesianPeriodic
 
 <p>For the sake of documentation and reproducibility, the current vignette was build on a system using the following software.</p>
 
-<pre><code>Report created by Will at 12/20/2013 1:56:09 AM, Central Standard Time
+<pre><code>Report created by Will at 12/20/2013 2:05:42 AM, Central Standard Time
 </code></pre>
 
 <pre><code>R Under development (unstable) (2013-12-17 r64473)
@@ -397,14 +384,14 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] knitr_1.5       Wats_0.1-16     testthat_0.7.1  roxygen2_3.0.0  devtools_1.4.1  ggplot2_0.9.3.1
+ [1] Wats_0.1-16        zoo_1.7-10         testit_0.3         scales_0.2.3       RColorBrewer_1.0-5 plyr_1.8          
+ [7] lubridate_1.3.2    colorspace_1.2-4   knitr_1.5          testthat_0.7.1     roxygen2_3.0.0     devtools_1.4.1    
+[13] ggplot2_0.9.3.1   
 
 loaded via a namespace (and not attached):
- [1] brew_1.0-6         codetools_0.2-8    colorspace_1.2-4   dichromat_2.0-0    digest_0.6.4       evaluate_0.5.1    
- [7] formatR_0.10       gtable_0.1.2       httr_0.2           labeling_0.2       lattice_0.20-24    lubridate_1.3.2   
-[13] markdown_0.6.3     MASS_7.3-29        memoise_0.1        munsell_0.4.2      parallel_3.1.0     plyr_1.8          
-[19] proto_0.3-10       RColorBrewer_1.0-5 RCurl_1.95-4.1     reshape2_1.2.2     scales_0.2.3       stringr_0.6.2     
-[25] testit_0.3         tools_3.1.0        whisker_0.3-2      zoo_1.7-10        
+ [1] brew_1.0-6      codetools_0.2-8 dichromat_2.0-0 digest_0.6.4    evaluate_0.5.1  formatR_0.10    gtable_0.1.2   
+ [8] httr_0.2        labeling_0.2    lattice_0.20-24 MASS_7.3-29     memoise_0.1     munsell_0.4.2   parallel_3.1.0 
+[15] proto_0.3-10    RCurl_1.95-4.1  reshape2_1.2.2  stringr_0.6.2   tools_3.1.0     whisker_0.3-2  
 </code></pre>
 
 </body>
