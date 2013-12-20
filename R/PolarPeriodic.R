@@ -70,34 +70,24 @@ PolarPeriodic <- function(dsLinear, dsStageCycle, dsStageCyclePolar,
     else paletteLight <- colorspace::rainbow_hcl(n=length(stages), l=70)
   } 
 
-  vpRange <- c(-graphRadius, graphRadius) * 1.02
-  # pushViewport(viewport(layout=grid.layout(nrow=1, ncol=1, respect=T), gp=gpar(cex=0.6, fill=NA)))
-  pushViewport(viewport(layout=grid.layout(nrow=2, ncol=2, respect=T, widths=unit(c(1,1), c("null", "null")), heights=unit(c(1,.5), c("null", "null"))), gp=gpar(cex=0.6, fill=NA)))
-
-  pushViewport(plotViewport(margins=c(2, 2, 2, 2) )) # pushViewport(plotViewport(c(0)))
+  
+  
+  pushViewport(viewport(layout=grid.layout(nrow=1, ncol=1, respect=T), gp=gpar(cex=0.6, fill=NA)))
+  pushViewport(viewport(layout.pos.col=1, layout.pos.row=1))
+  pushViewport(plotViewport(c(2, 2, 2, 2))) 
   pushViewport(dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
   
-  #Draw the gridlines
-  grid.lines(x=c(-graphRadius,graphRadius), y=c(0,0), gp=gpar(col="gray80"), default.units="native")
-  grid.lines(x=c(0,0), y=c(-graphRadius,graphRadius), gp=gpar(col="gray80"), default.units="native")
-  #grid.circle(x=0, y=0, r=seq_len(graphRadius), default.units="native", gp=gpar(col="gray80", fill=NA))
-  gc <- circleGrob(x=0, y=0, r=seq_len(graphRadius), default.units="native", gp=gpar(col="gray80", fill=NA))
-  # grid.draw(gc)
+  grid.lines(x=c(-2,2), y=c(0,0), gp=gpar(col="gray80"), default.units="native")
+  grid.lines(x=c(0,0), y=c(-2,2), gp=gpar(col="gray80"), default.units="native")
+  grid.circle(x=0, y=0, r=0:2, default.units="native", gp=gpar(col="gray80"))
+  grid.text(c("Jan1", "Apr1", "July1", "Oct1"), x=c(0, 2, 0, -2), y=c(2, 0, -2, 0), gp=gpar(cex=2, col="gray50"), default.units="native")
+  grid.text(c("A point at the origin represents a GFR of 5"), x=c(0), y=c(-2.2), gp=gpar(cex=1.5, col="gray70"), default.units="native")
   
-  
-
-
-  grid.text(paste("A point at the origin represents a GFR of", graphFloor), x=c(0), y=c(-2.2), gp=gpar(cex=1.5, col="gray70"), default.units="native")
-
   lg <- polylineGrob(x=dsStageCyclePolar$PolarX, y=dsStageCyclePolar$PolarY, id=dsStageCyclePolar$StageID, gp=gpar(col=paletteDark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
   grid.draw(lg)
 
-  popViewport(n=3)
-
-
-#   fg <- frameGrob(layout=grid.layout(nrow=1, ncol=1, respect=T), gp=gpar(cex=0.6, fill=NA))
-
-#   return( g )
+  
+  upViewport(n=4)
 }
 
 require(grid)
@@ -113,8 +103,8 @@ hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 
 dsStageCyclePolar <- Wats::PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
-grid.newpage()
 # ggplot2::ggplot(dsStageCyclePolar, ggplot2::aes(x=PolarX, y=PolarY, color=factor(StageID))) + ggplot2::geom_path() + ggplot2::geom_point() #+ ggthemes::theme_few()
+grid.newpage()
 PolarPeriodic(dsLinear=portfolio$dsLinear, dsStageCycle=portfolio$dsStageCycle, dsStageCyclePolar=dsStageCyclePolar, yName="BirthRate", stageIDName="StageID")
 
 
