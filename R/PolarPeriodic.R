@@ -72,16 +72,16 @@
 # # 
 # # # PolarCycle(portfolio$dsLinear, portfolio$dsStageCycle, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
 # # # 
-# # closeLoop <- function( df ) {
-# #   df[nrow(df)+1, ] <- df[1, ]
-# #   df[nrow(df), "ProportionThroughCycleMean"] <- 1 + df[nrow(df), "ProportionThroughCycleMean"]
-# #   return( df )
+# # closeLoop <- function( d ) {
+# #   d[nrow(d)+1, ] <- d[1, ]
+# #   d[nrow(d), "ProportionThroughCycleMean"] <- 1 + d[nrow(d), "ProportionThroughCycleMean"]
+# #   return( d )
 # # }
 # # 
 # # dsStageCycleClosed <- plyr::ddply(portfolio$dsStageCycle, .variables="StageID", .fun=closeLoop)
 # # # dsStageCycle[nrow(dsStageCycle) + 1, ] <- dsStageCycle[1, ]
-# # interpolate <- function( df, pointsPerCycleCount ) {
-# #   base::data.frame(stats::approx(x=df$ProportionThroughCycleMean, y=df$PositionCenter, n=pointsPerCycleCount))
+# # interpolate <- function( d, pointsPerCycleCount ) {
+# #   base::data.frame(stats::approx(x=d$ProportionThroughCycleMean, y=d$PositionCenter, n=pointsPerCycleCount))
 # # }
 # # dsStageCycleInterpolated <- plyr::ddply(dsStageCycleClosed, .variables="StageID", .fun=interpolate, pointsPerCycleCount=13*10)
 # # # interpolatedCycle <- stats::approx(x=dsStageCycleClosed$ProportionThroughCycleMean, y=dsStageCycleClosed$PositionCenter, n=72)
@@ -89,10 +89,10 @@
 # # # dsStageCycleInterpolated <- base::data.frame(interpolatedCycle)
 # # 
 # # graphFloor <- min(base::pretty(x=dsLinear$BirthRate))
-# # Polarize <- function( df, graphFloor=0 ) {
+# # Polarize <- function( d, graphFloor=0 ) {
 # #   data.frame(
-# #     PolarX = (df$y - graphFloor) * sinpi(2 * df$x),
-# #     PolarY = (df$y - graphFloor) * cospi(2 * df$x)  
+# #     PolarX = (d$y - graphFloor) * sinpi(2 * d$x),
+# #     PolarY = (d$y - graphFloor) * cospi(2 * d$x)  
 # #   )
 # # }
 # # dsStageCyclePolar <- plyr::ddply(dsStageCycleInterpolated, .variables="StageID", .fun=Polarize, graphFloor=graphFloor)

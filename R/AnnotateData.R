@@ -44,13 +44,13 @@ AnnotateData <- function( dsLinear,
   dsLinear$RollingUpper[-seq_len(pointsInCycle-1) ] <- rollingBounds[, 2]
   
   
-  summarizeStageCycle <- function( df ) {
-    positionBounds <- spreadFunction(df[, dvName])
+  summarizeStageCycle <- function( d ) {
+    positionBounds <- spreadFunction(d[, dvName])
     #   print(positionBounds)
     data.frame(    
-      ProportionThroughCycleMean = mean(df$ProportionThroughCycle, na.rm=TRUE),
+      ProportionThroughCycleMean = mean(d$ProportionThroughCycle, na.rm=TRUE),
       PositionLower = positionBounds[1],
-      PositionCenter = median(df[, dvName]),
+      PositionCenter = median(d[, dvName]),
       PositionUpper = positionBounds[2]
     )
   }

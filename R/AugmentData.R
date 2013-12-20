@@ -25,9 +25,9 @@ AugmentYearDataWithMonthResolution <- function( dsLinear, dateName, stageIDName 
   dsLinear$StartingPointInCycle <- (dsLinear$ProportionID==min(dsLinear$ProportionID))
   dsLinear$TerminalPointInCycle <- (dsLinear$ProportionID==max(dsLinear$ProportionID))
   
-  SummarizeWithinStage <- function( df ) {
-    isMin <-  (min(df[, dateName]) < df[, dateName])
-    return( df$StageID + isMin*0.5 )
+  SummarizeWithinStage <- function( d ) {
+    isMin <-  (min(d[, dateName]) < d[, dateName])
+    return( d$StageID + isMin*0.5 )
   }
   dsLinear$StageProgress <- unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
   return( dsLinear )
@@ -49,12 +49,12 @@ AugmentYearDataWithSecondResolution <- function( dsLinear, dateName, stageIDName
 #                     "CycleTally", 
 #                     transform, 
 #                     TerminalPointInCycle=(rank(ProportionThroughCycle)==max(rank(ProportionThroughCycle))))  
-  SummarizeWithinStage <- function( df ) {
-    #     minValue <- min(df[, dateName])
-    #     maxValue <- max(df[, dateName])
-    #     isBetween <- ( (min(df[, dateName]) < df[, dateName]) & (df[, dateName] < max(df[, dateName])))
-    isMin <-  (min(df[, dateName]) < df[, dateName])
-    return( df$StageID + isMin*0.5 )
+  SummarizeWithinStage <- function( d ) {
+    #     minValue <- min(d[, dateName])
+    #     maxValue <- max(d[, dateName])
+    #     isBetween <- ( (min(d[, dateName]) < d[, dateName]) & (d[, dateName] < max(d[, dateName])))
+    isMin <-  (min(d[, dateName]) < d[, dateName])
+    return( d$StageID + isMin*0.5 )
   }
   dsLinear$StageProgress <- unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
   return( dsLinear )
@@ -73,26 +73,26 @@ AugmentYearDataWithSecondResolution <- function( dsLinear, dateName, stageIDName
 # 
 # 
 # head(dsLinear, 80)
-# SummarizeWithinStage <- function( df ) {
-#   minValue <- min(df$Date)
-#   maxValue <- max(df$Date)
+# SummarizeWithinStage <- function( d ) {
+#   minValue <- min(d$Date)
+#   maxValue <- max(d$Date)
 #   stageWidth <- as.integer(difftime(maxValue, minValue, units="days"))
-#   stageProportion <- as.integer(difftime(df$Date, minValue, units="days"))
+#   stageProportion <- as.integer(difftime(d$Date, minValue, units="days"))
 #   
 #   stageProgress <- stageProportion / stageWidth 
 #   
-#   return( df$StageID + (stageProportion / stageWidth) )
+#   return( d$StageID + (stageProportion / stageWidth) )
 # }
 
-# SummarizeWithinStage <- function( df ) {
-#   minValue <- min(df[, dateName])
-#   maxValue <- max(df[, dateName])
+# SummarizeWithinStage <- function( d ) {
+#   minValue <- min(d[, dateName])
+#   maxValue <- max(d[, dateName])
 #   stageWidth <- as.integer(difftime(maxValue, minValue, units="days"))
-#   stageProportion <- as.integer(difftime(df$Date, minValue, units="days"))
+#   stageProportion <- as.integer(difftime(d$Date, minValue, units="days"))
 #   
 #   stageProgress <- stageProportion / stageWidth 
 #   
-#   return( df$StageID + (stageProportion / stageWidth) )
+#   return( d$StageID + (stageProportion / stageWidth) )
 # }
 # dsLinear$StageProgress <- unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
 

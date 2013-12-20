@@ -49,10 +49,10 @@ ds$StageID <- ifelse(ds$MonthID<=changePoint, 1, 2)
 #maxRate <- max(ds$BirthRate)
 # tail(ds)
 
-Summarize <- function( df ) {
+Summarize <- function( d ) {
   data.frame( 
-    Lower=quantile(df$BirthRate, probs=lowerQuantile), 
-    Upper=quantile(df$BirthRate, probs=upperQuantile)  
+    Lower=quantile(d$BirthRate, probs=lowerQuantile), 
+    Upper=quantile(d$BirthRate, probs=upperQuantile)  
 )}
 CalculateLowerBand <- function( x ) { return( quantile(x, probs=lowerQuantile) ) }
 CalculateUpperBand <- function( x ) { return( quantile(x, probs=upperQuantile) ) }
