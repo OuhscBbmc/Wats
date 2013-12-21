@@ -1,10 +1,4 @@
-data okbirths; retain county year;
-        if mod(_n_,180)=1 then do;
-        input mnbrth county $ year; end;
-        else if mod(_n_,12)=1 then do;
-        input mnbrth year; end;
-        else input mnbrth;
-        cards;
+BirthCount, County, Year, Month
 71,  rogers  85
 57,
 56,
