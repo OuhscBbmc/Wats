@@ -11,9 +11,8 @@ PolarPeriodic(dsLinear, dsStageCyclePolar, xName, yName, stageIDName,
   colorGridlines = "gray80", changeLineAlpha = 0.5, changeLineSize = 3,
   tickLocations = base::pretty(x = dsLinear[, yName]),
   graphFloor = min(tickLocations), graphCeiling = max(tickLocations),
-  cardinalLabels = NULL,
-  originLabel = paste("A point at the origin represents a value of",
-  graphFloor))
+  cardinalLabels = NULL, originLabel = paste0("The origin represents ",
+  graphFloor, "; the perimeter represents ", graphCeiling, "."))
 }
 \arguments{
   \item{dsLinear}{The \code{data.frame} to containing the

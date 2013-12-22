@@ -53,8 +53,11 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
                           tickLocations=base::pretty(x=dsLinear[, yName]),
                           graphFloor=min(tickLocations),
                           graphCeiling=max(tickLocations),
-                          cardinalLabels=NULL, originLabel=paste("A point at the origin represents a value of", graphFloor)
+                          cardinalLabels=NULL, originLabel=paste0("The origin represents ", graphFloor, "; the perimeter represents ", graphCeiling, ".")
                           ) {
+  
+  tickLocationsPolar <- tickLocations - min(tickLocations)
+  print(tickLocationsPolar)
   
   graphRadius <- graphCeiling - graphFloor
   vpRange <- c(-graphRadius, graphRadius) * 1.02
@@ -82,7 +85,7 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
   
   grid::grid.lines(x=c(-graphRadius,graphRadius), y=c(0,0), gp=grid::gpar(col=colorGridlines, lty=3), default.units="native")
   grid::grid.lines(x=c(0,0), y=c(-graphRadius,graphRadius), gp=grid::gpar(col=colorGridlines, lty=3), default.units="native")
-  grid::grid.circle(x=0, y=0, r=seq_len(floor(graphRadius)), default.units="native", gp=grid::gpar(col=colorGridlines))
+  grid::grid.circle(x=0, y=0, r=tickLocationsPolar, default.units="native", gp=grid::gpar(col=colorGridlines))
   grid::grid.text(cardinalLabels, x=c(0, graphRadius, 0, -graphRadius), y=c(graphRadius, 0, -graphRadius, 0), gp=grid::gpar(cex=2, col=colorLabels), default.units="native")
     
 #   lg <- grid::polylineGrob(x=dsStageCyclePolar$PolarLowerX, y=dsStageCyclePolar$PolarLowerY, id=dsStageCyclePolar$StageID, gp=grid::gpar(col=paletteDark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
@@ -115,10 +118,7 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
 }
 
 # require(grid)
-# filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
-# dsLinear <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
-# dsLinear$Date <- as.Date(dsLinear$Date) 
-# dsLinear$MonthID <- NULL
+# dsLinear <- CountyMonthBirthRate[CountyMonthBirthRate$CountyName=="oklahoma", ]
 # changeMonth <- as.Date("1996-02-15")
 # dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
 # dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
@@ -131,6 +131,6 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
 # 
 # windows.options(antialias = "cleartype")
 # grid.newpage()
-# PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, portfolioPolar$dsStageCyclePolar, yName="Radius", stageIDName="StageID", graphCeiling=7, cardinalLabels=c("Jan1", "Apr1", "July1", "Oct1"))
+# PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, portfolioPolar$dsStageCyclePolar, yName="Radius", stageIDName="StageID", cardinalLabels=c("Jan1", "Apr1", "July1", "Oct1"))
 # # PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, portfolioPolar$dsStageCyclePolar, yName="Radius", stageIDName="StageID", graphCeiling=7, drawPeriodicBand=F)
 # # PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, portfolioPolar$dsStageCyclePolar, yName="Radius", stageIDName="StageID", graphCeiling=7, drawObservedLine=F, cardinalLabels=c("Jan1", "Apr1", "July1", "Oct1"))
