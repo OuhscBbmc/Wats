@@ -68,21 +68,22 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
     )   
   }
   polarizeObserved <- function( d, graphFloor=graphFloor ) {
+    #After R 3.1.0 has been out for a while, consider using sinpi()`.
     base::data.frame(
-      ObservedX = (d$ObservedY - graphFloor) * sinpi(2 * d$ObservedX),
-      ObservedY = (d$ObservedY - graphFloor) * cospi(2 * d$ObservedX),
+      ObservedX = (d$ObservedY - graphFloor) * sin(2 * pi * d$ObservedX),
+      ObservedY = (d$ObservedY - graphFloor) * cos(2 * pi * d$ObservedX),
       Theta = pi * 2 * d$ObservedX,
       Radius = d$ObservedY
     )
   }
   polarizeBand <- function( d, graphFloor=graphFloor ) {
     base::data.frame(
-      PolarLowerX = (d$LowerY - graphFloor) * sinpi(2 * d$LowerX),
-      PolarLowerY = (d$LowerY - graphFloor) * cospi(2 * d$LowerX),  
-      PolarCenterX = (d$CenterY - graphFloor) * sinpi(2 * d$CenterX),
-      PolarCenterY = (d$CenterY - graphFloor) * cospi(2 * d$CenterX) ,  
-      PolarUpperX = (d$UpperY - graphFloor) * sinpi(2 * d$UpperX),
-      PolarUpperY = (d$UpperY - graphFloor) * cospi(2 * d$UpperX)  
+      PolarLowerX = (d$LowerY - graphFloor) * sin(2 * pi * d$LowerX),
+      PolarLowerY = (d$LowerY - graphFloor) * cos(2 * pi * d$LowerX),  
+      PolarCenterX = (d$CenterY - graphFloor) * sin(2 * pi * d$CenterX),
+      PolarCenterY = (d$CenterY - graphFloor) * cos(2 * pi * d$CenterX) ,  
+      PolarUpperX = (d$UpperY - graphFloor) * sin(2 * pi * d$UpperX),
+      PolarUpperY = (d$UpperY - graphFloor) * cos(2 * pi * d$UpperX)  
     )
   }
   
