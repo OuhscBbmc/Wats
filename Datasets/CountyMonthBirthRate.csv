@@ -1,4 +1,4 @@
-"Fips","CountyName","Year","Month","FecundPopulation","BirthCount","Date","Gfr"
+"Fips","CountyName","Year","Month","FecundPopulation","BirthCount","Date","BirthRate"
 40017,"canadian",1990,1,17609,80,1990-01-15,4.54313135328525
 40017,"canadian",1990,2,17623.4166666667,89,1990-02-15,5.05009906327281
 40017,"canadian",1990,3,17637.8333333333,89,1990-03-15,5.04597125497275

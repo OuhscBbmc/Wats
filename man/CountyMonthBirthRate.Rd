@@ -13,7 +13,7 @@
    \item{BirthCount}{The number of birth in a county for the given month.
    \code{numeric - double precision float}}
    \item{Date}{The year and month of the record, with a date of the 15th. Centering the date within the month makes the value a little more representative and the graphs a little easier. \code{date}}
-   \item{Gfr}{The \emph{G}rowth \emph{F}ertility \emph{R}ate. \code{numeric - double precision float}}
+   \item{BirthRate}{The \emph{G}rowth \emph{F}ertility \emph{R}ate (GFR). \code{numeric - double precision float}}
 }}
 \description{
 Monthly Growth Fertility Rates (GFR) for 12 urban counties
@@ -42,11 +42,11 @@ and
 }
 \examples{
 require(ggplot2)
-ggplot(CountyMonthBirthRate, aes(x=Date, y=Gfr, color=factor(Fips))) +
+ggplot(CountyMonthBirthRate, aes(x=Date, y=BirthRate, color=factor(Fips))) +
 geom_line() +
 labs(title="County Fertility - Longitudinal")
 
-ggplot(CountyMonthBirthRate, aes(x=Gfr, color=factor(Fips))) +
+ggplot(CountyMonthBirthRate, aes(x=BirthRate, color=factor(Fips))) +
 geom_density() +
 labs(title="Distributions of County Fertility")
 }

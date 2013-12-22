@@ -33,11 +33,11 @@ rm(dsCensus, dsBirthCount, inputPathCensusCountyMonth, inputPathBirthCountCounty
 ###################
 # Calculate GFR
 ###################
-dsCountyMonth$Gfr <- dsCountyMonth$BirthCount / dsCountyMonth$FecundPopulation * 1000L
+dsCountyMonth$BirthRate <- dsCountyMonth$BirthCount / dsCountyMonth$FecundPopulation * 1000L
 
 # require(ggplot2)
-ggplot(dsCountyMonth, aes(x=Date, y=Gfr, color=factor(Fips))) + geom_line() + labs(title="Distributions of County Fertility")
-# ggplot(dsCountyMonth, aes(x=Gfr, color=factor(Fips))) + geom_density()
+# ggplot(dsCountyMonth, aes(x=Date, y=BirthRate, color=factor(Fips))) + geom_line() + labs(title="Distributions of County Fertility")
+# ggplot(dsCountyMonth, aes(x=BirthRate, color=factor(Fips))) + geom_density()
 
 ###################
 # Write to disk
