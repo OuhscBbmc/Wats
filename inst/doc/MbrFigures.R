@@ -21,6 +21,7 @@ options(width=120) #So the output is 50% wider than the default.
 library(Wats)
 library(grid)
 library(ggplot2) 
+library(boot) 
 dsLinear <- CountyMonthBirthRate[CountyMonthBirthRate$CountyName=="oklahoma", ]
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
 # dsLinear <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
@@ -33,7 +34,18 @@ dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date
 
 hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 seSpread <- function( scores) { return( mean(scores) + c(-1, 1)*sd(scores)/sqrt(length(scores)) ) }
-portfolioCartesian <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=seSpread)
+bootSpread <- function( scores, conf=.66 ) {
+  plugin <- function( d, i ) { mean(d[i]) }
+
+  dist <- boot(data=scores, plugin, R=999)
+  ci <- boot.ci(dist, type = c("bca"), conf=conf)
+  return( ci$bca[4:5] )
+}
+# b <- bootSpread(dsLinear$BirthRate)
+
+portfolioCartesian <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, 
+                                   spreadFunction=bootSpread)
+                                   #spreadFunction=seSpread)
 
 CartesianRolling(dsLinear=portfolioCartesian$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
 
