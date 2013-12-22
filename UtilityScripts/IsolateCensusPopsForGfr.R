@@ -9,11 +9,14 @@ ouputPathsCensusCountyYear <- paste0("./Datasets/CensusIntercensal/CensusCountyY
 ###################
 # Read in the datasets
 ###################
+#For 199x, create a list of data.frames; each one is a year's data.  Then bind to create a single dataset
 lstDatasets199x <- lapply(inputPathsCensus199x, function(path) dsCensus199x <- read.table(path, header=FALSE, stringsAsFactors=F)) #A list, where each element is a data.frame.
 dsCensus199x <- data.frame(do.call(plyr::rbind.fill, lstDatasets199x), stringsAsFactors=FALSE) #Vertically stack all the data.frames into a single data.frame
 
+#For 200x, the schema is different, and everything comes in one data file.  Each year is a distinct column.
 dsCensus200x <- read.csv(inputPathCensus200x, stringsAsFactors=F)
 
+#In the FIPS dataset, there is one record for each county.
 dsFips <- read.csv(inputPathFips, stringsAsFactors=F)
 
 #For 199x: See the codebook at ./Datasets/CensusIntercensal/STCH-Intercensal_layout.txt.  The State FIPS is missing for some reason
@@ -80,12 +83,29 @@ dsCensus200xCounty <- plyr::ddply(dsCensus200x, .variables=c("Fips", "CountyName
 dsCensus200xCounty$Year <- 2000L 
 
 ###################
-# Merge the two decades
+# Merge the two datasets (ie, for 199x and 200x)
 ###################
 dsCensusCountyYear <- plyr::rbind.fill(dsCensus199xCounty, dsCensus200xCounty)
 dsCensusCountyYear <- dsCensusCountyYear[order(dsCensusCountyYear$Fips, dsCensusCountyYear$Year), ]
+# dsCensusCountyYear <- dsCensusCountyNextYear + 1L
+
+CreateNextyearPopCount <- function( d ) {
+  ceilingYear <- max(d$Year)
+  nextYear <- d$Year + 1L
+  nextPopCount <- ifelse(d$Year < ceilingYear, d[match(nextYear, d$Year), "PopulationCount"], 666)
+  data.frame(
+    Year = d$Year,
+    YearNext = nextYear,
+    PopulationCount = d$PopulationCount,
+    PopCountNext = nextPopCount
+  )
+  
+}
+dsNext <- plyr::ddply(dsCensusCountyYear, .variables=c("Fips", "CountyName"), .fun=CreateNextyearPopCount)
+
+approx(x=1990:1991, 0:1, n=12)
 
 ###################
 # Write to disk
 ###################
-write.csv(dsCensusCountyYear, file=ouputPathsCensusCountyYear, row.names=FALSE)
+# write.csv(dsCensusCountyYear, file=ouputPathsCensusCountyYear, row.names=FALSE)
