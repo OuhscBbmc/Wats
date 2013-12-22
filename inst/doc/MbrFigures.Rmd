@@ -42,9 +42,10 @@ dsLinear <- CountyMonthBirthRate[CountyMonthBirthRate$CountyName=="oklahoma", ]
 changeMonth <- as.Date("1996-02-15")
 dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+# base::pretty(x=dsLinear$BirthRate)
 
 hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-seSpread <- function( scores) { return( mean(scores) + c(-1, 1)*sd(scores)/(length(scores)-1) ) }
+seSpread <- function( scores) { return( mean(scores) + c(-1, 1)*sd(scores)/sqrt(length(scores)) ) }
 portfolioCartesian <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=seSpread)
 
 CartesianRolling(dsLinear=portfolioCartesian$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
@@ -66,8 +67,8 @@ fig2Theme <- ggplot2::theme(
 )
 xScaleBlank <- scale_x_date(breaks=seq.Date(from=as.Date("1990-01-01"), to=as.Date("1999-01-01"), by="years"), labels=NULL)
 xScale <- scale_x_date(breaks=seq.Date(from=as.Date("1990-01-01"), to=as.Date("1999-01-01"), by="years"), labels=scales::date_format("%Y"))
-yScale <- scale_y_continuous(breaks=5:7)
-yExpand <- expand_limits(y=c(5, 7))
+# yScale <- scale_y_continuous(breaks=5:7)
+# yExpand <- expand_limits(y=c(5, 7))
 
 topPanel <- CartesianRolling(dsLinear=portfolioCartesian$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate", 
                               changePointLabels="Bombing Effect", 
@@ -80,9 +81,9 @@ middlePanel <- CartesianRolling(portfolioCartesian$dsLinear, xName="Date", yName
 bottomPanel <- CartesianRolling(portfolioCartesian$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate", 
                               changePointLabels="", 
                               drawJaggedLine=FALSE)
-topPanel <- topPanel + xScale + yScale + yExpand + fig2Theme 
-middlePanel <- middlePanel + xScale + yScale + yExpand + fig2Theme
-bottomPanel <- bottomPanel + xScaleBlank + yScale + yExpand + fig2Theme
+topPanel <- topPanel + xScale + fig2Theme #+ yScale + yExpand
+middlePanel <- middlePanel + xScale + fig2Theme #+ yScale + yExpand
+bottomPanel <- bottomPanel + xScaleBlank + fig2Theme #+ yScale + yExpand
 
 topPanel
 middlePanel
@@ -135,10 +136,10 @@ fig4Theme <- ggplot2::theme(
   plot.margin         = grid::unit(c(0, 0, 0, 0), "cm")
 )
 xScale <- scale_x_date(breaks=seq.Date(from=as.Date("1990-01-01"), to=as.Date("1999-01-01"), by="years"), labels=scales::date_format("%Y"))
-yScale <- scale_y_continuous(breaks=5:7)
-yExpand <- expand_limits(y=c(5, 7))
+# yScale <- scale_y_continuous(breaks=5:7)
+# yExpand <- expand_limits(y=c(5, 7))
 
-cartesianPeriodicSimple <- cartesianPeriodicSimple + xScale + yScale + yExpand + fig4Theme
+cartesianPeriodicSimple <- cartesianPeriodicSimple + xScale + fig4Theme # + yScale + yExpand
 cartesianPeriodicSimple
 ```
 
@@ -160,7 +161,7 @@ cartesianPeriodic <- CartesianPeriodic(
 cartesianPeriodic
 ```
 ```{r Figure5Stylized}
-cartesianPeriodic <- cartesianPeriodic + xScale + yScale + yExpand + fig4Theme
+cartesianPeriodic <- cartesianPeriodic + xScale + fig4Theme # + yScale + yExpand
 cartesianPeriodic
 ```
 
@@ -173,7 +174,7 @@ portfolioPolar <- PolarizeCartesian(portfolioCartesian$dsLinear, portfolioCartes
 windows.options(antialias = "cleartype")
 grid.newpage()
 PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, portfolioPolar$dsStageCyclePolar, yName="Radius", 
-              stageIDName="StageID", graphCeiling=7, drawPeriodicBand=F,
+              stageIDName="StageID", drawPeriodicBand=F,
               cardinalLabels=c("Jan1", "Apr1", "July1", "Oct1"))
 
 ```
@@ -195,14 +196,15 @@ vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
 ## Create top left panel
 pushViewport(viewport(layout.pos.col=1, layout.pos.row=1))
 topLeftPanel <- PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, portfolioPolar$dsStageCyclePolar, yName="Radius", 
-                              stageIDName="StageID", graphCeiling=7, 
+                              stageIDName="StageID", #graphCeiling=7, 
                               cardinalLabels=c("Jan1", "Apr1", "July1", "Oct1"))
 upViewport()
 
 ## Create top right panel
 pushViewport(viewport(layout.pos.col=2, layout.pos.row=1))
 topRighttPanel <- PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, portfolioPolar$dsStageCyclePolar, yName="Radius", 
-                              stageIDName="StageID", graphCeiling=7, drawObservedLine=F,
+                              stageIDName="StageID", #graphCeiling=7, 
+                              drawObservedLine=F,
                               cardinalLabels=c("Jan1", "Apr1", "July1", "Oct1"), originLabel=NULL)
 upViewport()
 

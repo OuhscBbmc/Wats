@@ -13,7 +13,11 @@
    \item{BirthCount}{The number of birth in a county for the given month.
    \code{numeric - double precision float}}
    \item{Date}{The year and month of the record, with a date of the 15th. Centering the date within the month makes the value a little more representative and the graphs a little easier. \code{date}}
+   \item{DaysInMonth}{The number of days in the specific month. \code{integer}}
+   \item{DaysInYear}{The number of days in the specific years \code{integer}}
    \item{BirthRate}{The \emph{G}rowth \emph{F}ertility \emph{R}ate (GFR). \code{numeric - double precision float}}
+   \item{BirthRateUnadjustedFrom1990}{\code{numeric - double precision float}}
+   \item{BirthRateMonthly}{\code{numeric - double precision float}}
 }}
 \description{
 Monthly Growth Fertility Rates (GFR) for 12 urban counties
