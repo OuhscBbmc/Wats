@@ -44,7 +44,8 @@ dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 
 hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-portfolioCartesian <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=hSpread)
+seSpread <- function( scores) { return( mean(scores) + c(-1, 1)*sd(scores)/(length(scores)-1) ) }
+portfolioCartesian <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, spreadFunction=seSpread)
 
 CartesianRolling(dsLinear=portfolioCartesian$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
 ```
