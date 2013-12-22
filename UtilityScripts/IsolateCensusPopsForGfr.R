@@ -5,6 +5,7 @@ inputPathsCensus199x <- paste0("./Datasets/CensusIntercensal/STCH-icen199", 0:9,
 inputPathCensus200x <- "./Datasets/CensusIntercensal/CO-EST00INT-AGESEX-5YR.csv"
 inputPathFips <- "./Datasets/CountyFipsCode.csv"
 ouputPathsCensusCountyYear <- paste0("./Datasets/CensusIntercensal/CensusCountyYear.csv")
+ouputPathsCensusCountyMonth <- paste0("./Datasets/CensusIntercensal/CensusCountyMonth.csv")
 
 ###################
 # Read in the datasets
@@ -93,19 +94,42 @@ CreateNextyearPopCount <- function( d ) {
   ceilingYear <- max(d$Year)
   nextYear <- d$Year + 1L
   nextPopCount <- ifelse(d$Year < ceilingYear, d[match(nextYear, d$Year), "PopulationCount"], 666)
-  data.frame(
+  dsOut <- data.frame(
     Year = d$Year,
     YearNext = nextYear,
     PopulationCount = d$PopulationCount,
-    PopCountNext = nextPopCount
+    PopulationCountNext = nextPopCount
   )
-  
+  dsOut[dsOut$Year < ceilingYear, ]
 }
 dsNext <- plyr::ddply(dsCensusCountyYear, .variables=c("Fips", "CountyName"), .fun=CreateNextyearPopCount)
 
-approx(x=1990:1991, 0:1, n=12)
+InterpolateMonths <- function( d ) {
+  monthsPerYear <- 12
+  months <- seq_len(12)
+  popInterpolated <- approx(x=c(d$Year, d$YearNext), y=c(d$PopulationCount, d$PopulationCountNext), n=monthsPerYear+1)
+  data.frame(
+    Month = months,
+    Population = popInterpolated$y[months]#,
+#     PopulationCount = d$PopulationCount,
+#     PopulationCountNext = d$PopulationCountNext
+  )
+}
+dsCensusCountyMonth <- plyr::ddply(dsNext, .variables=c("Fips", "CountyName", "Year"), .fun=InterpolateMonths)
+# dsCensusCountyMonth$Date <- as.Date(ISOdate(dsCensusCountyMonth$Year, dsCensusCountyMonth$Month, 15L))
+
+# require(ggplot2)
+# ggplot(dsInterpolated[dsCensusCountyMonth$Fips==40027L, ], aes(x=Date, y=Population, color=factor(Fips))) +
+#   geom_line() + 
+#   geom_line(aes(y=PopulationCount, ymin=0)) + 
+#   geom_line(aes(y=PopulationCountNext))
 
 ###################
 # Write to disk
 ###################
-# write.csv(dsCensusCountyYear, file=ouputPathsCensusCountyYear, row.names=FALSE)
+
+#dsCensusCountyYear
+write.csv(dsCensusCountyYear, file=ouputPathsCensusCountyYear, row.names=FALSE)
+
+#dsCensusCountyMonth
+write.csv(dsCensusCountyMonth, file=ouputPathsCensusCountyMonth, row.names=FALSE)
