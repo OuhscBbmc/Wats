@@ -42,5 +42,6 @@ ggplot(dsCountyMonth, aes(x=Date, y=Gfr, color=factor(Fips))) + geom_line() + la
 ###################
 # Write to disk
 ###################
-write.csv(dsCountyMonth, file=outputPathBirthCountCountyMonthCsv, row.names=FALSE)
-save(dsCountyMonth, file=outputPathBirthCountCountyMonthRda, compress="xz")
+CountyMonthBirthRate <- dsCountyMonth
+write.csv(CountyMonthBirthRate, file=outputPathBirthCountCountyMonthCsv, row.names=FALSE)
+save(CountyMonthBirthRate, file=outputPathBirthCountCountyMonthRda, compress="xz")
