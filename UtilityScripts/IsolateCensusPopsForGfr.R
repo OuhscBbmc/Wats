@@ -4,8 +4,8 @@ require(testit)
 inputPathsCensus199x <- paste0("./Datasets/CensusIntercensal/STCH-icen199", 0:9, ".txt")
 inputPathCensus200x <- "./Datasets/CensusIntercensal/CO-EST00INT-AGESEX-5YR.csv"
 inputPathFips <- "./Datasets/CountyFipsCode.csv"
-ouputPathsCensusCountyYear <- paste0("./Datasets/CensusIntercensal/CensusCountyYear.csv")
-ouputPathsCensusCountyMonth <- paste0("./Datasets/CensusIntercensal/CensusCountyMonth.csv")
+ouputPathCensusCountyYear <- "./Datasets/CensusIntercensal/CensusCountyYear.csv"
+ouputPathCensusCountyMonth <- "./Datasets/CensusIntercensal/CensusCountyMonth.csv"
 
 ###################
 # Read in the datasets
@@ -36,14 +36,14 @@ eligibleAgeLabels <- c("15-19", "20-24", "25-29", "30-34", "35-39", "40-44")
 ###################
 
 #Groom the variables and assign the appropriate factor levels
-dsCensus199x$Year <- as.integer(dsCensus199x$Year + 1900) #Convert to a four digit year
-# dsCensus199x$CountyFips #This looks good as it is.  Be careful if you live in a state with a leading zero in the FIPS
+dsCensus199x$Year <- as.integer(dsCensus199x$Year + 1900L) #Convert to a four digit year
+# dsCensus199x$CountyFips #FIPS looks good as it is.  Be careful if you live in a state with a leading zero in the FIPS
 dsCensus199x$AgeGroup <- factor(x=dsCensus199x$AgeGroup, levels=0:18, labels=ageGroupLabels, ordered=TRUE)
 dsCensus199x$RaceGender <- factor(x=dsCensus199x$RaceGender, levels=1:8, labels=raceGenderLabels)
 dsCensus199x$Latino <- as.logical(factor(dsCensus199x$Latino, levels=1:2, labels=c(TRUE, FALSE)))
 
 #Assert the values aren't too funky.
-testit::assert("All years in dsCensus199x should be in the 1990s", all(1990 <= dsCensus199x$Year & dsCensus199x$Year <=1999))
+testit::assert("All years in dsCensus199x should be in the 1990s", all(1990L <= dsCensus199x$Year & dsCensus199x$Year <=1999L))
 testit::assert("All County FIPS should start with 40 (ie, be in Oklahoma).", all(grepl(pattern="^40\\d{3}$", x=dsCensus199x$CountyFips, perl=TRUE)))
 testit::assert("The mean of the Latino values should be 0.5.", mean(dsCensus199x$Latino)==0.5)
 sapply(dsCensus199x, class)
@@ -59,7 +59,7 @@ dsCensus199x <- merge(x=dsCensus199x, y=dsFips, by="Fips", all.x=TRUE, all.y=FAL
 dsCensus199x <- dsCensus199x[dsCensus199x$GfrEligible & dsCensus199x$WatsUrban, ]
 
 #Sum across the remaining subgroups to get their total population.
-dsCensus199xCounty <- plyr::ddply(dsCensus199x, .variables=c("Fips", "Year", "CountyName"), summarize, PopulationCount=sum(PopulationCount))
+dsCensus199xCounty <- plyr::ddply(dsCensus199x, .variables=c("Fips", "Year", "CountyName"), summarize, FecundPopulationCount=sum(PopulationCount))
 
 ###################
 # Groom the Census data from the 2000s & Keep only the needed rows
@@ -79,7 +79,7 @@ dsCensus200x <- merge(x=dsCensus200x, y=dsFips, by="Fips", all.x=TRUE, all.y=FAL
 dsCensus200x <- dsCensus200x[dsCensus200x$GfrEligible & dsCensus200x$WatsUrban, ]
 
 #Sum across the remaining subgroups to get their total population.  Keep only 2000 (Remember 200x is wide, not long)
-dsCensus200xCounty <- plyr::ddply(dsCensus200x, .variables=c("Fips", "CountyName"), summarize, PopulationCount=sum(POPESTIMATE2000))
+dsCensus200xCounty <- plyr::ddply(dsCensus200x, .variables=c("Fips", "CountyName"), summarize, FecundPopulationCount=sum(POPESTIMATE2000))
 
 dsCensus200xCounty$Year <- 2000L 
 
@@ -88,29 +88,29 @@ dsCensus200xCounty$Year <- 2000L
 ###################
 dsCensusCountyYear <- plyr::rbind.fill(dsCensus199xCounty, dsCensus200xCounty)
 dsCensusCountyYear <- dsCensusCountyYear[order(dsCensusCountyYear$Fips, dsCensusCountyYear$Year), ]
-# dsCensusCountyYear <- dsCensusCountyNextYear + 1L
+dsCensusCountyYear$CountyName<- tolower(dsCensusCountyYear$CountyName)
 
-CreateNextyearPopCount <- function( d ) {
+CreateNextYearPopCount <- function( d ) {
   ceilingYear <- max(d$Year)
   nextYear <- d$Year + 1L
-  nextPopCount <- ifelse(d$Year < ceilingYear, d[match(nextYear, d$Year), "PopulationCount"], 666)
+  nextPopCount <- d[match(nextYear, d$Year), "FecundPopulationCount"]
   dsOut <- data.frame(
     Year = d$Year,
     YearNext = nextYear,
-    PopulationCount = d$PopulationCount,
-    PopulationCountNext = nextPopCount
+    FecundPopulationCount = d$FecundPopulationCount,
+    FecundPopulationCountNext = nextPopCount
   )
   dsOut[dsOut$Year < ceilingYear, ]
 }
-dsNext <- plyr::ddply(dsCensusCountyYear, .variables=c("Fips", "CountyName"), .fun=CreateNextyearPopCount)
+dsNext <- plyr::ddply(dsCensusCountyYear, .variables=c("Fips", "CountyName"), .fun=CreateNextYearPopCount)
 
 InterpolateMonths <- function( d ) {
-  monthsPerYear <- 12
-  months <- seq_len(12)
-  popInterpolated <- approx(x=c(d$Year, d$YearNext), y=c(d$PopulationCount, d$PopulationCountNext), n=monthsPerYear+1)
+  monthsPerYear <- 12L
+  months <- seq_len(monthsPerYear)
+  popInterpolated <- approx(x=c(d$Year, d$YearNext), y=c(d$FecundPopulationCount, d$FecundPopulationCountNext), n=monthsPerYear+1)
   data.frame(
     Month = months,
-    Population = popInterpolated$y[months]#,
+    FecundPopulation = popInterpolated$y[months]#,
 #     PopulationCount = d$PopulationCount,
 #     PopulationCountNext = d$PopulationCountNext
   )
@@ -127,9 +127,5 @@ dsCensusCountyMonth <- plyr::ddply(dsNext, .variables=c("Fips", "CountyName", "Y
 ###################
 # Write to disk
 ###################
-
-#dsCensusCountyYear
-write.csv(dsCensusCountyYear, file=ouputPathsCensusCountyYear, row.names=FALSE)
-
-#dsCensusCountyMonth
-write.csv(dsCensusCountyMonth, file=ouputPathsCensusCountyMonth, row.names=FALSE)
+write.csv(dsCensusCountyYear, file=ouputPathCensusCountyYear, row.names=FALSE)
+write.csv(dsCensusCountyMonth, file=ouputPathCensusCountyMonth, row.names=FALSE)

@@ -1,4 +1,4 @@
-County,Year,Month,BirthCount
+CountyName,Year,Month,BirthCount
 canadian,85,1,95
 canadian,85,2,90
 canadian,85,3,108
@@ -167,7 +167,7 @@ canadian,98,9,97
 canadian,98,10,72
 canadian,98,11,75
 canadian,98,12,87
-canadian,99,1,"81		 	  99"
+canadian,99,1,81
 canadian,99,2,83
 canadian,99,3,80
 canadian,99,4,75
