@@ -39,7 +39,7 @@ changeMonth <- as.Date("1996-02-15")
 vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
 
 fullSpread <- function( scores) { 
-  return( c(min(scores), max(scores)) ) 
+  return( range(scores) ) #A new function isn't necessary.  It's defined just to be consistent.
 }
 hSpread <- function( scores) { 
   return( quantile(x=scores, probs=c(.25, .75)) ) 
@@ -79,7 +79,7 @@ CartesianRolling(
 The version for the manuscript was tweaked to take advantage of certain features of the dataset.
 
 ```{r Figure2IndividualStylized}
-fig2Theme <- ggplot2::theme(
+lightTheme <- ggplot2::theme(
   axis.title          = element_text(color="gray60", size=9),
   axis.text.x         = element_text(color="gray80", hjust=0),
   axis.text.y         = element_text(color="gray80"),
@@ -131,9 +131,9 @@ bottomPanel <- CartesianRolling(
   drawJaggedLine = FALSE
 )
 
-topPanel <- topPanel + xScale + fig2Theme #+ yScale + yExpand
-middlePanel <- middlePanel + xScale + fig2Theme #+ yScale + yExpand
-bottomPanel <- bottomPanel + xScaleBlank + fig2Theme #+ yScale + yExpand
+topPanel <- topPanel + xScale + lightTheme #+ yScale + yExpand
+middlePanel <- middlePanel + xScale + lightTheme #+ yScale + yExpand
+bottomPanel <- bottomPanel + xScaleBlank + lightTheme #+ yScale + yExpand
 ```
 
 ### Combined Panels
@@ -172,7 +172,7 @@ print(cartesianPeriodicSimple) #Print isn't necessary, but it makes my intention
 # yScale <- scale_y_continuous(breaks=5:7)
 # yExpand <- expand_limits(y=c(5, 7))
 
-print(cartesianPeriodicSimple + xScale + fig2Theme) # + yScale + yExpand
+print(cartesianPeriodicSimple + xScale + lightTheme) # + yScale + yExpand
 ```
 
 ## Figure 5: Carteisan Periodic 
@@ -193,7 +193,7 @@ cartesianPeriodic <- CartesianPeriodic(
 print(cartesianPeriodic)
 ```
 ```{r Figure5Stylized}
-cartesianPeriodic <- cartesianPeriodic + xScale + fig2Theme # + yScale + yExpand
+cartesianPeriodic <- cartesianPeriodic + xScale + lightTheme # + yScale + yExpand
 print(cartesianPeriodic)
 ```
 
@@ -280,32 +280,6 @@ dsLinearAll <- AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2
 
 #Identify the average size of the fecund population
 plyr::ddply(dsLinearAll, "CountyName", summarize, Mean=mean(FecundPopulation))
-
-#Define the Cartesian properties of the counties
-portfolioCartesianTulsa <- AnnotateData(dsLinearAll[dsLinearAll$CountyName=="tulsa", ], dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
-portfolioCartesianOk <- AnnotateData(dsLinearAll[dsLinearAll$CountyName=="oklahoma", ], dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
-portfolioCartesianCleveland <- AnnotateData(dsLinearAll[dsLinearAll$CountyName=="cleveland", ], dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
-portfolioCartesianComanche <- AnnotateData(dsLinearAll[dsLinearAll$CountyName=="comanche", ], dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
-
-#Augment the datasets
-dsLinearTulsa <- AugmentYearDataWithMonthResolution(dsLinear=portfolioCartesianTulsa$dsLinear, dateName="Date")
-dsLinearOk <- AugmentYearDataWithMonthResolution(dsLinear=portfolioCartesianOk$dsLinear, dateName="Date")
-dsLinearCleveland <- AugmentYearDataWithMonthResolution(dsLinear=portfolioCartesianCleveland$dsLinear, dateName="Date")
-dsLinearComanche <- AugmentYearDataWithMonthResolution(dsLinear=portfolioCartesianComanche$dsLinear, dateName="Date")
-
-#Define the polar properties of the counties
-portfolioPolarTulsa <- PolarizeCartesian(dsLinear=portfolioCartesianTulsa$dsLinear, dsStageCycle=portfolioCartesianTulsa$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
-portfolioPolarOk <- PolarizeCartesian(dsLinear=portfolioCartesianOk$dsLinear, dsStageCycle=portfolioCartesianOk$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
-portfolioPolarCleveland <- PolarizeCartesian(dsLinear=portfolioCartesianCleveland$dsLinear, dsStageCycle=portfolioCartesianCleveland$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
-portfolioPolarComanche <- PolarizeCartesian(dsLinear=portfolioCartesianComanche$dsLinear, dsStageCycle=portfolioCartesianComanche$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
-
-cartesianPeriodicTulsa <- CartesianPeriodic(portfolioCartesianTulsa$dsLinear, portfolioCartesianTulsa$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect", yTitle="General Fertility Rate", drawPeriodicBand=TRUE)
-
-cartesianPeriodicOk <- CartesianPeriodic(portfolioCartesianOk$dsLinear, portfolioCartesianOk$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect", yTitle="General Fertility Rate", drawPeriodicBand=TRUE)
-
-cartesianPeriodicCleveland <- CartesianPeriodic(portfolioCartesianCleveland$dsLinear, portfolioCartesianCleveland$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect", yTitle="General Fertility Rate", drawPeriodicBand=TRUE)
-
-cartesianPeriodicComanche <- CartesianPeriodic(portfolioCartesianComanche$dsLinear, portfolioCartesianComanche$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect", yTitle="General Fertility Rate", drawPeriodicBand=TRUE)
 
 
 ```
