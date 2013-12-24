@@ -59,3 +59,9 @@ y1 <- trendLine[1:(length(trendLine) - lag)]
 step <- c(rep(0, times=sum(dsLinear$StageID==1)-lag), rep(1, times=sum(dsLinear$StageID==2)))
 lag1 <-  glm(y ~ 1 + step + y1)
 summary(lag1)
+
+#Potentially useful links:
+# http://cran.us.r-project.org/web/packages/BayesSingleSub/BayesSingleSub.pdf
+# http://cran.r-project.org/web/packages/forecast/forecast.pdf
+# http://a-little-book-of-r-for-time-series.readthedocs.org/en/latest/src/timeseries.html#decomposing-seasonal-data
+# http://books.google.com/books?id=oAIuJ2JQIngC&pg=PA57&lpg=PA57&dq=interrupted+time+series++seasonal&source=bl&ots=sKARoXV6p9&sig=gQQnybPUu5wxZu4jR6rDX2cs84o&hl=en&sa=X&ei=Ea24UvPhCcbbyQG8sYHYAw&ved=0CGwQ6AEwBg#v=onepage&q=interrupted%20time%20series%20%20seasonal&f=false

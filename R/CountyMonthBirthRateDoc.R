@@ -1,9 +1,19 @@
-#' @name CountyMonthBirthRate
+#' @name CountyMonthBirthRate2014Version
+#' @aliases CountyMonthBirthRate2005Version
 #' @docType data
-#' @title Monthly Growth Fertility Rates (GFR) for 12 urban Oklahoma counties
+#' @title 2014 Version of the monthly Growth Fertility Rates (GFR) for 12 urban Oklahoma counties
 #' @description Monthly Growth Fertility Rates (GFR) for 12 urban counties in Oklahoma
 #' between January 1990 and December 1999.  The GFR is defined as the number of births divided 
 #' by the number of females (ages 15-44), multiplied by 1,000.
+#' 
+#' There are two datasets in this package that are almost identical.  The 2014 version is better suited for substantive researchers
+#' in the areas of fertility and traumatic cultural events.  The 2005 version recreates the 2005 article
+#' and is better suited for the graphical aims of the 2014 manuscript.
+#' 
+#' The difference is that the 2005 version uses constant estimate for a county population 
+#' --specifically the US Census 1990 estimates.  The 2014 version uses different estimates
+#' for each month --specificallly the US intercensal annual estimates, with linear interpolation
+#' for February through December of each year.
 #' 
 #' @format A data frame with 1,440 observations on the following 8 variables.
 #' \describe{
@@ -20,12 +30,11 @@
 #'    \item{DaysInYear}{The number of days in the specific years \code{integer}} 
 #'    \item{StageID}{The `Stage' of the month.  The pre-bombing records are `1' (accounting for 9 months of gestation); the post-bombing months are `2'. \code{integer}} 
 #'    \item{BirthRate}{The \emph{G}rowth \emph{F}ertility \emph{R}ate (GFR). \code{numeric - double precision float}} 
-#'    \item{BirthRateUnadjustedFrom1990}{\code{numeric - double precision float}} 
-#'    \item{BirthRateMonthly}{\code{numeric - double precision float}} 
 #' }
 #' @details 
 #' <<Joe, can you please finish/edit this sentence?>>
-#' The monthly birth counts were copied from county records by Ronnie Coleman during the summer of 200?.  It was collected
+#' The monthly birth counts were copied from county records by Ronnie Coleman during the 
+#' summer of 2001 from state vital statistics records.  It was collected
 #' for \href{http://www.ncbi.nlm.nih.gov/pubmed/16463916}{Rodgers, St. John, & Coleman (2005)}.
 #' 
 #' The US Census' intercensal estimates are used for the January values of
@@ -51,11 +60,12 @@
 #' @keywords datasets
 #' @examples 
 #' require(ggplot2) 
-#' ggplot(CountyMonthBirthRate, aes(x=Date, y=BirthRate, color=factor(Fips))) + 
+#' ds <- CountyMonthBirthRate2014Version
+#' ggplot(CountyMonthBirthRate2014Version, aes(x=Date, y=BirthRate, color=factor(Fips))) + 
 #' geom_line() +
 #' labs(title="County Fertility - Longitudinal") 
 #' 
-#' ggplot(CountyMonthBirthRate, aes(x=BirthRate, color=factor(Fips))) + 
+#' ggplot(CountyMonthBirthRate2014Version, aes(x=BirthRate, color=factor(Fips))) + 
 #' geom_density() +
 #' labs(title="Distributions of County Fertility")
 NULL

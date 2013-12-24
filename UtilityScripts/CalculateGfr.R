@@ -6,8 +6,10 @@ require(plyr)
 require(testit)
 inputPathCensusCountyMonth <- "./Datasets/CensusIntercensal/CensusCountyMonth.csv"
 inputPathBirthCountCountyMonth <- "./Datasets/BirthCountState.csv"
-outputPathBirthCountCountyMonthCsv <- "./Datasets/CountyMonthBirthRate.csv"
-outputPathBirthCountCountyMonthRda <- "./data/CountyMonthBirthRate.rda"
+outputPathBirthCountCountyMonthCsv2014 <- "./Datasets/CountyMonthBirthRate2014Version.csv"
+outputPathBirthCountCountyMonthCsv2005 <- "./Datasets/CountyMonthBirthRate2005Version.csv"
+outputPathBirthCountCountyMonthRda2014 <- "./data/CountyMonthBirthRate2014Version.rda"
+outputPathBirthCountCountyMonthRda2005 <- "./data/CountyMonthBirthRate2005Version.rda"
 changeMonth <- as.Date("1996-02-15")
 
 ###################
@@ -42,15 +44,25 @@ rm(dsCensus, dsBirthCount, inputPathCensusCountyMonth, inputPathBirthCountCounty
 dsCountyMonth$StageID <- ifelse(dsCountyMonth$Date < changeMonth, 1L, 2L)
 
 ###################
-# Calculate GFR
-###################L
-dsCountyMonth$BirthRateMonthly <- dsCountyMonth$BirthCount / dsCountyMonth$FecundPopulation * 1000L
+# Calculate GFR for the 2005 and the 2014 Versions
+###################
+dsCountyMonth2014 <-  dsCountyMonth #This is what fertility researchers should use.
+dsCountyMonth2005 <-  dsCountyMonth #This is better for 2014 article, and recreates the 2005 article.
 
-dsCountyMonth$BirthRate <- dsCountyMonth$BirthRateMonthly * dsCountyMonth$DaysInYear / dsCountyMonth$DaysInMonth
+#The 2014 version uses the interpolated
+dsCountyMonth2014$BirthRateMonthly <- dsCountyMonth2014$BirthCount / dsCountyMonth2014$FecundPopulation * 1000L
 
-#For diagnostic purposes, use only the 1990 estimate.
-dsCountyMonth <- plyr::ddply(dsCountyMonth, .variables="Fips", transform,
-                             BirthRateUnadjustedFrom1990=BirthCount / FecundPopulation[1] * 1000L)
+#To recreate the 2005 paper, use only the 1990 estimate.
+dsCountyMonth2005 <- plyr::ddply(
+  .data= dsCountyMonth2005, 
+  .variables = "Fips",
+  .fun = transform, 
+  BirthRateMonthly = (BirthCount / FecundPopulation[1] * 1000L)
+)
+
+#Adjust for months of unequal days.  Each monthly record is multiplied by abou 12.
+dsCountyMonth2014$BirthRate <- dsCountyMonth2014$BirthRateMonthly * dsCountyMonth2014$DaysInYear / dsCountyMonth2014$DaysInMonth
+dsCountyMonth2005$BirthRate <- dsCountyMonth2005$BirthRateMonthly * dsCountyMonth2005$DaysInYear / dsCountyMonth2005$DaysInMonth
 
 # require(ggplot2)
 # ggplot(dsCountyMonth, aes(x=Date, y=BirthRate, color=factor(Fips))) + geom_line() + labs(title="Distributions of County Fertility")
@@ -68,6 +80,10 @@ dsCountyMonth <- plyr::ddply(dsCountyMonth, .variables="Fips", transform,
 ###################
 # Write to disk
 ###################
-CountyMonthBirthRate <- dsCountyMonth
-write.csv(CountyMonthBirthRate, file=outputPathBirthCountCountyMonthCsv, row.names=FALSE)
-save(CountyMonthBirthRate, file=outputPathBirthCountCountyMonthRda, compress="xz")
+CountyMonthBirthRate2014Version <- dsCountyMonth2014
+CountyMonthBirthRate2005Version <- dsCountyMonth2005
+
+write.csv(CountyMonthBirthRate, file=outputPathBirthCountCountyMonthCsv2014, row.names=FALSE)
+write.csv(CountyMonthBirthRate, file=outputPathBirthCountCountyMonthCsv2005, row.names=FALSE)
+save(CountyMonthBirthRate, file=outputPathBirthCountCountyMonthRda2014, compress="xz")
+save(CountyMonthBirthRate, file=outputPathBirthCountCountyMonthRda2005, compress="xz")
