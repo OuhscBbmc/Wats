@@ -36,6 +36,8 @@ library(boot)
 
 changeMonth <- as.Date("1996-02-15")
 
+vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
+
 fullSpread <- function( scores) { 
   return( c(min(scores), max(scores)) ) 
 }
@@ -204,7 +206,8 @@ portfolioPolar <- PolarizeCartesian(
   dsStageCycle = portfolioCartesian$dsStageCycle, 
   yName = "BirthRate", 
   stageIDName = "StageID", 
-  plottedPointCountPerCycle = 7200)
+  plottedPointCountPerCycle = 7200
+)
 
 windows.options(antialias = "cleartype")
 grid.newpage()
@@ -239,7 +242,6 @@ pushViewport(viewport(
   ), 
   gp = gpar(cex=1, fill=NA)
 ))
-vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
 
 ## Create top left panel
 pushViewport(viewport(layout.pos.col=1, layout.pos.row=1))
@@ -281,9 +283,15 @@ plyr::ddply(dsLinearAll, "CountyName", summarize, Mean=mean(FecundPopulation))
 
 #Define the Cartesian properties of the counties
 portfolioCartesianTulsa <- AnnotateData(dsLinearAll[dsLinearAll$CountyName=="tulsa", ], dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
-portfolioCartesianOk <- AnnotateData(dsLinearAll[dsLinearAll$CountyName=="tulsa", ], dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+portfolioCartesianOk <- AnnotateData(dsLinearAll[dsLinearAll$CountyName=="oklahoma", ], dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 portfolioCartesianCleveland <- AnnotateData(dsLinearAll[dsLinearAll$CountyName=="cleveland", ], dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 portfolioCartesianComanche <- AnnotateData(dsLinearAll[dsLinearAll$CountyName=="comanche", ], dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+
+#Augment the datasets
+dsLinearTulsa <- AugmentYearDataWithMonthResolution(dsLinear=portfolioCartesianTulsa$dsLinear, dateName="Date")
+dsLinearOk <- AugmentYearDataWithMonthResolution(dsLinear=portfolioCartesianOk$dsLinear, dateName="Date")
+dsLinearCleveland <- AugmentYearDataWithMonthResolution(dsLinear=portfolioCartesianCleveland$dsLinear, dateName="Date")
+dsLinearComanche <- AugmentYearDataWithMonthResolution(dsLinear=portfolioCartesianComanche$dsLinear, dateName="Date")
 
 #Define the polar properties of the counties
 portfolioPolarTulsa <- PolarizeCartesian(dsLinear=portfolioCartesianTulsa$dsLinear, dsStageCycle=portfolioCartesianTulsa$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
@@ -293,7 +301,7 @@ portfolioPolarComanche <- PolarizeCartesian(dsLinear=portfolioCartesianComanche$
 
 cartesianPeriodicTulsa <- CartesianPeriodic(portfolioCartesianTulsa$dsLinear, portfolioCartesianTulsa$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect", yTitle="General Fertility Rate", drawPeriodicBand=TRUE)
 
-cartesianPeriodicOk <- CartesianPeriodic(portfolioCartesianOk$dsLinear, portfolioCartesianOk$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect", yTitle="General Fertility Rate", drawPeriodicBand=F)
+cartesianPeriodicOk <- CartesianPeriodic(portfolioCartesianOk$dsLinear, portfolioCartesianOk$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect", yTitle="General Fertility Rate", drawPeriodicBand=TRUE)
 
 cartesianPeriodicCleveland <- CartesianPeriodic(portfolioCartesianCleveland$dsLinear, portfolioCartesianCleveland$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect", yTitle="General Fertility Rate", drawPeriodicBand=TRUE)
 
