@@ -57,7 +57,6 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
                           ) {
   
   tickLocationsPolar <- tickLocations - min(tickLocations)
-  print(tickLocationsPolar)
   
   graphRadius <- graphCeiling - graphFloor
   vpRange <- c(-graphRadius, graphRadius) * 1.02

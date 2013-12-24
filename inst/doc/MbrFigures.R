@@ -7,7 +7,7 @@ opts_chunk$set(
     fig.width=6.5, 
     fig.height=1.6,
     fig.path='figure_rmd/',
-    dpi=200
+    dpi=100
 )
 
 # options(markdown.HTML.header = system.file("misc", "vignette.css", package = "knitr"))
@@ -17,36 +17,47 @@ opts_chunk$set(
 options(width=120) #So the output is 50% wider than the default.
 
 
-## ----Figure2IndividualBasic----------------------------------------------
+## ----Definitions---------------------------------------------------------
 library(Wats)
 library(grid)
 library(ggplot2) 
 library(boot) 
-dsLinear <- CountyMonthBirthRate2005Version[CountyMonthBirthRate2005Version$CountyName=="oklahoma", ]
-# filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
-# dsLinear <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
-# dsLinear$Date <- as.Date(dsLinear$Date) 
-# dsLinear$MonthID <- NULL
-changeMonth <- as.Date("1996-02-15")
-dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
-# base::pretty(x=dsLinear$BirthRate)
 
-hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-seSpread <- function( scores) { return( mean(scores) + c(-1, 1)*sd(scores)/sqrt(length(scores)) ) }
+changeMonth <- as.Date("1996-02-15")
+
+fullSpread <- function( scores) { 
+  return( c(min(scores), max(scores)) ) 
+}
+hSpread <- function( scores) { 
+  return( quantile(x=scores, probs=c(.25, .75)) ) 
+}
+seSpread <- function( scores) { 
+  return( mean(scores) + c(-1, 1) * sd(scores) / sqrt(length(scores)) ) 
+}
 bootSpread <- function( scores, conf=.66 ) {
   plugin <- function( d, i ) { mean(d[i]) }
 
   dist <- boot(data=scores, plugin, R=999)
   ci <- boot.ci(dist, type = c("bca"), conf=conf)
-  return( ci$bca[4:5] )
+  return( ci$bca[4:5] ) #The fourth & fifth elements correspond to the lower & upper bound.
 }
-# b <- bootSpread(dsLinear$BirthRate)
 
-portfolioCartesian <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, 
-                                   spreadFunction=bootSpread)
-                                   #spreadFunction=seSpread)
 
-CartesianRolling(dsLinear=portfolioCartesian$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
+## ----Figure2IndividualBasic----------------------------------------------
+dsLinear <- CountyMonthBirthRate2005Version[CountyMonthBirthRate2005Version$CountyName=="oklahoma", ]
+
+dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+
+portfolioCartesian <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+
+CartesianRolling(
+  dsLinear = portfolioCartesian$dsLinear, 
+  xName = "Date", 
+  yName = "BirthRate", 
+  stageIDName = "StageID", 
+  changePoints = changeMonth, 
+  changePointLabels = "Bombing Effect"
+)
 
 
 ## ----Figure2IndividualStylized-------------------------------------------
@@ -56,34 +67,55 @@ fig2Theme <- ggplot2::theme(
   axis.text.y         = element_text(color="gray80"),
   axis.ticks.length   = grid::unit(0, "cm"), #g <- g + theme(axis.ticks=element_blank())
   axis.ticks.margin   = grid::unit(.00001, "cm"),
-  panel.grid.minor.y  = element_line(color="gray90", size=.1),
-  panel.grid.major    = element_line(color="gray85", size=.15),
+  panel.grid.minor.y  = element_line(color="gray99", size=.1),
+  panel.grid.major    = element_line(color="gray95", size=.1),
   panel.margin        = grid::unit(c(0, 0, 0, 0), "cm"),
   plot.margin         = grid::unit(c(0, 0, 0, 0), "cm")
 )
-xScaleBlank <- scale_x_date(breaks=seq.Date(from=as.Date("1990-01-01"), to=as.Date("1999-01-01"), by="years"), labels=NULL)
-xScale <- scale_x_date(breaks=seq.Date(from=as.Date("1990-01-01"), to=as.Date("1999-01-01"), by="years"), labels=scales::date_format("%Y"))
+dateSequence <- seq.Date(from=as.Date("1990-01-01"), to=as.Date("1999-01-01"), by="years")
+xScale       <- scale_x_date(breaks=dateSequence, labels=scales::date_format("%Y"))
+xScaleBlank  <- scale_x_date(breaks=dateSequence, labels=NULL) #This keeps things proportional down the three frames.
 # yScale <- scale_y_continuous(breaks=5:7)
 # yExpand <- expand_limits(y=c(5, 7))
 
-topPanel <- CartesianRolling(dsLinear=portfolioCartesian$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate", 
-                              changePointLabels="Bombing Effect", 
-                              drawRollingBand=FALSE, 
-                              drawRollingLine=FALSE)
-middlePanel <- CartesianRolling(portfolioCartesian$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate",
-                              changePointLabels="", 
-                              drawRollingBand=FALSE, 
-                              drawJaggedLine=FALSE)
-bottomPanel <- CartesianRolling(portfolioCartesian$dsLinear, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, yTitle="General Fertility Rate", 
-                              changePointLabels="", 
-                              drawJaggedLine=FALSE)
+topPanel <- CartesianRolling(
+  dsLinear = portfolioCartesian$dsLinear, 
+  xName = "Date", 
+  yName = "BirthRate", 
+  stageIDName = "StageID", 
+  changePoints = changeMonth, 
+  yTitle = "General Fertility Rate",
+  changePointLabels = "Bombing Effect", 
+  drawRollingBand = FALSE, 
+  drawRollingLine = FALSE
+)
+
+middlePanel <- CartesianRolling(
+  dsLinear = portfolioCartesian$dsLinear, 
+  xName = "Date", 
+  yName = "BirthRate", 
+  stageIDName = "StageID", 
+  changePoints = changeMonth, 
+  yTitle = "General Fertility Rate",
+  changePointLabels = "", 
+  drawRollingBand = FALSE, 
+  drawJaggedLine = FALSE
+)
+
+bottomPanel <- CartesianRolling(
+  dsLinear = portfolioCartesian$dsLinear, 
+  xName = "Date", 
+  yName = "BirthRate", 
+  stageIDName = "StageID", 
+  changePoints = changeMonth, 
+  yTitle = "General Fertility Rate", 
+  changePointLabels = "", 
+  drawJaggedLine = FALSE
+)
+
 topPanel <- topPanel + xScale + fig2Theme #+ yScale + yExpand
 middlePanel <- middlePanel + xScale + fig2Theme #+ yScale + yExpand
 bottomPanel <- bottomPanel + xScaleBlank + fig2Theme #+ yScale + yExpand
-
-topPanel
-middlePanel
-bottomPanel
 
 
 ## ----Figure2Combined, fig.height=4.8-------------------------------------
@@ -106,30 +138,17 @@ cartesianPeriodicSimple <- CartesianPeriodic(
   stageIDName = "StageID", 
   changePoints = changeMonth, 
   changePointLabels = "Bombing Effect",
-  yTitle="General Fertility Rate",
-  drawPeriodicBand=FALSE
+  yTitle = "General Fertility Rate",
+  drawPeriodicBand = FALSE
 )
-cartesianPeriodicSimple
+print(cartesianPeriodicSimple) #Print isn't necessary, but it makes my intention a little clearer.
 
 
 ## ----Figure4Stylized-----------------------------------------------------
-fig4Theme <- ggplot2::theme(
-  axis.title          = element_text(color="gray60", size=9),
-  axis.text.x         = element_text(color="gray80", hjust=0),
-  axis.text.y         = element_text(color="gray80"),
-  axis.ticks.length   = grid::unit(0, "cm"), #g <- g + theme(axis.ticks=element_blank())
-  axis.ticks.margin   = grid::unit(.00001, "cm"),
-  panel.grid.minor.y  = element_line(color="gray90", size=.1),
-  panel.grid.major    = element_line(color="gray85", size=.15),
-  panel.margin        = grid::unit(c(0, 0, 0, 0), "cm"),
-  plot.margin         = grid::unit(c(0, 0, 0, 0), "cm")
-)
-xScale <- scale_x_date(breaks=seq.Date(from=as.Date("1990-01-01"), to=as.Date("1999-01-01"), by="years"), labels=scales::date_format("%Y"))
 # yScale <- scale_y_continuous(breaks=5:7)
 # yExpand <- expand_limits(y=c(5, 7))
 
-cartesianPeriodicSimple <- cartesianPeriodicSimple + xScale + fig4Theme # + yScale + yExpand
-cartesianPeriodicSimple
+print(cartesianPeriodicSimple + xScale + fig2Theme) # + yScale + yExpand
 
 
 ## ----Figure5Basic--------------------------------------------------------
@@ -141,58 +160,85 @@ cartesianPeriodic <- CartesianPeriodic(
   stageIDName = "StageID", 
   changePoints = changeMonth, 
   changePointLabels = "Bombing Effect",
-  yTitle="General Fertility Rate",
-  drawPeriodicBand=TRUE #The only difference from the simple linear graph above
+  yTitle = "General Fertility Rate",
+  drawPeriodicBand = TRUE #The only difference from the simple linear graph above
 )
-cartesianPeriodic
+print(cartesianPeriodic)
 
 
 ## ----Figure5Stylized-----------------------------------------------------
-cartesianPeriodic <- cartesianPeriodic + xScale + fig4Theme # + yScale + yExpand
-cartesianPeriodic
+cartesianPeriodic <- cartesianPeriodic + xScale + fig2Theme # + yScale + yExpand
+print(cartesianPeriodic)
 
 
 ## ----Figure6, fig.height=6, fig.width=6----------------------------------
-portfolioPolar <- PolarizeCartesian(portfolioCartesian$dsLinear, portfolioCartesian$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
+portfolioPolar <- PolarizeCartesian( 
+  dsLinear = portfolioCartesian$dsLinear, 
+  dsStageCycle = portfolioCartesian$dsStageCycle, 
+  yName = "BirthRate", 
+  stageIDName = "StageID", 
+  plottedPointCountPerCycle = 7200)
 
 windows.options(antialias = "cleartype")
 grid.newpage()
-PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, portfolioPolar$dsStageCyclePolar, yName="Radius", 
-              stageIDName="StageID", drawPeriodicBand=F,
-              cardinalLabels=c("Jan1", "Apr1", "July1", "Oct1"))
+PolarPeriodic(
+  dsLinear = portfolioPolar$dsObservedPolar, 
+  dsStageCycle = portfolioPolar$dsStageCyclePolar, 
+  yName = "Radius",
+  stageIDName = "StageID", 
+  drawPeriodicBand = FALSE,
+  cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
+)
 
 
 
 ## ----Figure7, fig.height=6.5*2/3-----------------------------------------
-portfolioPolar <- PolarizeCartesian(portfolioCartesian$dsLinear, portfolioCartesian$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
+portfolioPolar <- PolarizeCartesian(
+  dsLinear = portfolioCartesian$dsLinear, 
+  dsStageCycle = portfolioCartesian$dsStageCycle, 
+  yName = "BirthRate", 
+  stageIDName = "StageID", 
+  plottedPointCountPerCycle = 7200
+)
 
 grid.newpage()
 pushViewport(viewport(
-  layout=grid.layout(nrow=2, ncol=2, respect=TRUE, 
-                     widths=unit(c(1,1), c("null", "null")), 
-                     heights=unit(c(1,.5), c("null", "null"))), 
-  gp=gpar(cex=1, fill=NA)
+  layout=grid.layout(
+    nrow = 2, ncol = 2, respect = TRUE, 
+    widths = unit(c(1,1), c("null", "null")), 
+    heights = unit(c(1,.5), c("null", "null"))
+  ), 
+  gp = gpar(cex=1, fill=NA)
 ))
 vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
 
 ## Create top left panel
 pushViewport(viewport(layout.pos.col=1, layout.pos.row=1))
-topLeftPanel <- PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, portfolioPolar$dsStageCyclePolar, yName="Radius", 
-                              stageIDName="StageID", #graphCeiling=7, 
-                              cardinalLabels=c("Jan1", "Apr1", "July1", "Oct1"))
+topLeftPanel <- PolarPeriodic(  
+  dsLinear = portfolioPolar$dsObservedPolar, 
+  dsStageCyclePolar = portfolioPolar$dsStageCyclePolar, 
+  yName = "Radius", 
+  stageIDName = "StageID", #graphCeiling=7, 
+  cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
+)
 upViewport()
 
 ## Create top right panel
 pushViewport(viewport(layout.pos.col=2, layout.pos.row=1))
-topRighttPanel <- PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, portfolioPolar$dsStageCyclePolar, yName="Radius", 
-                              stageIDName="StageID", #graphCeiling=7, 
-                              drawObservedLine=F,
-                              cardinalLabels=c("Jan1", "Apr1", "July1", "Oct1"), originLabel=NULL)
+topRighttPanel <- PolarPeriodic(
+  dsLinear = portfolioPolar$dsObservedPolar, 
+  dsStageCyclePolar = portfolioPolar$dsStageCyclePolar, 
+  yName = "Radius", 
+  stageIDName = "StageID", #graphCeiling=7, 
+  drawObservedLine = FALSE,
+  cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1"), 
+  originLabel = NULL
+)
 upViewport()
 
 ## Create bottom panel
 pushViewport(viewport(layout.pos.col=1:2, layout.pos.row=2, gp=gpar(cex=1)))
-print(cartesianPeriodic, vp=vpLayout(1:2, 2))
+print(cartesianPeriodic, vp=vpLayout(x=1:2, y=2)) #Print across both columns of the bottom row.
 upViewport()
 
 
