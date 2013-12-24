@@ -1,3 +1,6 @@
+###################
+# Clear memory, load packages, and define global variables
+###################
 rm(list=ls(all=TRUE))
 require(plyr)
 require(testit)
@@ -5,6 +8,7 @@ inputPathCensusCountyMonth <- "./Datasets/CensusIntercensal/CensusCountyMonth.cs
 inputPathBirthCountCountyMonth <- "./Datasets/BirthCountState.csv"
 outputPathBirthCountCountyMonthCsv <- "./Datasets/CountyMonthBirthRate.csv"
 outputPathBirthCountCountyMonthRda <- "./data/CountyMonthBirthRate.rda"
+changeMonth <- as.Date("1996-02-15")
 
 ###################
 # Read in the datasets, lightly groom, & merge.
@@ -31,6 +35,11 @@ dsCountyMonth$DaysInMonth <- lubridate::days_in_month(dsCountyMonth$Date)
 dsCountyMonth$DaysInYear <- as.integer(365L + lubridate::leap_year(dsCountyMonth$Date))
 
 rm(dsCensus, dsBirthCount, inputPathCensusCountyMonth, inputPathBirthCountCountyMonth)
+
+###################
+# Define pre/post bombing stages (+9 months)
+###################
+dsCountyMonth$StageID <- ifelse(dsCountyMonth$Date < changeMonth, 1L, 2L)
 
 ###################
 # Calculate GFR
