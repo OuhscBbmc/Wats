@@ -31,6 +31,7 @@ First, some R packages are loaded, and some variables and functions are defined.
 ```{r Definitions}
 library(Wats)
 library(grid)
+library(plyr) 
 library(ggplot2) 
 library(boot) 
 
@@ -50,7 +51,7 @@ seSpread <- function( scores) {
 bootSpread <- function( scores, conf=.66 ) {
   plugin <- function( d, i ) { mean(d[i]) }
 
-  dist <- boot(data=scores, plugin, R=999)
+  dist <- boot(data=scores, plugin, R=99) #999 for the publication
   ci <- boot.ci(dist, type = c("bca"), conf=conf)
   return( ci$bca[4:5] ) #The fourth & fifth elements correspond to the lower & upper bound.
 }
@@ -282,8 +283,58 @@ dsLinearAll <- AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2
 plyr::ddply(dsLinearAll, "CountyName", summarize, Mean=mean(FecundPopulation))
 
 
+GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spreadFunction=hSpread, changeMonth=as.Date("1996-02-15") ) {
+  dsLinear <- CountyMonthBirthRate2005Version[CountyMonthBirthRate2005Version$CountyName==countyName, ]
+  dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+  portfolioCartesian <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=spreadFunction)
+  portfolioPolar <- PolarizeCartesian(dsLinear=portfolioCartesian$dsLinear, dsStageCycle=portfolioCartesian$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
+  cartesianPeriodic <- CartesianPeriodic(portfolioCartesian$dsLinear, portfolioCartesian$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels=""  )
+  
+  pushViewport(viewport(
+    layout=grid.layout(nrow=1, ncol=3, respect=F, widths=unit(c(2,1,3), c("line", "null", "null"))), 
+    gp=gpar(cex=1, fill=NA)
+  ))
+  pushViewport(viewport(layout.pos.col=1))
+  grid.rect(gp=gpar(fill="gray90", col=NA))
+  grid.text(rowLabel, rot=90)
+  popViewport()
+  
+  pushViewport(viewport(layout.pos.col=2))
+  polarPeriodic <- PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, dsStageCyclePolar=portfolioPolar$dsStageCyclePolar, drawObservedLine=FALSE, yName="Radius", stageIDName="StageID", originLabel=NULL)
+  popViewport()
+  
+  pushViewport(viewport(layout.pos.col=3))
+  print(cartesianPeriodic + xScale + lightTheme, vp=vpLayout(x=1, y=1))
+  popViewport()
+  popViewport() #Finish the row
+}
+
+counties <- c("rogers", "tulsa", "oklahoma", "cleveland", "comanche")
+
+grid.newpage()
+pushViewport(viewport(layout=grid.layout(nrow=length(counties), ncol=1), gp=gpar(cex=1, fill=NA)))
+for( i in seq_along(counties) ) {
+  pushViewport(viewport(layout.pos.col=1, layout.pos.row=i))
+  GraphCountyComparison(countyName=counties[i], rowLabel=counties[i])
+  popViewport()
+}
+popViewport()
 ```
 
+
+## Figure 9: Error Band Comparison
+This figure demonstrates that WATS accommodates many types of error bands.
+```{r Figure9, fig.height=6.5 * 4/5}
+spreads <- c("hSpread", "fullSpread", "seSpread", "bootSpread")
+grid.newpage()
+pushViewport(viewport(layout=grid.layout(nrow=length(spreads), ncol=1), gp=gpar(cex=1, fill=NA)))
+for( i in seq_along(spreads) ) {
+  pushViewport(viewport(layout.pos.col=1, layout.pos.row=i))
+  GraphCountyComparison(spreadFunction=get(spreads[i]), rowLabel=spreads[i])
+  upViewport()
+}
+upViewport()
+```
 
 ## Session Info
 For the sake of documentation and reproducibility, the current vignette was build on a system using the following software.

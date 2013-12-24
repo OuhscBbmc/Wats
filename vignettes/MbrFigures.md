@@ -17,13 +17,16 @@ First, some R packages are loaded, and some variables and functions are defined.
 ```r
 library(Wats)
 library(grid)
+library(plyr) 
 library(ggplot2) 
 library(boot) 
 
 changeMonth <- as.Date("1996-02-15")
 
+vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
+
 fullSpread <- function( scores) { 
-  return( c(min(scores), max(scores)) ) 
+  return( range(scores) ) #A new function isn't necessary.  It's defined just to be consistent.
 }
 hSpread <- function( scores) { 
   return( quantile(x=scores, probs=c(.25, .75)) ) 
@@ -34,7 +37,7 @@ seSpread <- function( scores) {
 bootSpread <- function( scores, conf=.66 ) {
   plugin <- function( d, i ) { mean(d[i]) }
 
-  dist <- boot(data=scores, plugin, R=999)
+  dist <- boot(data=scores, plugin, R=99) #999 for the publication
   ci <- boot.ci(dist, type = c("bca"), conf=conf)
   return( ci$bca[4:5] ) #The fourth & fifth elements correspond to the lower & upper bound.
 }
@@ -73,7 +76,7 @@ The version for the manuscript was tweaked to take advantage of certain features
 
 
 ```r
-fig2Theme <- ggplot2::theme(
+lightTheme <- ggplot2::theme(
   axis.title          = element_text(color="gray60", size=9),
   axis.text.x         = element_text(color="gray80", hjust=0),
   axis.text.y         = element_text(color="gray80"),
@@ -125,9 +128,9 @@ bottomPanel <- CartesianRolling(
   drawJaggedLine = FALSE
 )
 
-topPanel <- topPanel + xScale + fig2Theme #+ yScale + yExpand
-middlePanel <- middlePanel + xScale + fig2Theme #+ yScale + yExpand
-bottomPanel <- bottomPanel + xScaleBlank + fig2Theme #+ yScale + yExpand
+topPanel <- topPanel + xScale + lightTheme #+ yScale + yExpand
+middlePanel <- middlePanel + xScale + lightTheme #+ yScale + yExpand
+bottomPanel <- bottomPanel + xScaleBlank + lightTheme #+ yScale + yExpand
 ```
 
 
@@ -190,7 +193,7 @@ print(cartesianPeriodicSimple) #Print isn't necessary, but it makes my intention
 # yScale <- scale_y_continuous(breaks=5:7)
 # yExpand <- expand_limits(y=c(5, 7))
 
-print(cartesianPeriodicSimple + xScale + fig2Theme) # + yScale + yExpand
+print(cartesianPeriodicSimple + xScale + lightTheme) # + yScale + yExpand
 ```
 
 ![plot of chunk Figure4Stylized](figure_rmd/Figure4Stylized.png) 
@@ -219,7 +222,7 @@ print(cartesianPeriodic)
 
 
 ```r
-cartesianPeriodic <- cartesianPeriodic + xScale + fig2Theme # + yScale + yExpand
+cartesianPeriodic <- cartesianPeriodic + xScale + lightTheme # + yScale + yExpand
 print(cartesianPeriodic)
 ```
 
@@ -236,7 +239,8 @@ portfolioPolar <- PolarizeCartesian(
   dsStageCycle = portfolioCartesian$dsStageCycle, 
   yName = "BirthRate", 
   stageIDName = "StageID", 
-  plottedPointCountPerCycle = 7200)
+  plottedPointCountPerCycle = 7200
+)
 
 windows.options(antialias = "cleartype")
 grid.newpage()
@@ -274,7 +278,6 @@ pushViewport(viewport(
   ), 
   gp = gpar(cex=1, fill=NA)
 ))
-vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
 
 ## Create top left panel
 pushViewport(viewport(layout.pos.col=1, layout.pos.row=1))
@@ -320,34 +323,82 @@ plyr::ddply(dsLinearAll, "CountyName", summarize, Mean=mean(FecundPopulation))
 ```
 
 ```
-Error: object 'summarize' not found
+     CountyName   Mean
+1      canadian  18333
+2     cleveland  48865
+3      comanche  26268
+4         creek  13402
+5         logan   7066
+6       mcclain   5435
+7      oklahoma 146883
+8         osage   8530
+9  pottawatomie  13604
+10       rogers  13383
+11        tulsa 123783
+12      wagoner  11580
 ```
 
 ```r
 
-#Define the Cartesian properties of the counties
-portfolioCartesianTulsa <- AnnotateData(dsLinearAll[dsLinearAll$CountyName=="Tulsa", ], dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+
+GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spreadFunction=hSpread, changeMonth=as.Date("1996-02-15") ) {
+  dsLinear <- CountyMonthBirthRate2005Version[CountyMonthBirthRate2005Version$CountyName==countyName, ]
+  dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+  portfolioCartesian <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=spreadFunction)
+  portfolioPolar <- PolarizeCartesian(dsLinear=portfolioCartesian$dsLinear, dsStageCycle=portfolioCartesian$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
+  cartesianPeriodic <- CartesianPeriodic(portfolioCartesian$dsLinear, portfolioCartesian$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels=""  )
+  
+  pushViewport(viewport(
+    layout=grid.layout(nrow=1, ncol=3, respect=F, widths=unit(c(2,1,3), c("line", "null", "null"))), 
+    gp=gpar(cex=1, fill=NA)
+  ))
+  pushViewport(viewport(layout.pos.col=1))
+  grid.rect(gp=gpar(fill="gray90", col=NA))
+  grid.text(rowLabel, rot=90)
+  popViewport()
+  
+  pushViewport(viewport(layout.pos.col=2))
+  polarPeriodic <- PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, dsStageCyclePolar=portfolioPolar$dsStageCyclePolar, drawObservedLine=FALSE, yName="Radius", stageIDName="StageID", originLabel=NULL)
+  popViewport()
+  
+  pushViewport(viewport(layout.pos.col=3))
+  print(cartesianPeriodic + xScale + lightTheme, vp=vpLayout(x=1, y=1))
+  popViewport()
+  popViewport() #Finish the row
+}
+
+counties <- c("rogers", "tulsa", "oklahoma", "cleveland", "comanche")
+
+grid.newpage()
+pushViewport(viewport(layout=grid.layout(nrow=length(counties), ncol=1), gp=gpar(cex=1, fill=NA)))
+for( i in seq_along(counties) ) {
+  pushViewport(viewport(layout.pos.col=1, layout.pos.row=i))
+  GraphCountyComparison(countyName=counties[i], rowLabel=counties[i])
+  popViewport()
+}
+popViewport()
 ```
 
-```
-Warning: no non-missing arguments to max; returning -Inf
-```
+![plot of chunk Figure8](figure_rmd/Figure8.png) 
 
-```
-assertion failed: The should be at least one point in a cycle
-```
 
-```
-Error: max(pointsInCycle) >= 1 is not TRUE
-```
+
+## Figure 9: Error Band Comparison
+This figure demonstrates that WATS accommodates many types of error bands.
 
 ```r
-portfolioCartesianOk <- AnnotateData(dsLinearAll[dsLinearAll$CountyName=="oklahoma", ], dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
-portfolioCartesianCleveland <- AnnotateData(dsLinearAll[dsLinearAll$CountyName=="cleveland", ], dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
-portfolioCartesianComanche <- AnnotateData(dsLinearAll[dsLinearAll$CountyName=="comanche", ], dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
-
+spreads <- c("hSpread", "fullSpread", "seSpread", "bootSpread")
+grid.newpage()
+pushViewport(viewport(layout=grid.layout(nrow=length(spreads), ncol=1), gp=gpar(cex=1, fill=NA)))
+for( i in seq_along(spreads) ) {
+  pushViewport(viewport(layout.pos.col=1, layout.pos.row=i))
+  GraphCountyComparison(spreadFunction=get(spreads[i]), rowLabel=spreads[i])
+  upViewport()
+}
+upViewport()
 ```
 
+![plot of chunk Figure9](figure_rmd/Figure9.png) 
 
 
 ## Session Info
@@ -355,7 +406,7 @@ For the sake of documentation and reproducibility, the current vignette was buil
 
 
 ```
-Report created by Will at 12/23/2013 10:08:41 PM, Central Standard Time
+Report created by Will at 12/24/2013 12:32:39 AM, Central Standard Time
 ```
 
 ```
@@ -370,12 +421,12 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] boot_1.3-9      ggplot2_0.9.3.1 Wats_0.1-23     knitr_1.5      
+[1] boot_1.3-9      ggplot2_0.9.3.1 plyr_1.8        Wats_0.1-23     knitr_1.5      
 
 loaded via a namespace (and not attached):
  [1] colorspace_1.2-4   dichromat_2.0-0    digest_0.6.4       evaluate_0.5.1     formatR_0.10       gtable_0.1.2      
  [7] labeling_0.2       lattice_0.20-24    lubridate_1.3.2    MASS_7.3-29        memoise_0.1        munsell_0.4.2     
-[13] plyr_1.8           proto_0.3-10       RColorBrewer_1.0-5 reshape2_1.2.2     scales_0.2.3       stringr_0.6.2     
-[19] testit_0.3         tools_3.0.2        zoo_1.7-10        
+[13] proto_0.3-10       RColorBrewer_1.0-5 reshape2_1.2.2     scales_0.2.3       stringr_0.6.2      testit_0.3        
+[19] tools_3.0.2        zoo_1.7-10        
 ```
 
