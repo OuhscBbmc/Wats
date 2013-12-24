@@ -118,7 +118,7 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
 }
 
 # require(grid)
-# dsLinear <- CountyMonthBirthRate[CountyMonthBirthRate$CountyName=="oklahoma", ]
+# dsLinear <- CountyMonthBirthRate2005Version[CountyMonthBirthRate2005Version$CountyName=="oklahoma", ]
 # changeMonth <- as.Date("1996-02-15")
 # dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
 # dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")

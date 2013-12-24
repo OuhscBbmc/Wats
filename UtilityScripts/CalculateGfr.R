@@ -83,7 +83,7 @@ dsCountyMonth2005$BirthRate <- dsCountyMonth2005$BirthRateMonthly * dsCountyMont
 CountyMonthBirthRate2014Version <- dsCountyMonth2014
 CountyMonthBirthRate2005Version <- dsCountyMonth2005
 
-write.csv(CountyMonthBirthRate, file=outputPathBirthCountCountyMonthCsv2014, row.names=FALSE)
-write.csv(CountyMonthBirthRate, file=outputPathBirthCountCountyMonthCsv2005, row.names=FALSE)
-save(CountyMonthBirthRate, file=outputPathBirthCountCountyMonthRda2014, compress="xz")
-save(CountyMonthBirthRate, file=outputPathBirthCountCountyMonthRda2005, compress="xz")
+write.csv(CountyMonthBirthRate2014Version, file=outputPathBirthCountCountyMonthCsv2014, row.names=FALSE)
+write.csv(CountyMonthBirthRate2005Version, file=outputPathBirthCountCountyMonthCsv2005, row.names=FALSE)
+save(CountyMonthBirthRate2014Version, file=outputPathBirthCountCountyMonthRda2014, compress="xz")
+save(CountyMonthBirthRate2005Version, file=outputPathBirthCountCountyMonthRda2005, compress="xz")

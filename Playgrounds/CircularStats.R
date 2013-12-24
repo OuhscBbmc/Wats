@@ -5,7 +5,7 @@ library(ggplot2)
 library(boot) 
 library(circular) 
 
-dsLinear <- CountyMonthBirthRate[CountyMonthBirthRate$CountyName=="oklahoma", ]
+dsLinear <- CountyMonthBirthRate2014Version[CountyMonthBirthRate2014Version$CountyName=="oklahoma", ]
 
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 # base::pretty(x=dsLinear$BirthRate)

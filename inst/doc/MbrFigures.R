@@ -22,13 +22,12 @@ library(Wats)
 library(grid)
 library(ggplot2) 
 library(boot) 
-dsLinear <- CountyMonthBirthRate[CountyMonthBirthRate$CountyName=="oklahoma", ]
+dsLinear <- CountyMonthBirthRate2005Version[CountyMonthBirthRate2005Version$CountyName=="oklahoma", ]
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
 # dsLinear <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
 # dsLinear$Date <- as.Date(dsLinear$Date) 
 # dsLinear$MonthID <- NULL
 changeMonth <- as.Date("1996-02-15")
-dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 # base::pretty(x=dsLinear$BirthRate)
 
