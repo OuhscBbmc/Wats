@@ -14,7 +14,7 @@ opts_chunk$set(
     fig.width=6.5, 
     fig.height=1.6,
     fig.path='figure_rmd/',
-    dpi=100
+    dpi=200
 )
 
 # options(markdown.HTML.header = system.file("misc", "vignette.css", package = "knitr"))
