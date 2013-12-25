@@ -34,6 +34,7 @@
 ##' 
 ##' @param cardinalLabels The four labels placed  where `North', `East', `South', and `West' typically are.
 ##' @param originLabel Explains what the criterion variable's value is at the origin.  Use \code{NULL} if no explanation is desired.
+##' @param plotMargins A vector of four \code{numeric} values, specifying the number of lines in the bottom, left, top and right margins.
 ##' 
 ##' @return Returns a \code{grid} graphical object (ie, a \href{http://stat.ethz.ch/R-manual/R-devel/library/grid/html/grid.grob.html}{\code{grob}}.)
 ##' @keywords polar
@@ -53,7 +54,8 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
                           tickLocations=base::pretty(x=dsLinear[, yName]),
                           graphFloor=min(tickLocations),
                           graphCeiling=max(tickLocations),
-                          cardinalLabels=NULL, originLabel=paste0("The origin represents ", graphFloor, "; the perimeter represents ", graphCeiling, ".")
+                          cardinalLabels=NULL, originLabel=paste0("The origin represents ", graphFloor, ";\nthe perimeter represents ", graphCeiling, "."), 
+                          plotMargins=c(3.5, 2, .5, 2)
                           ) {
   
   tickLocationsPolar <- tickLocations - min(tickLocations)
@@ -75,13 +77,17 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
     if( length(stages) <= 4L) paletteLight <- RColorBrewer::brewer.pal(n=10L, name="Paired")[c(1L,3L,5L,7L)] #There's not a risk of defining more colors than levels
     else paletteLight <- colorspace::rainbow_hcl(n=length(stages), l=70)
   }   
-  
+#   grid.rect() #For exploring nested viewports
   grid::pushViewport(grid::viewport(layout=grid::grid.layout(nrow=1, ncol=1, respect=T), gp=grid::gpar(cex=0.6, fill=NA)))
+#   grid.rect() #For exploring nested viewports
   grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=1)) #This simple viewport is very important for the respected aspect ratio of 1.
-  grid::grid.text(originLabel, x=.5, y=0, vjust=-.5, gp=grid::gpar(cex=1.5, col=colorLabels), default.units="npc")
-  grid::pushViewport(grid::plotViewport(margins=c(2, 2, 2, 2))) 
+#   grid.rect() #For exploring nested viewports
+  grid::grid.text(originLabel, x=0, y=0, hjust=-.1, vjust=-.2, gp=grid::gpar(cex=1.5, col=colorLabels, lineheight=.8), default.units="npc")
+  grid::pushViewport(grid::plotViewport(margins=plotMargins)) 
+#   grid.rect() #For exploring nested viewports
   grid::pushViewport(grid::dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
-  
+#   grid.rect() #For exploring nested viewports
+
   grid::grid.lines(x=c(-graphRadius,graphRadius), y=c(0,0), gp=grid::gpar(col=colorGridlines, lty=3), default.units="native")
   grid::grid.lines(x=c(0,0), y=c(-graphRadius,graphRadius), gp=grid::gpar(col=colorGridlines, lty=3), default.units="native")
   grid::grid.circle(x=0, y=0, r=tickLocationsPolar, default.units="native", gp=grid::gpar(col=colorGridlines))

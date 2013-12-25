@@ -12,7 +12,8 @@ PolarPeriodic(dsLinear, dsStageCyclePolar, xName, yName, stageIDName,
   tickLocations = base::pretty(x = dsLinear[, yName]),
   graphFloor = min(tickLocations), graphCeiling = max(tickLocations),
   cardinalLabels = NULL, originLabel = paste0("The origin represents ",
-  graphFloor, "; the perimeter represents ", graphCeiling, "."))
+  graphFloor, ";\\nthe perimeter represents ", graphCeiling, "."),
+  plotMargins = c(3.5, 2, 0.5, 2))
 }
 \arguments{
   \item{dsLinear}{The \code{data.frame} to containing the
@@ -106,6 +107,10 @@ PolarPeriodic(dsLinear, dsStageCyclePolar, xName, yName, stageIDName,
   \item{originLabel}{Explains what the criterion variable's
   value is at the origin.  Use \code{NULL} if no
   explanation is desired.}
+
+  \item{plotMargins}{A vector of four \code{numeric}
+  values, specifying the number of lines in the bottom,
+  left, top and right margins.}
 }
 \value{
 Returns a \code{grid} graphical object (ie, a

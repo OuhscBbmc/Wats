@@ -1,4 +1,5 @@
 rm(list=ls(all=TRUE))
+require(Wats)
 vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
 
 fullSpread <- function( scores) { 
@@ -46,6 +47,7 @@ GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spreadFun
   popViewport()
   
   pushViewport(viewport(layout.pos.col=2))
+#   grid.rect()
   polarPeriodic <- PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, dsStageCyclePolar=portfolioPolar$dsStageCyclePolar, drawObservedLine=FALSE, yName="Radius", stageIDName="StageID", originLabel=NULL)
   popViewport()
   
@@ -66,12 +68,12 @@ for( i in seq_along(counties) ) {
   popViewport()
 }
 popViewport()
-
-grid.newpage()
-pushViewport(viewport(layout=grid.layout(nrow=length(spreads), ncol=1), gp=gpar(cex=1, fill=NA)))
-for( i in seq_along(spreads) ) {
-  pushViewport(viewport(layout.pos.col=1, layout.pos.row=i))
-  GraphCountyComparison(spreadFunction=get(spreads[i]), rowLabel=spreads[i])
-  upViewport()
-}
-upViewport()
+# 
+# grid.newpage()
+# pushViewport(viewport(layout=grid.layout(nrow=length(spreads), ncol=1), gp=gpar(cex=1, fill=NA)))
+# for( i in seq_along(spreads) ) {
+#   pushViewport(viewport(layout.pos.col=1, layout.pos.row=i))
+#   GraphCountyComparison(spreadFunction=get(spreads[i]), rowLabel=spreads[i])
+#   upViewport()
+# }
+# upViewport()
