@@ -143,8 +143,8 @@ bottomPanel <- bottomPanel + xScaleBlank + darkTheme
 ### Combined Panels
 This is what it looks like when all three stylized panels are combined.
 
-```{r Figure2Combined, fig.height=4.8} 
-#out.height=4.8, out.width=6.5,
+```{r Figure2Combined, fig.height=4.8}  
+#, out.height='300px', out.width='300px'
 vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
 grid.newpage()
 pushViewport(viewport(layout=grid.layout(3,1)))
