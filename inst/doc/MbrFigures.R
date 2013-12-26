@@ -77,13 +77,14 @@ xScaleBlank  <- ggplot2::scale_x_date(breaks=dateSequence, labels=NULL) #This ke
 
 
 ## ----Figure2IndividualBasic----------------------------------------------
-dsLinearAll <- utils::read.csv("./Datasets/CountyMonthBirthRate2005Version.csv", stringsAsFactors=FALSE)
-dsLinearAll$Date <- base::as.Date(dsLinearAll$Date)
-dsLinearOkc <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ] 
+# dsLinearAll <- utils::read.csv("./Datasets/CountyMonthBirthRate2005Version.csv", stringsAsFactors=FALSE)
+# dsLinearAll$Date <- base::as.Date(dsLinearAll$Date)
+# dsLinearOkc <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ] 
 
-# Uncomment this line to use the version built into the package.  By default, it uses the
+# Uncomment the next two lines to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
-# dsLinearOkc <- CountyMonthBirthRate2005Version[CountyMonthBirthRate2005Version$CountyName=="oklahoma", ]
+dsLinearAll <- CountyMonthBirthRate2005Version
+dsLinearOkc <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ]
 
 dsLinearOkc <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinearOkc, dateName="Date")
 

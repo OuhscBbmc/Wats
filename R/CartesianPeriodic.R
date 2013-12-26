@@ -121,7 +121,7 @@ CartesianPeriodic <- function(dsLinear, dsPeriodic,
 # dsLinear[dsLinear$CountyName=="oklahoma", ]
 # dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 # 
-# hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+# hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 # portfolio <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 # 
 # CartesianPeriodic(portfolio$dsLinear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect",

@@ -4,7 +4,8 @@
 \alias{AugmentYearDataWithSecondResolution}
 \title{Calculates variables necessary for WATS Plots}
 \usage{
-AugmentYearDataWithMonthResolution(dsLinear, dateName, stageIDName)
+AugmentYearDataWithMonthResolution( dsLinear, dateName, stageIDName )
+AugmentYearDataWithSecondResolution( dsLinear, dateName, stageIDName )
 }
 \arguments{
   \item{dsLinear}{The \code{data.frame} to containing the
@@ -23,13 +24,15 @@ Returns a \code{data.frame} with additional variables:
 \code{ProportionID}, and \code{TerminalPointInCycle}.
 }
 \description{
-Calculates variables necessary for WATS Plots
+Calculates variables necessary for WATS Plots.  This the
+first of two functions that needs to be called to produce
+WATS Plots.  \code{AnnotateData} is the second.
 }
 \examples{
 require(Wats)
 dsLinear <- CountyMonthBirthRate2005Version
 dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
-dsLinear
+head(dsLinear)
 }
 

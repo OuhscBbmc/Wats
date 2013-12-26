@@ -2,13 +2,13 @@ rm(list=ls(all=TRUE))
 require(Wats)
 vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
 
-fullSpread <- function( scores) { 
+fullSpread <- function( scores ) { 
   return( range(scores) ) 
 }
-hSpread <- function( scores) { 
+hSpread <- function( scores ) { 
   return( quantile(x=scores, probs=c(.25, .75)) ) 
 }
-seSpread <- function( scores) { 
+seSpread <- function( scores ) { 
   return( mean(scores) + c(-1, 1) * sd(scores) / sqrt(length(scores)) ) 
 }
 bootSpread <- function( scores, conf=.66 ) {

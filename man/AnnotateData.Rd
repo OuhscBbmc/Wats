@@ -51,9 +51,26 @@ what they are>>.
 }
 \description{
 Finds midpoints and bands for the within and between
-cycles.
+cycles.  This the second of two functions that needs to be
+called to produce WATS Plots.  \code{AugmentZZZ} is the
+first.
 }
 \examples{
-a <- 32+323
+require(Wats)
+dsLinear <- CountyMonthBirthRate2005Version
+dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
+dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+
+hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+portfolio <- AnnotateData(
+  dsLinear = dsLinear,
+  dvName = "BirthRate",
+  centerFunction = median,
+  spreadFunction = hSpread
+)
+
+head(portfolio$dsStageCycle)
+head(portfolio$dsLinear)
+head(portfolio$dsPeriodic)
 }
 

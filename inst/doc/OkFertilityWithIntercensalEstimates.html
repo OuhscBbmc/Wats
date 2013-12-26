@@ -237,13 +237,14 @@ xScaleBlank  &lt;- ggplot2::scale_x_date(breaks=dateSequence, labels=NULL) #This
 
 <h2>Section 1: Cartesian Rolling plot</h2>
 
-<pre><code class="r">dsLinear &lt;- utils::read.csv(&quot;./Datasets/CountyMonthBirthRate2014Version.csv&quot;, stringsAsFactors=FALSE)
-dsLinear$Date &lt;- base::as.Date(dsLinear$Date)
-dsLinear &lt;- dsLinear[dsLinear$CountyName==&quot;oklahoma&quot;, ] 
+<pre><code class="r"># dsLinear &lt;- utils::read.csv(&quot;./Datasets/CountyMonthBirthRate2014Version.csv&quot;, stringsAsFactors=FALSE)
+# dsLinear$Date &lt;- base::as.Date(dsLinear$Date)
+# dsLinear &lt;- dsLinear[dsLinear$CountyName==&quot;oklahoma&quot;, ] 
 
 # Uncomment this line to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
-# dsLinear &lt;- CountyMonthBirthRate2014Version[CountyMonthBirthRate2014Version$CountyName==&quot;oklahoma&quot;, ] 
+dsLinearAll &lt;- CountyMonthBirthRate2014Version
+dsLinear &lt;- dsLinearAll[dsLinearAll$CountyName==&quot;oklahoma&quot;, ] 
 
 dsLinear &lt;- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName=&quot;Date&quot;)
 
@@ -703,11 +704,11 @@ mcmcRepCount &lt;- 1000#000
   |                                                                                                                    
   |==============================================================================================================| 100%
 
- rho acceptance rate: 0.09109 
+ rho acceptance rate: 0.1091 
 </code></pre>
 
 <pre><code> logbf.i+t logbf.trend logbf.int
-    -7.355      -8.202   -0.1509
+    -3.398      -4.587   -0.2101
 </code></pre>
 
 <pre><code class="r">(mcClassic &lt;- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=mcmcRepCount, progress=interactive()))
@@ -919,19 +920,19 @@ mcmcRepCount &lt;- 1000#000
 </code></pre>
 
 <pre><code> logbf.joint logbf.trend logbf.int
-       10.06       -44.3     -4.73
+       1.963      -36.31    -2.725
 </code></pre>
 
 <pre><code class="r">summary(mcClassic)
 </code></pre>
 
 <pre><code>  logbf.joint    logbf.trend      logbf.int    
- Min.   :10.1   Min.   :-44.3   Min.   :-4.73  
- 1st Qu.:10.1   1st Qu.:-44.3   1st Qu.:-4.73  
- Median :10.1   Median :-44.3   Median :-4.73  
- Mean   :10.1   Mean   :-44.3   Mean   :-4.73  
- 3rd Qu.:10.1   3rd Qu.:-44.3   3rd Qu.:-4.73  
- Max.   :10.1   Max.   :-44.3   Max.   :-4.73  
+ Min.   :1.96   Min.   :-36.3   Min.   :-2.72  
+ 1st Qu.:1.96   1st Qu.:-36.3   1st Qu.:-2.72  
+ Median :1.96   Median :-36.3   Median :-2.72  
+ Mean   :1.96   Mean   :-36.3   Mean   :-2.72  
+ 3rd Qu.:1.96   3rd Qu.:-36.3   3rd Qu.:-2.72  
+ Max.   :1.96   Max.   :-36.3   Max.   :-2.72  
 </code></pre>
 
 <pre><code class="r"># coda::gelman.diag(g$chains) #it needs multiple chains
@@ -1146,11 +1147,11 @@ BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCo
   |                                                                                                                    
   |==============================================================================================================| 100%
 
- rho acceptance rate: 0.06406 
+ rho acceptance rate: 0.05906 
 </code></pre>
 
 <pre><code> logbf.i+t logbf.trend logbf.int
-    -25.64      -25.81   -0.8046
+    -23.97      -24.13   -0.7912
 </code></pre>
 
 <pre><code class="r">BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=interactive())
@@ -1362,14 +1363,14 @@ BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCo
 </code></pre>
 
 <pre><code> logbf.joint logbf.trend logbf.int
-      -13.33      -49.95    -1.117
+       16.28      -71.48    -6.511
 </code></pre>
 
 <h2>Session Info</h2>
 
 <p>For the sake of documentation and reproducibility, the current vignette was build on a system using the following software.</p>
 
-<pre><code>Report created by Will at 12/26/2013 1:39:52 AM, Central Standard Time
+<pre><code>Report created by Will at 12/26/2013 1:29:29 PM, Central Standard Time
 </code></pre>
 
 <pre><code>R version 3.0.2 Patched (2013-12-17 r64473)
@@ -1383,15 +1384,15 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] Wats_0.2-4           boot_1.3-9           ggplot2_0.9.3.1      scales_0.2.3         plyr_1.8            
- [6] knitr_1.5            testthat_0.7.1       roxygen2_3.0.0       devtools_1.4.1       BayesSingleSub_0.6.1
+ [1] Wats_0.2-5           zoo_1.7-10           testit_0.3           RColorBrewer_1.0-5   lubridate_1.3.2     
+ [6] colorspace_1.2-4     boot_1.3-9           ggplot2_0.9.3.1      scales_0.2.3         plyr_1.8            
+[11] knitr_1.5            testthat_0.7.1       roxygen2_3.0.0       devtools_1.4.1       BayesSingleSub_0.6.1
 
 loaded via a namespace (and not attached):
- [1] brew_1.0-6         coda_0.16-1        codetools_0.2-8    colorspace_1.2-4   dichromat_2.0-0    digest_0.6.4      
- [7] evaluate_0.5.1     formatR_0.10       gtable_0.1.2       httr_0.2           labeling_0.2       lattice_0.20-24   
-[13] lubridate_1.3.2    markdown_0.6.3     MASS_7.3-29        MCMCpack_1.3-3     memoise_0.1        munsell_0.4.2     
-[19] mvtnorm_0.9-9996   parallel_3.0.2     proto_0.3-10       RColorBrewer_1.0-5 RCurl_1.95-4.1     reshape2_1.2.2    
-[25] stringr_0.6.2      testit_0.3         tools_3.0.2        whisker_0.3-2      zoo_1.7-10        
+ [1] brew_1.0-6       coda_0.16-1      codetools_0.2-8  dichromat_2.0-0  digest_0.6.4     evaluate_0.5.1  
+ [7] formatR_0.10     gtable_0.1.2     httr_0.2         labeling_0.2     lattice_0.20-24  markdown_0.6.3  
+[13] MASS_7.3-29      MCMCpack_1.3-3   memoise_0.1      munsell_0.4.2    mvtnorm_0.9-9996 parallel_3.0.2  
+[19] proto_0.3-10     RCurl_1.95-4.1   reshape2_1.2.2   stringr_0.6.2    tools_3.0.2      whisker_0.3-2   
 </code></pre>
 
 <h2>References</h2>

@@ -22,7 +22,37 @@
 ##' @return Returns a \code{data.frame}.
 ##' @keywords polar
 ##' @examples
-##' 532 + 9/78
+##' require(Wats)
+##' dsLinear <- CountyMonthBirthRate2005Version
+##' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
+##' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+##' 
+##' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+##' portfolio <- AnnotateData(
+##'   dsLinear = dsLinear, 
+##'   dvName = "BirthRate", 
+##'   centerFunction = median, 
+##'   spreadFunction = hSpread
+##' )
+##' rm(dsLinear)
+##' 
+##' polarized <- PolarizeCartesian(
+##'   dsLinear = portfolio$dsLinear, 
+##'   dsStageCycle = portfolio$dsStageCycle, 
+##'   yName = "BirthRate", 
+##'   stageIDName = "StageID"
+##' )
+##' 
+##' require(ggplot2)
+##' ggplot(polarized$dsStageCyclePolar, aes(color=factor(StageID))) + 
+##'   geom_path(aes(x=PolarLowerX, y=PolarLowerY), linetype=2) +
+##'   geom_path(aes(x=PolarCenterX, y=PolarCenterY), size=2) +
+##'   geom_path(aes(x=PolarUpperX, y=PolarUpperY), linetype=2) +
+##'   geom_path(aes(x=ObservedX, y=ObservedY), data=polarized$dsObservedPolar) +
+##'   coord_fixed(ratio=1) +
+##'   guides(color=FALSE)
+
+#For a more polished graph, see PolarPeriodic().
 
 PolarizeCartesian <- function(dsLinear, dsStageCycle,
                       yName, stageIDName, 
@@ -98,31 +128,24 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
   return( list(dsObservedPolar=dsObservedPolar, dsStageCyclePolar=dsStageCyclePolar) )
 }
 
-# filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
-# dsLinear <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
-# dsLinear$Date <- as.Date(dsLinear$Date) 
-# dsLinear$MonthID <- NULL
-# changeMonth <- as.Date("1996-02-15")
-# dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
-# dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+# require(Wats)
+# dsLinear <- CountyMonthBirthRate2005Version
+# dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
+# dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 # 
-# hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
-# 
+# hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+# portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 # rm(dsLinear)
-# polarized <- PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
-# dsStageCyclePolar <- polarized$dsStageCyclePolar
-# dsObservedPolar <- polarized$dsObservedPolar
 # 
-# ggplot2::ggplot(dsStageCyclePolar, ggplot2::aes(color=factor(StageID))) + 
-#   ggplot2::geom_path(ggplot2::aes(x=PolarLowerX, y=PolarLowerY)) + #ggplot2::geom_point(ggplot2::aes(x=PolarLowerX, y=PolarLowerY)) + 
-#   ggplot2::geom_path(ggplot2::aes(x=PolarCenterX, y=PolarCenterY)) + #ggplot2::geom_point(ggplot2::aes(x=PolarCenterX, y=PolarCenterY)) + 
-#   ggplot2::geom_path(ggplot2::aes(x=PolarUpperX, y=PolarUpperY)) + #ggplot2::geom_point(ggplot2::aes(x=PolarUpperX, y=PolarUpperY)) + 
-#   ggplot2::geom_path(ggplot2::aes(x=ObservedX, y=ObservedY), data=dsObservedPolar, size=2) + #ggplot2::geom_point(ggplot2::aes(x=PolarUpperX, y=PolarUpperY)) + 
-#   ggthemes::scale_color_tableau() +
-#   ggplot2::coord_fixed(ratio=1) +
-#   ggplot2::guides(color=FALSE) +
-#   ggthemes::theme_solarized_2(light=FALSE)
-
-
-
+# polarized <- PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
+# 
+# require(ggplot2)
+# ggplot(polarized$dsStageCyclePolar, aes(color=factor(StageID))) + 
+#   geom_path(aes(x=PolarLowerX, y=PolarLowerY), linetype=2) +
+#   geom_path(aes(x=PolarCenterX, y=PolarCenterY), size=2) +
+#   geom_path(aes(x=PolarUpperX, y=PolarUpperY), linetype=2) +
+#   geom_path(aes(x=ObservedX, y=ObservedY), data=polarized$dsObservedPolar) +
+#   coord_fixed(ratio=1) +
+#   guides(color=FALSE)
+# 
+# #For a more polished graph, see PolarPeriodic().

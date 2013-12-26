@@ -1,5 +1,16 @@
+Version 0.2 (2014-01)
+------------------------------------------------------------------------------
+New Features:
+* Vignette showing reanalysis with 2014 version of the data.
+
+Changes:
+* Additional documentation and explanation
+
 Version 0.1 (2013-12)
 ------------------------------------------------------------------------------
 New Features:
-* `Augmentxxx()` and `Annotatexxx()` functions
-* `CartesianRolling()`, `CartesianPeriodic()`, and `PolarPeriodic()` functions
+* `AugmentZZZ()` and `AnnotateData()` functions.
+* `CartesianRolling()`, `CartesianPeriodic()`, and `PolarPeriodic()` functions.
+* Vignette to reproduce figures in MBR manuscript.
+
+For a specific list of changes, see https://github.com/wibeasley/Wats/commits/master

@@ -1,10 +1,13 @@
 ##' @name AugmentCycleData
 ##' @aliases AugmentYearDataWithMonthResolution AugmentYearDataWithSecondResolution
 ##' @export AugmentYearDataWithMonthResolution AugmentYearDataWithSecondResolution
+##' @usage AugmentYearDataWithMonthResolution( dsLinear, dateName, stageIDName ) 
+##' AugmentYearDataWithSecondResolution( dsLinear, dateName, stageIDName ) 
 ##' 
 ##' @title Calculates variables necessary for WATS Plots
 ##' 
-##' @description Calculates variables necessary for WATS Plots
+##' @description Calculates variables necessary for WATS Plots.  This the first of two functions
+##' that needs to be called to produce WATS Plots.  \code{AnnotateData} is the second.
 ##' 
 ##' @param dsLinear The \code{data.frame} to containing the detailed data.
 ##' @param dateName The variable name in \code{dsLinear} containing the date or datetime value.
@@ -15,7 +18,7 @@
 ##' dsLinear <- CountyMonthBirthRate2005Version
 ##' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 ##' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
-##' dsLinear
+##' head(dsLinear)
 ##' 
 AugmentYearDataWithMonthResolution <- function( dsLinear, dateName, stageIDName ) {
   yearOfEvent <- lubridate::year(dsLinear[, dateName])
@@ -30,10 +33,10 @@ AugmentYearDataWithMonthResolution <- function( dsLinear, dateName, stageIDName 
   dsLinear$TerminalPointInCycle <- (dsLinear$ProportionID==base::max(dsLinear$ProportionID))
   
   SummarizeWithinStage <- function( d ) {
-    isMin <-  (min(d[, dateName]) < d[, dateName])
+    isMin <-  (base::min(d[, dateName]) < d[, dateName])
     return( d$StageID + isMin*0.5 )
   }
-  dsLinear$StageProgress <- unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
+  dsLinear$StageProgress <- base::unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
   return( dsLinear )
 }
 AugmentYearDataWithSecondResolution <- function( dsLinear, dateName, stageIDName ) {
@@ -68,10 +71,11 @@ AugmentYearDataWithSecondResolution <- function( dsLinear, dateName, stageIDName
     #     minValue <- min(d[, dateName])
     #     maxValue <- max(d[, dateName])
     #     isBetween <- ( (min(d[, dateName]) < d[, dateName]) & (d[, dateName] < max(d[, dateName])))
-    isMin <-  (min(d[, dateName]) < d[, dateName])
+    isMin <-  (base::min(d[, dateName]) < d[, dateName])
     return( d$StageID + isMin*0.5 )
   }
-  dsLinear$StageProgress <- unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
+  dsLinear$StageProgress <- base::unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
+#   dsLinear$StageProgress <- plyr::daply(dsLinear, "StageID", SummarizeWithinStage)
   return( dsLinear )
 }
 

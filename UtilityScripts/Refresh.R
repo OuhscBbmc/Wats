@@ -1,6 +1,6 @@
 rm(list=ls(all=TRUE))
 require(devtools)
-options(device = "windows") #http://support.rstudio.org/help/discussions/problems/80-error-in-function-only-one-rstudio-graphics-device-is-permitted
+base::options(device = "windows") #http://support.rstudio.org/help/discussions/problems/80-error-in-function-only-one-rstudio-graphics-device-is-permitted
 
 devtools::document()
 devtools::check_doc() #Should return NULL

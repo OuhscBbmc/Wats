@@ -88,13 +88,14 @@ xScaleBlank  <- ggplot2::scale_x_date(breaks=dateSequence, labels=NULL) #This ke
 ## Section 1: Cartesian Rolling plot
 
 ```{r CartesianRolling, fig.height=4.8}
-dsLinear <- utils::read.csv("./Datasets/CountyMonthBirthRate2014Version.csv", stringsAsFactors=FALSE)
-dsLinear$Date <- base::as.Date(dsLinear$Date)
-dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ] 
+# dsLinear <- utils::read.csv("./Datasets/CountyMonthBirthRate2014Version.csv", stringsAsFactors=FALSE)
+# dsLinear$Date <- base::as.Date(dsLinear$Date)
+# dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ] 
 
 # Uncomment this line to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
-# dsLinear <- CountyMonthBirthRate2014Version[CountyMonthBirthRate2014Version$CountyName=="oklahoma", ] 
+dsLinearAll <- CountyMonthBirthRate2014Version
+dsLinear <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ] 
 
 dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 

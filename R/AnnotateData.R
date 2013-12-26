@@ -3,7 +3,8 @@
 ##' 
 ##' @title Finds midpoints and bands for the within and between cycles.
 ##' 
-##' @description Finds midpoints and bands for the within and between cycles.
+##' @description Finds midpoints and bands for the within and between cycles.  This the second of two functions
+##' that needs to be called to produce WATS Plots.  \code{AugmentZZZ} is the first.
 ##' 
 ##' @param dsLinear The \code{data.frame} to containing the detailed data.
 ##' @param dvName The name of the dependent/criterion variable.
@@ -17,8 +18,23 @@
 ##' @param terminalPointInCycleName The variable name indicating the last point within a given cycle.
 ##' @return Returns a \code{data.frame} with additional variables <<Say what they are>>.
 ##' @examples
-##' a <- 32+323
+##' require(Wats)
+##' dsLinear <- CountyMonthBirthRate2005Version
+##' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
+##' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 ##' 
+##' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+##' portfolio <- AnnotateData(
+##'   dsLinear = dsLinear,
+##'   dvName = "BirthRate",
+##'   centerFunction = median,
+##'   spreadFunction = hSpread
+##' )
+##' 
+##' head(portfolio$dsStageCycle)
+##' head(portfolio$dsLinear)
+##' head(portfolio$dsPeriodic)
+
 AnnotateData <- function( dsLinear, 
                           dvName,
                           centerFunction,
@@ -64,51 +80,18 @@ AnnotateData <- function( dsLinear,
   
   dsPeriodic <- merge(x=dsLinearTemp, y=dsStageCycleTemp, by=c(proportionIDName), all.x=TRUE, all.y=TRUE)
   dsPeriodic <- dsPeriodic[order(dsPeriodic[, "Date"], dsPeriodic[, "StageIDTime"], dsPeriodic[, "StageIDBand"]), ]
-#   dsPeriodic$Focus <- (dsPeriodic$StageIDTime == dsPeriodic$StageIDBand)
   
   return( list(dsLinear=dsLinear, dsStageCycle=dsStageCycle, dsPeriodic=dsPeriodic) )
 }
 
-# dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
-# dsLinear$Date <- as.Date(dsLinear$Date) 
-# dsLinear$MonthID <- NULL
-# changeMonth <- as.Date("1996-02-15")
-# dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
-# dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+# require(Wats)
+# dsLinear <- CountyMonthBirthRate2005Version
+# dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
+# dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 # 
-# hSpread <- function( scores) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+# hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 # portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
-# portfolio$dsStageCycle
-
-
-# sapply(Portfolio, tail, n=10L)
-# head(Portfolio$dsLinear, 10L)
-# Portfolio$dsCycleTemp
 # 
-# dsLinearTemp <- Portfolio$dsLinear[, c("Date", "StageID", "ProportionID", "StageProgress")]
-# colnames(dsLinearTemp)[colnames(dsLinearTemp)=="StageID"] <- "StageIDTime"
-# 
-# dsCycleTemp <- Portfolio$dsCycleTemp
-# colnames(dsCycleTemp)[colnames(dsCycleTemp)=="StageID"] <- "StageIDBand"
-# 
-# dsJ <- merge(x=dsLinearTemp, y=dsCycleTemp, by=c("ProportionID"), all.x=TRUE, all.y=TRUE)
-# dsJ <- dsJ[order(dsJ[, "Date"], dsJ[, "StageIDTime"], dsJ[, "StageIDBand"]), ]
-# dsJ$Focus <- (dsJ$StageIDTime == dsJ$StageIDBand)
-
-
-
-# dsLinear$DV <- dsLinear$BirthRate
-# 
-# stages <- sort(unique(dsLinear$StageID))
-# stageCount <- length(stages)
-# listOfDs <- vector("list", stageCount)
-# for( i in seq_along(stages) ){
-# #   stage <- 
-#   dsStage <- dsLinear
-#   dsStage$InFocus <- (dsStage$StageID==stages[i])
-#   listOfDs[[i]] <- dsStage  
-# }
-
-# dsPeriodicStack <- data.frame(do.call(plyr::rbind.fill, listOfDs), stringsAsFactors=FALSE)
-
-
+# head(portfolio$dsStageCycle)
+# head(portfolio$dsLinear)
+# head(portfolio$dsPeriodic)
