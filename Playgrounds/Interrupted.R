@@ -51,8 +51,6 @@ summary(lag1)
 #McLeod et al approach with smoothed trend
 lag <- 1 #Works for many values, including 1
 #y <- seasonalLoess$time.series[(lag+1):length(seasonalLoess$time.series), 2]
-# str(seasonalLoess$time.series)
-# as.numeric(seasonalLoess$time.series[, 2])
 
 trendLine <- as.numeric(seasonalLoess$time.series[, 2])
 y <- trendLine[(lag+1):length(trendLine)]

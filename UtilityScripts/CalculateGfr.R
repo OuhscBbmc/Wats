@@ -2,8 +2,11 @@
 # Clear memory, load packages, and define global variables
 ###################
 rm(list=ls(all=TRUE))
+require(base)
+require(utils)
 require(plyr)
 require(testit)
+
 inputPathCensusCountyMonth <- "./Datasets/CensusIntercensal/CensusCountyMonth.csv"
 inputPathBirthCountCountyMonth <- "./Datasets/BirthCountState.csv"
 outputPathBirthCountCountyMonthCsv2014 <- "./Datasets/CountyMonthBirthRate2014Version.csv"
@@ -15,8 +18,8 @@ changeMonth <- as.Date("1996-02-15")
 ###################
 # Read in the datasets, lightly groom, & merge.
 ###################
-dsCensus <- read.csv(inputPathCensusCountyMonth, stringsAsFactors=F)
-dsBirthCount <- read.csv(inputPathBirthCountCountyMonth, stringsAsFactors=F)
+dsCensus <- utils::read.csv(inputPathCensusCountyMonth, stringsAsFactors=F)
+dsBirthCount <- utils::read.csv(inputPathBirthCountCountyMonth, stringsAsFactors=F)
 # sapply(dsCensus, class)
 # sapply(dsBirthCount, class)
 
