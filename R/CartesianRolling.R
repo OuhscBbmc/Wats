@@ -97,9 +97,9 @@ CartesianRolling <- function(dsLinear, xName, yName, stageIDName,
     if( drawJaggedLine )
       p <- p + ggplot2::geom_line(size=jaggedLineSize, color=paletteDark[stage], data=dsStage)
     if( drawRollingLine )
-      p <- p + ggplot2::geom_line(ggplot2::aes_string(y=rollingCenterName), data=dsStage, size=rollingLineSize, color=paletteLight[stage], na.rm=T)
+      p <- p + ggplot2::geom_line(ggplot2::aes_string(y=rollingCenterName), data=dsStage, size=rollingLineSize, color=paletteDark[stage], na.rm=T)
     if( drawRollingBand )
-      p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rollingLowerName, ymax=rollingUpperName), data=dsStage, fill=paletteLight[stage], color=NA, alpha=bandAlpha, na.rm=T)
+      p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rollingLowerName, ymax=rollingUpperName), data=dsStage, fill=paletteDark[stage], color=NA, alpha=bandAlpha, na.rm=T)
     
     p <- p + ggplot2::geom_point(shape=1, color=paletteLight[stage], data=dsStage, size=jaggedPointSize)
   }
