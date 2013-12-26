@@ -10,14 +10,19 @@ Series Designs with Seasonal Patterns
 \author{
 \href{http://scholar.google.com/citations?user=ffsJTC0AAAAJ}{William
 Howard Beasley}
-(\href{http://find.ouhsc.edu/Faculty.aspx?FacultyID=1064}{University
+--\href{http://find.ouhsc.edu/Faculty.aspx?FacultyID=1064}{University
 of Oklahoma Health Sciences Center},
 \href{https://www.oumedicine.com/pediatrics}{Dept of
-Pediatrics}, \href{http://ouhsc.edu/bbmc/}{Biomedical and
-Behavioral Methodology Core})
+Pediatrics}, Biomedical and Behavioral Methodology Core
+(\href{http://ouhsc.edu/bbmc/}{BBMC})
 
 \href{http://www.vanderbilt.edu/psychological_sciences/bio/joe-rodgers}{Joseph
-Lee Rodgers} (Vanderbilt University, Nashville)
+Lee Rodgers} --Vanderbilt University, Nashville
+
+\href{http://en.wikipedia.org/wiki/Justice_League}{Matthew
+Schuelke},
+\href{http://en.wikipedia.org/wiki/Justice_League}{League
+of Justice}.
 }
 \references{
 Rodger, J.L., Beasley, W.H., and Schuelke, M. (in

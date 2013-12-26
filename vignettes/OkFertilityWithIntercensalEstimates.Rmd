@@ -6,7 +6,7 @@
 # Assesing OKC Fertility with Intercensal Estimates
 The MBR manuscript demonstrates WATS plots with data prepared for Rodgers, St. John, & Coleman (2005).  In that paper and the MBR manuscript, the denominator of the GFR (General Fertility Rate) is the initial 1990 county population of females ages 15-44.  
 
-This vignette uses slightly different Census estimates.  The intercensal population estimates (for females ages 15-44) are used for Jan 1990, Jan 1991, Jan 1992, ..., Jan 2000.  Then linear interpolation is used to complete the remaining 11 months of each year.  These monthly estimates become the denominator of each county's monthly GFR.
+This vignette uses slightly different Census estimates.  The intercensal population estimates (for females ages 15-44) are used for Jan 1990, Jan 1991, Jan 1992, ..., Jan 2000.  Linear interpolation is then used to complete the remaining 11 months of each year.  These monthly estimates become the denominator of each county's monthly GFR.
 
 ```{r set_root_directory, echo=FALSE, results='hide'} 
 #It works better if the root directory is set in its own chunk.
@@ -85,7 +85,10 @@ xScale       <- ggplot2::scale_x_date(breaks=dateSequence, labels=scales::date_f
 xScaleBlank  <- ggplot2::scale_x_date(breaks=dateSequence, labels=NULL) #This keeps things proportional down the three frames.
 ```
 
-## Section 1: Cartesian Rolling plot
+## Section 1: Cartesian Rolling Plot
+This section corresponds to the MBR manuscript, but with the modified dataset.
+
+Smoothed monthly  birth rates (General Fertility Rates;  GFR's) for Oklahoma County, 1990-1999, plotted in a linear plot.  The top plot shows the connected raw data with a February smoother; the middle plot shows smoothing with a 12-month moving average, blue/green line, superimposed on a February smoother, red tan line); the bottom plot shows the smoothers and confidence bands, which are H-spreads (ie, the distance between the .25 and .75 quantiles) defined using the distribution of GFR's for the given month and 11 previous months.
 
 ```{r CartesianRolling, fig.height=4.8}
 # dsLinear <- utils::read.csv("./Datasets/CountyMonthBirthRate2014Version.csv", stringsAsFactors=FALSE)
@@ -149,6 +152,8 @@ grid::popViewport()
 ```
 
 ## Section 2: Carteisan Periodic 
+This section corresponds to the MBR manuscript, but with the modified dataset.
+
 Carteisan plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
 
 ```{r CartesianPeriodic}
@@ -168,6 +173,8 @@ print(cartesianPeriodic)
 ```
 
 ## Section 3: Polar Periodic
+This section corresponds to the MBR manuscript, but with the modified dataset.
+
 Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
 ```{r PolarPeriodic, fig.height=6.5*2/3}
@@ -195,7 +202,7 @@ topLeftPanel <- Wats::PolarPeriodic(
   dsLinear = portfolioPolar$dsObservedPolar, 
   dsStageCyclePolar = portfolioPolar$dsStageCyclePolar, 
   yName = "Radius", 
-  stageIDName = "StageID", #graphCeiling=7, 
+  stageIDName = "StageID",
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 grid::upViewport()
@@ -206,7 +213,7 @@ topRighttPanel <- Wats::PolarPeriodic(
   dsLinear = portfolioPolar$dsObservedPolar, 
   dsStageCyclePolar = portfolioPolar$dsStageCyclePolar, 
   yName = "Radius", 
-  stageIDName = "StageID", #graphCeiling=7, 
+  stageIDName = "StageID",
   drawObservedLine = FALSE,
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1"), 
   originLabel = NULL
@@ -220,7 +227,9 @@ upViewport()
 ```
 
 ## Section 4: Confirmatory Analysis of Interrupted Time Series
-This section uses an approach advocated by McLeod, Yu, & Mahdi (2011), which is consistent other articles, including Rodgers et al. (2005).  There are two trends that are de-seasonalized.  The first is the 'classic' approach which uses the observed trend line.  The second is a smoothed version, where a loess is passed through the observed data; this smoothed line is then de-seasonalized.  Both approach give comparable conclusions.  The post-bombing fertility is significantly higher  than the pre-bombing fertility (ie, the `step` coefficient is significantly more positive).
+The remaining two sections depart from the MBR manuscript analyses.  Its goal is to determine if the significant findings of Rodgers, St. John, & Coleman still appear with the modified Census estimates.  As shown below, the the post-bombing fertility is still significantly higher than the pre-bombing fertility.
+
+This section uses an approach advocated by McLeod, Yu, & Mahdi (2011), which is consistent other articles, including Rodgers et al. (2005).  There are two trends that are de-seasonalized.  The first is the 'classic' approach which uses the observed trend line (see [`decompose()` on CRAN](http://stat.ethz.ch/R-manual/R-devel/library/stats/html/decompose.html)).  The second is a smoothed version, where a loess is passed through the observed data; this smoothed line is then de-seasonalized (see [`stl()` on CRAN](stat.ethz.ch/R-manual/R-devel/library/stats/html/stl.html)).  Both approaches lead to comparable conclusions.  The post-bombing fertility is significantly higher  than the pre-bombing fertility (ie, the `step` coefficient is significantly more positive).
 
 ```{r ConfirmatoryFrequentist, fig.height=6.5}
 dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
@@ -236,29 +245,30 @@ tsData <- stats::ts(
 seasonalClassic <- stats::decompose(tsData)
 plot(seasonalClassic)
 
-#Watch out, the 2nd & 3rd columns are swapped, compared to `decompose()`
+#Watch out, the 2nd & 3rd columns have swapped positions, compared to `decompose()`
 seasonalLoess <- stats::stl(x = tsData, s.window = "periodic") 
 plot(seasonalLoess)
 
-
 # Seasonality is accounted for without a smoother
-lag <- 1 #Significant for many different values of lag, including 1
-y <- seasonalClassic$trend[(lag+1):length(seasonalClassic$trend)]
-y1 <- seasonalClassic$trend[1:(length(seasonalClassic$trend)-lag)]
-step <- c(rep(0, times=sum(dsLinear$StageID==1)-lag), rep(1, times=sum(dsLinear$StageID==2)))
+lag1 <- 1L #Significant for many different values of lag, including 1
+y <- seasonalClassic$trend[(lag1+1):length(seasonalClassic$trend)]
+y1 <- seasonalClassic$trend[1:(length(seasonalClassic$trend)-lag1)]
+# step <- c(rep(0L, times=sum(dsLinear$StageID==1L)-lag1), rep(1L, times=sum(dsLinear$StageID==2L)))
+step <- dsLinear$StageID[(lag1+1):length(seasonalClassic$trend)] - 1L
 dsClassic <- data.frame(y=y, y1=y1, step=step)
-rm(lag, y, y1, step)
+rm(lag1, y, y1, step)
 fitClassic <-  glm(y ~ 1 + step + y1, data=dsClassic)
 summary(fitClassic)
 
 #Seasonality is accounted for after a loess is fit through it.
-lag <- 1 #Significant for many different values of lag, including 1
+lag1 <- 1L #Significant for many different values of lag, including 1
 trendLineLoess <- as.numeric(seasonalLoess$time.series[, 2])
-y <- trendLineLoess[(lag+1):length(trendLineLoess)]
-y1 <- trendLineLoess[1:(length(trendLineLoess) - lag)]
-step <- c(rep(0, times=sum(dsLinear$StageID==1)-lag), rep(1, times=sum(dsLinear$StageID==2)))
+y <- trendLineLoess[(lag1+1):length(trendLineLoess)]
+y1 <- trendLineLoess[1:(length(trendLineLoess) - lag1)]
+# step <- c(rep(0L, times=sum(dsLinear$StageID==1L)-lag1), rep(1L, times=sum(dsLinear$StageID==2L)))
+step <- dsLinear$StageID[(lag1+1):length(trendLineLoess)] - 1L
 dsLoess <- data.frame(y=y, y1=y1, step=step)
-rm(lag, y, y1, step)
+rm(lag1, y, y1, step)
 fitLoess <-  glm(y ~ 1 + step + y1, data=dsLoess)
 summary(fitLoess)
 ```
@@ -268,24 +278,29 @@ A similar set of Bayesian analyses support the claim that post-bombing fertility
 
 ```{r ConfirmatoryBayesFactors, fig.height=6.5}
 # Seasonality is accounted for without a smoother
-beforeClassic <- seasonalClassic$trend[dsLinear$StageID==1]
-afterClassic <- seasonalClassic$trend[dsLinear$StageID==2]
+beforeClassic <- seasonalClassic$trend[dsLinear$StageID==1L]
+afterClassic <- seasonalClassic$trend[dsLinear$StageID==2L]
+
+#Set the number of MCMC iterations
 mcmcRepCount <- 1000#000
-(gClassic <- BayesSingleSub::trendtest.Gibbs.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], return.chains=F, iterations=mcmcRepCount, progress=interactive()))
-(mcClassic <- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=mcmcRepCount, progress=interactive()))
-summary(mcClassic)
-# coda::gelman.diag(g$chains) #it needs multiple chains
+#Determine if the intermediate progress should be displayed
+showMcmcProgress <- FALSE
+
+(gClassic <- BayesSingleSub::trendtest.Gibbs.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], return.chains=F, iterations=mcmcRepCount, progress=showMcmcProgress))
+(mcClassic <- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=mcmcRepCount, progress=showMcmcProgress))
+# summary(mcClassic)
+# coda::gelman.diag(g$chains) #it needs multiple chains to asses.
 
 #Seasonality is accounted for after a loess is fit through it.
-beforeLoess <- seasonalLoess$time.series[dsLinear$StageID==1, 2]
-afterLoess <- seasonalLoess$time.series[dsLinear$StageID==2, 2]
-BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=interactive())
-BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=interactive())
+beforeLoess <- seasonalLoess$time.series[dsLinear$StageID==1L, 2]
+afterLoess <- seasonalLoess$time.series[dsLinear$StageID==2L, 2]
+BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=showMcmcProgress)
+BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=showMcmcProgress)
 
 ```
 
 ## Session Info
-For the sake of documentation and reproducibility, the current vignette was build on a system using the following software.
+The current vignette was build on a system using the following software.
 
 ```{r session_info, echo=FALSE}
 base::cat("Report created by", base::Sys.info()["user"], "at", base::strftime(base::Sys.time(), "%c, %z"))
@@ -293,7 +308,7 @@ utils::sessionInfo()
 ```
 
 ## References
-* McLeod, A.I., Yu, H., & Mahdi, E. (2011). [Time series analysis with R.](http://www.stats.uwo.ca/faculty/aim/tsar/tsar.pdf). *Handbook of Statistics*, Volume 30, Elsevier. 
+* McLeod, A.I., Yu, H., & Mahdi, E. (2011). [Time series analysis with R](http://www.stats.uwo.ca/faculty/aim/tsar/tsar.pdf). *Handbook of Statistics*, Volume 30, Elsevier. 
 * Rodgers, J. L., St. John, C. A. & Coleman R.  (2005).  [Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999](http://www.ncbi.nlm.nih.gov/pubmed/16463916).  *Demography, 42*, 675-692.
-*De Vries, R. M. & Morey, R. D. (submitted). Bayesian hypothesis testing Single-Subject Data.
-Psychological Methods.
+* De Vries, R. M. & Morey, R. D. (submitted). Bayesian hypothesis testing Single-Subject Data. *Psychological Methods*.
+* ADD REFERENCES TO US CENSUS SITE

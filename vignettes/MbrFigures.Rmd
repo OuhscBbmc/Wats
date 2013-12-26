@@ -371,7 +371,7 @@ grid::upViewport()
 ```
 
 ## Session Info
-For the sake of documentation and reproducibility, the current vignette was build on a system using the following software.
+The current vignette was build on a system using the following software.
 
 ```{r session_info, echo=FALSE}
 base::cat("Report created by", base::Sys.info()["user"], "at", base::strftime(base::Sys.time(), "%c, %z"))
