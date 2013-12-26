@@ -4,7 +4,7 @@
 -->
 
 # Assesing OKC Fertility with Intercensal Estimates
-The MBR manuscript demonstrates WATS plots with data prepared for Rodgers, J. L., St. John, C. A. & Coleman R.  (2005).  Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.  *Demography, 42*, 675-692.
+The MBR manuscript demonstrates WATS plots with data prepared for Rodgers, St. John, & Coleman (2005).
 
 ```{r set_root_directory, echo=FALSE, results='hide'} 
 #It works better if the root directory is set in its own chunk.
@@ -87,8 +87,8 @@ xScaleBlank  <- ggplot2::scale_x_date(breaks=dateSequence, labels=NULL) #This ke
 
 ```{r CartesianRolling, fig.height=4.8}
 dsLinear <- utils::read.csv("./Datasets/CountyMonthBirthRate2014Version.csv", stringsAsFactors=FALSE)
-dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ] 
 dsLinear$Date <- base::as.Date(dsLinear$Date)
+dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ] 
 
 # Uncomment this line to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
@@ -219,13 +219,13 @@ upViewport()
 ## Section 4: Confirmatory Analysis of Interrupted Time Series
 This figure compares Oklahoma County against the (other) largest urban counties.
 ```{r ConfirmatoryUnsmoothed, fig.height=6.5}
-dsLinearAll <- Wats::AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2005Version, dateName="Date")
+dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 
 tsData <- stats::ts(
   data = dsLinear$BirthRate, 
   start = as.integer(dsLinear[1, c("Year", "Month")]), 
   end = as.integer(dsLinear[nrow(dsLinear), c("Year", "Month")]),
-  frequency = 12
+  frequency = 12L
 )
 
 ```
@@ -237,3 +237,9 @@ For the sake of documentation and reproducibility, the current vignette was buil
 base::cat("Report created by", base::Sys.info()["user"], "at", base::strftime(base::Sys.time(), "%c, %z"))
 utils::sessionInfo()
 ```
+
+## References
+* McLeod, A.I., Yu, H., & Mahdi, E. (2011). [Time series analysis with R. *Handbook of Statistics](http://www.stats.uwo.ca/faculty/aim/tsar/tsar.pdf), Volume 30, Elsevier. 
+* Rodgers, J. L., St. John, C. A. & Coleman R.  (2005).  [Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999](http://www.ncbi.nlm.nih.gov/pubmed/16463916).  *Demography, 42*, 675-692.
+*De Vries, R. M. & Morey, R. D. (submitted). Bayesian hypothesis testing Single-Subject Data.
+Psychological Methods.

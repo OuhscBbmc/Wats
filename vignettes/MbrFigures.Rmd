@@ -98,12 +98,12 @@ Here is the basic linear rolling graph.  It doesn't require much specification, 
 dsLinearAll <- utils::read.csv("./Datasets/CountyMonthBirthRate2005Version.csv", stringsAsFactors=FALSE)
 dsLinearAll$Date <- base::as.Date(dsLinearAll$Date)
 dsLinearOkc <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ] 
-dsLinearOkc <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinearOkc, dateName="Date")
 
 # Uncomment this line to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
-# dsLinear <- CountyMonthBirthRate2005Version[CountyMonthBirthRate2005Version$CountyName=="oklahoma", ]
+# dsLinearOkc <- CountyMonthBirthRate2005Version[CountyMonthBirthRate2005Version$CountyName=="oklahoma", ]
 
+dsLinearOkc <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinearOkc, dateName="Date")
 
 portfolioCartesian <- Wats::AnnotateData(dsLinearOkc, dvName="BirthRate", centerFunction=stats::median, spreadFunction=hSpread)
 
@@ -255,8 +255,8 @@ grid::grid.newpage()
 grid::pushViewport(grid::viewport(
   layout=grid::grid.layout(
     nrow = 2, ncol = 2, respect = TRUE, 
-    widths = unit(c(1,1), c("null", "null")), 
-    heights = unit(c(1,.5), c("null", "null"))
+    widths = unit(c(1, 1), c("null", "null")), 
+    heights = unit(c(1, .5), c("null", "null"))
   ), 
   gp = grid::gpar(cex=1, fill=NA)
 ))
@@ -331,7 +331,7 @@ countyNames <- c("Comanche", "Cleveland", "Oklahoma", "Tulsa", "Rogers")
 
 grid.newpage()
 grid::pushViewport(grid::viewport(layout=grid.layout(nrow=length(counties), ncol=1), gp=grid::gpar(cex=1, fill=NA)))
-for( i in seq_along(counties) ) {
+for( i in base::seq_along(counties) ) {
   grid::pushViewport(grid::viewport(layout.pos.row=i))
   GraphRowComparison(countyName=counties[i], rowLabel=countyNames[i])
   grid::popViewport()
@@ -346,7 +346,7 @@ countyNames <- c("Canadian", "Cleveland", "Comanche", "Creek", "Logan", "McClain
 
 grid::grid.newpage()
 grid::pushViewport(grid::viewport(layout=grid.layout(nrow=base::length(counties), ncol=1), gp=grid::gpar(cex=1, fill=NA)))
-for( i in seq_along(counties) ) {
+for( i in base::seq_along(counties) ) {
   grid::pushViewport(grid::viewport(layout.pos.row=i))
   GraphRowComparison(countyName=counties[i], rowLabel=countyNames[i])
   grid::popViewport()
@@ -361,7 +361,7 @@ spreads <- c("hSpread", "fullSpread", "seSpread", "bootSpread")
 spreadNames <- c("H-Spread", "Range", "+/-1 SE", "Bootstrap")
 grid::grid.newpage()
 grid::pushViewport(grid::viewport(layout=grid::grid.layout(nrow=base::length(spreads), ncol=1), gp=grid::gpar(cex=1, fill=NA)))
-for( i in seq_along(spreads) ) {
+for( i in base::seq_along(spreads) ) {
   grid::pushViewport(grid::viewport(layout.pos.row=i))
   GraphRowComparison(spreadFunction=base::get(spreads[i]), rowLabel=spreadNames[i])
   grid::upViewport()

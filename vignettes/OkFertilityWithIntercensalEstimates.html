@@ -235,8 +235,8 @@ xScaleBlank  &lt;- ggplot2::scale_x_date(breaks=dateSequence, labels=NULL) #This
 <h2>Section 1: Cartesian Rolling plot</h2>
 
 <pre><code class="r">dsLinear &lt;- utils::read.csv(&quot;./Datasets/CountyMonthBirthRate2014Version.csv&quot;, stringsAsFactors=FALSE)
-dsLinear &lt;- dsLinear[dsLinear$CountyName==&quot;oklahoma&quot;, ] 
 dsLinear$Date &lt;- base::as.Date(dsLinear$Date)
+dsLinear &lt;- dsLinear[dsLinear$CountyName==&quot;oklahoma&quot;, ] 
 
 # Uncomment this line to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
@@ -384,7 +384,7 @@ upViewport()
 
 <p>This figure compares Oklahoma County against the (other) largest urban counties.</p>
 
-<pre><code class="r">dsLinearAll &lt;- Wats::AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2005Version, dateName=&quot;Date&quot;)
+<pre><code class="r">dsLinear &lt;- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName=&quot;Date&quot;)
 
 tsData &lt;- stats::ts(
   data = dsLinear$BirthRate, 
@@ -398,7 +398,7 @@ tsData &lt;- stats::ts(
 
 <p>For the sake of documentation and reproducibility, the current vignette was build on a system using the following software.</p>
 
-<pre><code>Report created by Will at 12/25/2013 11:48:24 PM, Central Standard Time
+<pre><code>Report created by Will at 12/26/2013 12:00:54 AM, Central Standard Time
 </code></pre>
 
 <pre><code>R version 3.0.2 Patched (2013-12-17 r64473)

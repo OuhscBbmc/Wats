@@ -64,8 +64,8 @@ xScaleBlank  <- ggplot2::scale_x_date(breaks=dateSequence, labels=NULL) #This ke
 
 ```r
 dsLinear <- utils::read.csv("./Datasets/CountyMonthBirthRate2014Version.csv", stringsAsFactors=FALSE)
-dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ] 
 dsLinear$Date <- base::as.Date(dsLinear$Date)
+dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ] 
 
 # Uncomment this line to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
@@ -222,7 +222,7 @@ upViewport()
 This figure compares Oklahoma County against the (other) largest urban counties.
 
 ```r
-dsLinearAll <- Wats::AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2005Version, dateName="Date")
+dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 
 tsData <- stats::ts(
   data = dsLinear$BirthRate, 
@@ -238,7 +238,7 @@ For the sake of documentation and reproducibility, the current vignette was buil
 
 
 ```
-Report created by Will at 12/25/2013 11:48:24 PM, Central Standard Time
+Report created by Will at 12/26/2013 12:00:54 AM, Central Standard Time
 ```
 
 ```
