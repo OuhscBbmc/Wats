@@ -26,13 +26,13 @@ changeMonth <- base::as.Date("1996-02-15") #as.Date("1995-04-19") + lubridate::w
 
 vpLayout <- function(x, y) { grid::viewport(layout.pos.row=x, layout.pos.col=y) }
 
-fullSpread <- function( scores) { 
+fullSpread <- function( scores ) { 
   return( base::range(scores) ) #A new function isn't necessary.  It's defined in order to be consistent.
 }
-hSpread <- function( scores) { 
+hSpread <- function( scores ) { 
   return( stats::quantile(x=scores, probs=c(.25, .75)) ) 
 }
-seSpread <- function( scores) { 
+seSpread <- function( scores ) { 
   return( base::mean(scores) + base::c(-1, 1) * stats::sd(scores) / base::sqrt(base::length(scores)) ) 
 }
 bootSpread <- function( scores, conf=.66 ) {
@@ -72,19 +72,19 @@ Here is the basic linear rolling graph.  It doesn't require much specification, 
 
 
 ```r
-dsLinear <- read.csv("./Datasets/CountyMonthBirthRate2005Version.csv", stringsAsFactors=FALSE)
-dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ] 
-dsLinear$Date <- as.Date(dsLinear$Date)
+dsLinearAll <- utils::read.csv("./Datasets/CountyMonthBirthRate2005Version.csv", stringsAsFactors=FALSE)
+dsLinearAll$Date <- base::as.Date(dsLinearAll$Date)
+dsLinearOkc <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ] 
+dsLinearOkc <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinearOkc, dateName="Date")
 
 # Uncomment this line to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
 # dsLinear <- CountyMonthBirthRate2005Version[CountyMonthBirthRate2005Version$CountyName=="oklahoma", ]
 
-dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 
-portfolioCartesian <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+portfolioCartesian <- Wats::AnnotateData(dsLinearOkc, dvName="BirthRate", centerFunction=stats::median, spreadFunction=hSpread)
 
-CartesianRolling(
+Wats::CartesianRolling(
   dsLinear = portfolioCartesian$dsLinear, 
   xName = "Date", 
   yName = "BirthRate", 
@@ -105,7 +105,7 @@ The version for the manuscript was tweaked to take advantage of certain features
 
 
 ```r
-topPanel <- CartesianRolling(
+topPanel <- Wats::CartesianRolling(
   dsLinear = portfolioCartesian$dsLinear, 
   xName = "Date", 
   yName = "BirthRate", 
@@ -117,7 +117,7 @@ topPanel <- CartesianRolling(
   drawRollingLine = FALSE
 )
 
-middlePanel <- CartesianRolling(
+middlePanel <- Wats::CartesianRolling(
   dsLinear = portfolioCartesian$dsLinear, 
   xName = "Date", 
   yName = "BirthRate", 
@@ -129,7 +129,7 @@ middlePanel <- CartesianRolling(
   drawJaggedLine = FALSE
 )
 
-bottomPanel <- CartesianRolling(
+bottomPanel <- Wats::CartesianRolling(
   dsLinear = portfolioCartesian$dsLinear, 
   xName = "Date", 
   yName = "BirthRate", 
@@ -151,8 +151,8 @@ This is what it looks like when all three stylized panels are combined.
 
 
 ```r
-grid.newpage()
-pushViewport(viewport(layout=grid.layout(3,1)))
+grid::grid.newpage()
+grid::pushViewport(grid::viewport(layout=grid::grid.layout(3,1)))
 print(topPanel, vp=vpLayout(1, 1))
 print(middlePanel, vp=vpLayout(2, 1))
 ```
@@ -170,7 +170,7 @@ Warning: Removed 11 rows containing missing values (geom_path).
 ```
 
 ```r
-popViewport()
+grid::popViewport()
 ```
 
 <img src="figure_mbr_rmd/Figure2Combined.png" title="plot of chunk Figure2Combined" alt="plot of chunk Figure2Combined" width="600px" />
@@ -181,7 +181,7 @@ Re-portrayal of the linear plot of the GFR time series in Oklahoma County.  This
 
 
 ```r
-cartesianPeriodicSimple <- CartesianPeriodic(
+cartesianPeriodicSimple <- Wats::CartesianPeriodic(
   portfolioCartesian$dsLinear, 
   portfolioCartesian$dsPeriodic, 
   xName = "Date", 
@@ -211,7 +211,7 @@ Carteisan plot of the GFR time series data in Oklahoma County, with H-spread Ban
 
 
 ```r
-cartesianPeriodic <- CartesianPeriodic(
+cartesianPeriodic <- Wats::CartesianPeriodic(
   portfolioCartesian$dsLinear, 
   portfolioCartesian$dsPeriodic, 
   xName = "Date", 
@@ -241,7 +241,7 @@ Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
 
 ```r
-portfolioPolar <- PolarizeCartesian( 
+portfolioPolar <- Wats::PolarizeCartesian( 
   dsLinear = portfolioCartesian$dsLinear, 
   dsStageCycle = portfolioCartesian$dsStageCycle, 
   yName = "BirthRate", 
@@ -249,8 +249,8 @@ portfolioPolar <- PolarizeCartesian(
   plottedPointCountPerCycle = 7200
 )
 
-grid.newpage()
-PolarPeriodic(
+grid::grid.newpage()
+Wats::PolarPeriodic(
   dsLinear = portfolioPolar$dsObservedPolar, 
   dsStageCycle = portfolioPolar$dsStageCyclePolar, 
   yName = "Radius",
@@ -267,7 +267,7 @@ Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
 
 ```r
-portfolioPolar <- PolarizeCartesian(
+portfolioPolar <- Wats::PolarizeCartesian(
   dsLinear = portfolioCartesian$dsLinear, 
   dsStageCycle = portfolioCartesian$dsStageCycle, 
   yName = "BirthRate", 
@@ -275,30 +275,30 @@ portfolioPolar <- PolarizeCartesian(
   plottedPointCountPerCycle = 7200
 )
 
-grid.newpage()
-pushViewport(viewport(
-  layout=grid.layout(
+grid::grid.newpage()
+grid::pushViewport(grid::viewport(
+  layout=grid::grid.layout(
     nrow = 2, ncol = 2, respect = TRUE, 
     widths = unit(c(1,1), c("null", "null")), 
     heights = unit(c(1,.5), c("null", "null"))
   ), 
-  gp = gpar(cex=1, fill=NA)
+  gp = grid::gpar(cex=1, fill=NA)
 ))
 
 ## Create top left panel
-pushViewport(viewport(layout.pos.col=1, layout.pos.row=1))
-topLeftPanel <- PolarPeriodic(  
+grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=1))
+topLeftPanel <- Wats::PolarPeriodic(  
   dsLinear = portfolioPolar$dsObservedPolar, 
   dsStageCyclePolar = portfolioPolar$dsStageCyclePolar, 
   yName = "Radius", 
   stageIDName = "StageID", #graphCeiling=7, 
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
 )
-upViewport()
+grid::upViewport()
 
 ## Create top right panel
-pushViewport(viewport(layout.pos.col=2, layout.pos.row=1))
-topRighttPanel <- PolarPeriodic(
+grid::pushViewport(grid::viewport(layout.pos.col=2, layout.pos.row=1))
+topRighttPanel <- Wats::PolarPeriodic(
   dsLinear = portfolioPolar$dsObservedPolar, 
   dsStageCyclePolar = portfolioPolar$dsStageCyclePolar, 
   yName = "Radius", 
@@ -307,12 +307,12 @@ topRighttPanel <- PolarPeriodic(
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1"), 
   originLabel = NULL
 )
-upViewport()
+grid::upViewport()
 
 ## Create bottom panel
-pushViewport(viewport(layout.pos.col=1:2, layout.pos.row=2, gp=gpar(cex=1)))
+grid::pushViewport(grid::viewport(layout.pos.col=1:2, layout.pos.row=2, gp=grid::gpar(cex=1)))
 print(cartesianPeriodic, vp=vpLayout(x=1:2, y=2)) #Print across both columns of the bottom row.
-upViewport()
+grid::upViewport()
 ```
 
 <img src="figure_mbr_rmd/Figure7.png" title="plot of chunk Figure7" alt="plot of chunk Figure7" width="600px" />
@@ -322,10 +322,10 @@ upViewport()
 This figure compares Oklahoma County against the (other) largest urban counties.
 
 ```r
-dsLinearAll <- AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2005Version, dateName="Date")
+# dsLinearAll <- Wats::AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2005Version, dateName="Date")
 
 #Identify the average size of the fecund population
-plyr::ddply(dsLinearAll, "CountyName", summarize, Mean=mean(FecundPopulation))
+plyr::ddply(dsLinearAll, "CountyName", plyr::summarize, Mean=base::mean(FecundPopulation))
 ```
 
 ```
@@ -348,42 +348,42 @@ plyr::ddply(dsLinearAll, "CountyName", summarize, Mean=mean(FecundPopulation))
 
 
 GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spreadFunction=hSpread, changeMonth=as.Date("1996-02-15") ) {
-  dsLinear <- CountyMonthBirthRate2005Version[CountyMonthBirthRate2005Version$CountyName==countyName, ]
-  dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
-  portfolioCartesian <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=spreadFunction)
-  portfolioPolar <- PolarizeCartesian(dsLinear=portfolioCartesian$dsLinear, dsStageCycle=portfolioCartesian$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
-  cartesianPeriodic <- CartesianPeriodic(portfolioCartesian$dsLinear, portfolioCartesian$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels=""  )
+  dsLinear <- dsLinearAll[dsLinearAll$CountyName==countyName, ]
+  dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+  portfolioCartesian <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=spreadFunction)
+  portfolioPolar <- Wats::PolarizeCartesian(dsLinear=portfolioCartesian$dsLinear, dsStageCycle=portfolioCartesian$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
+  cartesianPeriodic <- Wats::CartesianPeriodic(portfolioCartesian$dsLinear, portfolioCartesian$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels=""  )
   
-  pushViewport(viewport(
-    layout=grid.layout(nrow=1, ncol=3, respect=F, widths=unit(c(1.5,1,3), c("line", "null", "null"))), 
-    gp=gpar(cex=1, fill=NA)
+  grid::pushViewport(grid::viewport(
+    layout=grid::grid.layout(nrow=1, ncol=3, respect=F, widths=grid::unit(c(1.5,1,3), c("line", "null", "null"))), 
+    gp=grid::gpar(cex=1, fill=NA)
   ))
-  pushViewport(viewport(layout.pos.col=1))
+  grid::pushViewport(grid::viewport(layout.pos.col=1))
   grid.rect(gp=gpar(fill="gray90", col=NA))
   grid.text(rowLabel, rot=90)
-  popViewport()
+  grid::popViewport()
   
-  pushViewport(viewport(layout.pos.col=2))
-  polarPeriodic <- PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, dsStageCyclePolar=portfolioPolar$dsStageCyclePolar, drawObservedLine=FALSE, yName="Radius", stageIDName="StageID", originLabel=NULL, plotMargins=c(0,0,0,0))
-  popViewport()
+  grid::pushViewport(grid::viewport(layout.pos.col=2))
+  polarPeriodic <- Wats::PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, dsStageCyclePolar=portfolioPolar$dsStageCyclePolar, drawObservedLine=FALSE, yName="Radius", stageIDName="StageID", originLabel=NULL, plotMargins=c(0,0,0,0))
+  grid::popViewport()
   
-  pushViewport(viewport(layout.pos.col=3))
+  grid::pushViewport(grid::viewport(layout.pos.col=3))
   print(cartesianPeriodic + xScale + lightTheme, vp=vpLayout(x=1, y=1))
-  popViewport()
-  popViewport() #Finish the row
+  grid::popViewport()
+  grid::popViewport() #Finish the row
 }
 
 counties <- c("comanche", "cleveland", "oklahoma", "tulsa", "rogers")
 countyNames <- c("Comanche", "Cleveland", "Oklahoma", "Tulsa", "Rogers")
 
 grid.newpage()
-pushViewport(viewport(layout=grid.layout(nrow=length(counties), ncol=1), gp=gpar(cex=1, fill=NA)))
+grid::pushViewport(grid::viewport(layout=grid.layout(nrow=length(counties), ncol=1), gp=grid::gpar(cex=1, fill=NA)))
 for( i in seq_along(counties) ) {
-  pushViewport(viewport(layout.pos.row=i))
+  grid::pushViewport(grid::viewport(layout.pos.row=i))
   GraphRowComparison(countyName=counties[i], rowLabel=countyNames[i])
-  popViewport()
+  grid::popViewport()
 }
-popViewport()
+grid::popViewport()
 ```
 
 <img src="figure_mbr_rmd/Figure8.png" title="plot of chunk Figure8" alt="plot of chunk Figure8" width="600px" />
@@ -392,17 +392,17 @@ popViewport()
 Here are all 12 counties that Ronnie colelcted birth records for.
 
 ```r
-counties <- sort(unique(CountyMonthBirthRate2005Version$CountyName))
+counties <- base::sort(base::unique(dsLinearAll$CountyName))
 countyNames <- c("Canadian", "Cleveland", "Comanche", "Creek", "Logan", "McClain", "Oklahoma", "Osage", "Pottawatomie", "Rogers", "Tulsa", "Wagoner")
 
-grid.newpage()
-pushViewport(viewport(layout=grid.layout(nrow=length(counties), ncol=1), gp=gpar(cex=1, fill=NA)))
+grid::grid.newpage()
+grid::pushViewport(grid::viewport(layout=grid.layout(nrow=base::length(counties), ncol=1), gp=grid::gpar(cex=1, fill=NA)))
 for( i in seq_along(counties) ) {
-  pushViewport(viewport(layout.pos.row=i))
+  grid::pushViewport(grid::viewport(layout.pos.row=i))
   GraphRowComparison(countyName=counties[i], rowLabel=countyNames[i])
-  popViewport()
+  grid::popViewport()
 }
-popViewport()
+grid::popViewport()
 ```
 
 <img src="figure_mbr_rmd/Figure8AllCounties.png" title="plot of chunk Figure8AllCounties" alt="plot of chunk Figure8AllCounties" width="600px" />
@@ -414,14 +414,14 @@ This figure demonstrates that WATS accommodates many types of error bands.
 ```r
 spreads <- c("hSpread", "fullSpread", "seSpread", "bootSpread")
 spreadNames <- c("H-Spread", "Range", "+/-1 SE", "Bootstrap")
-grid.newpage()
-pushViewport(viewport(layout=grid.layout(nrow=length(spreads), ncol=1), gp=gpar(cex=1, fill=NA)))
+grid::grid.newpage()
+grid::pushViewport(grid::viewport(layout=grid::grid.layout(nrow=base::length(spreads), ncol=1), gp=grid::gpar(cex=1, fill=NA)))
 for( i in seq_along(spreads) ) {
-  pushViewport(viewport(layout.pos.row=i))
-  GraphRowComparison(spreadFunction=get(spreads[i]), rowLabel=spreadNames[i])
-  upViewport()
+  grid::pushViewport(grid::viewport(layout.pos.row=i))
+  GraphRowComparison(spreadFunction=base::get(spreads[i]), rowLabel=spreadNames[i])
+  grid::upViewport()
 }
-upViewport()
+grid::upViewport()
 ```
 
 <img src="figure_mbr_rmd/Figure9.png" title="plot of chunk Figure9" alt="plot of chunk Figure9" width="600px" />
@@ -432,7 +432,7 @@ For the sake of documentation and reproducibility, the current vignette was buil
 
 
 ```
-Report created by Will at 12/25/2013 11:15:24 PM, Central Standard Time
+Report created by Will at 12/25/2013 11:46:23 PM, Central Standard Time
 ```
 
 ```
