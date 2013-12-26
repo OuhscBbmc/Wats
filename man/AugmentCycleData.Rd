@@ -26,6 +26,10 @@ Returns a \code{data.frame} with additional variables:
 Calculates variables necessary for WATS Plots
 }
 \examples{
-a <- 32+323
+require(Wats)
+dsLinear <- CountyMonthBirthRate2005Version
+dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
+dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+dsLinear
 }
 

@@ -1,20 +1,11 @@
-<!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Assesing OKC Fertility with Intercensal Estimates}
--->
 
-# Assesing OKC Fertility with Intercensal Estimates
-The MBR manuscript demonstrates WATS plots with data prepared for Rodgers, St. John, & Coleman (2005).  In that paper and the MBR manuscript, the denominator of the GFR (General Fertility Rate) is the initial 1990 county population of females ages 15-44.  
-
-This vignette uses slightly different Census estimates.  The intercensal population estimates (for females ages 15-44) are used for Jan 1990, Jan 1991, Jan 1992, ..., Jan 2000.  Then linear interpolation is used to complete the remaining 11 months of each year.  These monthly estimates become the denominator of each county's monthly GFR.
-
-```{r set_root_directory, echo=FALSE, results='hide'} 
+## ----set_root_directory, echo=FALSE, results='hide'----------------------
 #It works better if the root directory is set in its own chunk.
 library(knitr)
 knitr::opts_knit$set(root.dir = "../")
-```
 
-```{r set_options, echo=FALSE, results='hide'}
+
+## ----set_options, echo=FALSE, results='hide'-----------------------------
 library(base)
 library(utils)
 library(stats)
@@ -38,9 +29,9 @@ knitr::opts_chunk$set(
 
 base::options(width=120) #So the output is 50% wider than the default.
 grDevices::windows.options(antialias = "cleartype")
-```
 
-```{r Definitions}
+
+## ----Definitions---------------------------------------------------------
 changeMonth <- base::as.Date("1996-02-15") #as.Date("1995-04-19") + lubridate::weeks(39) = "1996-01-17"
 
 vpLayout <- function(x, y) { grid::viewport(layout.pos.row=x, layout.pos.col=y) }
@@ -83,19 +74,16 @@ lightTheme <- darkTheme + ggplot2::theme(
 dateSequence <- base::seq.Date(from=base::as.Date("1990-01-01"), to=base::as.Date("1999-01-01"), by="years")
 xScale       <- ggplot2::scale_x_date(breaks=dateSequence, labels=scales::date_format("%Y"))
 xScaleBlank  <- ggplot2::scale_x_date(breaks=dateSequence, labels=NULL) #This keeps things proportional down the three frames.
-```
 
-## Section 1: Cartesian Rolling plot
 
-```{r CartesianRolling, fig.height=4.8}
-# dsLinear <- utils::read.csv("./Datasets/CountyMonthBirthRate2014Version.csv", stringsAsFactors=FALSE)
-# dsLinear$Date <- base::as.Date(dsLinear$Date)
-# dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ] 
+## ----CartesianRolling, fig.height=4.8------------------------------------
+dsLinear <- utils::read.csv("./Datasets/CountyMonthBirthRate2014Version.csv", stringsAsFactors=FALSE)
+dsLinear$Date <- base::as.Date(dsLinear$Date)
+dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ] 
 
 # Uncomment this line to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
-dsLinearAll <- CountyMonthBirthRate2014Version
-dsLinear <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ] 
+# dsLinear <- CountyMonthBirthRate2014Version[CountyMonthBirthRate2014Version$CountyName=="oklahoma", ] 
 
 dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 
@@ -146,12 +134,9 @@ print(topPanel, vp=vpLayout(1, 1))
 print(middlePanel, vp=vpLayout(2, 1))
 print(bottomPanel, vp=vpLayout(3, 1))
 grid::popViewport()
-```
 
-## Section 2: Carteisan Periodic 
-Carteisan plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
 
-```{r CartesianPeriodic}
+## ----CartesianPeriodic---------------------------------------------------
 cartesianPeriodic <- Wats::CartesianPeriodic(
   portfolioCartesian$dsLinear, 
   portfolioCartesian$dsPeriodic, 
@@ -165,12 +150,9 @@ cartesianPeriodic <- Wats::CartesianPeriodic(
 )
 cartesianPeriodic <- cartesianPeriodic + xScale + darkTheme 
 print(cartesianPeriodic)
-```
 
-## Section 3: Polar Periodic
-Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
-```{r PolarPeriodic, fig.height=6.5*2/3}
+## ----PolarPeriodic, fig.height=6.5*2/3-----------------------------------
 portfolioPolar <- Wats::PolarizeCartesian(
   dsLinear = portfolioCartesian$dsLinear, 
   dsStageCycle = portfolioCartesian$dsStageCycle, 
@@ -217,12 +199,9 @@ grid::upViewport()
 grid::pushViewport(grid::viewport(layout.pos.col=1:2, layout.pos.row=2, gp=grid::gpar(cex=1)))
 print(cartesianPeriodic, vp=vpLayout(x=1:2, y=2)) #Print across both columns of the bottom row.
 upViewport()
-```
 
-## Section 4: Confirmatory Analysis of Interrupted Time Series
-This section uses an approach advocated by McLeod, Yu, & Mahdi (2011), which is consistent other articles, including Rodgers et al. (2005).  There are two trends that are de-seasonalized.  The first is the 'classic' approach which uses the observed trend line.  The second is a smoothed version, where a loess is passed through the observed data; this smoothed line is then de-seasonalized.  Both approach give comparable conclusions.  The post-bombing fertility is significantly higher  than the pre-bombing fertility (ie, the `step` coefficient is significantly more positive).
 
-```{r ConfirmatoryFrequentist, fig.height=6.5}
+## ----ConfirmatoryFrequentist, fig.height=6.5-----------------------------
 dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 
 tsData <- stats::ts(
@@ -261,12 +240,9 @@ dsLoess <- data.frame(y=y, y1=y1, step=step)
 rm(lag, y, y1, step)
 fitLoess <-  glm(y ~ 1 + step + y1, data=dsLoess)
 summary(fitLoess)
-```
 
-## Section 5: Confirmatory Analysis of Interrupted Time Series with Bayes Factors
-A similar set of Bayesian analyses support the claim that post-bombing fertility is higher.  The `BayesSingleSub` package by De Vries and Morey.  The third number in each row describes the test for a mean different.  The package also has tests that indicate the post-bombing slope may be more positive than the pre-bombing slope.  Significance is sugested with a Bayes Factors is less than one (and therefore its log is negative).
 
-```{r ConfirmatoryBayesFactors, fig.height=6.5}
+## ----ConfirmatoryBayesFactors, fig.height=6.5----------------------------
 # Seasonality is accounted for without a smoother
 beforeClassic <- seasonalClassic$trend[dsLinear$StageID==1]
 afterClassic <- seasonalClassic$trend[dsLinear$StageID==2]
@@ -282,18 +258,10 @@ afterLoess <- seasonalLoess$time.series[dsLinear$StageID==2, 2]
 BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=interactive())
 BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=interactive())
 
-```
 
-## Session Info
-For the sake of documentation and reproducibility, the current vignette was build on a system using the following software.
 
-```{r session_info, echo=FALSE}
+## ----session_info, echo=FALSE--------------------------------------------
 base::cat("Report created by", base::Sys.info()["user"], "at", base::strftime(base::Sys.time(), "%c, %z"))
 utils::sessionInfo()
-```
 
-## References
-* McLeod, A.I., Yu, H., & Mahdi, E. (2011). [Time series analysis with R.](http://www.stats.uwo.ca/faculty/aim/tsar/tsar.pdf). *Handbook of Statistics*, Volume 30, Elsevier. 
-* Rodgers, J. L., St. John, C. A. & Coleman R.  (2005).  [Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999](http://www.ncbi.nlm.nih.gov/pubmed/16463916).  *Demography, 42*, 675-692.
-*De Vries, R. M. & Morey, R. D. (submitted). Bayesian hypothesis testing Single-Subject Data.
-Psychological Methods.
+

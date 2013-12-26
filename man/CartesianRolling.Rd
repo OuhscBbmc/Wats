@@ -111,12 +111,9 @@ without a periodic/cyclic components.
 }
 \examples{
 require(Wats) #Load the package
-filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
-dsLinear <- read.table(filePathOutcomes, header=TRUE, sep="\\t", stringsAsFactors=FALSE)
-dsLinear$Date <- as.Date(dsLinear$Date)
-dsLinear$MonthID <- NULL
-changeMonth <- as.Date("1996-02-15")
-dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
+changeMonth <- base::as.Date("1996-02-15")
+dsLinear <- CountyMonthBirthRate2005Version
+dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- AnnotateData(

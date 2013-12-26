@@ -27,17 +27,17 @@ BayesSingleSub::trendtest.MC.AR(beforeNaive, afterNaive)
 # Seasonality is accounted for without a smoother
 beforeClassic <- seasonalClassic$trend[dsLinear$StageID==1]
 afterClassic <- seasonalClassic$trend[dsLinear$StageID==2]
-repCount <- 1000#000
-(gClassic <- BayesSingleSub::trendtest.Gibbs.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], return.chains=F, iterations=repCount))
-(mcClassic <- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=repCount))
+mcmcRepCount <- 1000#000
+(gClassic <- BayesSingleSub::trendtest.Gibbs.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], return.chains=F, iterations=mcmcRepCount))
+(mcClassic <- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=mcmcRepCount))
 summary(mcClassic)
 # coda::gelman.diag(g$chains) #it needs multiple chains
 
 #Seasonality is accounted for after a loess is fit through it.
 beforeLoess <- seasonalLoess$time.series[dsLinear$StageID==1, 2]
 afterLoess <- seasonalLoess$time.series[dsLinear$StageID==2, 2]
-BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess)
-BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess)
+BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCount)
+BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount)
 
 ### McLeod et al approach, which is consistent with many others, including Rodgers et al, 2005.
 # Seasonality is accounted for without a smoother

@@ -2,8 +2,8 @@ Package: Wats
 Title: Wrap Around Time Series graphics
 Description: Wrap-around Time Series (WATS) Plots for Interrupted Time Series
     Designs
-Version: 0.2-3
-Date: 2013-12-25
+Version: 0.2-4
+Date: 2013-12-26
 Authors@R: c(person("Will", "Beasley", role = c("aut", "cre"), email =
     "wibeasley@hotmail.com"), person("Joe", "Rodgers", role = "aut", email =
     "joseph.l.rodgers@vanderbilt.edu"), person("Matthew", "Schuelke", role =
@@ -29,7 +29,7 @@ Imports:
     testit,
     zoo
 Suggests:
-	BayesSingleSub,
+    BayesSingleSub,
     devtools,
     knitr,
     testthat
