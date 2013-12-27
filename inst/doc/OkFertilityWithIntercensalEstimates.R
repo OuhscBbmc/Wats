@@ -178,7 +178,7 @@ topLeftPanel <- Wats::PolarPeriodic(
   dsLinear = portfolioPolar$dsObservedPolar, 
   dsStageCyclePolar = portfolioPolar$dsStageCyclePolar, 
   yName = "Radius", 
-  stageIDName = "StageID", #graphCeiling=7, 
+  stageIDName = "StageID",
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 grid::upViewport()
@@ -189,7 +189,7 @@ topRighttPanel <- Wats::PolarPeriodic(
   dsLinear = portfolioPolar$dsObservedPolar, 
   dsStageCyclePolar = portfolioPolar$dsStageCyclePolar, 
   yName = "Radius", 
-  stageIDName = "StageID", #graphCeiling=7, 
+  stageIDName = "StageID",
   drawObservedLine = FALSE,
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1"), 
   originLabel = NULL
@@ -216,48 +216,54 @@ tsData <- stats::ts(
 seasonalClassic <- stats::decompose(tsData)
 plot(seasonalClassic)
 
-#Watch out, the 2nd & 3rd columns are swapped, compared to `decompose()`
+#Watch out, the 2nd & 3rd columns have swapped positions, compared to `decompose()`
 seasonalLoess <- stats::stl(x = tsData, s.window = "periodic") 
 plot(seasonalLoess)
 
-
 # Seasonality is accounted for without a smoother
-lag <- 1 #Significant for many different values of lag, including 1
-y <- seasonalClassic$trend[(lag+1):length(seasonalClassic$trend)]
-y1 <- seasonalClassic$trend[1:(length(seasonalClassic$trend)-lag)]
-step <- c(rep(0, times=sum(dsLinear$StageID==1)-lag), rep(1, times=sum(dsLinear$StageID==2)))
+lag1 <- 1L #Significant for many different values of lag, including 1
+y <- seasonalClassic$trend[(lag1+1):length(seasonalClassic$trend)]
+y1 <- seasonalClassic$trend[1:(length(seasonalClassic$trend)-lag1)]
+# step <- c(rep(0L, times=sum(dsLinear$StageID==1L)-lag1), rep(1L, times=sum(dsLinear$StageID==2L)))
+step <- dsLinear$StageID[(lag1+1):length(seasonalClassic$trend)] - 1L
 dsClassic <- data.frame(y=y, y1=y1, step=step)
-rm(lag, y, y1, step)
+rm(lag1, y, y1, step)
 fitClassic <-  glm(y ~ 1 + step + y1, data=dsClassic)
 summary(fitClassic)
 
 #Seasonality is accounted for after a loess is fit through it.
-lag <- 1 #Significant for many different values of lag, including 1
+lag1 <- 1L #Significant for many different values of lag, including 1
 trendLineLoess <- as.numeric(seasonalLoess$time.series[, 2])
-y <- trendLineLoess[(lag+1):length(trendLineLoess)]
-y1 <- trendLineLoess[1:(length(trendLineLoess) - lag)]
-step <- c(rep(0, times=sum(dsLinear$StageID==1)-lag), rep(1, times=sum(dsLinear$StageID==2)))
+y <- trendLineLoess[(lag1+1):length(trendLineLoess)]
+y1 <- trendLineLoess[1:(length(trendLineLoess) - lag1)]
+# step <- c(rep(0L, times=sum(dsLinear$StageID==1L)-lag1), rep(1L, times=sum(dsLinear$StageID==2L)))
+step <- dsLinear$StageID[(lag1+1):length(trendLineLoess)] - 1L
 dsLoess <- data.frame(y=y, y1=y1, step=step)
-rm(lag, y, y1, step)
+rm(lag1, y, y1, step)
 fitLoess <-  glm(y ~ 1 + step + y1, data=dsLoess)
 summary(fitLoess)
 
 
 ## ----ConfirmatoryBayesFactors, fig.height=6.5----------------------------
 # Seasonality is accounted for without a smoother
-beforeClassic <- seasonalClassic$trend[dsLinear$StageID==1]
-afterClassic <- seasonalClassic$trend[dsLinear$StageID==2]
+beforeClassic <- seasonalClassic$trend[dsLinear$StageID==1L]
+afterClassic <- seasonalClassic$trend[dsLinear$StageID==2L]
+
+#Set the number of MCMC iterations
 mcmcRepCount <- 1000#000
-(gClassic <- BayesSingleSub::trendtest.Gibbs.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], return.chains=F, iterations=mcmcRepCount, progress=interactive()))
-(mcClassic <- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=mcmcRepCount, progress=interactive()))
-summary(mcClassic)
-# coda::gelman.diag(g$chains) #it needs multiple chains
+#Determine if the intermediate progress should be displayed
+showMcmcProgress <- FALSE
+
+(gClassic <- BayesSingleSub::trendtest.Gibbs.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], return.chains=F, iterations=mcmcRepCount, progress=showMcmcProgress))
+(mcClassic <- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=mcmcRepCount, progress=showMcmcProgress))
+# summary(mcClassic)
+# coda::gelman.diag(g$chains) #it needs multiple chains to asses.
 
 #Seasonality is accounted for after a loess is fit through it.
-beforeLoess <- seasonalLoess$time.series[dsLinear$StageID==1, 2]
-afterLoess <- seasonalLoess$time.series[dsLinear$StageID==2, 2]
-BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=interactive())
-BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=interactive())
+beforeLoess <- seasonalLoess$time.series[dsLinear$StageID==1L, 2]
+afterLoess <- seasonalLoess$time.series[dsLinear$StageID==2L, 2]
+BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=showMcmcProgress)
+BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=showMcmcProgress)
 
 
 
