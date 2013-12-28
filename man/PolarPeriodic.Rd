@@ -6,9 +6,10 @@ PolarPeriodic(dsLinear, dsStageCyclePolar, xName, yName, stageIDName,
   periodicLowerName = "PositionLower", periodicUpperName = "PositionUpper",
   paletteDark = NULL, paletteLight = NULL, changePoints = NULL,
   changePointLabels = NULL, drawObservedLine = TRUE,
-  drawPeriodicBand = TRUE, jaggedPointSize = 2, jaggedLineSize = 0.5,
-  bandAlphaDark = 0.4, bandAlphaLight = 0.15, colorLabels = "gray50",
-  colorGridlines = "gray80", changeLineAlpha = 0.5, changeLineSize = 3,
+  drawPeriodicBand = TRUE, drawLabels = TRUE, jaggedPointSize = 2,
+  jaggedLineSize = 1, bandAlphaDark = 0.4, bandAlphaLight = 0.15,
+  colorLabels = "gray50", colorGridlines = "gray80",
+  labelColor = "orange3", changeLineAlpha = 0.5, changeLineSize = 3,
   tickLocations = base::pretty(x = dsLinear[, yName]),
   graphFloor = min(tickLocations), graphCeiling = max(tickLocations),
   cardinalLabels = NULL, originLabel = paste0("The origin represents ",
@@ -62,12 +63,16 @@ PolarPeriodic(dsLinear, dsStageCyclePolar, xName, yName, stageIDName,
 
   \item{drawObservedLine}{A boolean value indicating if the
   longitudinal observed line should be plotted (whose
-  values are take from \code{dsLinear}.}
+  values are take from \code{dsLinear}).}
 
   \item{drawPeriodicBand}{A boolean value indicating if the
   bands should be plotted (whose values are take from the
   \code{periodicLowerName} and \code{periodicUpperName}
-  fields.}
+  fields).}
+
+  \item{drawLabels}{A boolean value indicating if the
+  labels should be plotted (whose values are take from
+  \code{dsLinear}).}
 
   \item{jaggedPointSize}{The size of the observed data
   points.}
@@ -88,6 +93,9 @@ PolarPeriodic(dsLinear, dsStageCyclePolar, xName, yName, stageIDName,
   and \code{originLabel}.}
 
   \item{colorGridlines}{The color for the gridlines.}
+
+  \item{labelColor}{The color of the text labels imposed on
+  the line.}
 
   \item{changeLineSize}{The width of a line marking an
   interruption.}

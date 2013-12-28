@@ -99,21 +99,45 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
   }
   polarizeObserved <- function( d, graphFloor=graphFloor ) {
     #After R 3.1.0 has been out for a while, consider using sinpi()`.
+    if( nrow(d)==0 ) {
+      stageStart <- logical(0)
+      stageEnd <- logical(0)
+    } else {
+      stageStart <- c(TRUE, rep(FALSE, times=nrow(d)-1))
+      stageEnd <- c(rep(FALSE, times=nrow(d)-1), TRUE)
+    }
     base::data.frame(
       ObservedX = (d$ObservedY - graphFloor) * sin(2 * pi * d$ObservedX),
       ObservedY = (d$ObservedY - graphFloor) * cos(2 * pi * d$ObservedX),
       Theta = pi * 2 * d$ObservedX,
-      Radius = d$ObservedY
+      Radius = d$ObservedY,
+      StageStart = stageStart,
+      StageEnd = stageEnd,
+      LabelStageStart <- ifelse(stageStart, paste0(d$StageID, "S"), ""),
+      LabelStageEnd <- ifelse(stageEnd, paste0(d$StageID, "E"), ""),
+      stringsAsFactors = FALSE      
     )
   }
   polarizeBand <- function( d, graphFloor=graphFloor ) {
+    if( nrow(d)==0 ) {
+      stageStart <- logical(0)
+      stageEnd <- logical(0)
+    } else {
+      stageStart <- c(TRUE, rep(FALSE, times=nrow(d)-1))
+      stageEnd <- c(rep(FALSE, times=nrow(d)-1), TRUE)
+    }
     base::data.frame(
       PolarLowerX = (d$LowerY - graphFloor) * sin(2 * pi * d$LowerX),
       PolarLowerY = (d$LowerY - graphFloor) * cos(2 * pi * d$LowerX),  
       PolarCenterX = (d$CenterY - graphFloor) * sin(2 * pi * d$CenterX),
-      PolarCenterY = (d$CenterY - graphFloor) * cos(2 * pi * d$CenterX) ,  
+      PolarCenterY = (d$CenterY - graphFloor) * cos(2 * pi * d$CenterX),  
       PolarUpperX = (d$UpperY - graphFloor) * sin(2 * pi * d$UpperX),
-      PolarUpperY = (d$UpperY - graphFloor) * cos(2 * pi * d$UpperX)  
+      PolarUpperY = (d$UpperY - graphFloor) * cos(2 * pi * d$UpperX),
+      StageStart = stageStart,
+      StageEnd = stageEnd,
+      LabelStageStart <- ifelse(stageStart, paste0(d$StageID, "S"), ""),
+      LabelStageEnd <- ifelse(stageEnd, paste0(d$StageID, "E"), ""),
+      stringsAsFactors = FALSE
     )
   }
   
@@ -123,7 +147,6 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
   dsStageCycleClosed <- plyr::ddply(dsStageCycle, .variables=stageIDName, .fun=closeLoop)
   dsStageCycleInterpolated <- plyr::ddply(dsStageCycleClosed, .variables=stageIDName, .fun=interpolateBand, pointsPerCycleCount=plottedPointCountPerCycle)
   dsStageCyclePolar <- plyr::ddply(dsStageCycleInterpolated, .variables=stageIDName, .fun=polarizeBand, graphFloor=graphFloor)
-  
   
   return( list(dsObservedPolar=dsObservedPolar, dsStageCyclePolar=dsStageCyclePolar) )
 }
