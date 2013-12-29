@@ -205,6 +205,8 @@ Wats::PolarPeriodic(
   yName = "Radius",
   stageIDName = "StageID", 
   drawPeriodicBand = FALSE,
+  drawStageLabels = TRUE, 
+  drawRadiusLabels = TRUE, 
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 
