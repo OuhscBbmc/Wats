@@ -19,7 +19,7 @@
 ##' @param changePointLabels The text plotted above each interruption.
 ##' @param drawObservedLine A boolean value indicating if the longitudinal observed line should be plotted (whose values are take from \code{dsLinear}).
 ##' @param drawPeriodicBand A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodicLowerName} and \code{periodicUpperName} fields).
-##' @param drawLabels A boolean value indicating if the labels should be plotted (whose values are take from \code{dsLinear}).
+##' @param drawStageLabels A boolean value indicating if the labels should be plotted (whose values are take from \code{dsLinear}).
 ##' @param jaggedPointSize The size of the observed data points.
 ##' @param jaggedLineSize The size of the line connecting the observed data points.
 ##' 
@@ -96,7 +96,7 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
                           periodicLowerName = "PositionLower", periodicUpperName = "PositionUpper",
                           paletteDark = NULL, paletteLight = NULL, 
                           changePoints = NULL, changePointLabels = NULL,
-                          drawObservedLine = TRUE, drawPeriodicBand = TRUE, drawLabels = TRUE,
+                          drawObservedLine = TRUE, drawPeriodicBand = TRUE, drawStageLabels = FALSE,
                           jaggedPointSize = 2, jaggedLineSize = 1, 
                           bandAlphaDark = .4, bandAlphaLight = .15, 
                           colorLabels = "gray50", colorGridlines = "gray80", labelColor="orange3",
@@ -169,14 +169,22 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
   }
   
   if( drawObservedLine ) {
-    gObserved <- grid::polylineGrob(x=dsLinear$ObservedX, y=dsLinear$ObservedY, id=dsLinear$StageID, 
-                                    gp=grid::gpar(col=paletteDark, lwd=jaggedLineSize), 
-                                    default.units="native", name="l") 
-  #   gObserved <- polylineGrob(x=dsLinear$ObservedX, y=dsLinear$ObservedY, gp=gpar(col=paletteDark, lwd=2), default.units="native", name="l")
-    grid::grid.draw(gObserved)
+#     gObserved <- grid::polylineGrob(x=dsLinear$ObservedX, y=dsLinear$ObservedY, id=dsLinear$StageID, 
+#                                     gp=grid::gpar(col=paletteDark, lwd=jaggedLineSize), 
+#                                     default.units="native", name="l") 
+#     grid::grid.draw(gObserved)
+    for( stage in stages) {
+      dsStage <- dsLinear[stage<=dsLinear$StageProgress & dsLinear$StageProgress<=(stage+1), ]
+      
+      gObserved <- grid::polylineGrob(x=dsStage$ObservedX, y=dsStage$ObservedY, 
+                                      gp=grid::gpar(col=paletteDark[stage], lwd=jaggedLineSize), 
+                                      default.units="native", name="l") 
+      grid::grid.draw(gObserved)
+      
+    }
   }
 
-  if( drawLabels ) {
+  if( drawStageLabels ) {
     gLabelStart <- grid::textGrob(label=dsLinear$LabelStageStart, x=dsLinear$ObservedX, y=dsLinear$ObservedY, 
                                   gp=grid::gpar(col=labelColor, lwd=jaggedLineSize), 
                                   default.units="native", name="l") 
@@ -199,18 +207,14 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
 # portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 # rm(dsLinear)
 # 
-# polarized <- PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
-
-# polarized$dsObservedPolar$LabelStageStart <- ifelse(polarized$dsObservedPolar$StageStart, paste0(polarized$dsObservedPolar$StageID, "S"), NA_character_)
-# polarized$dsObservedPolar$LabelStageEnd <- ifelse(polarized$dsObservedPolar$StageEnd, paste0(polarized$dsObservedPolar$StageID, "E"), NA_character_)
-#                                                
-
+# polarized <- PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=3600)
+# 
+# grid.newpage()
+# PolarPeriodic(dsLinear=polarized$dsObservedPolar, polarized$dsStageCyclePolar, yName="Radius", stageIDName="StageID", drawPeriodicBand=FALSE)
 
 # grid.newpage()
 # PolarPeriodic(dsLinear=polarized$dsObservedPolar, polarized$dsStageCyclePolar, yName="Radius", stageIDName="StageID", cardinalLabels=c("Jan1", "Apr1", "July1", "Oct1"))
 
-# grid.newpage()
-# PolarPeriodic(dsLinear=polarized$dsObservedPolar, polarized$dsStageCyclePolar, yName="Radius", stageIDName="StageID", drawPeriodicBand=FALSE)
 # # 
 # grid.newpage()
 # PolarPeriodic(dsLinear=polarized$dsObservedPolar, polarized$dsStageCyclePolar, yName="Radius", stageIDName="StageID", drawObservedLine=FALSE, cardinalLabels=c("Jan1", "Apr1", "July1", "Oct1"))

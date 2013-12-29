@@ -10,8 +10,7 @@ Applications to Fertility Rates and the Oklahoma City Bombing.
 > Keywords:  time series, interrupted time series design, group differences, graphical analysis, circular data, H-spread
 
 ## Reproducible Research
-When the package is installed on your local pachine, the `Reproduce.R` script starts with our initial datasets (ie, the vital statistics birth counts and the US Census population estimates) to create the intermediate datasets and resulting graphs and analysis.
-https://github.com/wibeasley/Wats/blob/master/UtilityScripts/Reproduce.R
+When the Wats package is installed on your local machine, the [`Reproduce.R`](https://github.com/wibeasley/Wats/blob/master/UtilityScripts/Reproduce.R) script starts with our initial datasets (ie, the vital statistics birth counts and the US Census population estimates) to create the derivative datasets and resulting graphs and analysis.
 
 ## Nonstandard Directories
 The following directories are not part of the standard R package:

@@ -74,13 +74,16 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
     return( d )
   }
   interpolateObserved <- function( d, pointsPerCycleCount ) {
-    observed <- stats::approx(x=d[, cycleTallyName] + d[, proportionThroughCycleName], y=d[, yName], n=pointsPerCycleCount)
+    observed <- stats::approx(x = d[, cycleTallyName] + d[, proportionThroughCycleName], 
+                              y = d[, yName], 
+                              n = pointsPerCycleCount)
+    stageProgress <- stats::approx(x = unique(d[, stageIDName]) + 0:1, 
+                                   n = pointsPerCycleCount + 1)
     
     base::data.frame(
       ObservedX = observed$x,
-      ObservedY = observed$y
-#       ObservedX = d[, cycleTallyName] + d[, proportionThroughCycleName],
-#       ObservedY = d[, yName]
+      ObservedY = observed$y,
+      StageProgress = stageProgress$y[seq_len(pointsPerCycleCount)] #Which chops off the last value.
     )   
   }
   interpolateBand <- function( d, pointsPerCycleCount ) {
@@ -111,10 +114,14 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
       ObservedY = (d$ObservedY - graphFloor) * cos(2 * pi * d$ObservedX),
       Theta = pi * 2 * d$ObservedX,
       Radius = d$ObservedY,
+      StageProgress = d$StageProgress,
+
+#TODO: determine stage progress from stageStart & stageEnd
+# TODO: add a column for the `pch` printing character to plot
       StageStart = stageStart,
       StageEnd = stageEnd,
-      LabelStageStart <- ifelse(stageStart, paste0(d$StageID, "S"), ""),
-      LabelStageEnd <- ifelse(stageEnd, paste0(d$StageID, "E"), ""),
+      LabelStageStart = ifelse(stageStart, paste0(d$StageID, "S"), ""),
+      LabelStageEnd = ifelse(stageEnd, paste0(d$StageID, "E"), ""),
       stringsAsFactors = FALSE      
     )
   }
@@ -133,10 +140,11 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
       PolarCenterY = (d$CenterY - graphFloor) * cos(2 * pi * d$CenterX),  
       PolarUpperX = (d$UpperY - graphFloor) * sin(2 * pi * d$UpperX),
       PolarUpperY = (d$UpperY - graphFloor) * cos(2 * pi * d$UpperX),
+#       StageProgress = d$StageProgress,
       StageStart = stageStart,
       StageEnd = stageEnd,
-      LabelStageStart <- ifelse(stageStart, paste0(d$StageID, "S"), ""),
-      LabelStageEnd <- ifelse(stageEnd, paste0(d$StageID, "E"), ""),
+      LabelStageStart = ifelse(stageStart, paste0(d$StageID, "S"), ""),
+      LabelStageEnd = ifelse(stageEnd, paste0(d$StageID, "E"), ""),
       stringsAsFactors = FALSE
     )
   }
