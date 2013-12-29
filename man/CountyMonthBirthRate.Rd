@@ -63,7 +63,7 @@ and
 require(ggplot2)
 
 ##2005 Version (see description above)
-ds2005 <- CountyMonthBirthRate2014Version
+ds2005 <- CountyMonthBirthRate2005Version
 ggplot(ds2005, aes(x=Date, y=BirthRate, color=factor(Fips))) +
 geom_line() +
 labs(title="County Fertility - Longitudinal")

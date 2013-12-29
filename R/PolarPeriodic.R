@@ -19,7 +19,8 @@
 ##' @param changePointLabels The text plotted above each interruption.
 ##' @param drawObservedLine A boolean value indicating if the longitudinal observed line should be plotted (whose values are take from \code{dsLinear}).
 ##' @param drawPeriodicBand A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodicLowerName} and \code{periodicUpperName} fields).
-##' @param drawStageLabels A boolean value indicating if the labels should be plotted (whose values are take from \code{dsLinear}).
+##' @param drawStageLabels A boolean value indicating if the stage labels should be plotted (whose values are take from \code{dsLinear}).
+##' @param drawRadiusLabels A boolean value indicating if the gridline/radius labels should be plotted (whose values are take from \code{tickLocations}).
 ##' @param jaggedPointSize The size of the observed data points.
 ##' @param jaggedLineSize The size of the line connecting the observed data points.
 ##' 
@@ -96,7 +97,8 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
                           periodicLowerName = "PositionLower", periodicUpperName = "PositionUpper",
                           paletteDark = NULL, paletteLight = NULL, 
                           changePoints = NULL, changePointLabels = NULL,
-                          drawObservedLine = TRUE, drawPeriodicBand = TRUE, drawStageLabels = FALSE,
+                          drawObservedLine = TRUE, drawPeriodicBand = TRUE, 
+                          drawStageLabels = FALSE, drawRadiusLabels = FALSE,
                           jaggedPointSize = 2, jaggedLineSize = 1, 
                           bandAlphaDark = .4, bandAlphaLight = .15, 
                           colorLabels = "gray50", colorGridlines = "gray80", labelColor="orange3",
@@ -146,6 +148,12 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
   grid::grid.lines(x=c(-graphRadius,graphRadius), y=c(0,0), gp=grid::gpar(col=colorGridlines, lty=3), default.units="native")
   grid::grid.lines(x=c(0,0), y=c(-graphRadius,graphRadius), gp=grid::gpar(col=colorGridlines, lty=3), default.units="native")
   grid::grid.circle(x=0, y=0, r=tickLocationsPolar, default.units="native", gp=grid::gpar(col=colorGridlines))
+  if( drawRadiusLabels ) {
+#     grid::grid.text(tickLocations, x=tickLocationsPolar, y=0, default.units="native", 
+#                     gp=grid::gpar(col=colorGridlines), just=c(-.1, 1.1))
+    grid::grid.text(tickLocations, x=tickLocationsPolar/sqrt(2), y=-tickLocationsPolar/sqrt(2), default.units="native", 
+                    gp=grid::gpar(col=colorLabels), just=c(-.05, 1.05))
+  }
   grid::grid.text(cardinalLabels, x=c(0, graphRadius, 0, -graphRadius), y=c(graphRadius, 0, -graphRadius, 0), gp=grid::gpar(cex=2, col=colorLabels), default.units="native")
     
 #   lg <- grid::polylineGrob(x=dsStageCyclePolar$PolarLowerX, y=dsStageCyclePolar$PolarLowerY, id=dsStageCyclePolar$StageID, gp=grid::gpar(col=paletteDark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
@@ -209,6 +217,9 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
 # 
 # polarized <- PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=3600)
 # 
+# grid.newpage()
+# PolarPeriodic(dsLinear=polarized$dsObservedPolar, polarized$dsStageCyclePolar, drawRadiusLabels=TRUE, drawStageLabels=TRUE, yName="Radius", stageIDName="StageID", drawPeriodicBand=FALSE)
+
 # grid.newpage()
 # PolarPeriodic(dsLinear=polarized$dsObservedPolar, polarized$dsStageCyclePolar, yName="Radius", stageIDName="StageID", drawPeriodicBand=FALSE)
 

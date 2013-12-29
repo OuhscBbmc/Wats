@@ -6,10 +6,11 @@ PolarPeriodic(dsLinear, dsStageCyclePolar, xName, yName, stageIDName,
   periodicLowerName = "PositionLower", periodicUpperName = "PositionUpper",
   paletteDark = NULL, paletteLight = NULL, changePoints = NULL,
   changePointLabels = NULL, drawObservedLine = TRUE,
-  drawPeriodicBand = TRUE, drawLabels = TRUE, jaggedPointSize = 2,
-  jaggedLineSize = 1, bandAlphaDark = 0.4, bandAlphaLight = 0.15,
-  colorLabels = "gray50", colorGridlines = "gray80",
-  labelColor = "orange3", changeLineAlpha = 0.5, changeLineSize = 3,
+  drawPeriodicBand = TRUE, drawStageLabels = FALSE,
+  drawRadiusLabels = FALSE, jaggedPointSize = 2, jaggedLineSize = 1,
+  bandAlphaDark = 0.4, bandAlphaLight = 0.15, colorLabels = "gray50",
+  colorGridlines = "gray80", labelColor = "orange3",
+  changeLineAlpha = 0.5, changeLineSize = 3,
   tickLocations = base::pretty(x = dsLinear[, yName]),
   graphFloor = min(tickLocations), graphCeiling = max(tickLocations),
   cardinalLabels = NULL, originLabel = paste0("The origin represents ",
@@ -70,9 +71,13 @@ PolarPeriodic(dsLinear, dsStageCyclePolar, xName, yName, stageIDName,
   \code{periodicLowerName} and \code{periodicUpperName}
   fields).}
 
-  \item{drawLabels}{A boolean value indicating if the
-  labels should be plotted (whose values are take from
-  \code{dsLinear}).}
+  \item{drawStageLabels}{A boolean value indicating if the
+  stage labels should be plotted (whose values are take
+  from \code{dsLinear}).}
+
+  \item{drawRadiusLabels}{A boolean value indicating if the
+  gridline/radius labels should be plotted (whose values
+  are take from \code{tickLocations}).}
 
   \item{jaggedPointSize}{The size of the observed data
   points.}
