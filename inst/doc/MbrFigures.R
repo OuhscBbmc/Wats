@@ -28,7 +28,8 @@ knitr::opts_chunk$set(
 )
 
 base::options(width=120) #So the output is 50% wider than the default.
-grDevices::windows.options(antialias = "cleartype")
+if( base::Sys.info() == "Windows" )
+  grDevices::windows.options(antialias = "cleartype")
 
 
 ## ----Definitions---------------------------------------------------------

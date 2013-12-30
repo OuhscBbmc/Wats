@@ -35,7 +35,8 @@ knitr::opts_chunk$set(
 )
 
 base::options(width=120) #So the output is 50% wider than the default.
-grDevices::windows.options(antialias = "cleartype")
+if( base::Sys.info() == "Windows" )
+  grDevices::windows.options(antialias = "cleartype")
 ```
 ## Figure 1: Cartesian Rolling - 2005 Version
 Figure 1:  Raw monthly birth rates (General Fertility Rates;  GFR's) for Oklahoma County, 1990-1999, plotted in a linear plot;  the "bombing effect" is located ten months after the Oklahoma City bombing.
