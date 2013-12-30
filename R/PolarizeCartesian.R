@@ -115,9 +115,6 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
       Theta = pi * 2 * d$ObservedX,
       Radius = d$ObservedY,
       StageProgress = d$StageProgress,
-
-#TODO: determine stage progress from stageStart & stageEnd
-# TODO: add a column for the `pch` printing character to plot
       StageStart = stageStart,
       StageEnd = stageEnd,
       LabelStageStart = ifelse(stageStart, paste0(d$StageID, "S"), ""),

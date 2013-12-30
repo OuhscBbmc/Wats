@@ -229,7 +229,7 @@ upViewport()
 ## Section 4: Confirmatory Analysis of Interrupted Time Series
 The remaining two sections depart from the MBR manuscript analyses.  Its goal is to determine if the significant findings of Rodgers, St. John, & Coleman still appear with the modified Census estimates.  As shown below, the the post-bombing fertility is still significantly higher than the pre-bombing fertility.
 
-This section uses an approach advocated by McLeod, Yu, & Mahdi (2011), which is consistent other articles, including Rodgers et al. (2005).  There are two trends that are de-seasonalized.  The first is the 'classic' approach which uses the observed trend line (see [`decompose()` on CRAN](http://stat.ethz.ch/R-manual/R-devel/library/stats/html/decompose.html)).  The second is a smoothed version, where a loess is passed through the observed data; this smoothed line is then de-seasonalized (see [`stl()` on CRAN](stat.ethz.ch/R-manual/R-devel/library/stats/html/stl.html)).  Both approaches lead to comparable conclusions.  The post-bombing fertility is significantly higher  than the pre-bombing fertility (ie, the `step` coefficient is significantly more positive).
+This section uses an approach advocated by McLeod, Yu, & Mahdi (2011), which is consistent other articles, including Rodgers et al. (2005).  There are two trends that are de-seasonalized.  The first is the 'classic' approach which uses the observed trend line (see [`decompose()` on CRAN](http://stat.ethz.ch/R-manual/R-devel/library/stats/html/decompose.html)).  The second is a smoothed version, where a loess is passed through the observed data; this smoothed line is then de-seasonalized (see [`stl()` on CRAN](stat.ethz.ch/R-manual/R-devel/library/stats/html/stl.html)).  Both approaches lead to comparable conclusions.  The post-bombing fertility is significantly higher  than the pre-bombing fertility (ie, the `step` coefficient is significantly more positive).
 
 ```{r ConfirmatoryFrequentist, fig.height=6.5}
 dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
@@ -311,4 +311,4 @@ utils::sessionInfo()
 * McLeod, A.I., Yu, H., & Mahdi, E. (2011). [Time series analysis with R](http://www.stats.uwo.ca/faculty/aim/tsar/tsar.pdf). *Handbook of Statistics*, Volume 30, Elsevier. 
 * Rodgers, J. L., St. John, C. A. & Coleman R.  (2005).  [Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999](http://www.ncbi.nlm.nih.gov/pubmed/16463916).  *Demography, 42*, 675-692.
 * De Vries, R. M. & Morey, R. D. (submitted). Bayesian hypothesis testing Single-Subject Data. *Psychological Methods*.
-* ADD REFERENCES TO US CENSUS SITE
+* [US Census Intercensal Estimates](http://www.census.gov/popest/data/intercensal/index.html) for [199x](http://www.census.gov/popest/data/counties/totals/1990s/CO-99-02.html) and [200x](http://www.census.gov/popest/data/intercensal/county/county2010.html).

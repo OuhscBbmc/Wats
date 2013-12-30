@@ -8,8 +8,8 @@ This vignette produces the graphs included in the initial MBR manuscript.
 
 ```{r set_root_directory, echo=FALSE, results='hide'} 
 #It works better if the root directory is set in its own chunk.
-library(knitr)
-knitr::opts_knit$set(root.dir = "../")
+# library(knitr)
+# knitr::opts_knit$set(root.dir = "../")
 ```
 
 ```{r set_options, echo=FALSE, results='hide'}
@@ -46,6 +46,7 @@ Figure 1:  Raw monthly birth rates (General Fertility Rates;  GFR's) for Oklahom
 Smoothed monthly birth rates (General Fertility Rates; GFRs) for Oklahoma County, 1990-1999, plotted in a linear plot.  The top plot shows the connected raw data with a February smoother; the middle plot shows smoothing with a 12-month moving average, blue/green line, superimposed on a February smoother, red line); the bottom plot shows the smoothers and confidence bands, which are H-spreads defined using the distribution of GFR's for the given month and 11 previous months.
 
 First, some R packages are loaded, and some variables and functions are defined.
+
 ```{r Definitions}
 changeMonth <- base::as.Date("1996-02-15") #as.Date("1995-04-19") + lubridate::weeks(39) = "1996-01-17"
 
@@ -118,9 +119,9 @@ Wats::CartesianRolling(
 )
 ```
 
-The version for the manuscript was tweaked to take advantage of certain features of the dataset.
+The version for the manuscript was tweaked to take advantage of certain features of the dataset.  This is what it looks like when all three stylized panels are combined.
 
-```{r Figure2IndividualStylized}
+```{r Figure2Stylized, fig.height=4.8}  
 topPanel <- Wats::CartesianRolling(
   dsLinear = portfolioCartesian$dsLinear, 
   xName = "Date", 
@@ -159,12 +160,7 @@ bottomPanel <- Wats::CartesianRolling(
 topPanel <- topPanel + xScale + darkTheme
 middlePanel <- middlePanel + xScale + darkTheme
 bottomPanel <- bottomPanel + xScaleBlank + darkTheme
-```
 
-### Combined Panels
-This is what it looks like when all three stylized panels are combined.
-
-```{r Figure2Combined, fig.height=4.8}  
 grid::grid.newpage()
 grid::pushViewport(grid::viewport(layout=grid::grid.layout(3,1)))
 print(topPanel, vp=vpLayout(1, 1))
@@ -173,32 +169,10 @@ print(bottomPanel, vp=vpLayout(3, 1))
 grid::popViewport()
 ```
 
-## Figure 4: Carteisan Rolling
-Re-portrayal of the linear plot of the GFR time series in Oklahoma County.  This will probably be cut from the manuscript.  But here is the basic & tweaked version.
-
-```{r Figure4Basic}
-cartesianPeriodicSimple <- Wats::CartesianPeriodic(
-  portfolioCartesian$dsLinear, 
-  portfolioCartesian$dsPeriodic, 
-  xName = "Date", 
-  yName = "BirthRate",
-  stageIDName = "StageID", 
-  changePoints = changeMonth, 
-  changePointLabels = "Bombing Effect",
-  yTitle = "General Fertility Rate",
-  drawPeriodicBand = FALSE
-)
-print(cartesianPeriodicSimple) #`print()` isn't necessary, but it makes my intention a little clearer.
-```
-
-```{r Figure4Stylized}
-print(cartesianPeriodicSimple + xScale + darkTheme) 
-```
-
-## Figure 5: Carteisan Periodic 
+## Figure 4: Carteisan Periodic 
 Carteisan plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
 
-```{r Figure5Basic}
+```{r Figure4Basic}
 cartesianPeriodic <- Wats::CartesianPeriodic(
   portfolioCartesian$dsLinear, 
   portfolioCartesian$dsPeriodic, 
@@ -212,15 +186,15 @@ cartesianPeriodic <- Wats::CartesianPeriodic(
 )
 print(cartesianPeriodic)
 ```
-```{r Figure5Stylized}
+```{r Figure4Stylized}
 cartesianPeriodic <- cartesianPeriodic + xScale + darkTheme 
 print(cartesianPeriodic)
 ```
 
-## Figure 6: Polar Periodic
+## Figure 5: Polar Periodic
 Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
-```{r Figure6, fig.height=3, fig.width=3, out.width="300px"}
+```{r Figure5, fig.height=3, fig.width=3, out.width="300px"}
 portfolioPolar <- Wats::PolarizeCartesian( 
   dsLinear = portfolioCartesian$dsLinear, 
   dsStageCycle = portfolioCartesian$dsStageCycle, 
@@ -242,10 +216,10 @@ Wats::PolarPeriodic(
 )
 
 ```
-## Figure 7: WATS and Cartesian
+## Figure 6: WATS and Cartesian
 Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
-```{r Figure7, fig.height=6.5*2/3}
+```{r Figure6, fig.height=6.5*2/3}
 portfolioPolar <- Wats::PolarizeCartesian(
   dsLinear = portfolioCartesian$dsLinear, 
   dsStageCycle = portfolioCartesian$dsStageCycle, 
@@ -294,9 +268,10 @@ print(cartesianPeriodic, vp=vpLayout(x=1:2, y=2)) #Print across both columns of 
 grid::upViewport()
 ```
 
-## Figure 8: County Comparison
+## Figure 7: County Comparison
 This figure compares Oklahoma County against the (other) largest urban counties.
-```{r Figure8, fig.height=6.5}
+
+```{r Figure7, fig.height=6.5}
 # dsLinearAll <- Wats::AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2005Version, dateName="Date")
 
 #Identify the average size of the fecund population
@@ -342,8 +317,9 @@ for( i in base::seq_along(counties) ) {
 grid::popViewport()
 ```
 
-Here are all 12 counties that Ronnie colelcted birth records for.
-```{r Figure8AllCounties, fig.height=6.5 * 12/5}
+Here are all 12 counties that Ronnie colelcted birth records for.  This extended graph is not in the mauscript.
+
+```{r Figure7AllCounties, fig.height=6.5 * 12/5}
 counties <- base::sort(base::unique(dsLinearAll$CountyName))
 countyNames <- c("Canadian", "Cleveland", "Comanche", "Creek", "Logan", "McClain", "Oklahoma", "Osage", "Pottawatomie", "Rogers", "Tulsa", "Wagoner")
 
@@ -357,9 +333,10 @@ for( i in base::seq_along(counties) ) {
 grid::popViewport()
 ```
 
-## Figure 9: Error Band Comparison
+## Figure 8: Error Band Comparison
 This figure demonstrates that WATS accommodates many types of error bands.
-```{r Figure9, fig.height=6.5 * 4/5}
+
+```{r Figure8, fig.height=6.5 * 4/5}
 spreads <- c("hSpread", "fullSpread", "seSpread", "bootSpread")
 spreadNames <- c("H-Spread", "Range", "+/-1 SE", "Bootstrap")
 grid::grid.newpage()

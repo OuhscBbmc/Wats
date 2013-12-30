@@ -16,12 +16,11 @@
 #'  Peabody College, 230 Appleton Pl #552, Hobbs 202C, Vanderbilt University, Nashville, TN 37203.
 #'  
 #'  
-#'  \href{http://en.wikipedia.org/wiki/Justice_League}{Matthew Schuelke}, \href{http://en.wikipedia.org/wiki/Justice_League}{League of Justice}.
+#'  Matthew Schuelke, Wright-Patterson Air Force Base.
 #'  
 #' @references 
-#' Rodger, J.L., Beasley, W.H., and Schuelke, M. (in submission). 
-#' Wrap-around Time Series Plots (WATS Plots) for Interrupted Time Series Designs:
-#' Applications to Fertility Rates and the Oklahoma City Bombing.
+#' Rodgers, J.L., Beasley, W.H., and Schuelke, M. (in submission). 
+#' Graphical Data Analysis on the Circle:  Wrap-around Time Series Plots for (Interrupted) Time Series Designs. \emph{Multivariate Behavioral Research}.
 #' 
 #' Rodgers, J. L., St. John, C. A. & Coleman R. (2005).  
 #' \href{http://www.ncbi.nlm.nih.gov/pubmed/16463916}{Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.}  

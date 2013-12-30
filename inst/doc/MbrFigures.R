@@ -1,8 +1,8 @@
 
 ## ----set_root_directory, echo=FALSE, results='hide'----------------------
 #It works better if the root directory is set in its own chunk.
-library(knitr)
-knitr::opts_knit$set(root.dir = "../")
+# library(knitr)
+# knitr::opts_knit$set(root.dir = "../")
 
 
 ## ----set_options, echo=FALSE, results='hide'-----------------------------
@@ -100,7 +100,7 @@ Wats::CartesianRolling(
 )
 
 
-## ----Figure2IndividualStylized-------------------------------------------
+## ----Figure2Stylized, fig.height=4.8-------------------------------------
 topPanel <- Wats::CartesianRolling(
   dsLinear = portfolioCartesian$dsLinear, 
   xName = "Date", 
@@ -140,8 +140,6 @@ topPanel <- topPanel + xScale + darkTheme
 middlePanel <- middlePanel + xScale + darkTheme
 bottomPanel <- bottomPanel + xScaleBlank + darkTheme
 
-
-## ----Figure2Combined, fig.height=4.8-------------------------------------
 grid::grid.newpage()
 grid::pushViewport(grid::viewport(layout=grid::grid.layout(3,1)))
 print(topPanel, vp=vpLayout(1, 1))
@@ -151,25 +149,6 @@ grid::popViewport()
 
 
 ## ----Figure4Basic--------------------------------------------------------
-cartesianPeriodicSimple <- Wats::CartesianPeriodic(
-  portfolioCartesian$dsLinear, 
-  portfolioCartesian$dsPeriodic, 
-  xName = "Date", 
-  yName = "BirthRate",
-  stageIDName = "StageID", 
-  changePoints = changeMonth, 
-  changePointLabels = "Bombing Effect",
-  yTitle = "General Fertility Rate",
-  drawPeriodicBand = FALSE
-)
-print(cartesianPeriodicSimple) #`print()` isn't necessary, but it makes my intention a little clearer.
-
-
-## ----Figure4Stylized-----------------------------------------------------
-print(cartesianPeriodicSimple + xScale + darkTheme) 
-
-
-## ----Figure5Basic--------------------------------------------------------
 cartesianPeriodic <- Wats::CartesianPeriodic(
   portfolioCartesian$dsLinear, 
   portfolioCartesian$dsPeriodic, 
@@ -184,12 +163,12 @@ cartesianPeriodic <- Wats::CartesianPeriodic(
 print(cartesianPeriodic)
 
 
-## ----Figure5Stylized-----------------------------------------------------
+## ----Figure4Stylized-----------------------------------------------------
 cartesianPeriodic <- cartesianPeriodic + xScale + darkTheme 
 print(cartesianPeriodic)
 
 
-## ----Figure6, fig.height=3, fig.width=3, out.width="300px"---------------
+## ----Figure5, fig.height=3, fig.width=3, out.width="300px"---------------
 portfolioPolar <- Wats::PolarizeCartesian( 
   dsLinear = portfolioCartesian$dsLinear, 
   dsStageCycle = portfolioCartesian$dsStageCycle, 
@@ -212,7 +191,7 @@ Wats::PolarPeriodic(
 
 
 
-## ----Figure7, fig.height=6.5*2/3-----------------------------------------
+## ----Figure6, fig.height=6.5*2/3-----------------------------------------
 portfolioPolar <- Wats::PolarizeCartesian(
   dsLinear = portfolioCartesian$dsLinear, 
   dsStageCycle = portfolioCartesian$dsStageCycle, 
@@ -261,7 +240,7 @@ print(cartesianPeriodic, vp=vpLayout(x=1:2, y=2)) #Print across both columns of 
 grid::upViewport()
 
 
-## ----Figure8, fig.height=6.5---------------------------------------------
+## ----Figure7, fig.height=6.5---------------------------------------------
 # dsLinearAll <- Wats::AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2005Version, dateName="Date")
 
 #Identify the average size of the fecund population
@@ -307,7 +286,7 @@ for( i in base::seq_along(counties) ) {
 grid::popViewport()
 
 
-## ----Figure8AllCounties, fig.height=6.5 * 12/5---------------------------
+## ----Figure7AllCounties, fig.height=6.5 * 12/5---------------------------
 counties <- base::sort(base::unique(dsLinearAll$CountyName))
 countyNames <- c("Canadian", "Cleveland", "Comanche", "Creek", "Logan", "McClain", "Oklahoma", "Osage", "Pottawatomie", "Rogers", "Tulsa", "Wagoner")
 
@@ -321,7 +300,7 @@ for( i in base::seq_along(counties) ) {
 grid::popViewport()
 
 
-## ----Figure9, fig.height=6.5 * 4/5---------------------------------------
+## ----Figure8, fig.height=6.5 * 4/5---------------------------------------
 spreads <- c("hSpread", "fullSpread", "seSpread", "bootSpread")
 spreadNames <- c("H-Spread", "Range", "+/-1 SE", "Bootstrap")
 grid::grid.newpage()
