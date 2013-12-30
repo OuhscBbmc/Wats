@@ -35,7 +35,7 @@ knitr::opts_chunk$set(
 )
 
 base::options(width=120) #So the output is 50% wider than the default.
-if( base::Sys.info() == "Windows" )
+if( base::Sys.info()["sysname"] == "Windows" )
   grDevices::windows.options(antialias = "cleartype")
 ```
 ## Figure 1: Cartesian Rolling - 2005 Version

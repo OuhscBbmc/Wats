@@ -191,9 +191,6 @@ hr {
 
 <p>This vignette uses slightly different Census estimates.  The intercensal population estimates (for females ages 15-44) are used for Jan 1990, Jan 1991, Jan 1992, &hellip;, Jan 2000.  Linear interpolation is then used to complete the remaining 11 months of each year.  These monthly estimates become the denominator of each county&#39;s monthly GFR.</p>
 
-<pre><code>## Warning: the condition has length &gt; 1 and only the first element will be used
-</code></pre>
-
 <pre><code class="r">changeMonth &lt;- base::as.Date(&quot;1996-02-15&quot;) #as.Date(&quot;1995-04-19&quot;) + lubridate::weeks(39) = &quot;1996-01-17&quot;
 
 vpLayout &lt;- function(x, y) { grid::viewport(layout.pos.row=x, layout.pos.col=y) }
@@ -520,18 +517,18 @@ showMcmcProgress &lt;- FALSE
 </code></pre>
 
 <pre><code>
- rho acceptance rate: 0.1021 
+ rho acceptance rate: 0.1101 
 </code></pre>
 
 <pre><code> logbf.i+t logbf.trend logbf.int
-    -6.127      -6.442   -0.1432
+    -6.861      -6.823   -0.2214
 </code></pre>
 
 <pre><code class="r">(mcClassic &lt;- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=mcmcRepCount, progress=showMcmcProgress))
 </code></pre>
 
 <pre><code> logbf.joint logbf.trend logbf.int
-       11.97      -45.58    -1.916
+      -5.818      -21.59    0.2366
 </code></pre>
 
 <pre><code class="r"># summary(mcClassic)
@@ -544,25 +541,25 @@ BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCo
 </code></pre>
 
 <pre><code>
- rho acceptance rate: 0.04905 
+ rho acceptance rate: 0.04104 
 </code></pre>
 
 <pre><code> logbf.i+t logbf.trend logbf.int
-    -31.84      -31.41   -0.8042
+    -30.48      -30.12   -0.8658
 </code></pre>
 
 <pre><code class="r">BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=showMcmcProgress)
 </code></pre>
 
 <pre><code> logbf.joint logbf.trend logbf.int
-       8.987      -70.35     -6.94
+       34.72      -80.65    -11.58
 </code></pre>
 
 <h2>Session Info</h2>
 
 <p>The current vignette was build on a system using the following software.</p>
 
-<pre><code>Report created by Will at 12/29/2013 11:23:20 PM, CST
+<pre><code>Report created by Will at 12/30/2013 2:53:18 PM, CST
 </code></pre>
 
 <pre><code>R Under development (unstable) (2013-12-28 r64574)
@@ -576,16 +573,16 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] zoo_1.7-10         testit_0.3         RColorBrewer_1.0-5 lubridate_1.3.2    colorspace_1.2-4   knitr_1.5         
- [7] boot_1.3-9         scales_0.2.3       plyr_1.8           Wats_0.2-8         testthat_0.7.1     ggplot2_0.9.3.1   
-[13] devtools_1.4.1     roxygen2_3.0.0    
+[1] knitr_1.5       boot_1.3-9      scales_0.2.3    plyr_1.8        Wats_0.2-10     testthat_0.7.1  ggplot2_0.9.3.1
+[8] roxygen2_3.0.0  devtools_1.4.1 
 
 loaded via a namespace (and not attached):
- [1] BayesSingleSub_0.6.1 brew_1.0-6           coda_0.16-1          codetools_0.2-8      dichromat_2.0-0     
- [6] digest_0.6.4         evaluate_0.5.1       formatR_0.10         gtable_0.1.2         httr_0.2            
-[11] labeling_0.2         lattice_0.20-24      markdown_0.6.3       MASS_7.3-29          MCMCpack_1.3-3      
-[16] memoise_0.1          munsell_0.4.2        mvtnorm_0.9-9996     parallel_3.1.0       proto_0.3-10        
-[21] RCurl_1.95-4.1       reshape2_1.2.2       stringr_0.6.2        tools_3.1.0          whisker_0.3-2       
+ [1] BayesSingleSub_0.6.1 brew_1.0-6           coda_0.16-1          codetools_0.2-8      colorspace_1.2-4    
+ [6] dichromat_2.0-0      digest_0.6.4         evaluate_0.5.1       formatR_0.10         gtable_0.1.2        
+[11] httr_0.2             labeling_0.2         lattice_0.20-24      lubridate_1.3.2      markdown_0.6.3      
+[16] MASS_7.3-29          MCMCpack_1.3-3       memoise_0.1          munsell_0.4.2        mvtnorm_0.9-9996    
+[21] parallel_3.1.0       proto_0.3-10         RColorBrewer_1.0-5   RCurl_1.95-4.1       reshape2_1.2.2      
+[26] stringr_0.6.2        testit_0.3           tools_3.1.0          whisker_0.3-2        zoo_1.7-10          
 </code></pre>
 
 <h2>References</h2>
