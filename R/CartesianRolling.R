@@ -98,7 +98,7 @@ CartesianRolling <- function(dsLinear, xName, yName, stageIDName,
     if( drawRollingBand )
       p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rollingLowerName, ymax=rollingUpperName), data=dsStage, fill=paletteDark[stage], color=NA, alpha=bandAlpha, na.rm=T)
     
-    p <- p + ggplot2::geom_point(shape=1, color=paletteLight[stage], data=dsStage, size=jaggedPointSize)
+    p <- p + ggplot2::geom_point(shape=1, color=paletteDark[stage], data=dsStage, size=jaggedPointSize)
   }
   
   if( drawSparseLineAndPoints ) {
