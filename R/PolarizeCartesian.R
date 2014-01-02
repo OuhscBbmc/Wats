@@ -153,7 +153,7 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
   dsStageCycleInterpolated <- plyr::ddply(dsStageCycleClosed, .variables=stageIDName, .fun=interpolateBand, pointsPerCycleCount=plottedPointCountPerCycle)
   dsStageCyclePolar <- plyr::ddply(dsStageCycleInterpolated, .variables=stageIDName, .fun=polarizeBand, graphFloor=graphFloor)
   
-  return( list(dsObservedPolar=dsObservedPolar, dsStageCyclePolar=dsStageCyclePolar) )
+  return( list(dsObservedPolar=dsObservedPolar, dsStageCyclePolar=dsStageCyclePolar, GraphFloor=graphFloor) )
 }
 
 # require(Wats)
