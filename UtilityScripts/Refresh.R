@@ -1,5 +1,7 @@
 rm(list=ls(all=TRUE))
 require(devtools)
+require(staticdocs)
+
 if( base::Sys.info()["sysname"] == "Windows" )
   base::options(device = "windows") #http://support.rstudio.org/help/discussions/problems/80-error-in-function-only-one-rstudio-graphics-device-is-permitted
 
@@ -12,6 +14,8 @@ devtools::run_examples(); dev.off() #This overwrites the NAMESPACE file too
 test_results <- devtools::test()
 devtools::clean_vignettes()
 devtools::build_vignettes()
+
+# staticdocs::build_package(package="Wats", base_path="./../", examples=FALSE)
 
 # system("R CMD build --resave-data .") #Then move it up one directory.
 # tarBallPattern <- "^Wats_.+\\.tar\\.gz$"

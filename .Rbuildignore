@@ -1,6 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-.gitignore
+^\.gitignore$
+^\.travis.yml$
 
 WatsDocumentationPeek.pdf
 Datasets/
