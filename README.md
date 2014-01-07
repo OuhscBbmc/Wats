@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/wibeasley/Wats.png?branch=master)](https://travis-ci.org/wibeasley/Wats)
+
 ## Welcome to the `Wats` Package
 This implements the approaches described in
 Rodger, Joseph Lee, William Howard Beasley, and Matthew Schuelke (in submission).
