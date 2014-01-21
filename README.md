@@ -2,7 +2,7 @@
 
 ## Welcome to the `Wats` Package
 This implements the approaches described in
-Rodger, Joseph Lee, William Howard Beasley, and Matthew Schuelke (in submission).
+Joseph Lee Rodgers, William Howard Beasley, and Matthew Schuelke (in submission).
 Wrap-around Time Series Plots (WATS Plots) for Interrupted Time Series Designs:
 Applications to Fertility Rates and the Oklahoma City Bombing.
 
