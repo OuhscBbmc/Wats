@@ -53,13 +53,13 @@ hSpread <- function( scores ) {
   return( stats::quantile(x=scores, probs=c(.25, .75)) ) 
 }
 seSpread <- function( scores ) { 
-  return( base::mean(scores) + base::c(-1, 1) * stats::sd(scores) / base::sqrt(base::length(scores)) ) 
+  return( base::mean(scores) + base::c(-1, 1) * stats::sd(scores) / base::sqrt(base::sum(!base::is.na(scores))) ) 
 }
-bootSpread <- function( scores, conf=.66 ) {
+bootSpread <- function( scores, conf=.68 ) {
   plugin <- function( d, i ) { base::mean(d[i]) }
 
-  dist <- boot::boot(data=scores, plugin, R=99) #999 for the publication
-  ci <- boot::boot.ci(dist, type = c("bca"), conf=conf)
+  distribution <- boot::boot(data=scores, plugin, R=99) #999 for the publication
+  ci <- boot::boot.ci(distribution, type = c("bca"), conf=conf)
   return( ci$bca[4:5] ) #The fourth & fifth elements correspond to the lower & upper bound.
 }
 

@@ -12,11 +12,11 @@ dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date
 
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 seSpread <- function( scores) { return( mean(scores) + c(-1, 1)*sd(scores)/sqrt(length(scores)) ) }
-bootSpread <- function( scores, conf=.66 ) {
+bootSpread <- function( scores, conf=.68 ) {
   plugin <- function( d, i ) { mean(d[i]) }
 
-  dist <- boot(data=scores, plugin, R=99)
-  ci <- boot.ci(dist, type = c("bca"), conf=conf)
+  distribution <- boot(data=scores, plugin, R=99)
+  ci <- boot.ci(distribution, type = c("bca"), conf=conf)
   return( ci$bca[4:5] )
 }
 # b <- bootSpread(dsLinear$BirthRate)

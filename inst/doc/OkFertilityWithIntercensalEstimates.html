@@ -202,13 +202,13 @@ hSpread &lt;- function( scores ) {
   return( stats::quantile(x=scores, probs=c(.25, .75)) ) 
 }
 seSpread &lt;- function( scores ) { 
-  return( base::mean(scores) + base::c(-1, 1) * stats::sd(scores) / base::sqrt(base::length(scores)) ) 
+  return( base::mean(scores) + base::c(-1, 1) * stats::sd(scores) / base::sqrt(base::sum(!base::is.na(scores))) ) 
 }
-bootSpread &lt;- function( scores, conf=.66 ) {
+bootSpread &lt;- function( scores, conf=.68 ) {
   plugin &lt;- function( d, i ) { base::mean(d[i]) }
 
-  dist &lt;- boot::boot(data=scores, plugin, R=99) #999 for the publication
-  ci &lt;- boot::boot.ci(dist, type = c(&quot;bca&quot;), conf=conf)
+  distribution &lt;- boot::boot(data=scores, plugin, R=99) #999 for the publication
+  ci &lt;- boot::boot.ci(distribution, type = c(&quot;bca&quot;), conf=conf)
   return( ci$bca[4:5] ) #The fourth &amp; fifth elements correspond to the lower &amp; upper bound.
 }
 
@@ -517,18 +517,18 @@ showMcmcProgress &lt;- FALSE
 </code></pre>
 
 <pre><code>
- rho acceptance rate: 0.1101 
+ rho acceptance rate: 0.1131 
 </code></pre>
 
 <pre><code> logbf.i+t logbf.trend logbf.int
-    -6.861      -6.823   -0.2214
+    -5.777      -5.651   -0.1667
 </code></pre>
 
 <pre><code class="r">(mcClassic &lt;- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=mcmcRepCount, progress=showMcmcProgress))
 </code></pre>
 
 <pre><code> logbf.joint logbf.trend logbf.int
-      -5.818      -21.59    0.2366
+      -6.729      -21.87   -0.5622
 </code></pre>
 
 <pre><code class="r"># summary(mcClassic)
@@ -541,28 +541,28 @@ BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCo
 </code></pre>
 
 <pre><code>
- rho acceptance rate: 0.04104 
+ rho acceptance rate: 0.05606 
 </code></pre>
 
 <pre><code> logbf.i+t logbf.trend logbf.int
-    -30.48      -30.12   -0.8658
+    -22.75      -22.34   -0.8414
 </code></pre>
 
 <pre><code class="r">BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=showMcmcProgress)
 </code></pre>
 
 <pre><code> logbf.joint logbf.trend logbf.int
-       34.72      -80.65    -11.58
+     -0.6327      -59.22    -3.846
 </code></pre>
 
 <h2>Session Info</h2>
 
 <p>The current vignette was build on a system using the following software.</p>
 
-<pre><code>Report created by Will at 12/30/2013 2:53:18 PM, CST
+<pre><code>Report created by Will at Thu Jan 23 01:34:32 2014, -0600
 </code></pre>
 
-<pre><code>R Under development (unstable) (2013-12-28 r64574)
+<pre><code>R Under development (unstable) (2014-01-19 r64835)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 locale:
@@ -573,16 +573,17 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] knitr_1.5       boot_1.3-9      scales_0.2.3    plyr_1.8        Wats_0.2-10     testthat_0.7.1  ggplot2_0.9.3.1
-[8] roxygen2_3.0.0  devtools_1.4.1 
+ [1] knitr_1.5          Wats_0.2-12        testthat_0.8       zoo_1.7-10         testit_0.3         scales_0.2.3      
+ [7] RColorBrewer_1.0-5 plyr_1.8.0.99      lubridate_1.3.3    ggplot2_0.9.3.1    colorspace_1.2-4   boot_1.3-9        
+[13] roxygen2_3.0.0     staticdocs_0.1     devtools_1.4.1    
 
 loaded via a namespace (and not attached):
- [1] BayesSingleSub_0.6.1 brew_1.0-6           coda_0.16-1          codetools_0.2-8      colorspace_1.2-4    
- [6] dichromat_2.0-0      digest_0.6.4         evaluate_0.5.1       formatR_0.10         gtable_0.1.2        
-[11] httr_0.2             labeling_0.2         lattice_0.20-24      lubridate_1.3.2      markdown_0.6.3      
-[16] MASS_7.3-29          MCMCpack_1.3-3       memoise_0.1          munsell_0.4.2        mvtnorm_0.9-9996    
-[21] parallel_3.1.0       proto_0.3-10         RColorBrewer_1.0-5   RCurl_1.95-4.1       reshape2_1.2.2      
-[26] stringr_0.6.2        testit_0.3           tools_3.1.0          whisker_0.3-2        zoo_1.7-10          
+ [1] BayesSingleSub_0.6.1 brew_1.0-6           coda_0.16-1          codetools_0.2-8      dichromat_2.0-0     
+ [6] digest_0.6.4         evaluate_0.5.1       formatR_0.10         gtable_0.1.2         highlight_0.4.4     
+[11] httr_0.2             labeling_0.2         lattice_0.20-24      markdown_0.6.3       MASS_7.3-29         
+[16] MCMCpack_1.3-3       memoise_0.1          munsell_0.4.2        mvtnorm_0.9-9997     parallel_3.1.0      
+[21] proto_0.3-10         Rcpp_0.10.6          RCurl_1.95-4.1       reshape2_1.2.2       stringr_0.6.2       
+[26] tools_3.1.0          whisker_0.3-2       
 </code></pre>
 
 <h2>References</h2>
