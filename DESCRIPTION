@@ -18,20 +18,20 @@ Depends:
     R (>= 3.0.0),
     stats
 Imports:
-    boot,
     colorspace,
     ggplot2,
     grid,
     lubridate,
     plyr,
     RColorBrewer,
-    scales,
     testit,
     zoo
 Suggests:
     BayesSingleSub,
+    boot,
     devtools,
     knitr,
+    scales,
     testthat
 License: GPL (>= 2)
 LazyData: TRUE

@@ -1,4 +1,4 @@
-Version 0.2 (2013-12-30)
+Version 0.2 (Developed from 2013-12-30 through ?)
 ------------------------------------------------------------------------------
 New Features:
 * Vignette showing reanalysis with 2014 version of the data.
@@ -7,8 +7,10 @@ Changes:
 * Additional documentation and explanation
 * Finalized for resubmission to [Multivariate Behavioral Research](http://www.tandfonline.com/loi/hmbr20)
 * Tweaked default cosmetic properties of some components
+* Adding Reproduce file
+* Modified and relocated some package dependencies
 
-Version 0.1 (2013-12-11)
+Version 0.1 (Developed from 2010 through 2013-12-11)
 ------------------------------------------------------------------------------
 New Features:
 * `AugmentZZZ()` and `AnnotateData()` functions.
