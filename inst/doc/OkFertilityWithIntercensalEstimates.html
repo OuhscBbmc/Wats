@@ -13,19 +13,21 @@
    }
 
    pre .literal {
-     color: rgb(88, 72, 246)
+     color: #990073
    }
 
    pre .number {
-     color: rgb(0, 0, 205);
+     color: #099;
    }
 
    pre .comment {
-     color: rgb(76, 136, 107);
+     color: #998;
+     font-style: italic
    }
 
    pre .keyword {
-     color: rgb(0, 0, 255);
+     color: #900;
+     font-weight: bold
    }
 
    pre .identifier {
@@ -33,7 +35,7 @@
    }
 
    pre .string {
-     color: rgb(3, 106, 7);
+     color: #d14;
    }
 </style>
 
@@ -44,7 +46,7 @@ hljs.initHighlightingOnLoad();
 </script>
 
 <!-- MathJax scripts -->
-<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
 
@@ -52,8 +54,13 @@ hljs.initHighlightingOnLoad();
 body, td {
    font-family: sans-serif;
    background-color: white;
-   font-size: 12px;
-   margin: 8px;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  line-height: 20px;
 }
 
 tt, code, pre {
@@ -88,19 +95,21 @@ a:visited {
    color: rgb(50%, 0%, 50%);
 }
 
-pre {	
-   margin-top: 0;
-   max-width: 95%;
-   border: 1px solid #ccc;
-   white-space: pre-wrap;
+pre, img {
+  max-width: 100%;
 }
 
 pre code {
    display: block; padding: 0.5em;
 }
 
-code.r, code.cpp {
-   background-color: #F8F8F8;
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
 }
 
 table, td, th {
@@ -517,18 +526,18 @@ showMcmcProgress &lt;- FALSE
 </code></pre>
 
 <pre><code>
- rho acceptance rate: 0.1131 
+ rho acceptance rate: 0.0991 
 </code></pre>
 
 <pre><code> logbf.i+t logbf.trend logbf.int
-    -5.777      -5.651   -0.1667
+    -6.797      -6.374   -0.2035
 </code></pre>
 
 <pre><code class="r">(mcClassic &lt;- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=mcmcRepCount, progress=showMcmcProgress))
 </code></pre>
 
 <pre><code> logbf.joint logbf.trend logbf.int
-      -6.729      -21.87   -0.5622
+       4.335      -39.19    -3.774
 </code></pre>
 
 <pre><code class="r"># summary(mcClassic)
@@ -541,28 +550,28 @@ BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCo
 </code></pre>
 
 <pre><code>
- rho acceptance rate: 0.05606 
+ rho acceptance rate: 0.06507 
 </code></pre>
 
 <pre><code> logbf.i+t logbf.trend logbf.int
-    -22.75      -22.34   -0.8414
+    -27.76      -26.72   -0.7934
 </code></pre>
 
 <pre><code class="r">BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=showMcmcProgress)
 </code></pre>
 
 <pre><code> logbf.joint logbf.trend logbf.int
-     -0.6327      -59.22    -3.846
+       5.611      -68.39    -6.053
 </code></pre>
 
 <h2>Session Info</h2>
 
 <p>The current vignette was build on a system using the following software.</p>
 
-<pre><code>Report created by Will at Thu Jan 23 01:34:32 2014, -0600
+<pre><code>Report created by Will at Sun Feb  9 14:07:45 2014, -0600
 </code></pre>
 
-<pre><code>R Under development (unstable) (2014-01-19 r64835)
+<pre><code>R Under development (unstable) (2014-02-06 r64933)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 locale:
@@ -573,17 +582,19 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] knitr_1.5          Wats_0.2-12        testthat_0.8       zoo_1.7-10         testit_0.3         scales_0.2.3      
- [7] RColorBrewer_1.0-5 plyr_1.8.0.99      lubridate_1.3.3    ggplot2_0.9.3.1    colorspace_1.2-4   boot_1.3-9        
-[13] roxygen2_3.0.0     staticdocs_0.1     devtools_1.4.1    
+ [1] Wats_0.2-13      testthat_0.8     staticdocs_0.1   stringr_0.6.2    roxygen2_3.1.0   reshape2_1.2.2  
+ [7] lubridate_1.3.3  gridBase_0.4-6   googleVis_0.4.7  ggmap_2.3        ggthemes_1.6.0   foreign_0.8-57  
+[13] devtools_1.4.1   colorspace_1.2-4 circular_0.4-7   boot_1.3-9       ggplot2_0.9.3.1  scales_0.2.3    
+[19] plyr_1.8.0.99    testit_0.3       markdown_0.6.4   knitr_1.5       
 
 loaded via a namespace (and not attached):
- [1] BayesSingleSub_0.6.1 brew_1.0-6           coda_0.16-1          codetools_0.2-8      dichromat_2.0-0     
+ [1] BayesSingleSub_0.6.2 brew_1.0-6           coda_0.16-1          codetools_0.2-8      dichromat_2.0-0     
  [6] digest_0.6.4         evaluate_0.5.1       formatR_0.10         gtable_0.1.2         highlight_0.4.4     
-[11] httr_0.2             labeling_0.2         lattice_0.20-24      markdown_0.6.3       MASS_7.3-29         
-[16] MCMCpack_1.3-3       memoise_0.1          munsell_0.4.2        mvtnorm_0.9-9997     parallel_3.1.0      
-[21] proto_0.3-10         Rcpp_0.10.6          RCurl_1.95-4.1       reshape2_1.2.2       stringr_0.6.2       
-[26] tools_3.1.0          whisker_0.3-2       
+[11] httr_0.2             labeling_0.2         lattice_0.20-24      mapproj_1.2-2        maps_2.3-6          
+[16] MASS_7.3-29          MCMCpack_1.3-3       memoise_0.1          munsell_0.4.2        mvtnorm_0.9-9997    
+[21] parallel_3.1.0       png_0.1-7            proto_0.3-10         RColorBrewer_1.0-5   Rcpp_0.11.0         
+[26] RCurl_1.95-4.1       RgoogleMaps_1.2.0.5  rjson_0.2.13         RJSONIO_1.0-3        tools_3.1.0         
+[31] whisker_0.3-2        zoo_1.7-10          
 </code></pre>
 
 <h2>References</h2>

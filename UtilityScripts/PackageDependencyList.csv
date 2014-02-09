@@ -1,0 +1,19 @@
+PackageName,OnCran,Install,GitHubUsername,Description
+circular,TRUE,TRUE,,For circular statistics and graphs
+colorspace,TRUE,TRUE,,Explicit control over the HCL color scheme
+devtools,TRUE,TRUE,,Used in the C1 survival for sourcing gists
+foreign,TRUE,TRUE,,Reads data in other formats
+ggthemes,TRUE,TRUE,,"Extra themes, scales and geoms for ggplot"
+ggmap,TRUE,TRUE,,"Maps & graphics, based on ggplot2"
+ggplot2,TRUE,TRUE,,Graphing
+googleVis,TRUE,TRUE,,"JavaScript-based visualizations, like scrollable tables"
+grid,TRUE,TRUE,,The underlying framework for the graphics used in this pacakge
+gridBase,TRUE,TRUE,,Additional grid functions
+knitr,TRUE,TRUE,,For reporting
+lubridate,TRUE,TRUE,,Consistent/convienent function signatures for manipulating dates
+plyr,TRUE,TRUE,,Important for most of our data manipulation
+reshape2,TRUE,TRUE,,Data manipulation not covered in plyr
+roxygen2,TRUE,TRUE,,Creates documentation Rd file from (well-formed) comments
+stringr,TRUE,TRUE,,Consistent/convienent function signatures for manipulating text
+testit,TRUE,TRUE,,has the useful `assert()` function
+testthat,FALSE,TRUE,hadley,Heavier testing framework that's good for package development
