@@ -13,7 +13,8 @@ knitr,TRUE,TRUE,,For reporting
 lubridate,TRUE,TRUE,,Consistent/convienent function signatures for manipulating dates
 plyr,TRUE,TRUE,,Important for most of our data manipulation
 reshape2,TRUE,TRUE,,Data manipulation not covered in plyr
-roxygen2,TRUE,TRUE,,Creates documentation Rd file from (well-formed) comments
+roxygen,FALSE,TRUE,klutometis,Creates documentation Rd file from (well-formed) comments
+roxygen2,TRUE,FALSE,,Creates documentation Rd file from (well-formed) comments
 stringr,TRUE,TRUE,,Consistent/convienent function signatures for manipulating text
 testit,TRUE,TRUE,,has the useful `assert()` function
 testthat,FALSE,TRUE,hadley,Heavier testing framework that's good for package development

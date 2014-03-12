@@ -11,7 +11,7 @@ dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date
 # base::pretty(x=dsLinear$BirthRate)
 
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-seSpread <- function( scores) { return( mean(scores) + c(-1, 1)*sd(scores)/sqrt(length(scores)) ) }
+seSpread <- function( scores ) { return( mean(scores) + c(-1, 1)*sd(scores)/sqrt(length(scores)) ) }
 bootSpread <- function( scores, conf=.68 ) {
   plugin <- function( d, i ) { mean(d[i]) }
 
