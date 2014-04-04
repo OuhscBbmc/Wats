@@ -526,18 +526,18 @@ showMcmcProgress &lt;- FALSE
 </code></pre>
 
 <pre><code>
- rho acceptance rate: 0.09209 
+ rho acceptance rate: 0.1051 
 </code></pre>
 
 <pre><code> logbf.i+t logbf.trend logbf.int
-    -5.848       -6.02    -0.244
+    -5.993      -5.849   -0.2312
 </code></pre>
 
 <pre><code class="r">(mcClassic &lt;- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=mcmcRepCount, progress=showMcmcProgress))
 </code></pre>
 
 <pre><code> logbf.joint logbf.trend logbf.int
-      -7.652      -17.87   -0.2807
+    -0.08725      -33.62    -1.958
 </code></pre>
 
 <pre><code class="r"># summary(mcClassic)
@@ -550,28 +550,28 @@ BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCo
 </code></pre>
 
 <pre><code>
- rho acceptance rate: 0.07207 
+ rho acceptance rate: 0.05205 
 </code></pre>
 
 <pre><code> logbf.i+t logbf.trend logbf.int
-    -22.75      -21.35   -0.7879
+    -32.84      -31.64   -0.7996
 </code></pre>
 
 <pre><code class="r">BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=showMcmcProgress)
 </code></pre>
 
 <pre><code> logbf.joint logbf.trend logbf.int
-       22.36      -76.06    -9.852
+       34.38       -76.8    -6.169
 </code></pre>
 
 <h2>Session Info</h2>
 
 <p>The current vignette was build on a system using the following software.</p>
 
-<pre><code>Report created by Will at 3/12/2014 4:10:30 PM, Central Daylight Time
+<pre><code>Report created by Will at 4/4/2014 4:21:58 PM, Central Daylight Time
 </code></pre>
 
-<pre><code>R version 3.0.3 (2014-03-06)
+<pre><code>R version 3.0.3 Patched (2014-03-06 r65320)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 locale:
@@ -582,16 +582,16 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] knitr_1.5           boot_1.3-10         scales_0.2.3        plyr_1.8.1          Wats_0.2-14        
- [6] testthat_0.8.1.0.99 ggplot2_0.9.3.1     roxygen2_4.0.0      staticdocs_0.1      devtools_1.4.1     
+ [1] knitr_1.5           boot_1.3-9          scales_0.2.3        Wats_0.2-15         zoo_1.7-11         
+ [6] testit_0.3          RColorBrewer_1.0-5  plyr_1.8.1          lubridate_1.3.3     ggplot2_0.9.3.1    
+[11] colorspace_1.2-4    roxygen2_4.0.0      staticdocs_0.1      devtools_1.4.1      testthat_0.8.1.0.99
 
 loaded via a namespace (and not attached):
- [1] BayesSingleSub_0.6.2 coda_0.16-1          colorspace_1.2-4     dichromat_2.0-0      digest_0.6.4        
- [6] evaluate_0.5.1       formatR_0.10         gtable_0.1.2         highlight_0.4.4      httr_0.2            
-[11] labeling_0.2         lattice_0.20-27      lubridate_1.3.3      markdown_0.6.4       MASS_7.3-30         
-[16] MCMCpack_1.3-3       memoise_0.1          munsell_0.4.2        mvtnorm_0.9-9997     parallel_3.0.3      
-[21] proto_0.3-10         RColorBrewer_1.0-5   Rcpp_0.11.0          RCurl_1.95-4.1       reshape2_1.2.2      
-[26] stringr_0.6.2        testit_0.3           tools_3.0.3          whisker_0.3-2        zoo_1.7-11          
+ [1] BayesSingleSub_0.6.2 coda_0.16-1          dichromat_2.0-0      digest_0.6.4         evaluate_0.5.3      
+ [6] formatR_0.10         gtable_0.1.2         highlight_0.4.4      httr_0.3             labeling_0.2        
+[11] lattice_0.20-27      markdown_0.6.5       MASS_7.3-29          MCMCpack_1.3-3       memoise_0.1         
+[16] munsell_0.4.2        mvtnorm_0.9-9997     parallel_3.0.3       proto_0.3-10         Rcpp_0.11.1         
+[21] RCurl_1.95-4.1       reshape2_1.2.2       stringr_0.6.2        tools_3.0.3          whisker_0.3-2       
 </code></pre>
 
 <h2>References</h2>

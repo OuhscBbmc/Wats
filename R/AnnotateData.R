@@ -66,7 +66,7 @@ AnnotateData <- function( dsLinear,
     data.frame(    
       ProportionThroughCycle = mean(d$ProportionThroughCycle, na.rm=TRUE),
       PositionLower = positionBounds[1],
-      PositionCenter = median(d[, dvName]),
+      PositionCenter = centerFunction(d[, dvName]),
       PositionUpper = positionBounds[2]
     )
   }
@@ -91,6 +91,12 @@ AnnotateData <- function( dsLinear,
 # 
 # hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 # portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+# 
+# head(portfolio$dsStageCycle)
+# head(portfolio$dsLinear)
+# head(portfolio$dsPeriodic)
+# 
+# portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=mean, spreadFunction=hSpread)
 # 
 # head(portfolio$dsStageCycle)
 # head(portfolio$dsLinear)

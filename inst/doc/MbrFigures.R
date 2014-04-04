@@ -24,10 +24,12 @@ knitr::opts_chunk$set(
     fig.height=1.6, 
     out.width="600px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
     fig.path='figure_mbr_rmd/',
+    # dev = "pdf", #Uncomment to produce vector graphics for publication; however png (the default) works better within html (ie, the format of this vignette).
     dpi=400
 )
 
 base::options(width=120) #So the output is 50% wider than the default.
+pdf.options(useDingbats = FALSE) #Otherwise, the circles don't get plotted correctly in some graphs
 if( base::Sys.info()["sysname"] == "Windows" )
   grDevices::windows.options(antialias = "cleartype")
 
@@ -134,6 +136,7 @@ bottomPanel <- Wats::CartesianRolling(
   changePoints = changeMonth, 
   yTitle = "General Fertility Rate", 
   changePointLabels = "", 
+#   drawRollingBand = FALSE, 
   drawJaggedLine = FALSE
 )
 
