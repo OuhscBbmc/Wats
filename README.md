@@ -31,3 +31,10 @@ The following directories are not part of the standard R package:
  * `PublicationGraphs`: A deprecated location that contains loose graphs of older versions of the manuscript.
  * `Playgrounds`: R snippets to help developers experiment with potential new features.
  * `UtilityScripts`: R scripts that aren't incorpated into the package.  They help automate certain tasks, or document how parts of the package were created.
+
+## Installing Development Version
+The latest development version of Wats can be installed from [GitHub](https://github.com/wibeasley/Wats) after installing the `devtools` package.
+```
+install.packages("devtools")
+devtools::install_github(repo="wibeasley/Wats")
+```
