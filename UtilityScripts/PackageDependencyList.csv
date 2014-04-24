@@ -1,4 +1,5 @@
 PackageName,OnCran,Install,GitHubUsername,Description
+BayesSingleSub,TRUE,TRUE,,"MCMC functions."
 circular,TRUE,TRUE,,For circular statistics and graphs
 colorspace,TRUE,TRUE,,Explicit control over the HCL color scheme
 devtools,TRUE,TRUE,,Used in the C1 survival for sourcing gists
@@ -18,3 +19,4 @@ roxygen2,TRUE,FALSE,,Creates documentation Rd file from (well-formed) comments
 stringr,TRUE,TRUE,,Consistent/convienent function signatures for manipulating text
 testit,TRUE,TRUE,,has the useful `assert()` function
 testthat,FALSE,TRUE,hadley,Heavier testing framework that's good for package development
+zoo,TRUE,TRUE,,"Time series functions."
