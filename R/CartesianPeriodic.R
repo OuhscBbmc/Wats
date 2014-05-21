@@ -59,7 +59,7 @@
 
 
 CartesianPeriodic <- function(dsLinear, dsPeriodic,
-                               xName, yName, stageIDName, 
+                              xName, yName, stageIDName, 
                               periodicLowerName="PositionLower", periodicUpperName="PositionUpper",
                               paletteDark=NULL, paletteLight=NULL, 
                               changePoints=NULL, changePointLabels=NULL,
@@ -94,8 +94,11 @@ CartesianPeriodic <- function(dsLinear, dsPeriodic,
       for( stageInner in stages ) {
         dsStagePeriodic <- dsPeriodic[(stage<=dsPeriodic$StageProgress) & (dsPeriodic$StageProgress<=(stage+1)) & (dsPeriodic$StageIDBand==stageInner), ]
         ribbonAlpha <- ifelse(stage==stageInner, bandAlphaDark, bandAlphaLight)
-        p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=periodicLowerName, ymax=periodicUpperName, y=NULL), data=dsStagePeriodic, 
-                                      fill=paletteDark[stageInner], color=NA, alpha=ribbonAlpha, na.rm=T)
+        #p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=periodicLowerName, ymax=periodicUpperName, y=NULL), data=dsStagePeriodic, 
+        #                     fill=paletteDark[stageInner], color=NA, alpha=ribbonAlpha, na.rm=T)
+        
+        p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(y=periodicLowerName, ymin=periodicLowerName, ymax=periodicUpperName), data=dsStagePeriodic, 
+                              fill=paletteDark[stageInner], color=NA, alpha=ribbonAlpha, na.rm=T)
       }
     }
         

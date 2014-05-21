@@ -403,11 +403,11 @@ The current vignette was build on a system using the following software.
 
 
 ```
-Report created by Will at 4/4/2014 4:30:15 PM, Central Daylight Time
+Report created by Will at Wed May 21 11:30:04 2014, -0500
 ```
 
 ```
-R version 3.0.3 Patched (2014-03-06 r65320)
+R version 3.1.0 Patched (2014-05-16 r65632)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 locale:
@@ -418,12 +418,12 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] Wats_0.2-15     boot_1.3-9      ggplot2_0.9.3.1 scales_0.2.3    plyr_1.8.1      knitr_1.5      
+[1] Wats_0.2-16   boot_1.3-11   ggplot2_1.0.0 scales_0.2.4  plyr_1.8.1    knitr_1.5    
 
 loaded via a namespace (and not attached):
- [1] colorspace_1.2-4   dichromat_2.0-0    digest_0.6.4       evaluate_0.5.3     formatR_0.10       gtable_0.1.2      
- [7] labeling_0.2       lattice_0.20-27    lubridate_1.3.3    MASS_7.3-29        memoise_0.1        munsell_0.4.2     
-[13] proto_0.3-10       RColorBrewer_1.0-5 Rcpp_0.11.1        reshape2_1.2.2     stringr_0.6.2      testit_0.3        
-[19] tools_3.0.3        zoo_1.7-11        
+ [1] colorspace_1.2-4   digest_0.6.4       evaluate_0.5.5     formatR_0.10       gtable_0.1.2       labeling_0.2      
+ [7] lattice_0.20-29    lubridate_1.3.3    MASS_7.3-33        memoise_0.2.1      munsell_0.4.2      proto_0.3-10      
+[13] RColorBrewer_1.0-5 Rcpp_0.11.1        reshape2_1.4       stringr_0.6.2      testit_0.3         tools_3.1.0       
+[19] zoo_1.7-11        
 ```
 

@@ -60,6 +60,7 @@ body, td {
 body {
   max-width: 800px;
   margin: auto;
+  padding: 1em;
   line-height: 20px;
 }
 
@@ -67,28 +68,28 @@ tt, code, pre {
    font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
 }
 
-h1 { 
-   font-size:2.2em; 
+h1 {
+   font-size:2.2em;
 }
 
-h2 { 
-   font-size:1.8em; 
+h2 {
+   font-size:1.8em;
 }
 
-h3 { 
-   font-size:1.4em; 
+h3 {
+   font-size:1.4em;
 }
 
-h4 { 
-   font-size:1.0em; 
+h4 {
+   font-size:1.0em;
 }
 
-h5 { 
-   font-size:0.9em; 
+h5 {
+   font-size:0.9em;
 }
 
-h6 { 
-   font-size:0.8em; 
+h6 {
+   font-size:0.8em;
 }
 
 a:visited {
@@ -132,54 +133,54 @@ hr {
 }
 
 @media print {
-   * { 
-      background: transparent !important; 
-      color: black !important; 
-      filter:none !important; 
-      -ms-filter: none !important; 
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
    }
 
-   body { 
-      font-size:12pt; 
-      max-width:100%; 
-   }
-       
-   a, a:visited { 
-      text-decoration: underline; 
+   body {
+      font-size:12pt;
+      max-width:100%;
    }
 
-   hr { 
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
       visibility: hidden;
       page-break-before: always;
    }
 
-   pre, blockquote { 
-      padding-right: 1em; 
-      page-break-inside: avoid; 
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
    }
 
-   tr, img { 
-      page-break-inside: avoid; 
+   tr, img {
+      page-break-inside: avoid;
    }
 
-   img { 
-      max-width: 100% !important; 
+   img {
+      max-width: 100% !important;
    }
 
-   @page :left { 
-      margin: 15mm 20mm 15mm 10mm; 
-   }
-     
-   @page :right { 
-      margin: 15mm 10mm 15mm 20mm; 
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
    }
 
-   p, h2, h3 { 
-      orphans: 3; widows: 3; 
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
    }
 
-   h2, h3 { 
-      page-break-after: avoid; 
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
    }
 }
 </style>
@@ -526,18 +527,18 @@ showMcmcProgress &lt;- FALSE
 </code></pre>
 
 <pre><code>
- rho acceptance rate: 0.1051 
+ rho acceptance rate: 0.08208 
 </code></pre>
 
 <pre><code> logbf.i+t logbf.trend logbf.int
-    -5.993      -5.849   -0.2312
+    -6.784      -7.141   -0.2895
 </code></pre>
 
 <pre><code class="r">(mcClassic &lt;- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=mcmcRepCount, progress=showMcmcProgress))
 </code></pre>
 
 <pre><code> logbf.joint logbf.trend logbf.int
-    -0.08725      -33.62    -1.958
+      -5.985      -24.01     -1.29
 </code></pre>
 
 <pre><code class="r"># summary(mcClassic)
@@ -550,28 +551,28 @@ BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCo
 </code></pre>
 
 <pre><code>
- rho acceptance rate: 0.05205 
+ rho acceptance rate: 0.04905 
 </code></pre>
 
 <pre><code> logbf.i+t logbf.trend logbf.int
-    -32.84      -31.64   -0.7996
+    -34.64      -33.64   -0.7646
 </code></pre>
 
 <pre><code class="r">BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=showMcmcProgress)
 </code></pre>
 
 <pre><code> logbf.joint logbf.trend logbf.int
-       34.38       -76.8    -6.169
+       17.57      -69.31    -5.476
 </code></pre>
 
 <h2>Session Info</h2>
 
 <p>The current vignette was build on a system using the following software.</p>
 
-<pre><code>Report created by Will at 4/4/2014 4:21:58 PM, Central Daylight Time
+<pre><code>Report created by Will at Wed May 21 11:24:58 2014, -0500
 </code></pre>
 
-<pre><code>R version 3.0.3 Patched (2014-03-06 r65320)
+<pre><code>R version 3.1.0 Patched (2014-05-16 r65632)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 locale:
@@ -582,16 +583,16 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] knitr_1.5           boot_1.3-9          scales_0.2.3        Wats_0.2-15         zoo_1.7-11         
- [6] testit_0.3          RColorBrewer_1.0-5  plyr_1.8.1          lubridate_1.3.3     ggplot2_0.9.3.1    
-[11] colorspace_1.2-4    roxygen2_4.0.0      staticdocs_0.1      devtools_1.4.1      testthat_0.8.1.0.99
+ [1] knitr_1.5           Wats_0.2-16         testthat_0.8.1.0.99 staticdocs_0.1      devtools_1.5       
+ [6] boot_1.3-11         scales_0.2.4        ggplot2_1.0.0       zoo_1.7-11          testit_0.3         
+[11] RColorBrewer_1.0-5  plyr_1.8.1          lubridate_1.3.3     colorspace_1.2-4    roxygen2_4.0.1     
 
 loaded via a namespace (and not attached):
- [1] BayesSingleSub_0.6.2 coda_0.16-1          dichromat_2.0-0      digest_0.6.4         evaluate_0.5.3      
- [6] formatR_0.10         gtable_0.1.2         highlight_0.4.4      httr_0.3             labeling_0.2        
-[11] lattice_0.20-27      markdown_0.6.5       MASS_7.3-29          MCMCpack_1.3-3       memoise_0.1         
-[16] munsell_0.4.2        mvtnorm_0.9-9997     parallel_3.0.3       proto_0.3-10         Rcpp_0.11.1         
-[21] RCurl_1.95-4.1       reshape2_1.2.2       stringr_0.6.2        tools_3.0.3          whisker_0.3-2       
+ [1] BayesSingleSub_0.6.2 coda_0.16-1          digest_0.6.4         evaluate_0.5.5       formatR_0.10        
+ [6] gtable_0.1.2         highlight_0.4.4      httr_0.3             labeling_0.2         lattice_0.20-29     
+[11] markdown_0.7         MASS_7.3-33          MCMCpack_1.3-3       memoise_0.2.1        mime_0.1.1          
+[16] munsell_0.4.2        mvtnorm_0.9-99992    parallel_3.1.0       proto_0.3-10         Rcpp_0.11.1         
+[21] RCurl_1.95-4.1       reshape2_1.4         stringr_0.6.2        tools_3.1.0          whisker_0.3-2       
 </code></pre>
 
 <h2>References</h2>
