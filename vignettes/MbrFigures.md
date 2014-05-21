@@ -403,7 +403,7 @@ The current vignette was build on a system using the following software.
 
 
 ```
-Report created by Will at Wed May 21 11:30:04 2014, -0500
+Report created by Will at Wed May 21 12:12:36 2014, -0500
 ```
 
 ```
