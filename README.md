@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/wibeasley/Wats.png?branch=master)](https://travis-ci.org/wibeasley/Wats)
+[![DOI](https://zenodo.org/badge/4971/wibeasley/Wats.png)](http://dx.doi.org/10.5281/zenodo.11800)
 
 ## Welcome to the `Wats` Package
 This implements the approaches described in
