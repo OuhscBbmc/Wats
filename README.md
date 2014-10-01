@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/OuhscBbmc/Wats.svg?branch=master)](https://travis-ci.org/OuhscBbmc/Wats)
-[![DOI](https://zenodo.org/badge/4971/OuhscBbmc/Wats.png)](http://dx.doi.org/10.5281/zenodo.11800)
+[![DOI](https://zenodo.org/badge/4971/OuhscBbmc/Wats.png)](http://dx.doi.org/10.5281/zenodo.11921)
 
 ## Welcome to the `Wats` Package
 This implements the approaches described in
@@ -39,3 +39,6 @@ The latest development version of Wats can be installed from [GitHub](https://gi
 install.packages("devtools")
 devtools::install_github(repo="OuhscBbmc/Wats")
 ```
+
+## Code Repository
+The software is written primarily in R, under the MIT License.  The DOI of this major release of the *repository* (not the DOI of the article) is [10.5281/zenodo.11921](http://dx.doi.org/10.5281/zenodo.11921).

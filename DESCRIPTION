@@ -14,7 +14,8 @@ Author: Will Beasley [aut, cre], Joe Rodgers [aut], Matthew Schuelke [ctb],
     Ronnie Coleman [ctb], Mark Joseph Lachowicz [ctb]
 Maintainer: Will Beasley <wibeasley@hotmail.com>
 URL: https://github.com/OuhscBbmc/Wats,
-    https://r-forge.r-project.org/projects/wats/
+    https://r-forge.r-project.org/projects/wats/,
+    http://dx.doi.org/10.5281/zenodo.1192
 Depends:
     R (>= 3.0.0),
     stats
