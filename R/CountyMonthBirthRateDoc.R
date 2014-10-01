@@ -42,8 +42,8 @@
 #' \href{http://stat.ethz.ch/R-manual/R-devel/library/stats/html/approxfun.html}{\code{approx}}.
 #' 
 #' The datasets were manipulated to produce this data frame by the two R files
-#' \href{https://github.com/wibeasley/Wats/blob/master/UtilityScripts/IsolateCensusPopsForGfr.R}{IsolateCensusPopsForGfr.R}
-#' and \href{https://github.com/wibeasley/Wats/blob/master/UtilityScripts/CalculateGfr.R}{CalculateGfr.R}.
+#' \href{https://github.com/OuhscBbmc/Wats/blob/master/UtilityScripts/IsolateCensusPopsForGfr.R}{IsolateCensusPopsForGfr.R}
+#' and \href{https://github.com/OuhscBbmc/Wats/blob/master/UtilityScripts/CalculateGfr.R}{CalculateGfr.R}.
 #' 
 #' @author Will Beasley
 #' @references

@@ -2,6 +2,7 @@
 %\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{Assesing OKC Fertility with Intercensal Estimates}
 -->
+<!-- rmarkdown v1 -->
 
 # Assesing OKC Fertility with Intercensal Estimates
 The MBR manuscript demonstrates WATS plots with data prepared for Rodgers, St. John, & Coleman (2005).  In that paper and the MBR manuscript, the denominator of the GFR (General Fertility Rate) is the initial 1990 county population of females ages 15-44.  

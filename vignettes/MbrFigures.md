@@ -2,11 +2,10 @@
 %\VignetteEngine{knitr::knitr}
 %\VignetteIndexEntry{Figures for the MBR Manuscript}
 -->
+<!-- rmarkdown v1 -->
 
 # Figures for the MBR Manuscript
 This vignette produces the graphs included in the initial MBR manuscript.
-
-
 
 
 
@@ -67,7 +66,6 @@ xScale       <- ggplot2::scale_x_date(breaks=dateSequence, labels=scales::date_f
 xScaleBlank  <- ggplot2::scale_x_date(breaks=dateSequence, labels=NULL) #This keeps things proportional down the three frames.
 ```
 
-
 ### Individual Components
 Here is the basic linear rolling graph.  It doesn't require much specification, and will work with a wide range of approriate datasets.  This first (unpublished) graph displays all components.
 
@@ -101,7 +99,6 @@ Warning: Removed 11 rows containing missing values (geom_path).
 ```
 
 <img src="figure_mbr_rmd/Figure2IndividualBasic.png" title="plot of chunk Figure2IndividualBasic" alt="plot of chunk Figure2IndividualBasic" width="600px" />
-
 
 The version for the manuscript was tweaked to take advantage of certain features of the dataset.  This is what it looks like when all three stylized panels are combined.
 
@@ -171,7 +168,6 @@ grid::popViewport()
 
 <img src="figure_mbr_rmd/Figure2Stylized.png" title="plot of chunk Figure2Stylized" alt="plot of chunk Figure2Stylized" width="600px" />
 
-
 ## Figure 4: Carteisan Periodic 
 Carteisan plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
 
@@ -193,14 +189,12 @@ print(cartesianPeriodic)
 
 <img src="figure_mbr_rmd/Figure4Basic.png" title="plot of chunk Figure4Basic" alt="plot of chunk Figure4Basic" width="600px" />
 
-
 ```r
 cartesianPeriodic <- cartesianPeriodic + xScale + darkTheme 
 print(cartesianPeriodic)
 ```
 
 <img src="figure_mbr_rmd/Figure4Stylized.png" title="plot of chunk Figure4Stylized" alt="plot of chunk Figure4Stylized" width="600px" />
-
 
 ## Figure 5: Polar Periodic
 Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
@@ -229,7 +223,6 @@ Wats::PolarPeriodic(
 ```
 
 <img src="figure_mbr_rmd/Figure5.png" title="plot of chunk Figure5" alt="plot of chunk Figure5" width="300px" />
-
 ## Figure 6: WATS and Cartesian
 Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
@@ -285,7 +278,6 @@ grid::upViewport()
 
 <img src="figure_mbr_rmd/Figure6.png" title="plot of chunk Figure6" alt="plot of chunk Figure6" width="600px" />
 
-
 ## Figure 7: County Comparison
 This figure compares Oklahoma County against the (other) largest urban counties.
 
@@ -314,8 +306,6 @@ plyr::ddply(dsLinearAll, "CountyName", plyr::summarize, Mean=base::mean(FecundPo
 ```
 
 ```r
-
-
 GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spreadFunction=hSpread, changeMonth=as.Date("1996-02-15") ) {
   dsLinear <- dsLinearAll[dsLinearAll$CountyName==countyName, ]
   dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
@@ -357,7 +347,6 @@ grid::popViewport()
 
 <img src="figure_mbr_rmd/Figure7.png" title="plot of chunk Figure7" alt="plot of chunk Figure7" width="600px" />
 
-
 Here are all 12 counties that Ronnie colelcted birth records for.  This extended graph is not in the mauscript.
 
 
@@ -376,7 +365,6 @@ grid::popViewport()
 ```
 
 <img src="figure_mbr_rmd/Figure7AllCounties.png" title="plot of chunk Figure7AllCounties" alt="plot of chunk Figure7AllCounties" width="600px" />
-
 
 ## Figure 8: Error Band Comparison
 This figure demonstrates that WATS accommodates many types of error bands.
@@ -397,17 +385,16 @@ grid::upViewport()
 
 <img src="figure_mbr_rmd/Figure8.png" title="plot of chunk Figure8" alt="plot of chunk Figure8" width="600px" />
 
-
 ## Session Info
 The current vignette was build on a system using the following software.
 
 
 ```
-Report created by Will at Wed May 21 12:12:36 2014, -0500
+Report created by Will at Tue Sep 30 22:01:55 2014, -0500
 ```
 
 ```
-R version 3.1.0 Patched (2014-05-16 r65632)
+R version 3.1.1 Patched (2014-09-27 r66695)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 locale:
@@ -418,12 +405,11 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] Wats_0.2-16   boot_1.3-11   ggplot2_1.0.0 scales_0.2.4  plyr_1.8.1    knitr_1.5    
+[1] Wats_0.2-16   boot_1.3-11   ggplot2_1.0.0 scales_0.2.4  plyr_1.8.1    knitr_1.6    
 
 loaded via a namespace (and not attached):
- [1] colorspace_1.2-4   digest_0.6.4       evaluate_0.5.5     formatR_0.10       gtable_0.1.2       labeling_0.2      
- [7] lattice_0.20-29    lubridate_1.3.3    MASS_7.3-33        memoise_0.2.1      munsell_0.4.2      proto_0.3-10      
-[13] RColorBrewer_1.0-5 Rcpp_0.11.1        reshape2_1.4       stringr_0.6.2      testit_0.3         tools_3.1.0       
+ [1] colorspace_1.2-4   digest_0.6.4       evaluate_0.5.5     formatR_1.0        gtable_0.1.2       labeling_0.3      
+ [7] lattice_0.20-29    lubridate_1.3.3    MASS_7.3-34        memoise_0.2.1      munsell_0.4.2      proto_0.3-10      
+[13] RColorBrewer_1.0-5 Rcpp_0.11.3        reshape2_1.4       stringr_0.6.2      testit_0.3         tools_3.1.1       
 [19] zoo_1.7-11        
 ```
-
