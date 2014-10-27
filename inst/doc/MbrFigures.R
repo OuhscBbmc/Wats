@@ -164,7 +164,7 @@ print(cartesianPeriodic)
 cartesianPeriodic <- cartesianPeriodic + xScale + darkTheme 
 print(cartesianPeriodic)
 
-## ----Figure5, fig.height=3, fig.width=3, out.width="300px"----
+## ----Figure5, fig.height=3, fig.width=3, out.width="300px"------------------------------------------------------------
 portfolioPolar <- Wats::PolarizeCartesian( 
   dsLinear = portfolioCartesian$dsLinear, 
   dsStageCycle = portfolioCartesian$dsStageCycle, 
@@ -186,7 +186,7 @@ Wats::PolarPeriodic(
 )
 
 
-## ----Figure6, fig.height=6.5*2/3--------------------------------------------------
+## ----Figure6, fig.height=6.5*2/3--------------------------------------------------------------------------------------
 portfolioPolar <- Wats::PolarizeCartesian(
   dsLinear = portfolioCartesian$dsLinear, 
   dsStageCycle = portfolioCartesian$dsStageCycle, 
@@ -234,7 +234,7 @@ grid::pushViewport(grid::viewport(layout.pos.col=1:2, layout.pos.row=2, gp=grid:
 print(cartesianPeriodic, vp=vpLayout(x=1:2, y=2)) #Print across both columns of the bottom row.
 grid::upViewport()
 
-## ----Figure7, fig.height=6.5------------------------------------------------------
+## ----Figure7, fig.height=6.5------------------------------------------------------------------------------------------
 # dsLinearAll <- Wats::AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2005Version, dateName="Date")
 
 #Identify the average size of the fecund population
@@ -279,7 +279,7 @@ for( i in base::seq_along(counties) ) {
 }
 grid::popViewport()
 
-## ----Figure7AllCounties, fig.height=6.5 * 12/5------------------------------------
+## ----Figure7AllCounties, fig.height=6.5 * 12/5------------------------------------------------------------------------
 counties <- base::sort(base::unique(dsLinearAll$CountyName))
 countyNames <- c("Canadian", "Cleveland", "Comanche", "Creek", "Logan", "McClain", "Oklahoma", "Osage", "Pottawatomie", "Rogers", "Tulsa", "Wagoner")
 
@@ -292,7 +292,7 @@ for( i in base::seq_along(counties) ) {
 }
 grid::popViewport()
 
-## ----Figure8, fig.height=6.5 * 4/5------------------------------------------------
+## ----Figure8, fig.height=6.5 * 4/5------------------------------------------------------------------------------------
 spreads <- c("hSpread", "fullSpread", "seSpread", "bootSpread")
 spreadNames <- c("H-Spread", "Range", "+/-1 SE", "Bootstrap")
 grid::grid.newpage()
@@ -304,7 +304,7 @@ for( i in base::seq_along(spreads) ) {
 }
 grid::upViewport()
 
-## ----session_info, echo=FALSE-----------------------------------------------------
+## ----session_info, echo=FALSE-----------------------------------------------------------------------------------------
 base::cat("Report created by", base::Sys.info()["user"], "at", base::strftime(base::Sys.time(), "%c, %z"))
 utils::sessionInfo()
 
