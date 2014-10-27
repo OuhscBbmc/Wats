@@ -17,10 +17,10 @@ The figures can be viewed in the vignettes, or in the [Handouts](https://github.
 ## Selected Figures
 #### Figure 2
 
-<img src="./vignettes/figure_mbr_rmd/Figure2Stylized.png" alt="Figure2Stylized" style="width: 600px;"/>
+<img src="./vignettes/figure_mbr_rmd/Figure2Stylized-1.png" alt="Figure2Stylized" style="width: 600px;"/>
 #### Figure 4
 
-<img src="./vignettes/figure_mbr_rmd/Figure6.png" alt="Figure6" style="width: 600px;"/>
+<img src="./vignettes/figure_mbr_rmd/Figure6-1.png" alt="Figure6" style="width: 600px;"/>
 
 ## Reproducible Research
 When the Wats package is installed on your local machine, the [`Reproduce.R`](https://github.com/OuhscBbmc/Wats/blob/master/UtilityScripts/Reproduce.R) script starts with our initial datasets (ie, the vital statistics birth counts and the US Census population estimates) to create the derivative datasets and resulting graphs and analysis.
