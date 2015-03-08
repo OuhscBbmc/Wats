@@ -1,5 +1,7 @@
-[![Build Status](https://travis-ci.org/OuhscBbmc/Wats.svg?branch=master)](https://travis-ci.org/OuhscBbmc/Wats)
-[![DOI](https://zenodo.org/badge/4971/OuhscBbmc/Wats.png)](http://dx.doi.org/10.5281/zenodo.11921)
+<!-- rmarkdown v1 -->
+Travis-CI on Ubuntu 12.04 LTS: [![Build Status](https://travis-ci.org/OuhscBbmc/Wats.svg?branch=master)](https://travis-ci.org/OuhscBbmc/Wats); AppVeyor on Windows Server 2012: [![Build status](https://ci.appveyor.com/api/projects/status/2wkbuwqcmog4nhxf/branch/master?svg=true)](https://ci.appveyor.com/project/wibeasley/wats/branch/master).
+
+Independently-hosted Archive: [![DOI](https://zenodo.org/badge/4971/OuhscBbmc/Wats.png)](http://dx.doi.org/10.5281/zenodo.11921).
 
 ## Welcome to the `Wats` Package
 This implements the approaches described in
