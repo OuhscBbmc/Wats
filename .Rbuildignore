@@ -1,7 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.gitignore$
-^\.travis.yml$
+^\.travis\.yml$
+^appveyor\.yml$
+^revdep$
 ^cran-comments\.md$
 ^ShortcutLucky1404\.lnk$
 
