@@ -1,10 +1,10 @@
 citHeader("To cite the Wats package in publications, please use:")
 
-citEntry(entry = "article",
+citEntry(entry = "article", 
   author = "Joseph Lee Rodgers, William Howard Beasley, Matthew Schuelke",
   title = "Graphical Data Analysis on the Circle:  Wrap-around Time Series Plots for (Interrupted) Time Series Designs",
   journal = "Multivariate Behavioral Research",
-  year = "In Submission",
-  url = "https://github.com/wibeasley/Wats",
+  year = "Accepted",
+  url = "https://github.com/OuhscBbmc/Wats",
   textVersion = "Joseph Lee Rodgers, William Howard Beasley, Matthew Schuelke. Graphical Data Analysis on the Circle:  Wrap-around Time Series Plots for (Interrupted) Time Series Designs."
 )

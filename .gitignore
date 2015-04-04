@@ -1,12 +1,6 @@
-#SVN -if using R-Forge
-.svn
-
 # History files
 .Rhistory
 
 # Example code in package build process
 *-Ex.R
 .Rproj.user
-
-# Local Shortcuts
-zzLucky1304 pkg.lnk

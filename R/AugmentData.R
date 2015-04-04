@@ -1,8 +1,8 @@
 ##' @name AugmentCycleData
 ##' @aliases AugmentYearDataWithMonthResolution AugmentYearDataWithSecondResolution
 ##' @export AugmentYearDataWithMonthResolution AugmentYearDataWithSecondResolution
-##' @usage AugmentYearDataWithMonthResolution( dsLinear, dateName, stageIDName ) 
-##' AugmentYearDataWithSecondResolution( dsLinear, dateName, stageIDName ) 
+##' @usage AugmentYearDataWithMonthResolution( dsLinear, dateName ) 
+##' AugmentYearDataWithSecondResolution( dsLinear, dateName ) 
 ##' 
 ##' @title Calculates variables necessary for WATS Plots
 ##' 
@@ -11,7 +11,7 @@
 ##' 
 ##' @param dsLinear The \code{data.frame} to containing the detailed data.
 ##' @param dateName The variable name in \code{dsLinear} containing the date or datetime value.
-##' @param stageIDName The variable name indicating the stage. In a typical interrupted time series, these values are \code{1} before the interruption and \code{2} after.
+## @param stageIDName The variable name indicating the stage. In a typical interrupted time series, these values are \code{1} before the interruption and \code{2} after.
 ##' @return Returns a \code{data.frame} with additional variables: \code{CycleTally}, \code{ProportionThroughCycle}, \code{ProportionID}, and \code{TerminalPointInCycle}.
 ##' @examples
 ##' require(Wats)
@@ -20,7 +20,7 @@
 ##' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 ##' head(dsLinear)
 ##' 
-AugmentYearDataWithMonthResolution <- function( dsLinear, dateName, stageIDName ) {
+AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
   yearOfEvent <- lubridate::year(dsLinear[, dateName])
 
   minYearOfEvent <- base::min(yearOfEvent)
@@ -39,7 +39,7 @@ AugmentYearDataWithMonthResolution <- function( dsLinear, dateName, stageIDName 
   dsLinear$StageProgress <- base::unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
   return( dsLinear )
 }
-AugmentYearDataWithSecondResolution <- function( dsLinear, dateName, stageIDName ) {
+AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
   yearOfEvent <- lubridate::year(dsLinear[, dateName])
   firstOfYear <- base::ISOdate(year=yearOfEvent, month=1, day=1, tz="GMT")
   lastOfYear <- firstOfYear + lubridate::years(1)  #ISOdate(year=yearOfEvent + 1, month=1, day=1, tz="GMT") 

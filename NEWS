@@ -1,4 +1,4 @@
-Version 0.2 (Developed from 2013-12-30 through ?)
+Version 0.2 (Developed from 2013-12-30 through 2014-05-24)
 ------------------------------------------------------------------------------
 New Features:
 * Vignette showing reanalysis with 2014 version of the data.
@@ -11,9 +11,11 @@ Changes:
 * Modified and relocated some package dependencies
 * Changed from GPL-2 to MIT license
 * Upgraded to Roxygen 4.0.0
+* Upgraded to ggplot2 1.0.0
 
 Bug Fixes
 * `AnnotateData()` properly accepts the `centerFunction` parameter, and doesn't revert to `median`.  Thanks Mark Joseph Lachowicz (mark.j.lachowicz@vanderbilt.edu).  GitHub Issue #2.
+* Removed unnecessary aes setting of y in CartesianPeriodic.R
 
 Version 0.1 (Developed from 2010 through 2013-12-11)
 ------------------------------------------------------------------------------
@@ -22,4 +24,4 @@ New Features:
 * `CartesianRolling()`, `CartesianPeriodic()`, and `PolarPeriodic()` functions.
 * Vignette to reproduce figures in MBR manuscript.
 
-For a specific list of changes, see https://github.com/wibeasley/Wats/commits/master
+For a specific list of changes, see https://github.com/OuhscBbmc/Wats/commits/master

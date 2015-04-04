@@ -1,11 +1,9 @@
-
 ## ----set_root_directory, echo=FALSE, results='hide'----------------------
 #It works better if the root directory is set in its own chunk.
 # library(knitr)
 # knitr::opts_knit$set(root.dir = "../")
 
-
-## ----set_options, echo=FALSE, results='hide'-----------------------------
+## ----set_options, echo=FALSE, results='hide'--------------------------------------------------------------------------
 library(base)
 library(utils)
 library(stats)
@@ -33,8 +31,7 @@ pdf.options(useDingbats = FALSE) #Otherwise, the circles don't get plotted corre
 if( base::Sys.info()["sysname"] == "Windows" )
   grDevices::windows.options(antialias = "cleartype")
 
-
-## ----Definitions---------------------------------------------------------
+## ----Definitions------------------------------------------------------------------------------------------------------
 changeMonth <- base::as.Date("1996-02-15") #as.Date("1995-04-19") + lubridate::weeks(39) = "1996-01-17"
 
 vpLayout <- function(x, y) { grid::viewport(layout.pos.row=x, layout.pos.col=y) }
@@ -78,8 +75,7 @@ dateSequence <- base::seq.Date(from=base::as.Date("1990-01-01"), to=base::as.Dat
 xScale       <- ggplot2::scale_x_date(breaks=dateSequence, labels=scales::date_format("%Y"))
 xScaleBlank  <- ggplot2::scale_x_date(breaks=dateSequence, labels=NULL) #This keeps things proportional down the three frames.
 
-
-## ----Figure2IndividualBasic----------------------------------------------
+## ----Figure2IndividualBasic-------------------------------------------------------------------------------------------
 # dsLinearAll <- utils::read.csv("./Datasets/CountyMonthBirthRate2005Version.csv", stringsAsFactors=FALSE)
 # dsLinearAll$Date <- base::as.Date(dsLinearAll$Date)
 # dsLinearOkc <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ] 
@@ -102,8 +98,7 @@ Wats::CartesianRolling(
   changePointLabels = "Bombing Effect"
 )
 
-
-## ----Figure2Stylized, fig.height=4.8-------------------------------------
+## ----Figure2Stylized, fig.height=4.8----------------------------------------------------------------------------------
 topPanel <- Wats::CartesianRolling(
   dsLinear = portfolioCartesian$dsLinear, 
   xName = "Date", 
@@ -151,8 +146,7 @@ print(middlePanel, vp=vpLayout(2, 1))
 print(bottomPanel, vp=vpLayout(3, 1))
 grid::popViewport()
 
-
-## ----Figure4Basic--------------------------------------------------------
+## ----Figure4Basic-----------------------------------------------------------------------------------------------------
 cartesianPeriodic <- Wats::CartesianPeriodic(
   portfolioCartesian$dsLinear, 
   portfolioCartesian$dsPeriodic, 
@@ -166,13 +160,11 @@ cartesianPeriodic <- Wats::CartesianPeriodic(
 )
 print(cartesianPeriodic)
 
-
-## ----Figure4Stylized-----------------------------------------------------
+## ----Figure4Stylized--------------------------------------------------------------------------------------------------
 cartesianPeriodic <- cartesianPeriodic + xScale + darkTheme 
 print(cartesianPeriodic)
 
-
-## ----Figure5, fig.height=3, fig.width=3, out.width="300px"---------------
+## ----Figure5, fig.height=3, fig.width=3, out.width="300px"------------------------------------------------------------
 portfolioPolar <- Wats::PolarizeCartesian( 
   dsLinear = portfolioCartesian$dsLinear, 
   dsStageCycle = portfolioCartesian$dsStageCycle, 
@@ -194,8 +186,7 @@ Wats::PolarPeriodic(
 )
 
 
-
-## ----Figure6, fig.height=6.5*2/3-----------------------------------------
+## ----Figure6, fig.height=6.5*2/3--------------------------------------------------------------------------------------
 portfolioPolar <- Wats::PolarizeCartesian(
   dsLinear = portfolioCartesian$dsLinear, 
   dsStageCycle = portfolioCartesian$dsStageCycle, 
@@ -243,8 +234,7 @@ grid::pushViewport(grid::viewport(layout.pos.col=1:2, layout.pos.row=2, gp=grid:
 print(cartesianPeriodic, vp=vpLayout(x=1:2, y=2)) #Print across both columns of the bottom row.
 grid::upViewport()
 
-
-## ----Figure7, fig.height=6.5---------------------------------------------
+## ----Figure7, fig.height=6.5------------------------------------------------------------------------------------------
 # dsLinearAll <- Wats::AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2005Version, dateName="Date")
 
 #Identify the average size of the fecund population
@@ -289,8 +279,7 @@ for( i in base::seq_along(counties) ) {
 }
 grid::popViewport()
 
-
-## ----Figure7AllCounties, fig.height=6.5 * 12/5---------------------------
+## ----Figure7AllCounties, fig.height=6.5 * 12/5------------------------------------------------------------------------
 counties <- base::sort(base::unique(dsLinearAll$CountyName))
 countyNames <- c("Canadian", "Cleveland", "Comanche", "Creek", "Logan", "McClain", "Oklahoma", "Osage", "Pottawatomie", "Rogers", "Tulsa", "Wagoner")
 
@@ -303,8 +292,7 @@ for( i in base::seq_along(counties) ) {
 }
 grid::popViewport()
 
-
-## ----Figure8, fig.height=6.5 * 4/5---------------------------------------
+## ----Figure8, fig.height=6.5 * 4/5------------------------------------------------------------------------------------
 spreads <- c("hSpread", "fullSpread", "seSpread", "bootSpread")
 spreadNames <- c("H-Spread", "Range", "+/-1 SE", "Bootstrap")
 grid::grid.newpage()
@@ -316,9 +304,7 @@ for( i in base::seq_along(spreads) ) {
 }
 grid::upViewport()
 
-
-## ----session_info, echo=FALSE--------------------------------------------
+## ----session_info, echo=FALSE-----------------------------------------------------------------------------------------
 base::cat("Report created by", base::Sys.info()["user"], "at", base::strftime(base::Sys.time(), "%c, %z"))
 utils::sessionInfo()
-
 

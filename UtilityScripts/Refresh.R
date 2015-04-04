@@ -7,7 +7,7 @@ if( base::Sys.info()["sysname"] == "Windows" )
 
 devtools::document()
 devtools::check_doc() #Should return NULL
-#  system("R CMD Rd2pdf --force --output=./DocumentationPeek.pdf ." )
+system("R CMD Rd2pdf --no-preview --force --output=./DocumentationPeek.pdf ." )
 
 devtools::run_examples(); dev.off() #This overwrites the NAMESPACE file too
 # devtools::run_examples(, "CountyMonthBirthRateDoc.Rd")
@@ -29,3 +29,5 @@ devtools::build_vignettes()
 # devtools::build_win(version="R-devel") #CRAN submission policies encourage the development version
 devtools::revdep_check(pkg="Wats", recursive=TRUE)
 # devtools::release(check=FALSE) #Careful, the last question ultimately uploads it to CRAN, where you can't delete/reverse your decision.
+# Alternatively, packages can be submitted here, which doesn't require an extra email: http://cran.r-project.org/submit.html
+# Either way, check that the tarball was uploaded to ftp://cran.r-project.org/incoming/
