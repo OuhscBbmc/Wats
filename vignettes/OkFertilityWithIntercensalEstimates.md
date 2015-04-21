@@ -125,7 +125,7 @@ print(middlePanel, vp=vpLayout(2, 1))
 ```
 
 ```
-Warning: Removed 11 rows containing missing values (geom_path).
+Warning in loop_apply(n, do.ply): Removed 11 rows containing missing values (geom_path).
 ```
 
 ```r
@@ -133,7 +133,7 @@ print(bottomPanel, vp=vpLayout(3, 1))
 ```
 
 ```
-Warning: Removed 11 rows containing missing values (geom_path).
+Warning in loop_apply(n, do.ply): Removed 11 rows containing missing values (geom_path).
 ```
 
 ```r
@@ -353,12 +353,12 @@ showMcmcProgress <- FALSE
 
 ```
 
- rho acceptance rate: 0.1051051 
+ rho acceptance rate: 0.09109109 
 ```
 
 ```
- logbf.i+t logbf.trend logbf.int
- -5.815413   -5.747066 -0.142356
+ logbf.i+t logbf.trend  logbf.int
+ -6.917674   -7.354658 -0.2071785
 ```
 
 ```r
@@ -367,7 +367,7 @@ showMcmcProgress <- FALSE
 
 ```
  logbf.joint logbf.trend  logbf.int
-    5.977943   -34.77081 -0.8843989
+   -1.178508    -27.5585 -0.5848155
 ```
 
 ```r
@@ -382,12 +382,12 @@ BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCo
 
 ```
 
- rho acceptance rate: 0.06106106 
+ rho acceptance rate: 0.04804805 
 ```
 
 ```
  logbf.i+t logbf.trend  logbf.int
-  -15.4531   -14.81897 -0.7754159
+ -25.88079   -24.32235 -0.8059051
 ```
 
 ```r
@@ -396,7 +396,7 @@ BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount
 
 ```
  logbf.joint logbf.trend logbf.int
-   -3.126375   -62.35653 -4.469288
+    7.492727   -69.77006 -6.652696
 ```
 
 ## Session Info
@@ -404,12 +404,13 @@ The current vignette was build on a system using the following software.
 
 
 ```
-Report created by Will at Mon Oct 27 13:50:33 2014, -0500
+Report created by Will at Tue Apr 21 11:34:49 2015, -0500
 ```
 
 ```
-R version 3.1.2 RC (2014-10-25 r66870)
+R version 3.2.0 Patched (2015-04-19 r68206)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 8 x64 (build 9200)
 
 locale:
 [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252    LC_MONETARY=English_United States.1252
@@ -419,14 +420,14 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] Wats_0.9-4    boot_1.3-13   ggplot2_1.0.0 scales_0.2.4  plyr_1.8.1    knitr_1.7    
+[1] Wats_0.9-6    boot_1.3-16   ggplot2_1.0.1 scales_0.2.4  plyr_1.8.2    knitr_1.9    
 
 loaded via a namespace (and not attached):
- [1] BayesSingleSub_0.6.2 coda_0.16-1          colorspace_1.2-4     digest_0.6.4         evaluate_0.5.5      
- [6] formatR_1.0          gtable_0.1.2         labeling_0.3         lattice_0.20-29      lubridate_1.3.3     
-[11] MASS_7.3-35          MCMCpack_1.3-3       memoise_0.2.1        munsell_0.4.2        mvtnorm_1.0-0       
-[16] proto_0.3-10         RColorBrewer_1.0-5   Rcpp_0.11.3          reshape2_1.4         stringr_0.6.2       
-[21] testit_0.3           tools_3.1.2          zoo_1.7-11          
+ [1] Rcpp_0.11.5          MASS_7.3-40          munsell_0.4.2        testit_0.4           colorspace_1.2-6    
+ [6] lattice_0.20-31      stringr_0.6.2        MCMCpack_1.3-3       tools_3.2.0          gtable_0.1.2        
+[11] coda_0.17-1          BayesSingleSub_0.6.2 digest_0.6.8         RColorBrewer_1.1-2   reshape2_1.4.1      
+[16] formatR_1.2          memoise_0.2.1        evaluate_0.7         labeling_0.3         mvtnorm_1.0-2       
+[21] lubridate_1.3.3      proto_0.3-10         zoo_1.7-12          
 ```
 
 ## References
