@@ -5,9 +5,9 @@ Independently-hosted Archive: [![DOI](https://zenodo.org/badge/4971/OuhscBbmc/Wa
 
 ## Welcome to the `Wats` Package
 This implements the approaches described in
-Joseph Lee Rodgers, William Howard Beasley, and Matthew Schuelke (2014 likely).
-Wrap-around Time Series Plots (WATS Plots) for Interrupted Time Series Designs:
-Applications to Fertility Rates and the Oklahoma City Bombing. *Multivariate Behavioral Research*.
+[Joseph Lee Rodgers](http://www.vanderbilt.edu/psychological_sciences/bio/joe-rodgers), [William Howard Beasley](https://scholar.google.com/citations?user=ffsJTC0AAAAJ), and Matthew Schuelke (2014).
+[Wrap-around Time Series Plots (WATS Plots) for Interrupted Time Series Designs:
+Applications to Fertility Rates and the Oklahoma City Bombing.](http://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589) *Multivariate Behavioral Research*.
 
 The figures can be viewed in the vignettes, or in the [Handouts](https://github.com/OuhscBbmc/Wats/blob/master/UtilityScripts/Handouts.md) document.  The release version of Wats is available on [CRAN](http://cran.r-project.org/web/packages/Wats/).
 
@@ -35,12 +35,17 @@ The following directories are not part of the standard R package:
  * `Playgrounds`: R snippets to help developers experiment with potential new features.
  * `UtilityScripts`: R scripts that aren't incorpated into the package.  They help automate certain tasks, or document how parts of the package were created.
 
-## Installing Development Version
-The latest development version of Wats can be installed from [GitHub](https://github.com/OuhscBbmc/Wats) after installing the `devtools` package.
+## Installing 
+The released CRAN version of Wats can be installed through R with.
+```R
+install.packages("Wats")
 ```
+
+The latest development version of Wats can be installed from [GitHub](https://github.com/OuhscBbmc/Wats) after installing the `devtools` package.
+```R
 install.packages("devtools")
 devtools::install_github(repo="OuhscBbmc/Wats")
 ```
 
 ## Code Repository
-The software is written primarily in R, under the MIT License.  The DOI of this major release of the *repository* (not the DOI of the article) is [10.5281/zenodo.11921](http://dx.doi.org/10.5281/zenodo.11921).
+The software is written primarily in R, under the MIT License.  The DOI of this major release of the *repository* is [10.5281/zenodo.11921](http://dx.doi.org/10.5281/zenodo.11921).  (The DOI of the article is [10.1080/00273171.2014.946589](http://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589).)
