@@ -5,7 +5,7 @@
 ^appveyor\.yml$
 ^revdep$
 ^cran-comments\.md$
-^ShortcutLucky1404\.lnk$
+^Readme.html$
 
 DocumentationPeek.pdf
 Datasets/
