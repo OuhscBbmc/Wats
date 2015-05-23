@@ -1,7 +1,10 @@
 <!-- rmarkdown v1 -->
-Travis-CI on Ubuntu 12.04 LTS: [![Build Status](https://travis-ci.org/OuhscBbmc/Wats.svg?branch=master)](https://travis-ci.org/OuhscBbmc/Wats); AppVeyor on Windows Server 2012: [![Build status](https://ci.appveyor.com/api/projects/status/2wkbuwqcmog4nhxf/branch/master?svg=true)](https://ci.appveyor.com/project/wibeasley/wats/branch/master).
 
-Independently-hosted Archive: [![DOI](https://zenodo.org/badge/4971/OuhscBbmc/Wats.png)](http://dx.doi.org/10.5281/zenodo.11921).  Coveralls: [![Coverage Status](https://coveralls.io/repos/OuhscBbmc/Wats/badge.svg?branch=master)](https://coveralls.io/r/OuhscBbmc/Wats?branch=master)
+| [GitHub](https://github.com/OuhscBbmc/Wats) | [Travis-CI](https://travis-ci.org/OuhscBbmc/Wats/builds) | [AppVeyor](https://ci.appveyor.com/project/OuhscBbmc/Wats/history) | [Coveralls](https://coveralls.io/r/OuhscBbmc/Wats) |
+| :----- | :---------------------------: | :-----------------------------: | :-------: |
+| [Master](https://github.com/OuhscBbmc/Wats/tree/master) | [![Build Status](https://travis-ci.org/OuhscBbmc/Wats.svg?branch=master)](https://travis-ci.org/OuhscBbmc/Wats) | [![Build status](https://ci.appveyor.com/api/projects/status/2wkbuwqcmog4nhxf/branch/master?svg=true)](https://ci.appveyor.com/project/OuhscBbmc/wats/branch/master) | [![Coverage Status](https://coveralls.io/repos/OuhscBbmc/Wats/badge.svg?branch=master)](https://coveralls.io/r/OuhscBbmc/Wats?branch=master) |
+| [Dev](https://github.com/OuhscBbmc/Wats/tree/dev) | [![Build Status](https://travis-ci.org/OuhscBbmc/Wats.svg?branch=dev)](https://travis-ci.org/OuhscBbmc/Wats) | [![Build status](https://ci.appveyor.com/api/projects/status/2wkbuwqcmog4nhxf/branch/dev?svg=true)](https://ci.appveyor.com/project/OuhscBbmc/wats/branch/dev) | [![Coverage Status](https://coveralls.io/repos/OuhscBbmc/Wats/badge.svg?branch=dev)](https://coveralls.io/r/OuhscBbmc/Wats?branch=dev) | -- |
+| | *Ubuntu 12.04 LTS* | *Windows Server 2012* | *Test Coverage* | *Independently-hosted Archive* |
 
 ## Welcome to the `Wats` Package
 This implements the approaches described in
@@ -36,6 +39,12 @@ The following directories are not part of the standard R package:
  * `UtilityScripts`: R scripts that aren't incorpated into the package.  They help automate certain tasks, or document how parts of the package were created.
 
 ## Installing 
+
+| [CRAN](http://cran.rstudio.com/) | [Version](http://cran.r-project.org/web/packages/Wats/) | [Rate](http://cranlogs.r-pkg.org/) | [Zenodo](https://zenodo.org/search?ln=en&p=redcapr) | 
+|  :---- | :----: | :----: | :----: |
+| [Latest](http://cran.r-project.org/web/packages/Wats/) | [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/Wats)](http://cran.r-project.org/web/packages/Wats) | ![CRANPace](http://cranlogs.r-pkg.org/badges/Wats) | [![DOI](https://zenodo.org/badge/4971/OuhscBbmc/Wats.png)](http://dx.doi.org/10.5281/zenodo.11921) |
+|   | *Latest CRAN version* | *CRAN Downloads* | *Independently-hosted Archive* |
+
 The released CRAN version of Wats can be installed through R with.
 ```R
 install.packages("Wats")
