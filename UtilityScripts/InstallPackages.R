@@ -27,7 +27,7 @@ for( packageName in dsInstallFromCran$PackageName ) {
   available <- base::require(packageName, character.only=TRUE) #Loads the packages, and indicates if it's available
   if( !available ) {
     utils::install.packages(packageName, dependencies=TRUE)
-    base::require( packageName, character.only=TRUE)
+    base::library( packageName, character.only=TRUE)
   }
 }
 rm(dsInstallFromCran, packageName, available)

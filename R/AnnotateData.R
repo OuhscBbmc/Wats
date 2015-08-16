@@ -18,7 +18,7 @@
 ##' @param terminalPointInCycleName The variable name indicating the last point within a given cycle.
 ##' @return Returns a \code{data.frame} with additional variables <<Say what they are>>.
 ##' @examples
-##' require(Wats)
+##' library(Wats)
 ##' dsLinear <- CountyMonthBirthRate2005Version
 ##' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 ##' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
@@ -84,7 +84,7 @@ AnnotateData <- function( dsLinear,
   return( list(dsLinear=dsLinear, dsStageCycle=dsStageCycle, dsPeriodic=dsPeriodic) )
 }
 
-# require(Wats)
+# library(Wats)
 # dsLinear <- CountyMonthBirthRate2005Version
 # dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 # dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")

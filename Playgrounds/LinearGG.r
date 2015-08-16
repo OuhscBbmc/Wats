@@ -1,10 +1,10 @@
 rm(list=ls(all=TRUE))
-require(grid)
-require(colorspace)
-require(lubridate)
-require(plyr)
-require(ggplot2)
-require(zoo)
+library(grid)
+library(colorspace)
+library(lubridate)
+library(plyr)
+library(ggplot2)
+library(zoo)
 
 pathInput <- "./Datasets/BirthRatesOk.txt"
 pathDirectoryOutput <-  "./PublicationGraphs"

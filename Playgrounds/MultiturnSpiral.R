@@ -3,7 +3,7 @@
 # bottom right: Cartesian, polar with x position mapped to angle, polar
 # with y position mapped to angle, flipped, transformed with log in y
 # direction, and equal scales.
-require(ggplot2)
+library(ggplot2)
 
 line <- data.frame(x = c(1, 200), y = c(100, 1))
 base <- ggplot(mapping = aes(x, y)) + geom_line(data = line)
@@ -13,7 +13,7 @@ base + scale_x_continuous(limits=c(0, 200))
 #This doesn't work (presumably because 100 < 200)
 #base + scale_x_continuous(limits=c(0, 100))
 
-require(ggplot2)
+library(ggplot2)
 spiral <- data.frame(t=0:14,r=0:14)
 ggplot(spiral) + geom_line(aes(x=t %%3,y=r,group=t %/% 3)) + coord_polar()
 

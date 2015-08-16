@@ -1,5 +1,5 @@
 rm(list=ls(all=TRUE))
-require(Wats)
+library(Wats)
 dsLinear <- CountyMonthBirthRate2014Version[CountyMonthBirthRate2014Version$CountyName=="oklahoma", ]
 
 tsData <- stats::ts(
@@ -17,7 +17,7 @@ seasonalLoess <- stats::stl(x = tsData, s.window = "periodic") #Watch out, the 2
 plot(seasonalLoess)
 
 #Seasonality isn't accounted for at all
-require(BayesSingleSub)
+library(BayesSingleSub)
 beforeNaive <- dsLinear[dsLinear$StageID==1, "BirthRate", ]
 afterNaive <- dsLinear[dsLinear$StageID==2, "BirthRate", ]
 BayesSingleSub::trendtest.Gibbs.AR(beforeNaive, afterNaive)

@@ -1,6 +1,6 @@
 rm(list=ls(all=TRUE))
-require(colorspace)
-require(grid)
+library(colorspace)
+library(grid)
 #grid.lines()
 # Using id (NOTE: locations are not in consecutive blocks)
 grid.newpage()

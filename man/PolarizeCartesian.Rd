@@ -45,7 +45,7 @@ Second, multiple points are interpolated (still in a Cartesian coordinates) so t
 Third, the Cartesian points are coverted to polar coordinates.
 }
 \examples{
-require(Wats)
+library(Wats)
 dsLinear <- CountyMonthBirthRate2005Version
 dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
@@ -66,7 +66,7 @@ polarized <- PolarizeCartesian(
   stageIDName = "StageID"
 )
 
-require(ggplot2)
+library(ggplot2)
 ggplot(polarized$dsStageCyclePolar, aes(color=factor(StageID))) +
   geom_path(aes(x=PolarLowerX, y=PolarLowerY), linetype=2) +
   geom_path(aes(x=PolarCenterX, y=PolarCenterY), size=2) +

@@ -1,6 +1,6 @@
 rm(list=ls(all=TRUE))
-require(ggplot2)
-require(colorspace)
+library(ggplot2)
+library(colorspace)
 # setwd("F:/Projects/RDev/WatsStaging/Images/")
 set.seed(33)
 periodLength <- 6

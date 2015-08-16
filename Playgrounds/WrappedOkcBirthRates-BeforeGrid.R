@@ -1,5 +1,5 @@
 rm(list=ls(all=TRUE))
-require(colorspace)
+library(colorspace)
 # path <- "F:/Users/wibeasley/Documents/School/Circular/BirthRatesOkc.txt"
 # #path <- "F:/Users/wibeasley/Documents/School/Circular/BirthRatesRogers.txt"
 # #path <- "F:/Users/wibeasley/Documents/School/Circular/BirthRatesTulsa.txt"

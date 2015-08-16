@@ -1,6 +1,6 @@
 rm(list=ls(all=TRUE))
-# require(devtools)
-# require(staticdocs)
+# library(devtools)
+# library(staticdocs)
 
 if( base::Sys.info()["sysname"] == "Windows" )
   base::options(device = "windows") #http://support.rstudio.org/help/discussions/problems/80-error-in-function-only-one-rstudio-graphics-device-is-permitted

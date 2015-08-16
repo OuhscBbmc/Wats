@@ -2,10 +2,10 @@
 # Clear memory, load packages, and define global variables
 ###################
 rm(list=ls(all=TRUE))
-require(base)
-require(utils)
-require(plyr)
-require(testit)
+library(base)
+library(utils)
+library(plyr)
+library(testit)
 
 inputPathCensusCountyMonth <- "./Datasets/CensusIntercensal/CensusCountyMonth.csv"
 inputPathBirthCountCountyMonth <- "./Datasets/BirthCountState.csv"
@@ -67,7 +67,7 @@ dsCountyMonth2005 <- plyr::ddply(
 dsCountyMonth2014$BirthRate <- dsCountyMonth2014$BirthRateMonthly * dsCountyMonth2014$DaysInYear / dsCountyMonth2014$DaysInMonth
 dsCountyMonth2005$BirthRate <- dsCountyMonth2005$BirthRateMonthly * dsCountyMonth2005$DaysInYear / dsCountyMonth2005$DaysInMonth
 
-# require(ggplot2)
+# library(ggplot2)
 # ggplot(dsCountyMonth, aes(x=Date, y=BirthRate, color=factor(Fips))) + geom_line() + labs(title="Distributions of County Fertility")
 # ggplot(dsCountyMonth, aes(x=BirthRate, color=factor(Fips))) + geom_density()
 

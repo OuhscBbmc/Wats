@@ -1,4 +1,4 @@
-require(circular)
+library(circular)
 n <- 500
 min <- 0
 max <- 900

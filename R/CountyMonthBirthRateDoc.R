@@ -59,7 +59,7 @@
 #' 
 #' @keywords datasets
 #' @examples 
-#' require(ggplot2) 
+#' library(ggplot2) 
 #' 
 #' ##2005 Version (see description above)
 #' ds2005 <- CountyMonthBirthRate2005Version

@@ -89,8 +89,8 @@ Returns a \code{grid} graphical object (ie, a \href{http://stat.ethz.ch/R-manual
 Shows the interrupted time series in Cartesian coordinates and its a periodic/cyclic components.
 }
 \examples{
-require(grid)
-require(Wats)
+library(grid)
+library(Wats)
 dsLinear <- CountyMonthBirthRate2005Version
 dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")

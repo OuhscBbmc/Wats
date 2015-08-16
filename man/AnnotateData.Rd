@@ -40,7 +40,7 @@ Finds midpoints and bands for the within and between cycles.  This the second of
 that needs to be called to produce WATS Plots.  \code{AugmentZZZ} is the first.
 }
 \examples{
-require(Wats)
+library(Wats)
 dsLinear <- CountyMonthBirthRate2005Version
 dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
