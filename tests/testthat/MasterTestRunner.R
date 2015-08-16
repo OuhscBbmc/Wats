@@ -4,8 +4,8 @@
 
 rm(list=ls(all=TRUE)) #Clear all the variables before starting a new run.
 
-require(testthat)
-require(devtools)
+library(testthat)
+library(devtools)
 
 directoryTests <- file.path(devtools::inst("Wats"), "tests")
 
@@ -14,7 +14,7 @@ ClearMostVariables <- function( ) {
 }
 
 try(detach("package:Wats"), silent=TRUE)
-require(Wats)
+library(Wats)
 #?Wats
 
 ClearMostVariables()

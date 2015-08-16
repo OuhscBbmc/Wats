@@ -33,7 +33,7 @@
 ##' @return Returns a \code{ggplot2} graphing object
 ##' @keywords Cartesian
 ##' @examples
-##' require(Wats) #Load the package
+##' library(Wats) #Load the package
 ##' changeMonth <- base::as.Date("1996-02-15") 
 ##' dsLinear <- CountyMonthBirthRate2005Version
 ##' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]

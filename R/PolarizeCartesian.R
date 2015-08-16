@@ -22,7 +22,7 @@
 ##' @return Returns a \code{data.frame}.
 ##' @keywords polar
 ##' @examples
-##' require(Wats)
+##' library(Wats)
 ##' dsLinear <- CountyMonthBirthRate2005Version
 ##' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 ##' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
@@ -43,7 +43,7 @@
 ##'   stageIDName = "StageID"
 ##' )
 ##' 
-##' require(ggplot2)
+##' library(ggplot2)
 ##' ggplot(polarized$dsStageCyclePolar, aes(color=factor(StageID))) + 
 ##'   geom_path(aes(x=PolarLowerX, y=PolarLowerY), linetype=2) +
 ##'   geom_path(aes(x=PolarCenterX, y=PolarCenterY), size=2) +
@@ -156,7 +156,7 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
   return( list(dsObservedPolar=dsObservedPolar, dsStageCyclePolar=dsStageCyclePolar, GraphFloor=graphFloor) )
 }
 
-# require(Wats)
+# library(Wats)
 # dsLinear <- CountyMonthBirthRate2005Version
 # dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 # dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
@@ -167,7 +167,7 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
 # 
 # polarized <- PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
 # 
-# require(ggplot2)
+# library(ggplot2)
 # ggplot(polarized$dsStageCyclePolar, aes(color=factor(StageID))) + 
 #   geom_path(aes(x=PolarLowerX, y=PolarLowerY), linetype=2) +
 #   geom_path(aes(x=PolarCenterX, y=PolarCenterY), size=2) +

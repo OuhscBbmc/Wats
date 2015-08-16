@@ -322,13 +322,13 @@ print(topPanel, vp=vpLayout(1, 1))
 print(middlePanel, vp=vpLayout(2, 1))
 </code></pre>
 
-<pre><code>Warning in loop_apply(n, do.ply): Removed 11 rows containing missing values (geom_path).
+<pre><code>Warning: Removed 11 rows containing missing values (geom_path).
 </code></pre>
 
 <pre><code class="r">print(bottomPanel, vp=vpLayout(3, 1))
 </code></pre>
 
-<pre><code>Warning in loop_apply(n, do.ply): Removed 11 rows containing missing values (geom_path).
+<pre><code>Warning: Removed 11 rows containing missing values (geom_path).
 </code></pre>
 
 <pre><code class="r">grid::popViewport()
@@ -537,18 +537,18 @@ showMcmcProgress &lt;- FALSE
 </code></pre>
 
 <pre><code>
- rho acceptance rate: 0.09309309 
+ rho acceptance rate: 0.09409409 
 </code></pre>
 
-<pre><code> logbf.i+t logbf.trend  logbf.int
- -5.550562   -5.210298 -0.2015075
+<pre><code> logbf.i+t logbf.trend logbf.int
+ -9.408002   -8.930671 -0.161495
 </code></pre>
 
 <pre><code class="r">(mcClassic &lt;- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=mcmcRepCount, progress=showMcmcProgress))
 </code></pre>
 
 <pre><code> logbf.joint logbf.trend logbf.int
-   -2.028547   -24.17413 -1.234125
+   -4.505789   -24.89176 -0.377479
 </code></pre>
 
 <pre><code class="r"># summary(mcClassic)
@@ -561,30 +561,30 @@ BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCo
 </code></pre>
 
 <pre><code>
- rho acceptance rate: 0.05105105 
+ rho acceptance rate: 0.04704705 
 </code></pre>
 
 <pre><code> logbf.i+t logbf.trend  logbf.int
- -30.63981   -30.25897 -0.6901449
+ -29.15855   -28.32296 -0.7379495
 </code></pre>
 
 <pre><code class="r">BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=showMcmcProgress)
 </code></pre>
 
 <pre><code> logbf.joint logbf.trend logbf.int
-    6.965965   -68.17985 -5.582096
+    22.60069   -75.70713 -9.451517
 </code></pre>
 
 <h2>Session Info</h2>
 
 <p>The current vignette was build on a system using the following software.</p>
 
-<pre><code>Report created by Will at Tue Apr 21 11:32:48 2015, -0500
+<pre><code>Report created by Will at Sun Aug 16 16:45:11 2015, -0500
 </code></pre>
 
-<pre><code>R version 3.2.0 Patched (2015-04-19 r68206)
+<pre><code>R version 3.2.2 Patched (2015-08-14 r69078)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 8 x64 (build 9200)
+Running under: Windows &gt;= 8 x64 (build 9200)
 
 locale:
 [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252    LC_MONETARY=English_United States.1252
@@ -594,16 +594,17 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] knitr_1.9           boot_1.3-16         scales_0.2.4        plyr_1.8.2          Wats_0.9-6         
-[6] testthat_0.9.1.9001 ggplot2_1.0.1       devtools_1.7.0     
+[1] Wats_0.10.1          knitr_1.11           boot_1.3-17          scales_0.2.5         plyr_1.8.3          
+[6] testthat_0.10.0.9000 ggplot2_1.0.1        devtools_1.8.0      
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.11.5          RColorBrewer_1.1-2   formatR_1.2          tools_3.2.0          highlight_0.4.7     
- [6] digest_0.6.8         lubridate_1.3.3      evaluate_0.7         memoise_0.2.1        gtable_0.1.2        
-[11] lattice_0.20-31      mvtnorm_1.0-2        proto_0.3-10         coda_0.17-1          stringr_0.6.2       
-[16] roxygen2_4.1.1       reshape2_1.4.1       BayesSingleSub_0.6.2 MASS_7.3-40          testit_0.4          
-[21] mime_0.3             colorspace_1.2-6     labeling_0.3         MCMCpack_1.3-3       munsell_0.4.2       
-[26] markdown_0.7.4       crayon_1.2.0         zoo_1.7-12          
+ [1] Rcpp_0.12.0          formatR_1.2          RColorBrewer_1.1-2   git2r_0.11.0         bitops_1.0-6        
+ [6] tools_3.2.2          digest_0.6.8         evaluate_0.7.2       lubridate_1.3.3      memoise_0.2.1       
+[11] gtable_0.1.2         lattice_0.20-33      curl_0.9.2           mvtnorm_1.0-3        proto_0.3-10        
+[16] coda_0.17-1          stringr_1.0.0        xml2_0.1.1           roxygen2_4.1.1       rversions_1.0.2     
+[21] BayesSingleSub_0.6.2 reshape2_1.4.1       magrittr_1.5         MASS_7.3-43          testit_0.4          
+[26] mime_0.3             colorspace_1.2-6     labeling_0.3         stringi_0.5-5        MCMCpack_1.3-3      
+[31] RCurl_1.95-4.7       munsell_0.4.2        markdown_0.7.7       crayon_1.3.1         zoo_1.7-12          
 </code></pre>
 
 <h2>References</h2>

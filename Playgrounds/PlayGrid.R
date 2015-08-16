@@ -1,11 +1,11 @@
 rm(list=ls(all=TRUE))
 # opar <- par(no.readonly=TRUE)
-require(colorspace)
-require(grid)
-require(plyr)
-require(MASS) #For rlm
-require(lubridate)
-require(gridBase)
+library(colorspace)
+library(grid)
+library(plyr)
+library(MASS) #For rlm
+library(lubridate)
+library(gridBase)
 filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
 pathDirectoryOutput <- "./PublicationGraphs"
 

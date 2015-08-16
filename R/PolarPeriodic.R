@@ -42,8 +42,8 @@
 ##' @return Returns a \code{grid} graphical object (ie, a \href{http://stat.ethz.ch/R-manual/R-devel/library/grid/html/grid.grob.html}{\code{grob}}.)
 ##' @keywords polar
 ##' @examples
-##' require(grid)
-##' require(Wats)
+##' library(grid)
+##' library(Wats)
 ##' dsLinear <- CountyMonthBirthRate2005Version
 ##' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 ##' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
@@ -205,8 +205,8 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
   grid::upViewport(n=4)
 }
 
-# require(grid)
-# require(Wats)
+# library(grid)
+# library(Wats)
 # dsLinear <- CountyMonthBirthRate2005Version
 # dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 # dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")

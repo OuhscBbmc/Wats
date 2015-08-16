@@ -22,7 +22,7 @@ Calculates variables necessary for WATS Plots.  This the first of two functions
 that needs to be called to produce WATS Plots.  \code{AnnotateData} is the second.
 }
 \examples{
-require(Wats)
+library(Wats)
 dsLinear <- CountyMonthBirthRate2005Version
 dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")

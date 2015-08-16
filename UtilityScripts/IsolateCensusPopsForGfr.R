@@ -1,6 +1,6 @@
 rm(list=ls(all=TRUE))
-require(plyr)
-require(testit)
+library(plyr)
+library(testit)
 inputPathsCensus199x <- paste0("./Datasets/CensusIntercensal/STCH-icen199", 0:9, ".txt")
 inputPathCensus200x <- "./Datasets/CensusIntercensal/CO-EST00INT-AGESEX-5YR.csv"
 inputPathFips <- "./Datasets/CountyFipsCode.csv"
@@ -118,7 +118,7 @@ InterpolateMonths <- function( d ) {
 dsCensusCountyMonth <- plyr::ddply(dsNext, .variables=c("Fips", "CountyName", "Year"), .fun=InterpolateMonths)
 # dsCensusCountyMonth$Date <- as.Date(ISOdate(dsCensusCountyMonth$Year, dsCensusCountyMonth$Month, 15L))
 
-# require(ggplot2)
+# library(ggplot2)
 # ggplot(dsInterpolated[dsCensusCountyMonth$Fips==40027L, ], aes(x=Date, y=Population, color=factor(Fips))) +
 #   geom_line() + 
 #   geom_line(aes(y=PopulationCount, ymin=0)) + 

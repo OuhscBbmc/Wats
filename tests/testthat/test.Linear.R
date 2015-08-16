@@ -1,4 +1,4 @@
-# require(testthat)
+# library(testthat)
 # 
 # dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
 # dsLinear$Date <- as.Date(dsLinear$Date)

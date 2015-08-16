@@ -1,4 +1,4 @@
-require(devtools)
+library(devtools)
 setwd("D:/Projects/Ouhsc/")
 devtools::create(  path=file.path(getwd(), "Wats"), check=TRUE, description=list(
   "Title"= "Wrap Around Time Series graphics",

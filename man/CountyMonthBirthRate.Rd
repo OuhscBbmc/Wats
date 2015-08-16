@@ -51,7 +51,7 @@ The datasets were manipulated to produce this data frame by the two R files
 and \href{https://github.com/OuhscBbmc/Wats/blob/master/UtilityScripts/CalculateGfr.R}{CalculateGfr.R}.
 }
 \examples{
-require(ggplot2)
+library(ggplot2)
 
 ##2005 Version (see description above)
 ds2005 <- CountyMonthBirthRate2005Version

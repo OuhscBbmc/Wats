@@ -16,11 +16,14 @@
 #'  Peabody College, 230 Appleton Pl #552, Hobbs 202C, Vanderbilt University, Nashville, TN 37203.
 #'  
 #'  
-#'  Matthew Schuelke, Wright-Patterson Air Force Base.
+#'  Matthew Schuelke
+#'  --Senior Statistician, \href{http://www.slu.edu/division-of-research-administration-home/grants-development-office-(gdo)/contact}{Grants Development Office}
+#'  Saint Louis University
 #'  
 #' @references 
-#' Rodgers, J.L., Beasley, W.H., and Schuelke, M. (in submission). 
-#' Graphical Data Analysis on the Circle:  Wrap-around Time Series Plots for (Interrupted) Time Series Designs. \emph{Multivariate Behavioral Research}.
+#' Rodgers, J.L., Beasley, W.H., and Schuelke, M. (2014). 
+#' \href{http://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589}{Graphical Data Analysis on the Circle:  Wrap-around Time Series Plots for (Interrupted) Time Series Designs.} 
+#' \emph{Multivariate Behavioral Research}.
 #' 
 #' Rodgers, J. L., St. John, C. A. & Coleman R. (2005).  
 #' \href{http://www.ncbi.nlm.nih.gov/pubmed/16463916}{Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.}  

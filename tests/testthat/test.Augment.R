@@ -1,4 +1,4 @@
-require(testthat)
+library(testthat)
 #filePathOutcomes <- file.path(base::path.package("Wats"), "extdata", "BirthRatesOk.txt")
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt") #This approach accounts for working on developmental box.
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt") #This approach accounts for working on developmental box.

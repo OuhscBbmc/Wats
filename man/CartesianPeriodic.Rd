@@ -62,7 +62,7 @@ Returns a \code{ggplot2} graphing object
 Shows the interrupted time series in Cartesian coordinates and its a periodic/cyclic components.
 }
 \examples{
-require(Wats) #Load the package
+library(Wats) #Load the package
 changeMonth <- base::as.Date("1996-02-15")
 dsLinear <- CountyMonthBirthRate2005Version
 dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]

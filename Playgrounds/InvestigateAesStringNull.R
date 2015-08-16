@@ -1,6 +1,6 @@
 rm(list=ls(all=TRUE)) #Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
-require(ggplot2)
-require(datasets)
+library(ggplot2)
+library(datasets)
 
 #Create a simple dataset for the line
 dsLine <- mtcars[ c("mpg", "wt")]
@@ -11,7 +11,7 @@ dsRibbon$upper <- dsRibbon$wt + .5
 dsRibbon$lower <- dsRibbon$wt - .5
 dsRibbon$waylower <- dsRibbon$wt - 10
 
-dsRibbon$wt <- NULL
+# dsRibbon$wt <- NULL
 
 g <- ggplot(dsLine, aes_string(x="mpg", y="wt")) +
   geom_line() 

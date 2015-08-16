@@ -1,6 +1,6 @@
 rm(list=ls(all=TRUE))
-require(colorspace)
-require(grid)
+library(colorspace)
+library(grid)
 
 # setwd("F:/Projects/RDev/WatsStaging/Images/")
 set.seed(33)

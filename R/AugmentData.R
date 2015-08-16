@@ -14,7 +14,7 @@
 ## @param stageIDName The variable name indicating the stage. In a typical interrupted time series, these values are \code{1} before the interruption and \code{2} after.
 ##' @return Returns a \code{data.frame} with additional variables: \code{CycleTally}, \code{ProportionThroughCycle}, \code{ProportionID}, and \code{TerminalPointInCycle}.
 ##' @examples
-##' require(Wats)
+##' library(Wats)
 ##' dsLinear <- CountyMonthBirthRate2005Version
 ##' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 ##' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
@@ -79,7 +79,7 @@ AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
   return( dsLinear )
 }
 
-# require(Wats)
+# library(Wats)
 # dsLinear <- CountyMonthBirthRate2005Version
 # dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 # # dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")

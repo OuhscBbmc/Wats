@@ -25,10 +25,10 @@ base::source(pathInstallPackages, local=new.env())
 base::rm(pathInstallPackages)
 ###################################
 # Load the necessary packages.
-base::require(base)
-base::require(knitr)
-base::require(markdown)
-base::require(testit)
+base::library(base)
+base::library(knitr)
+base::library(markdown)
+base::library(testit)
 
 ###################################
 # Declare the paths of the necessary files.

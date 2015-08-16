@@ -1,5 +1,5 @@
 rm(list=ls(all=TRUE))
-require(Wats)
+library(Wats)
 vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
 
 fullSpread <- function( scores ) { 
