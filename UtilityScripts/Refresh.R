@@ -1,5 +1,5 @@
 rm(list=ls(all=TRUE))
-require(devtools)
+# require(devtools)
 # require(staticdocs)
 
 if( base::Sys.info()["sysname"] == "Windows" )
