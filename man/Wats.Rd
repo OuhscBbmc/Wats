@@ -19,7 +19,9 @@ Wrap-around Time Series (WATS) Plots for Interrupted Time Series Designs with Se
  Peabody College, 230 Appleton Pl #552, Hobbs 202C, Vanderbilt University, Nashville, TN 37203.
 
 
- Matthew Schuelke, Wright-Patterson Air Force Base.
+ Matthew Schuelke
+ --Senior Statistician, \href{http://www.slu.edu/division-of-research-administration-home/grants-development-office-(gdo)/contact}{Grants Development Office}
+ Saint Louis University
 }
 \references{
 Rodgers, J.L., Beasley, W.H., and Schuelke, M. (2014).
