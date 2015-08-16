@@ -18,7 +18,8 @@ devtools::build_vignettes()
 # staticdocs::build_package(package="Wats", base_path="./../", examples=FALSE)
 
 # devtools::build_win(version="R-devel") #CRAN submission policies encourage the development version
-devtools::revdep_check(pkg="Wats", recursive=TRUE)
+# devtools::revdep_check()
+# devtools::revdep_check(libpath ="D:/Projects/RLibraries")
 # devtools::release(check=FALSE) #Careful, the last question ultimately uploads it to CRAN, where you can't delete/reverse your decision.
 # Alternatively, packages can be submitted here, which doesn't require an extra email: http://cran.r-project.org/submit.html
 # Either way, check that the tarball was uploaded to ftp://cran.r-project.org/incoming/
