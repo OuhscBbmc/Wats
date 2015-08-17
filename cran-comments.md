@@ -10,7 +10,9 @@ This submission updates & improves various small things.  Many changes are to ke
 * AppVeyor, Windows Server 2012; https://ci.appveyor.com/project/wibeasley/wats
 
 ## R CMD check results
-There were no ERRORs or WARNINGs. 
+* No ERRORs or WARNINGs on any builds.
+* No NOTEs on win-builder.
+* No other unexplainable NOTEs on the other builds.
 
 ## Downstream dependencies
 No other packages depend/import this one.

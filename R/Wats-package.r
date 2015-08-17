@@ -4,7 +4,18 @@
 #' @title Wrap Around Time Series graphics
 #' 
 #' @description Wrap-around Time Series (WATS) Plots for Interrupted Time Series Designs with Seasonal Patterns
-
+#' 
+#' @note 
+#' 
+#' The release version is available through \href{https://cran.r-project.org/package=Wats}{CRAN} by   
+#' running \code{install.packages('Wats')}.  
+#' The most recent development version is available through \href{https://github.com/OuhscBbmc/Wats}{GitHub} by   
+#' running 
+#' \code{devtools::install_github} \code{(repo = 'OuhscBbmc/Wats')}   
+#' (make sure \href{https://cran.r-project.org/package=devtools}{devtools} is already installed).
+#' If you're having trouble with the package, please install the development version.  If this doesn't solve
+#' your problem, please create a \href{https://github.com/OuhscBbmc/Wats/issues}{new issue}, or email Will.
+#' 
 #' @author 
 #'  \href{http://scholar.google.com/citations?user=ffsJTC0AAAAJ}{William Howard Beasley} 
 #'  --Assistant Professor of Research, \href{http://find.ouhsc.edu/Faculty.aspx?FacultyID=1064}{University of Oklahoma Health Sciences Center}, 
