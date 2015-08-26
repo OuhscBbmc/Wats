@@ -5,7 +5,7 @@ This submission updates & improves various small things.  Many changes are to ke
 
 ## Test environments
 * Local Win8, R 3.2.2 patched
-* win-builder (version="R-devel"); http://win-builder.r-project.org/6m63wUFP9hI9
+* win-builder (version="R-devel"); http://win-builder.r-project.org/i4evp1i45XnO
 * Travis CI, Ubuntu 12.04 LTS; https://travis-ci.org/OuhscBbmc/Wats
 * AppVeyor, Windows Server 2012; https://ci.appveyor.com/project/wibeasley/wats
 
