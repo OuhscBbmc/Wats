@@ -29,6 +29,7 @@ New Features:
 * `CartesianRolling()`, `CartesianPeriodic()`, and `PolarPeriodic()` functions.
 * Vignette to reproduce figures in MBR manuscript.
 
-GitHub Commits
+GitHub Commits & Releases
 ------------------------------------------------------------------------------
-For a detailed change log, please see https://github.com/OuhscBbmc/Wats/commits/master
+* For a detailed change log, please see https://github.com/OuhscBbmc/Wats/commits/master.
+* For a list of the major releases, please see https://github.com/OuhscBbmc/Wats/releases.
