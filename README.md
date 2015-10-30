@@ -43,9 +43,15 @@ The following directories are not part of the standard R package:
 
 ## Installing 
 
+<<<<<<< HEAD
 | [CRAN](http://cran.rstudio.com/) | [Version](https://cran.r-project.org/package=Wats) | [Rate](http://cranlogs.r-pkg.org/) | [Zenodo](https://zenodo.org/search?ln=en&p=wats) | 
 |  :---- | :----: | :----: | :----: |
 | [Latest](https://cran.r-project.org/package=Wats) | [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/Wats)](https://cran.r-project.org/package=Wats) | ![CRANPace](http://cranlogs.r-pkg.org/badges/Wats) | [![DOI](https://zenodo.org/badge/4971/OuhscBbmc/Wats.svg)](https://zenodo.org/badge/latestdoi/4971/OuhscBbmc/Wats) |
+=======
+| [CRAN](http://cran.rstudio.com/) | [Version](http://cran.r-project.org/package=Wats) | [Rate](http://cranlogs.r-pkg.org/) | [Zenodo](https://zenodo.org/search?ln=en&p=redcapr) | 
+|  :---- | :----: | :----: | :----: |
+| [Latest](http://cran.r-project.org/package=Wats) | [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/Wats)](http://cran.r-project.org/package=Wats) | ![CRANPace](http://cranlogs.r-pkg.org/badges/Wats) | [![DOI](https://zenodo.org/badge/4971/OuhscBbmc/Wats.png)](http://dx.doi.org/10.5281/zenodo.11921) |
+>>>>>>> Canonical package URL in readme
 |   | *Latest CRAN version* | *CRAN Downloads* | *Independently-hosted Archive* |
 
 The released [CRAN](https://cran.r-project.org/package=Wats) version of Wats can be installed through R with.
