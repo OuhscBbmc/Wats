@@ -12,7 +12,7 @@ This implements the approaches described in
 [Wrap-around Time Series Plots (WATS Plots) for Interrupted Time Series Designs:
 Applications to Fertility Rates and the Oklahoma City Bombing.](http://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589) *Multivariate Behavioral Research*.
 
-The figures can be viewed in the vignettes, or in the [Handouts](https://github.com/OuhscBbmc/Wats/blob/master/UtilityScripts/Handouts.md) document.  The release version of Wats is available on [CRAN](http://cran.r-project.org/web/packages/Wats/).
+The figures can be viewed in the vignettes, or in the [Handouts](https://github.com/OuhscBbmc/Wats/blob/master/UtilityScripts/Handouts.md) document.  The release version of Wats is available on [CRAN](http://cran.r-project.org/package=Wats).
 
 ## Article Abstract
 > Many data structures, particular time series data, are naturally seasonal, cyclical, or otherwise circular.  Past graphical methods for time series have focused on linear plots.  In this paper, we move graphical analysis onto the circle.  We focus on two methods, one old and one new.  Rose diagrams are circular histograms, and can be produced in several different forms using the RRose software system.  In addition, we propose, develop, and illustrate a new circular graphical method, called Wrap-Around Time Series Plots (WATS plots) that is useful to support time series analyses in general, but in particular in relation to interrupted time series designs.  We illustrate the use of WATS Plots from an interrupted time series design evaluating the effect of the Oklahoma City bombing on birth rates in Oklahoma County during the ten years surrounding the bombing of the Murrah Building in Oklahoma City.  We compare WATS Plots to linear time series representations with smoothing.  Each method is shown to have advantages in relation to the other; in our example, the WATS Plots more clearly show the existence and effect size of the fertility differential.
@@ -40,9 +40,9 @@ The following directories are not part of the standard R package:
 
 ## Installing 
 
-| [CRAN](http://cran.rstudio.com/) | [Version](http://cran.r-project.org/web/packages/Wats/) | [Rate](http://cranlogs.r-pkg.org/) | [Zenodo](https://zenodo.org/search?ln=en&p=redcapr) | 
+| [CRAN](http://cran.rstudio.com/) | [Version](http://cran.r-project.org/package=Wats) | [Rate](http://cranlogs.r-pkg.org/) | [Zenodo](https://zenodo.org/search?ln=en&p=redcapr) | 
 |  :---- | :----: | :----: | :----: |
-| [Latest](http://cran.r-project.org/web/packages/Wats/) | [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/Wats)](http://cran.r-project.org/web/packages/Wats) | ![CRANPace](http://cranlogs.r-pkg.org/badges/Wats) | [![DOI](https://zenodo.org/badge/4971/OuhscBbmc/Wats.png)](http://dx.doi.org/10.5281/zenodo.11921) |
+| [Latest](http://cran.r-project.org/package=Wats) | [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/Wats)](http://cran.r-project.org/package=Wats) | ![CRANPace](http://cranlogs.r-pkg.org/badges/Wats) | [![DOI](https://zenodo.org/badge/4971/OuhscBbmc/Wats.png)](http://dx.doi.org/10.5281/zenodo.11921) |
 |   | *Latest CRAN version* | *CRAN Downloads* | *Independently-hosted Archive* |
 
 The released CRAN version of Wats can be installed through R with.
