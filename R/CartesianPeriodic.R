@@ -1,6 +1,5 @@
 ##' @name CartesianPeriodic
 ##' @export
-##' 
 ##' @title Linear Plot with Periodic Elements
 ##' 
 ##' @description Shows the interrupted time series in Cartesian coordinates and its a periodic/cyclic components.

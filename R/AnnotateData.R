@@ -1,6 +1,5 @@
 ##' @name AnnotateData
 ##' @export AnnotateData
-##' 
 ##' @title Finds midpoints and bands for the within and between cycles.
 ##' 
 ##' @description Finds midpoints and bands for the within and between cycles.  This the second of two functions
