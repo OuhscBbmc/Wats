@@ -107,7 +107,7 @@ CartesianRolling <- function(dsLinear, xName, yName, stageIDName,
   
   if( !is.null(changePoints) ) {
     for( i in seq_along(changePoints) )  {
-      p <- p + ggplot2::geom_vline(x=as.integer(changePoints[i]), color=paletteLight[i+1], alpha=changeLineAlpha, size=changeLineSize)
+      p <- p + ggplot2::geom_vline(xintercept=as.integer(changePoints[i]), color=paletteLight[i+1], alpha=changeLineAlpha, size=changeLineSize)
       p <- p + ggplot2::annotate("text", x=changePoints[i], y=Inf, vjust=1.1, color=paletteLight[i+1], label=changePointLabels[i])
     }
   }

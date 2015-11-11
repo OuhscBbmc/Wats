@@ -33,25 +33,25 @@
 ##' @keywords Cartesian
 ##' @examples
 ##' library(Wats) #Load the package
-##' changeMonth <- base::as.Date("1996-02-15") 
+##' changeMonth <- base::as.Date("1996-02-15")
 ##' dsLinear <- CountyMonthBirthRate2005Version
 ##' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 ##' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 ##' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 ##' portfolio <- AnnotateData(
-##'     dsLinear, 
+##'     dsLinear,
 ##'     dvName = "BirthRate",
-##'     centerFunction = median, 
+##'     centerFunction = median,
 ##'     spreadFunction = hSpread
 ##' )
 ##' 
 ##' CartesianPeriodic(
-##'   portfolio$dsLinear, 
-##'   portfolio$dsPeriodic, 
-##'   xName = "Date", 
+##'   portfolio$dsLinear,
+##'   portfolio$dsPeriodic,
+##'   xName = "Date",
 ##'   yName = "BirthRate",
-##'   stageIDName = "StageID", 
-##'   changePoints = changeMonth, 
+##'   stageIDName = "StageID",
+##'   changePoints = changeMonth,
 ##'   changePointLabels = "Bombing Effect"
 ##' )
 
@@ -107,7 +107,7 @@ CartesianPeriodic <- function(dsLinear, dsPeriodic,
 
   if( !is.null(changePoints) ) {
     for( i in seq_along(changePoints) )  {
-      p <- p + ggplot2::geom_vline(x=as.integer(changePoints[i]), color=paletteLight[i+1], alpha=changeLineAlpha, size=changeLineSize)
+      p <- p + ggplot2::geom_vline(xintercept=as.integer(changePoints[i]), color=paletteLight[i+1], alpha=changeLineAlpha, size=changeLineSize)
       p <- p + ggplot2::annotate("text", x=changePoints[i], y=Inf, vjust=1.1, color=paletteLight[i+1], label=changePointLabels[i])
     }
   }
