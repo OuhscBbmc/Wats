@@ -1,3 +1,8 @@
+Versions 0.10.3 (Developed 2015-11-10)
+------------------------------------------------------------------------------
+Changes:
+* This submission is fixes a small incompatibility with the upcoming version of ggplot2.  ggplot2's more stringent checking caught a mistake; when calling `ggplot2::geom_vline`, Wats used the parameter `x`, instead of the correct `xintercept`.
+
 Versions 0.3 through 0.10 (Developed from 2014-05-24 through 2015-08-16)
 ------------------------------------------------------------------------------
 Changes:

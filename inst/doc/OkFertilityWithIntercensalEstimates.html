@@ -532,18 +532,18 @@ showMcmcProgress &lt;- FALSE
 </code></pre>
 
 <pre><code>
- rho acceptance rate: 0.08808809 
+ rho acceptance rate: 0.1081081 
 </code></pre>
 
-<pre><code> logbf.i+t logbf.trend  logbf.int
- -7.267794   -7.169014 -0.1430411
+<pre><code> logbf.i+t logbf.trend logbf.int
+ -8.321383   -8.458739  -0.19257
 </code></pre>
 
 <pre><code class="r">(mcClassic &lt;- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=mcmcRepCount, progress=showMcmcProgress))
 </code></pre>
 
-<pre><code> logbf.joint logbf.trend  logbf.int
-   -2.170566   -26.96501 -0.6485437
+<pre><code> logbf.joint logbf.trend logbf.int
+   -2.045547   -24.85768 0.7128188
 </code></pre>
 
 <pre><code class="r"># summary(mcClassic)
@@ -556,25 +556,25 @@ BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCo
 </code></pre>
 
 <pre><code>
- rho acceptance rate: 0.05305305 
+ rho acceptance rate: 0.05505506 
 </code></pre>
 
 <pre><code> logbf.i+t logbf.trend  logbf.int
- -22.49544   -23.01085 -0.8050977
+ -33.77143   -33.29238 -0.7821759
 </code></pre>
 
 <pre><code class="r">BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=showMcmcProgress)
 </code></pre>
 
-<pre><code> logbf.joint logbf.trend logbf.int
-    14.33345   -71.47983 -5.377436
+<pre><code> logbf.joint logbf.trend  logbf.int
+   -8.878418   -53.95135 -0.6105561
 </code></pre>
 
 <h2>Session Info</h2>
 
 <p>The current vignette was build on a system using the following software.</p>
 
-<pre><code>Report created by Will at Tue Nov 10 21:16:07 2015, -0600
+<pre><code>Report created by Will at Wed Nov 11 09:03:17 2015, -0600
 </code></pre>
 
 <pre><code>R version 3.2.2 Patched (2015-10-11 r69514)
@@ -589,16 +589,17 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] knitr_1.11         Wats_0.10.2.9000   boot_1.3-17        ggplot2_1.0.1.9003 scales_0.3.0       plyr_1.8.3        
+[1] Wats_0.10.3        knitr_1.11         boot_1.3-17        ggplot2_1.0.1.9003 scales_0.3.0       plyr_1.8.3        
 [7] testthat_0.11.0   
 
 loaded via a namespace (and not attached):
  [1] Rcpp_0.12.1          RColorBrewer_1.1-2   formatR_1.2.1        tools_3.2.2          digest_0.6.8        
  [6] praise_1.0.0         lubridate_1.3.3      memoise_0.2.1        evaluate_0.8         gtable_0.1.2        
-[11] lattice_0.20-33      mvtnorm_1.0-3        coda_0.18-1          stringr_1.0.0        roxygen2_5.0.0      
-[16] devtools_1.9.1       BayesSingleSub_0.6.2 magrittr_1.5         MASS_7.3-44          rsconnect_0.3.79    
-[21] testit_0.4           mime_0.4             colorspace_1.2-6     labeling_0.3         stringi_1.0-1       
-[26] MCMCpack_1.3-3       munsell_0.4.2        markdown_0.7.7       crayon_1.3.1         zoo_1.7-12          
+[11] lattice_0.20-33      curl_0.9.3           mvtnorm_1.0-3        coda_0.18-1          stringr_1.0.0       
+[16] roxygen2_5.0.0       devtools_1.9.1       BayesSingleSub_0.6.2 magrittr_1.5         MASS_7.3-44         
+[21] rsconnect_0.3.79     testit_0.4           mime_0.4             colorspace_1.2-6     labeling_0.3        
+[26] stringi_1.0-1        MCMCpack_1.3-3       munsell_0.4.2        markdown_0.7.7       crayon_1.3.1        
+[31] zoo_1.7-12          
 </code></pre>
 
 <h2>References</h2>
