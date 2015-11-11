@@ -1,6 +1,5 @@
 ##' @name PolarizeCartesian
 ##' @export
-##' 
 ##' @title Manipulate Cartesian data to use in the WATS polar plot
 ##' 
 ##' @description Three operations are performed.  

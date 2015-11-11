@@ -1,6 +1,5 @@
 ##' @name PolarPeriodic
 ##' @export
-##' 
 ##' @title Polar Plot with Periodic Elements
 ##' 
 ##' @description Shows the interrupted time series in Cartesian coordinates and its a periodic/cyclic components.
@@ -11,8 +10,8 @@
 ##' @param yName The variable name containing the dependent/criterion variable.
 ##' @param stageIDName The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.
 # 
-# ##' @param periodicLowerName The variable name showing the lower bound of a stage's periodic estimate.
-# ##' @param periodicUpperName The variable name showing the upper bound of a stage's periodic estimate.
+##' @param periodicLowerName The variable name showing the lower bound of a stage's periodic estimate.
+##' @param periodicUpperName The variable name showing the upper bound of a stage's periodic estimate.
 ##' @param paletteDark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.
 ##' @param paletteLight A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.
 ##' @param changePoints A vector of values indicate the interruptions between stages.  It typically works best as a \code{Date} or a \code{POSIXct} class.

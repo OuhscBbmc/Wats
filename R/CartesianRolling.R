@@ -1,6 +1,5 @@
 ##' @name CartesianRolling
 ##' @export
-##' 
 ##' @title Linear Plot with Rolling Summaries
 ##' 
 ##' @description Shows the interrupted time series in Cartesian coordinates without a periodic/cyclic components.
