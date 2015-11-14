@@ -20,18 +20,21 @@ The figures can be viewed in the vignettes, or in the [Handouts](https://github.
 > Keywords:  time series, interrupted time series design, group differences, graphical analysis, circular data, H-spread
 
 ## Selected Figures
+
 #### Figure 2
 
-<img src="./vignettes/figure_mbr_rmd/Figure2Stylized-1.png" alt="Figure2Stylized" style="width: 600px;"/>
+<img src="https://raw.githubusercontent.com/OuhscBbmc/Wats/master/vignettes/figure_mbr_rmd/Figure2Stylized-1.png" alt="Figure2Stylized" style="width: 600px;"/>
+
 #### Figure 4
 
-<img src="./vignettes/figure_mbr_rmd/Figure6-1.png" alt="Figure6" style="width: 600px;"/>
+<img src="https://raw.githubusercontent.com/OuhscBbmc/Wats/master/vignettes/figure_mbr_rmd/Figure6-1.png" alt="Figure6" style="width: 600px;"/>
 
 ## Reproducible Research
 When the Wats package is installed on your local machine, the [`Reproduce.R`](https://github.com/OuhscBbmc/Wats/blob/master/UtilityScripts/Reproduce.R) script starts with our initial datasets (ie, the vital statistics birth counts and the US Census population estimates) to create the derivative datasets and resulting graphs and analysis.
 
 ## Nonstandard Directories
 The following directories are not part of the standard R package:
+
  * `Datasets`: CSV versions of the *.rda data.frames officially included in the package.
  * `DocumentationForDevelopers`: Notes and links that should help package *developers* set up on their computer.  Typical package *users* won't have a need for this.
  * `PublicationGraphs`: A deprecated location that contains loose graphs of older versions of the manuscript.
@@ -45,7 +48,7 @@ The following directories are not part of the standard R package:
 | [Latest](https://cran.r-project.org/package=Wats) | [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/Wats)](https://cran.r-project.org/package=Wats) | ![CRANPace](http://cranlogs.r-pkg.org/badges/Wats) | [![DOI](https://zenodo.org/badge/4971/OuhscBbmc/Wats.svg)](https://zenodo.org/badge/latestdoi/4971/OuhscBbmc/Wats) |
 |   | *Latest CRAN version* | *CRAN Downloads* | *Independently-hosted Archive* |
 
-The released CRAN version of Wats can be installed through R with.
+The released [CRAN](https://cran.r-project.org/package=Wats) version of Wats can be installed through R with.
 ```R
 install.packages("Wats")
 ```
