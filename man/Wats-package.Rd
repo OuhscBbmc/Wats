@@ -48,7 +48,7 @@ Rodgers, J.L., Beasley, W.H., and Schuelke, M. (2014).
 \href{http://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589}{Graphical Data Analysis on the Circle:  Wrap-around Time Series Plots for (Interrupted) Time Series Designs.} 
 \emph{Multivariate Behavioral Research}.
 
-Rodgers, J.L., St. John, C. A. & Coleman R. (2005).  
+Rodgers, J. L., St. John, C. A. & Coleman R. (2005).  
 \href{http://www.ncbi.nlm.nih.gov/pubmed/16463916}{Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.}  
 \emph{Demography, 42}, 675-692.
 }
