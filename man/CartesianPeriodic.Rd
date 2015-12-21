@@ -63,25 +63,25 @@ Shows the interrupted time series in Cartesian coordinates and its a periodic/cy
 }
 \examples{
 library(Wats) #Load the package
-changeMonth <- base::as.Date("1996-02-15")
+changeMonth <- base::as.Date("1996-02-15") 
 dsLinear <- CountyMonthBirthRate2005Version
 dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- AnnotateData(
-    dsLinear,
+    dsLinear, 
     dvName = "BirthRate",
-    centerFunction = median,
+    centerFunction = median, 
     spreadFunction = hSpread
 )
 
 CartesianPeriodic(
-  portfolio$dsLinear,
-  portfolio$dsPeriodic,
-  xName = "Date",
+  portfolio$dsLinear, 
+  portfolio$dsPeriodic, 
+  xName = "Date", 
   yName = "BirthRate",
-  stageIDName = "StageID",
-  changePoints = changeMonth,
+  stageIDName = "StageID", 
+  changePoints = changeMonth, 
   changePointLabels = "Bombing Effect"
 )
 }
