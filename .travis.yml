@@ -1,6 +1,7 @@
 # Travis's native R Image (http://docs.travis-ci.com/user/languages/r/)
 language: r
-sudo: required
+sudo: false
+cache: packages
 warnings_are_errors: true
 r_github_packages:
   - jimhester/covr
