@@ -3,7 +3,7 @@ language: r
 sudo: required
 warnings_are_errors: true
 apt_packages:
-  r-cran-mcmcpack
+  - r-cran-mcmcpack
 r_github_packages:
   - jimhester/covr
 after_success:
