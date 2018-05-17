@@ -60,4 +60,4 @@ devtools::install_github(repo="OuhscBbmc/Wats")
 ```
 
 ## Code Repository
-The software is written primarily in R, under the MIT License.  The DOI of this major release of the *repository* is [10.5281/zenodo.11921](http://dx.doi.org/10.5281/zenodo.11921).  (The DOI of the article is [10.1080/00273171.2014.946589](http://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589).)
+The software is written primarily in R, under the MIT License.  The DOI of this major release of the *repository* is [10.5281/zenodo.11921](https://doi.org/10.5281/zenodo.11921).  (The DOI of the article is [10.1080/00273171.2014.946589](http://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589).)
