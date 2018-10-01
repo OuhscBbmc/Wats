@@ -37,4 +37,5 @@ Suggests:
 License: MIT + file LICENSE
 LazyData: TRUE
 VignetteBuilder: knitr
+Encoding: UTF-8
 RoxygenNote: 5.0.1
