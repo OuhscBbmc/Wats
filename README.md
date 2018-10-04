@@ -4,7 +4,7 @@
 | :----- | :---------------------------: | :-----------------------------: | :-------: |
 | [Master](https://github.com/OuhscBbmc/Wats/tree/master) | [![Build Status](https://travis-ci.org/OuhscBbmc/Wats.svg?branch=master)](https://travis-ci.org/OuhscBbmc/Wats) | [![Build status](https://ci.appveyor.com/api/projects/status/2wkbuwqcmog4nhxf/branch/master?svg=true)](https://ci.appveyor.com/project/wibeasley/wats/branch/master) | [![Coverage Status](https://coveralls.io/repos/OuhscBbmc/Wats/badge.svg?branch=master)](https://coveralls.io/r/OuhscBbmc/Wats?branch=master) |
 | [Dev](https://github.com/OuhscBbmc/Wats/tree/dev) | [![Build Status](https://travis-ci.org/OuhscBbmc/Wats.svg?branch=dev)](https://travis-ci.org/OuhscBbmc/Wats) | [![Build status](https://ci.appveyor.com/api/projects/status/2wkbuwqcmog4nhxf/branch/dev?svg=true)](https://ci.appveyor.com/project/wibeasley/wats/branch/dev) | [![Coverage Status](https://coveralls.io/repos/OuhscBbmc/Wats/badge.svg?branch=dev)](https://coveralls.io/r/OuhscBbmc/Wats?branch=dev) | -- |
-| | *Ubuntu 12.04 LTS* | *Windows Server 2012* | *Test Coverage* | *Independently-hosted Archive* |
+| | *Ubuntu LTS* | *Windows Server* | *Test Coverage* | *Independently-hosted Archive* |
 
 ## Welcome to the `Wats` Package
 This implements the approaches described in
@@ -45,7 +45,7 @@ The following directories are not part of the standard R package:
 
 | [CRAN](http://cran.rstudio.com/) | [Version](https://cran.r-project.org/package=Wats) | [Rate](http://cranlogs.r-pkg.org/) | [Zenodo](https://zenodo.org/search?ln=en&p=wats) | 
 |  :---- | :----: | :----: | :----: |
-| [Latest](https://cran.r-project.org/package=Wats) | [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/Wats)](https://cran.r-project.org/package=Wats) | ![CRANPace](http://cranlogs.r-pkg.org/badges/Wats) | [![DOI](https://zenodo.org/badge/4971/OuhscBbmc/Wats.svg)](https://zenodo.org/badge/latestdoi/4971/OuhscBbmc/Wats) |
+| [Latest](https://cran.r-project.org/package=Wats) | [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/Wats)](https://cran.r-project.org/package=Wats) | ![CRANPace](http://cranlogs.r-pkg.org/badges/Wats) | [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11921.svg)](https://doi.org/10.5281/zenodo.11921) |
 |   | *Latest CRAN version* | *CRAN Downloads* | *Independently-hosted Archive* |
 
 The released [CRAN](https://cran.r-project.org/package=Wats) version of Wats can be installed through R with.
