@@ -13,3 +13,5 @@ DocumentationForDevelopers/
 Playgrounds/
 PublicationGraphs/
 UtilityScripts/
+^doc$
+^Meta$
