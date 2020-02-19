@@ -29,4 +29,3 @@ dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date
 head(dsLinear)
 
 }
-

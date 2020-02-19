@@ -4,13 +4,29 @@
 \alias{CartesianPeriodic}
 \title{Linear Plot with Periodic Elements}
 \usage{
-CartesianPeriodic(dsLinear, dsPeriodic, xName, yName, stageIDName,
-  periodicLowerName = "PositionLower", periodicUpperName = "PositionUpper",
-  paletteDark = NULL, paletteLight = NULL, changePoints = NULL,
-  changePointLabels = NULL, drawPeriodicBand = TRUE, jaggedPointSize = 2,
-  jaggedLineSize = 0.5, bandAlphaDark = 0.4, bandAlphaLight = 0.15,
-  changeLineAlpha = 0.5, changeLineSize = 3, title = NULL,
-  xTitle = NULL, yTitle = NULL)
+CartesianPeriodic(
+  dsLinear,
+  dsPeriodic,
+  xName,
+  yName,
+  stageIDName,
+  periodicLowerName = "PositionLower",
+  periodicUpperName = "PositionUpper",
+  paletteDark = NULL,
+  paletteLight = NULL,
+  changePoints = NULL,
+  changePointLabels = NULL,
+  drawPeriodicBand = TRUE,
+  jaggedPointSize = 2,
+  jaggedLineSize = 0.5,
+  bandAlphaDark = 0.4,
+  bandAlphaLight = 0.15,
+  changeLineAlpha = 0.5,
+  changeLineSize = 3,
+  title = NULL,
+  xTitle = NULL,
+  yTitle = NULL
+)
 }
 \arguments{
 \item{dsLinear}{The \code{data.frame} to containing the simple linear data.  There should be one record per observation.}
@@ -86,4 +102,3 @@ CartesianPeriodic(
 )
 }
 \keyword{Cartesian}
-

@@ -73,9 +73,6 @@ ggplot(ds2014, aes(x=BirthRate, color=factor(Fips))) +
 geom_density() +
 labs(title="Distributions of County Fertility")
 }
-\author{
-Will Beasley
-}
 \references{
 Rodgers, J. L., St. John, C. A. & Coleman R. (2005).  
 \href{http://www.ncbi.nlm.nih.gov/pubmed/16463916}{Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.}  
@@ -87,5 +84,7 @@ estimates for 199x.}
 \href{http://www.census.gov/popest/data/intercensal/county/county2010.html}{Intercensal
 estimates for 200x.}
 }
+\author{
+Will Beasley
+}
 \keyword{datasets}
-

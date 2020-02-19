@@ -2,8 +2,8 @@
 % Please edit documentation in R/Wats-package.r
 \docType{package}
 \name{Wats-package}
-\alias{Wats}
 \alias{Wats-package}
+\alias{Wats}
 \title{Wrap Around Time Series graphics}
 \description{
 Wrap-around Time Series (WATS) Plots for Interrupted Time Series Designs with Seasonal Patterns
@@ -28,6 +28,15 @@ install.packages('Wats')
 devtools::install_github('OuhscBbmc/Wats')
 }
 }
+\references{
+Rodgers, J.L., Beasley, W.H., and Schuelke, M. (2014). 
+\href{http://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589}{Graphical Data Analysis on the Circle:  Wrap-around Time Series Plots for (Interrupted) Time Series Designs.} 
+\emph{Multivariate Behavioral Research}.
+
+Rodgers, J.L., St. John, C. A. & Coleman R. (2005).  
+\href{http://www.ncbi.nlm.nih.gov/pubmed/16463916}{Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.}  
+\emph{Demography, 42}, 675-692.
+}
 \author{
 \href{http://scholar.google.com/citations?user=ffsJTC0AAAAJ}{William Howard Beasley} 
  --Assistant Professor of Research, \href{http://find.ouhsc.edu/Faculty.aspx?FacultyID=1064}{University of Oklahoma Health Sciences Center}, 
@@ -43,14 +52,4 @@ devtools::install_github('OuhscBbmc/Wats')
  --Senior Statistician, \href{http://www.slu.edu/division-of-research-administration-home/grants-development-office-(gdo)/contact}{Grants Development Office}
  Saint Louis University
 }
-\references{
-Rodgers, J.L., Beasley, W.H., and Schuelke, M. (2014). 
-\href{http://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589}{Graphical Data Analysis on the Circle:  Wrap-around Time Series Plots for (Interrupted) Time Series Designs.} 
-\emph{Multivariate Behavioral Research}.
-
-Rodgers, J.L., St. John, C. A. & Coleman R. (2005).  
-\href{http://www.ncbi.nlm.nih.gov/pubmed/16463916}{Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.}  
-\emph{Demography, 42}, 675-692.
-}
 \keyword{package}
-

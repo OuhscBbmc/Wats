@@ -4,13 +4,19 @@
 \alias{PolarizeCartesian}
 \title{Manipulate Cartesian data to use in the WATS polar plot}
 \usage{
-PolarizeCartesian(dsLinear, dsStageCycle, yName, stageIDName,
+PolarizeCartesian(
+  dsLinear,
+  dsStageCycle,
+  yName,
+  stageIDName,
   cycleTallyName = "CycleTally",
   proportionThroughCycleName = "ProportionThroughCycle",
   periodicLowerName = "PositionLower",
   periodicCenterName = "PositionCenter",
-  periodicUpperName = "PositionUpper", plottedPointCountPerCycle = 120,
-  graphFloor = min(base::pretty(x = dsLinear[, yName])))
+  periodicUpperName = "PositionUpper",
+  plottedPointCountPerCycle = 120,
+  graphFloor = min(base::pretty(x = dsLinear[, yName]))
+)
 }
 \arguments{
 \item{dsLinear}{The \code{data.frame} to containing the simple linear data.  There should be one record per observation.}
@@ -76,4 +82,3 @@ ggplot(polarized$dsStageCyclePolar, aes(color=factor(StageID))) +
   guides(color=FALSE)
 }
 \keyword{polar}
-

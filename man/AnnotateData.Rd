@@ -4,12 +4,18 @@
 \alias{AnnotateData}
 \title{Finds midpoints and bands for the within and between cycles.}
 \usage{
-AnnotateData(dsLinear, dvName, centerFunction, spreadFunction,
-  cycleTallyName = "CycleTally", stageIDName = "StageID",
+AnnotateData(
+  dsLinear,
+  dvName,
+  centerFunction,
+  spreadFunction,
+  cycleTallyName = "CycleTally",
+  stageIDName = "StageID",
   stageProgressName = "StageProgress",
   proportionThroughCycleName = "ProportionThroughCycle",
   proportionIDName = "ProportionID",
-  terminalPointInCycleName = "TerminalPointInCycle")
+  terminalPointInCycleName = "TerminalPointInCycle"
+)
 }
 \arguments{
 \item{dsLinear}{The \code{data.frame} to containing the detailed data.}
@@ -57,4 +63,3 @@ head(portfolio$dsStageCycle)
 head(portfolio$dsLinear)
 head(portfolio$dsPeriodic)
 }
-
