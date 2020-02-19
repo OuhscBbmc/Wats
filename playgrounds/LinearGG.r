@@ -43,16 +43,16 @@ upperQuantile <- .75
 
 ds$MonthIndex <- ds$MonthID %% monthsPerYear
 ds$StageID <- ifelse(ds$MonthID<=changePoint, 1, 2)
-# ds$Radians <- ds$MonthIndex * (2 * pi / monthsPerYear) 
+# ds$Radians <- ds$MonthIndex * (2 * pi / monthsPerYear)
 # ds$X <- ds$BirthRate * sin(ds$Radians)
 # ds$Y <- ds$BirthRate * cos(ds$Radians)
 #maxRate <- max(ds$BirthRate)
 # tail(ds)
 
 Summarize <- function( d ) {
-  data.frame( 
-    Lower=quantile(d$BirthRate, probs=lowerQuantile), 
-    Upper=quantile(d$BirthRate, probs=upperQuantile)  
+  data.frame(
+    Lower=quantile(d$BirthRate, probs=lowerQuantile),
+    Upper=quantile(d$BirthRate, probs=upperQuantile)
 )}
 CalculateLowerBand <- function( x ) { return( quantile(x, probs=lowerQuantile) ) }
 CalculateUpperBand <- function( x ) { return( quantile(x, probs=upperQuantile) ) }
@@ -98,8 +98,8 @@ ggsave(file.path(pathDirectoryOutput, "QuickFig2.png"), plot=p, dpi=600)
 dateLocations <- seq.Date(from=as.Date("1990-01-01"), to=as.Date("2000-01-01"), by="year")
 dateColors <- c(rep(colorBefore, 6), rep(colorAfter, 5))
 dsLabelsX <- data.frame(
-  X=seq.Date(from=as.Date("1990-07-01"), to=as.Date("1999-07-01"), by="year"), 
-  Y=graphFloor, 
+  X=seq.Date(from=as.Date("1990-07-01"), to=as.Date("1999-07-01"), by="year"),
+  Y=graphFloor,
   Color=c(rep(colorBefore, 6), rep(colorAfter, 4)),
   stringsAsFactors=FALSE
 )
@@ -107,21 +107,21 @@ dsLabelsX$Label <- lubridate::year(dsLabelsX$X)
 
 dsBreak <- data.frame(X=changeMonth, XEnd=changeMonth, Y=5, YEnd=6.8, Label="Bombing Effect")
 
-LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showYears=TRUE, labelBreak=TRUE ) { 
+LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showYears=TRUE, labelBreak=TRUE ) {
   g <- ggplot(ds, aes(x=Date, y=BirthRate, color=StageID))#
   g <- g + geom_segment(data=dsBreak, aes(x=X, xend=XEnd, y=Y, yend=YEnd), color=colorAfter, size=3, alpha=.3)
-  
+
   if( labelBreak ) g <- g + geom_text(data=dsBreak, aes(x=X, y=YEnd, label=Label), color=colorAfter, vjust=-.5, alpha=.5, size=4)#6
-  
+
   g <- g + geom_line(data=dsFebruary, aes(y=Rolling), color=smoothedLinear, alpha=.5)
   g <- g + geom_point(data=dsFebruary, aes(y=Rolling), size=2, shape=3, color=smoothedLinear)
-  
+
   if( showRibbon ) {
     g <- g + geom_ribbon(data=dsStage1, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorBefore[2], color=NA )
     g <- g + geom_ribbon(data=dsStage2, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorAfter[2], color=NA )
   }
   g <- g + geom_point(shape=1, alpha=.5)
-  
+
   if( showLine ) { #g <- g + geom_line() #This produces blocky lines, b/c it's checking for color switches
     g <- g + geom_line(data=dsStage1, color=colorBefore )
     g <- g + geom_line(data=dsStage2, color=colorAfter )
@@ -129,11 +129,11 @@ LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showY
   if( showSmoother) { #g <- g + geom_path(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling)) #This produces blocky lines, b/c it's checking for color switches
     g <- g + geom_line(data=dsStage1, aes(y=Rolling), color=colorBefore )
     g <- g + geom_line(data=dsStage2, aes(y=Rolling), color=colorAfter )
-  }  
- 
-  if( showYears ) 
+  }
+
+  if( showYears )
     g <- g + annotate("text", x=dsLabelsX$X, y=dsLabelsX$Y, color=dsLabelsX$Color, label=dsLabelsX$Label, vjust=-.5, size=3) #8
-  if( !showYears ) 
+  if( !showYears )
     g <- g + annotate("text", x=dsLabelsX$X, y=dsLabelsX$Y, color=dsLabelsX$Color, label=dsLabelsX$Label, vjust=-.5, size=3, alpha=.3) #8
 
   g <- g + scale_x_date(breaks=dateLocations, labels=scales::date_format("%Y"))
@@ -147,7 +147,7 @@ LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showY
   g <- g + theme(axis.ticks.length = unit(0, "cm")) #g <- g + theme(axis.ticks=element_blank())
   g <- g + theme(axis.ticks.margin = unit(.00001, "cm"))
   g <- g + theme(panel.grid.minor.y=element_line(color="gray90", size=.1))
-  g <- g + theme(panel.grid.major=element_line(color="gray85", size=.15))  
+  g <- g + theme(panel.grid.major=element_line(color="gray85", size=.15))
   g <- g + theme(panel.margin = unit(c(0, 0, 0, 0), "cm"))
   g <- g + theme(plot.margin = unit(c(0, 0, 0, 0), "cm"))
   g <- g + labs(x="", y="General Fertility Rate")

@@ -3,8 +3,8 @@ library(Wats)
 dsLinear <- CountyMonthBirthRate2014Version[CountyMonthBirthRate2014Version$CountyName=="oklahoma", ]
 
 tsData <- stats::ts(
-  data = dsLinear$BirthRate, 
-  start = as.integer(dsLinear[1, c("Year", "Month")]), 
+  data = dsLinear$BirthRate,
+  start = as.integer(dsLinear[1, c("Year", "Month")]),
   end = as.integer(dsLinear[nrow(dsLinear), c("Year", "Month")]),
   frequency = 12
 )

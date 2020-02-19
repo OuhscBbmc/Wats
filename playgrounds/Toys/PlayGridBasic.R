@@ -12,7 +12,7 @@ grid.newpage()
 # #line 177 "customgrid.Rnw"
 #pushViewport(plotViewport(c(2, 2, 2, 2)))
 # #pushViewport(dataViewport(xData=x, yData=y, name="plotRegion"))
-# 
+#
 
 
 #grid.lines(x=x, y=y, size = unit(1, "char"), gp=gpar(col=1:5, lwd=3))

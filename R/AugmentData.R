@@ -31,7 +31,7 @@ AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
   dsLinear$ProportionID <- base::rank(dsLinear$ProportionThroughCycle, ties.method="max") / base::max(dsLinear$CycleTally + 1)
   dsLinear$StartingPointInCycle <- (dsLinear$ProportionID==base::min(dsLinear$ProportionID))
   dsLinear$TerminalPointInCycle <- (dsLinear$ProportionID==base::max(dsLinear$ProportionID))
-  
+
   SummarizeWithinStage <- function( d ) {
     isMin <- (base::min(d[, dateName]) < d[, dateName])
     return( d$StageID + isMin*0.5 )
@@ -42,31 +42,31 @@ AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
 AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
   yearOfEvent <- lubridate::year(dsLinear[, dateName])
   firstOfYear <- base::ISOdate(year=yearOfEvent, month=1, day=1, tz="GMT")
-  lastOfYear <- firstOfYear + lubridate::years(1)  #ISOdate(year=yearOfEvent + 1, month=1, day=1, tz="GMT") 
-  
+  lastOfYear <- firstOfYear + lubridate::years(1)  #ISOdate(year=yearOfEvent + 1, month=1, day=1, tz="GMT")
+
   minYearOfEvent <- min(yearOfEvent)
   dsLinear$CycleTally <- (yearOfEvent - minYearOfEvent)
   secondsThroughTheYear <- base::as.integer(base::difftime(time1=dsLinear[, dateName], firstOfYear, units="sec")) - .5
   secondsInTheYear <- base::as.integer(base::difftime(lastOfYear, firstOfYear, units="sec"))
   dsLinear$ProportionThroughCycle <- secondsThroughTheYear /  secondsInTheYear
-  
+
   SummarizeWithinCycle <- function( d ) {
     d$ProportionID <- base::rank(d$ProportionThroughCycle, ties.method="max")
     d$StartingPointInCycle <- (d$ProportionID==base::min(d$ProportionID))
-    d$TerminalPointInCycle <- (d$ProportionID==base::max(d$ProportionID)) 
+    d$TerminalPointInCycle <- (d$ProportionID==base::max(d$ProportionID))
     return( d )
   }
   dsLinear <- plyr::ddply(dsLinear, .variables="CycleTally", SummarizeWithinCycle) #base::transform,
 #                           ProportionID)
-  
+
   #dsLinear$ProportionID <- as.integer(round(rank(dsLinear$ProportionThroughCycle, ties.method="max") / max(dsLinear$CycleTally + 1)))
 #   dsLinear$ProportionID <- rank(dsLinear$ProportionThroughCycle, ties.method="max") / max(dsLinear$CycleTally + 1)
 #   dsLinear$StartingPointInCycle <- (dsLinear$ProportionID==min(dsLinear$ProportionID))
-#   dsLinear$TerminalPointInCycle <- (dsLinear$ProportionID==max(dsLinear$ProportionID))  
-#   dsLinear <- plyr::ddply(dsLinear, 
-#                     "CycleTally", 
-#                     transform, 
-#                     TerminalPointInCycle=(rank(ProportionThroughCycle)==max(rank(ProportionThroughCycle))))  
+#   dsLinear$TerminalPointInCycle <- (dsLinear$ProportionID==max(dsLinear$ProportionID))
+#   dsLinear <- plyr::ddply(dsLinear,
+#                     "CycleTally",
+#                     transform,
+#                     TerminalPointInCycle=(rank(ProportionThroughCycle)==max(rank(ProportionThroughCycle))))
   SummarizeWithinStage <- function( d ) {
     #     minValue <- min(d[, dateName])
     #     maxValue <- max(d[, dateName])
@@ -84,7 +84,7 @@ AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
 # dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 # # dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 # dsLinear
-# 
+#
 # dsLinear$Date <- as.POSIXct(dsLinear$Date, tz="GMT")
 # dsLinear <- AugmentYearDataWithSecondResolution(dsLinear=dsLinear, dateName="Date")
-#   
+#

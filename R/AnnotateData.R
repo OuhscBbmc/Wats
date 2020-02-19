@@ -34,35 +34,35 @@
 #' head(portfolio$dsLinear)
 #' head(portfolio$dsPeriodic)
 
-AnnotateData <- function( dsLinear, 
+AnnotateData <- function( dsLinear,
                           dvName,
                           centerFunction,
                           spreadFunction,
-                          cycleTallyName="CycleTally", 
-                          stageIDName="StageID", 
+                          cycleTallyName="CycleTally",
+                          stageIDName="StageID",
                           stageProgressName="StageProgress",
                           proportionThroughCycleName="ProportionThroughCycle",
                           proportionIDName="ProportionID",
                           terminalPointInCycleName="TerminalPointInCycle" ) {
-  
+
   pointsInCycle <- max(dsLinear[, proportionIDName])
   testit::assert("The should be at least one point in a cycle", max(pointsInCycle)>=1)
-  
+
   z <- zoo::zooreg(data=dsLinear[, dvName], frequency=pointsInCycle)
   rollingBounds <- zoo::rollapply(data=z, width=pointsInCycle, FUN=spreadFunction)
-  
+
   dsLinear$RollingLower <- NA
   dsLinear$RollingCenter <- NA
   dsLinear$RollingUpper <- NA
   dsLinear$RollingLower[-seq_len(pointsInCycle-1) ] <- rollingBounds[, 1]
   dsLinear$RollingCenter[-seq_len(pointsInCycle-1) ] <- zoo::rollapply(data=z, width=pointsInCycle, FUN=centerFunction)
   dsLinear$RollingUpper[-seq_len(pointsInCycle-1) ] <- rollingBounds[, 2]
-  
-  
+
+
   summarizeStageCycle <- function( d ) {
     positionBounds <- spreadFunction(d[, dvName])
     #   print(positionBounds)
-    data.frame(    
+    data.frame(
       ProportionThroughCycle = mean(d$ProportionThroughCycle, na.rm=TRUE),
       PositionLower = positionBounds[1],
       PositionCenter = centerFunction(d[, dvName]),
@@ -70,16 +70,16 @@ AnnotateData <- function( dsLinear,
     )
   }
   dsStageCycle <- plyr::ddply(dsLinear, .variables=c(stageIDName, proportionIDName), .fun=summarizeStageCycle)
-  
+
   dsLinearTemp <- dsLinear[, c("Date", stageIDName, proportionIDName, stageProgressName)]
   colnames(dsLinearTemp)[colnames(dsLinearTemp)==stageIDName] <- "StageIDTime" #Make sure `StageIDTime` matches the two calls below.
-  
+
   dsStageCycleTemp <- dsStageCycle
   colnames(dsStageCycleTemp)[colnames(dsStageCycleTemp)==stageIDName] <- "StageIDBand" #Make sure `StageIDBand` matches the calls below.
-  
+
   dsPeriodic <- merge(x=dsLinearTemp, y=dsStageCycleTemp, by=c(proportionIDName), all.x=TRUE, all.y=TRUE)
   dsPeriodic <- dsPeriodic[order(dsPeriodic[, "Date"], dsPeriodic[, "StageIDTime"], dsPeriodic[, "StageIDBand"]), ]
-  
+
   return( list(dsLinear=dsLinear, dsStageCycle=dsStageCycle, dsPeriodic=dsPeriodic) )
 }
 
@@ -87,16 +87,16 @@ AnnotateData <- function( dsLinear,
 # dsLinear <- CountyMonthBirthRate2005Version
 # dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 # dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
-# 
+#
 # hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 # portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
-# 
+#
 # head(portfolio$dsStageCycle)
 # head(portfolio$dsLinear)
 # head(portfolio$dsPeriodic)
-# 
+#
 # portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=mean, spreadFunction=hSpread)
-# 
+#
 # head(portfolio$dsStageCycle)
 # head(portfolio$dsLinear)
 # head(portfolio$dsPeriodic)
