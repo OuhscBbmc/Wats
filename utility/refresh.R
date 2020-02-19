@@ -1,25 +1,41 @@
-rm(list=ls(all=TRUE))
-# library(devtools)
-# library(staticdocs)
-
-if( base::Sys.info()["sysname"] == "Windows" )
-  base::options(device = "windows") #http://support.rstudio.org/help/discussions/problems/80-error-in-function-only-one-rstudio-graphics-device-is-permitted
+rm(list=ls(all.names=TRUE))
+deviceType <- ifelse(R.version$os=="linux-gnu", "X11", "windows")
+options(device = deviceType) #http://support.rstudio.org/help/discussions/problems/80-error-in-function-only-one-rstudio-graphics-device-is-permitted
 
 devtools::document()
-devtools::check_doc() #Should return NULL
-system("R CMD Rd2pdf --no-preview --force --output=./DocumentationPeek.pdf ." )
-
-devtools::run_examples(); dev.off() #This overwrites the NAMESPACE file too
-# devtools::run_examples(, "CountyMonthBirthRateDoc.Rd")
-test_results <- devtools::test()
+devtools::check_man() #Should return NULL
 devtools::clean_vignettes()
 devtools::build_vignettes()
 
-# staticdocs::build_package(package="Wats", base_path="./../", examples=FALSE)
+checks_to_exclude <- c(
+  "covr",
+  "lintr_line_length_linter"
+)
+gp <-
+  goodpractice::all_checks() %>%
+  purrr::discard(~(. %in% checks_to_exclude)) %>%
+  goodpractice::gp(checks = .)
+goodpractice::results(gp)
+gp
 
-# devtools::build_win(version="R-devel") #CRAN submission policies encourage the development version
-# devtools::revdep_check()
-# devtools::revdep_check(libpath ="D:/Projects/RLibraries")
+devtools::document()
+pkgdown::clean_site()
+pkgdown::build_site()
+system("R CMD Rd2pdf --no-preview --force --output=./documentation-peek.pdf ." )
+
+devtools::run_examples(); #dev.off() #This overwrites the NAMESPACE file too
+# devtools::run_examples(, "CountyMonthBirthRateDoc.Rd")
+test_results_checked <- devtools::test()
+test_results_checked <- devtools::test(filter = "read-oneshot-eav")
+test_results_checked <- devtools::test(filter = "metadata-write")
+test_results_checked <- devtools::test(filter = "validate.*$")
+
+# testthat::test_dir("./tests/")
+test_results_not_checked <- testthat::test_dir("./tests/manual/")
+
+# devtools::check(force_suggests = FALSE)
+devtools::check(cran=TRUE)
+# devtools::check_rhub(email="wibeasley@hotmail.com")
+# devtools::check_win_devel() # CRAN submission policies encourage the development version
+# devtools::revdepcheck(recursive=TRUE)
 # devtools::release(check=FALSE) #Careful, the last question ultimately uploads it to CRAN, where you can't delete/reverse your decision.
-# Alternatively, packages can be submitted here, which doesn't require an extra email: http://cran.r-project.org/submit.html
-# Either way, check that the tarball was uploaded to ftp://cran.r-project.org/incoming/

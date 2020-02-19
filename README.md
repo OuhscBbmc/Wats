@@ -1,13 +1,13 @@
-<!-- rmarkdown v1 -->
+WATS
+==========================
 
-| [GitHub](https://github.com/OuhscBbmc/Wats) | [Travis-CI](https://travis-ci.org/OuhscBbmc/Wats/builds) | [AppVeyor](https://ci.appveyor.com/project/wibeasley/Wats/history) | [Coveralls](https://coveralls.io/r/OuhscBbmc/Wats) |
+[GitHub](https://github.com/OuhscBbmc/Wats) | [Travis-CI](https://travis-ci.org/OuhscBbmc/Wats/builds) | [AppVeyor](https://ci.appveyor.com/project/wibeasley/Wats/history) | [Coveralls](https://coveralls.io/r/OuhscBbmc/Wats) |
 | :----- | :---------------------------: | :-----------------------------: | :-------: |
 | [Master](https://github.com/OuhscBbmc/Wats/tree/master) | [![Build Status](https://travis-ci.org/OuhscBbmc/Wats.svg?branch=master)](https://travis-ci.org/OuhscBbmc/Wats) | [![Build status](https://ci.appveyor.com/api/projects/status/2wkbuwqcmog4nhxf/branch/master?svg=true)](https://ci.appveyor.com/project/wibeasley/wats/branch/master) | [![Coverage Status](https://coveralls.io/repos/OuhscBbmc/Wats/badge.svg?branch=master)](https://coveralls.io/r/OuhscBbmc/Wats?branch=master) |
 | [Dev](https://github.com/OuhscBbmc/Wats/tree/dev) | [![Build Status](https://travis-ci.org/OuhscBbmc/Wats.svg?branch=dev)](https://travis-ci.org/OuhscBbmc/Wats) | [![Build status](https://ci.appveyor.com/api/projects/status/2wkbuwqcmog4nhxf/branch/dev?svg=true)](https://ci.appveyor.com/project/wibeasley/wats/branch/dev) | [![Coverage Status](https://coveralls.io/repos/OuhscBbmc/Wats/badge.svg?branch=dev)](https://coveralls.io/r/OuhscBbmc/Wats?branch=dev) | -- |
 | | *Ubuntu LTS* | *Windows Server* | *Test Coverage* | *Independently-hosted Archive* |
 
-## Welcome to the `Wats` Package
-This implements the approaches described in
+Welcome to the `Wats` Package. This implements the approaches described in
 [Joseph Lee Rodgers](http://www.vanderbilt.edu/psychological_sciences/bio/joe-rodgers), [William Howard Beasley](https://scholar.google.com/citations?user=ffsJTC0AAAAJ), and Matthew Schuelke (2014).
 [Wrap-around Time Series Plots (WATS Plots) for Interrupted Time Series Designs:
 Applications to Fertility Rates and the Oklahoma City Bombing.](http://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589) *Multivariate Behavioral Research*.
