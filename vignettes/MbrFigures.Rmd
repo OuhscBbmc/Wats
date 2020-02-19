@@ -1,8 +1,12 @@
-<!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Figures for the MBR Manuscript}
--->
-<!-- rmarkdown v1 -->
+---
+title: Figures for the MBR Manuscript
+output:
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Figures for the MBR Manuscript}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
 
 # Figures for the MBR Manuscript
 This vignette produces the graphs included in the initial MBR manuscript.
