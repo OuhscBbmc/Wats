@@ -28,7 +28,6 @@ Imports:
     testit,
     zoo
 Suggests:
-    BayesSingleSub,
     boot,
     devtools,
     knitr,
@@ -38,4 +37,3 @@ License: MIT + file LICENSE
 LazyData: TRUE
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 5.0.1
