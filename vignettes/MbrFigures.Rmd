@@ -75,15 +75,18 @@ bootSpread <- function( scores, conf=.68 ) {
 
 darkTheme <- ggplot2::theme(
   axis.title          = ggplot2::element_text(color="gray30", size=9),
+  # axis.text.x         = ggplot2::element_text(color="gray30", margin   = grid::unit(.00001, "cm"), hjust=0),
+  # axis.text.y         = ggplot2::element_text(color="gray30", margin   = grid::unit(.00001, "cm")),
   axis.text.x         = ggplot2::element_text(color="gray30", hjust=0),
-  axis.text.y         = ggplot2::element_text(color="gray30"),
+axis.text.y         = ggplot2::element_text(color="gray30"),
   axis.ticks.length   = grid::unit(0, "cm"),
-  axis.ticks.margin   = grid::unit(.00001, "cm"),
 #   panel.grid.minor.y  = element_line(color="gray95", size=.1),
 #   panel.grid.major    = element_line(color="gray90", size=.1),
-  panel.margin        = grid::unit(c(0, 0, 0, 0), "cm"),
+  panel.spacing       = grid::unit(c(0, 0, 0, 0), "cm"),
   plot.margin         = grid::unit(c(0, 0, 0, 0), "cm")
 )
+# qplot(mtcars$hp) + darkTheme
+
 lightTheme <- darkTheme + ggplot2::theme(
   axis.title          = ggplot2::element_text(color="gray80", size=9),
   axis.text.x         = ggplot2::element_text(color="gray80", hjust=0),
