@@ -77,6 +77,7 @@
 #' geom_line() +
 #' labs(title="County Fertility - Longitudinal") 
 #' 
+#' 
 #' ggplot(ds2014, aes(x=BirthRate, color=factor(Fips))) + 
 #' geom_density() +
 #' labs(title="Distributions of County Fertility")

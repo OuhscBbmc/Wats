@@ -1,25 +1,25 @@
-##' @name AugmentCycleData
-##' @aliases AugmentYearDataWithMonthResolution AugmentYearDataWithSecondResolution
-##' @export AugmentYearDataWithMonthResolution AugmentYearDataWithSecondResolution
-##' @usage AugmentYearDataWithMonthResolution( dsLinear, dateName ) 
-##' AugmentYearDataWithSecondResolution( dsLinear, dateName ) 
-##' 
-##' @title Calculates variables necessary for WATS Plots
-##' 
-##' @description Calculates variables necessary for WATS Plots.  This the first of two functions
-##' that needs to be called to produce WATS Plots.  \code{AnnotateData} is the second.
-##' 
-##' @param dsLinear The \code{data.frame} to containing the detailed data.
-##' @param dateName The variable name in \code{dsLinear} containing the date or datetime value.
-## @param stageIDName The variable name indicating the stage. In a typical interrupted time series, these values are \code{1} before the interruption and \code{2} after.
-##' @return Returns a \code{data.frame} with additional variables: \code{CycleTally}, \code{ProportionThroughCycle}, \code{ProportionID}, and \code{TerminalPointInCycle}.
-##' @examples
-##' library(Wats)
-##' dsLinear <- CountyMonthBirthRate2005Version
-##' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-##' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
-##' head(dsLinear)
-##' 
+#' @name AugmentCycleData
+#' @aliases AugmentYearDataWithMonthResolution AugmentYearDataWithSecondResolution
+#' @export AugmentYearDataWithMonthResolution AugmentYearDataWithSecondResolution
+#' @usage AugmentYearDataWithMonthResolution( dsLinear, dateName )
+#' AugmentYearDataWithSecondResolution( dsLinear, dateName )
+#'
+#' @title Calculates variables necessary for WATS Plots
+#'
+#' @description Calculates variables necessary for WATS Plots.  This the first of two functions
+#' that needs to be called to produce WATS Plots.  \code{AnnotateData} is the second.
+#'
+#' @param dsLinear The \code{data.frame} to containing the detailed data.
+#' @param dateName The variable name in \code{dsLinear} containing the date or datetime value.
+# @param stageIDName The variable name indicating the stage. In a typical interrupted time series, these values are \code{1} before the interruption and \code{2} after.
+#' @return Returns a \code{data.frame} with additional variables: \code{CycleTally}, \code{ProportionThroughCycle}, \code{ProportionID}, and \code{TerminalPointInCycle}.
+#' @examples
+#' library(Wats)
+#' dsLinear <- CountyMonthBirthRate2005Version
+#' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
+#' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+#' head(dsLinear)
+#'
 AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
   yearOfEvent <- lubridate::year(dsLinear[, dateName])
 

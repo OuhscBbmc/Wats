@@ -1,64 +1,64 @@
-##' @name CartesianRolling
-##' @export
-##' @title Linear Plot with Rolling Summaries
-##' 
-##' @description Shows the interrupted time series in Cartesian coordinates without a periodic/cyclic components.
-##' 
-##' @param dsLinear The \code{data.frame} to containing the data.
-##' @param xName The variable name containing the date.
-##' @param yName The variable name containing the dependent/criterion variable.
-##' @param stageIDName The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.
-##' @param rollingLowerName The variable name showing the lower bound of the rolling estimate.
-##' @param rollingCenterName The variable name showing the rolling estimate.
-##' @param rollingUpperName The variable name showing the upper bound of the rolling estimate.
-##' @param paletteDark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.
-##' @param paletteLight A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.
-##' @param colorSparse The color of the `slowest' trend line, which plots only one value per cycle. 
-##' @param changePoints A vector of values indicate the interruptions between stages.  It typically works best as a \code{Date} or a \code{POSIXct} class.
-##' @param changePointLabels The text plotted above each interruption.
-##' @param drawJaggedLine A boolean value indicating if a line should be plotted that connects the observed data points.
-##' @param drawRollingLine A boolean value indicating if a line should be plotted that connects the rolling estimates specified by \code{rollingCenterName}.
-##' @param drawRollingBand A boolean value indicating if a band should be plotted that envelopes the rolling estimates (whose values are take from the \code{rollingLowerName} and \code{rollingUpperName}.
-##' @param drawSparseLineAndPoints A boolean value indicating if the sparse line and points should be plotted.
-##' 
-##' @param jaggedPointSize The size of the observed data points.
-##' @param jaggedLineSize The size of the line connecting the observed data points.
-##' @param rollingLineSize The size of the line connecting the rolling estimates.
-##' @param sparsePointSize The size of the sparse estimates.
-##' @param sparseLineSize The size of the line connecting the sparse estimates.
-##' 
-##' @param bandAlpha The amount of transparency of the rolling estimate band.
-##' @param changeLineAlpha The amount of transparency marking each interruption.
-##' @param changeLineSize The width of a line marking an interruption.
-##' 
-##' @param title The string describing the plot.
-##' @param xTitle The string describing the \emph{x}-axis.
-##' @param yTitle The string describing the \emph{y}-axis. 
-##' 
-##' @return Returns a \code{ggplot2} graphing object
-##' @keywords Cartesian
-##' @examples
-##' library(Wats) #Load the package
-##' changeMonth <- base::as.Date("1996-02-15")
-##' dsLinear <- CountyMonthBirthRate2005Version
-##' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-##' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
-##' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-##' portfolio <- AnnotateData(
-##'     dsLinear, 
-##'     dvName = "BirthRate",
-##'     centerFunction = median, 
-##'     spreadFunction = hSpread
-##' )
-##' 
-##' CartesianRolling(
-##'     portfolio$dsLinear,
-##'     xName = "Date", 
-##'     yName = "BirthRate",
-##'     stageIDName = "StageID", 
-##'     changePoints = changeMonth, 
-##'     changePointLabels = "Bombing Effect"
-##' )
+#' @name CartesianRolling
+#' @export
+#' @title Linear Plot with Rolling Summaries
+#'
+#' @description Shows the interrupted time series in Cartesian coordinates without a periodic/cyclic components.
+#'
+#' @param dsLinear The \code{data.frame} to containing the data.
+#' @param xName The variable name containing the date.
+#' @param yName The variable name containing the dependent/criterion variable.
+#' @param stageIDName The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.
+#' @param rollingLowerName The variable name showing the lower bound of the rolling estimate.
+#' @param rollingCenterName The variable name showing the rolling estimate.
+#' @param rollingUpperName The variable name showing the upper bound of the rolling estimate.
+#' @param paletteDark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.
+#' @param paletteLight A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.
+#' @param colorSparse The color of the `slowest' trend line, which plots only one value per cycle.
+#' @param changePoints A vector of values indicate the interruptions between stages.  It typically works best as a \code{Date} or a \code{POSIXct} class.
+#' @param changePointLabels The text plotted above each interruption.
+#' @param drawJaggedLine A boolean value indicating if a line should be plotted that connects the observed data points.
+#' @param drawRollingLine A boolean value indicating if a line should be plotted that connects the rolling estimates specified by \code{rollingCenterName}.
+#' @param drawRollingBand A boolean value indicating if a band should be plotted that envelopes the rolling estimates (whose values are take from the \code{rollingLowerName} and \code{rollingUpperName}.
+#' @param drawSparseLineAndPoints A boolean value indicating if the sparse line and points should be plotted.
+#'
+#' @param jaggedPointSize The size of the observed data points.
+#' @param jaggedLineSize The size of the line connecting the observed data points.
+#' @param rollingLineSize The size of the line connecting the rolling estimates.
+#' @param sparsePointSize The size of the sparse estimates.
+#' @param sparseLineSize The size of the line connecting the sparse estimates.
+#'
+#' @param bandAlpha The amount of transparency of the rolling estimate band.
+#' @param changeLineAlpha The amount of transparency marking each interruption.
+#' @param changeLineSize The width of a line marking an interruption.
+#'
+#' @param title The string describing the plot.
+#' @param xTitle The string describing the \emph{x}-axis.
+#' @param yTitle The string describing the \emph{y}-axis.
+#'
+#' @return Returns a \code{ggplot2} graphing object
+#' @keywords Cartesian
+#' @examples
+#' library(Wats) #Load the package
+#' changeMonth <- base::as.Date("1996-02-15")
+#' dsLinear <- CountyMonthBirthRate2005Version
+#' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
+#' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+#' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+#' portfolio <- AnnotateData(
+#'     dsLinear,
+#'     dvName = "BirthRate",
+#'     centerFunction = median,
+#'     spreadFunction = hSpread
+#' )
+#'
+#' CartesianRolling(
+#'     portfolio$dsLinear,
+#'     xName = "Date",
+#'     yName = "BirthRate",
+#'     stageIDName = "StageID",
+#'     changePoints = changeMonth,
+#'     changePointLabels = "Bombing Effect"
+#' )
 
 CartesianRolling <- function(dsLinear, xName, yName, stageIDName, 
                               rollingLowerName="RollingLower", rollingCenterName="RollingCenter", rollingUpperName="RollingUpper",

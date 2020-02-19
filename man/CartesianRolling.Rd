@@ -103,18 +103,18 @@ dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- AnnotateData(
-    dsLinear, 
+    dsLinear,
     dvName = "BirthRate",
-    centerFunction = median, 
+    centerFunction = median,
     spreadFunction = hSpread
 )
 
 CartesianRolling(
     portfolio$dsLinear,
-    xName = "Date", 
+    xName = "Date",
     yName = "BirthRate",
-    stageIDName = "StageID", 
-    changePoints = changeMonth, 
+    stageIDName = "StageID",
+    changePoints = changeMonth,
     changePointLabels = "Bombing Effect"
 )
 }

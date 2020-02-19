@@ -17,7 +17,7 @@
 #' 
 #' @author 
 #'  \href{http://scholar.google.com/citations?user=ffsJTC0AAAAJ}{William Howard Beasley} 
-#'  --Assistant Professor of Research, \href{http://find.ouhsc.edu/Faculty.aspx?FacultyID=1064}{University of Oklahoma Health Sciences Center}, 
+#'  --Associate Professor of Research, \href{https://ouhsc.edu/bbmc/team/}{University of Oklahoma Health Sciences Center}, 
 #'  \href{http://www.oumedicine.com/pediatrics}{Dept of Pediatrics}, Biomedical and Behavioral Methodology Core (\href{http://ouhsc.edu/bbmc/}{BBMC})
 #'  
 #'  

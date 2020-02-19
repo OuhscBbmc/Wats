@@ -122,37 +122,37 @@ portfolio <- AnnotateData(
 rm(dsLinear)
 
 polarized <- PolarizeCartesian(
-  portfolio$dsLinear, 
-  portfolio$dsStageCycle, 
-  yName = "BirthRate", 
+  portfolio$dsLinear,
+  portfolio$dsStageCycle,
+  yName = "BirthRate",
   stageIDName = "StageID"
 )
 
 grid.newpage()
 PolarPeriodic(
-  dsLinear = polarized$dsObservedPolar, 
-  dsStageCyclePolar = polarized$dsStageCyclePolar, 
-  yName = "Radius", 
-  stageIDName = "StageID", 
+  dsLinear = polarized$dsObservedPolar,
+  dsStageCyclePolar = polarized$dsStageCyclePolar,
+  yName = "Radius",
+  stageIDName = "StageID",
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 
 grid.newpage()
 PolarPeriodic(
-  dsLinear = polarized$dsObservedPolar, 
-  dsStageCyclePolar = polarized$dsStageCyclePolar, 
-  yName = "Radius", 
-  stageIDName = "StageID", 
+  dsLinear = polarized$dsObservedPolar,
+  dsStageCyclePolar = polarized$dsStageCyclePolar,
+  yName = "Radius",
+  stageIDName = "StageID",
   drawPeriodicBand = FALSE
 )
 
 grid.newpage()
 PolarPeriodic(
-  dsLinear = polarized$dsObservedPolar, 
-  dsStageCyclePolar = polarized$dsStageCyclePolar, 
-  yName = "Radius", 
-  stageIDName = "StageID", 
-  drawObservedLine = FALSE, 
+  dsLinear = polarized$dsObservedPolar,
+  dsStageCyclePolar = polarized$dsStageCyclePolar,
+  yName = "Radius",
+  stageIDName = "StageID",
+  drawObservedLine = FALSE,
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 }
