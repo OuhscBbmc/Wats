@@ -43,7 +43,7 @@ The following directories are not part of the standard R package:
 
 ## Installing 
 
-| [CRAN](http://cran.rstudio.com/) | [Version](https://cran.r-project.org/package=Wats) | [Rate](http://cranlogs.r-pkg.org/) | [Zenodo](https://zenodo.org/search?ln=en&p=wats) | 
+| [CRAN](https://cran.rstudio.com/) | [Version](https://cran.r-project.org/package=Wats) | [Rate](http://cranlogs.r-pkg.org/) | [Zenodo](https://zenodo.org/search?ln=en&p=wats) | 
 |  :---- | :----: | :----: | :----: |
 | [Latest](https://cran.r-project.org/package=Wats) | [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/Wats)](https://cran.r-project.org/package=Wats) | ![CRANPace](http://cranlogs.r-pkg.org/badges/Wats) | [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11921.svg)](https://doi.org/10.5281/zenodo.11921) |
 |   | *Latest CRAN version* | *CRAN Downloads* | *Independently-hosted Archive* |
