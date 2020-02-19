@@ -95,7 +95,7 @@ CartesianPeriodic <- function(dsLinear, dsPeriodic,
         #p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=periodicLowerName, ymax=periodicUpperName, y=NULL), data=dsStagePeriodic, 
         #                     fill=paletteDark[stageInner], color=NA, alpha=ribbonAlpha, na.rm=T)
         
-        p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(y=periodicLowerName, ymin=periodicLowerName, ymax=periodicUpperName), data=dsStagePeriodic, 
+        p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(y=NULL, ymin=periodicLowerName, ymax=periodicUpperName), data=dsStagePeriodic, 
                               fill=paletteDark[stageInner], color=NA, alpha=ribbonAlpha, na.rm=T)
       }
     }
