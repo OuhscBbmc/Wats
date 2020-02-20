@@ -10,9 +10,6 @@ Authors@R: c(person("Will", "Beasley", role = c("aut", "cre"), email =
     "ctb", email = "schuelkem@slu.edu"), person("Ronnie",
     "Coleman", role = "ctb"), person("Mark Joseph", "Lachowicz", role =
     "ctb", email = "mark.j.lachowicz@vanderbilt.edu"))
-Author: Will Beasley [aut, cre], Joe Rodgers [aut], Matthew Schuelke [ctb],
-    Ronnie Coleman [ctb], Mark Joseph Lachowicz [ctb]
-Maintainer: Will Beasley <wibeasley@hotmail.com>
 URL: https://github.com/OuhscBbmc/Wats
 BugReports: https://github.com/OuhscBbmc/Wats/issues
 Depends:
