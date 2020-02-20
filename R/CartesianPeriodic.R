@@ -93,10 +93,10 @@ CartesianPeriodic <- function(dsLinear, dsPeriodic,
         dsStagePeriodic <- dsPeriodic[(stage<=dsPeriodic$StageProgress) & (dsPeriodic$StageProgress<=(stage+1)) & (dsPeriodic$StageIDBand==stageInner), ]
         ribbonAlpha <- ifelse(stage==stageInner, bandAlphaDark, bandAlphaLight)
         #p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=periodicLowerName, ymax=periodicUpperName, y=NULL), data=dsStagePeriodic,
-        #                     fill=paletteDark[stageInner], color=NA, alpha=ribbonAlpha, na.rm=T)
+        #                     fill=paletteDark[stageInner], color=NA, alpha=ribbonAlpha, na.rm=TRUE)
 
         p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(y=NULL, ymin=periodicLowerName, ymax=periodicUpperName), data=dsStagePeriodic,
-                              fill=paletteDark[stageInner], color=NA, alpha=ribbonAlpha, na.rm=T)
+                              fill=paletteDark[stageInner], color=NA, alpha=ribbonAlpha, na.rm=TRUE)
       }
     }
 

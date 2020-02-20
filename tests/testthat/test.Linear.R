@@ -1,6 +1,6 @@
 # library(testthat)
 #
-# dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=F)
+# dsLinear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=FALSE)
 # dsLinear$Date <- as.Date(dsLinear$Date)
 # changeMonth <- as.Date("1996-02-15") # as.Date(dateBombing + weeks(40))
 # dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)

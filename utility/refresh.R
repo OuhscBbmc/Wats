@@ -26,8 +26,6 @@ system("R CMD Rd2pdf --no-preview --force --output=./documentation-peek.pdf ." )
 devtools::run_examples(); #dev.off() #This overwrites the NAMESPACE file too
 # devtools::run_examples(, "CountyMonthBirthRateDoc.Rd")
 test_results_checked <- devtools::test()
-test_results_checked <- devtools::test(filter = "read-oneshot-eav")
-test_results_checked <- devtools::test(filter = "metadata-write")
 test_results_checked <- devtools::test(filter = "validate.*$")
 
 # testthat::test_dir("./tests/")

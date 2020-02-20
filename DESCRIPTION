@@ -15,8 +15,7 @@ Maintainer: Will Beasley <wibeasley@hotmail.com>
 URL: https://github.com/OuhscBbmc/Wats
 BugReports: https://github.com/OuhscBbmc/Wats/issues
 Depends:
-    R (>= 3.0.0),
-    stats
+    R (>= 3.0.0)
 Imports:
     colorspace,
     ggplot2,

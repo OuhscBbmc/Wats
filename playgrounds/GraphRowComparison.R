@@ -38,7 +38,7 @@ GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spreadFun
   cartesianPeriodic <- CartesianPeriodic(portfolioCartesian$dsLinear, portfolioCartesian$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels=""  )
 
   pushViewport(viewport(
-    layout=grid.layout(nrow=1, ncol=3, respect=F, widths=unit(c(2,1,3), c("line", "null", "null"))),
+    layout=grid.layout(nrow=1, ncol=3, respect=FALSE, widths=unit(c(2,1,3), c("line", "null", "null"))),
     gp=gpar(cex=1, fill=NA)
   ))
   pushViewport(viewport(layout.pos.col=1))

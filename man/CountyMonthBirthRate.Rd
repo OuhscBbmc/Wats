@@ -47,8 +47,8 @@ The US Census' intercensal estimates are used for the January values of
 \href{http://stat.ethz.ch/R-manual/R-devel/library/stats/html/approxfun.html}{\code{approx}}.
 
 The datasets were manipulated to produce this data frame by the two R files
-\href{https://github.com/OuhscBbmc/Wats/blob/master/UtilityScripts/IsolateCensusPopsForGfr.R}{IsolateCensusPopsForGfr.R}
-and \href{https://github.com/OuhscBbmc/Wats/blob/master/UtilityScripts/CalculateGfr.R}{CalculateGfr.R}.
+\href{https://github.com/OuhscBbmc/Wats/blob/master/utility/isolate-census-pops-for-gfr.R}{IsolateCensusPopsForGfr.R}
+and \href{https://github.com/OuhscBbmc/Wats/blob/master/utility/calculate-gfr.R}{CalculateGfr.R}.
 }
 \examples{
 library(ggplot2)
@@ -79,11 +79,14 @@ Rodgers, J. L., St. John, C. A. & Coleman R. (2005).
 \href{http://www.ncbi.nlm.nih.gov/pubmed/16463916}{Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.}
 \emph{Demography, 42}, 675-692.
 
-\href{http://www.census.gov/popest/data/intercensal/st-co/characteristics.html}{Intercensal
-estimates for 199x.}
+[Intercensal estimates for 199x](https://www.census.gov/data/tables/time-series/demo/popest/intercensal-1990-2000-state-and-county-totals.html)
 
-\href{http://www.census.gov/popest/data/intercensal/county/county2010.html}{Intercensal
-estimates for 200x.}
+[Intercensal estimates for 200x](http://www.census.gov/popest/data/intercensal/county/county2010.html)
+
+
+* [US Census Intercensal Estimates](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html) 
+for [199x]() 
+and [200x](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/2000-2010-intercensal.html).
 }
 \author{
 Will Beasley

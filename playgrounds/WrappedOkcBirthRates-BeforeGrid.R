@@ -230,14 +230,14 @@ plot(NA, xlim=c(0, monthCount), ylim=c(graphFloor, graphCeiling), type="n", xaxt
   col.sub=labelColor, cex.lab=1.2)
 
   axis(1, at=seq(from=0, to=changePoint-monthsPerYear, by=12)+6, labels=seq(from=firstYear, to=firstYear+5, by=1),
-    col=gridColor, line=-1, tick=F, col.axis=colorBefore, cex.axis=1.5)
+    col=gridColor, line=-1, tick=FALSE, col.axis=colorBefore, cex.axis=1.5)
   axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
-    col=gridColor, line=-1, tick=F, col.axis=colorAfter, cex.axis=1.5)
+    col=gridColor, line=-1, tick=FALSE, col.axis=colorAfter, cex.axis=1.5)
   axis(2, at=yAxisTicks, col=labelColor, col.axis=labelColor, line=-0, tick=T, cex.axis=1.5)
   mtext("General Fertility Rate", side=2,line=2.5, cex=1.25)
 
 
-#  axis(1, at=seq(from=6, to=(monthCount), by=6), labels=rep(c("(Jun)", "(Dec)"), 5), col.axis=labelColor, line=0, tick=F, lty=0, cex.axis=.7)
+#  axis(1, at=seq(from=6, to=(monthCount), by=6), labels=rep(c("(Jun)", "(Dec)"), 5), col.axis=labelColor, line=0, tick=FALSE, lty=0, cex.axis=.7)
 
   abline(v=seq(from=monthsPerYear, to=monthCount, by=monthsPerYear), col=gridColor, lty=2)
   for( i in 2:monthCount ) {
@@ -340,9 +340,9 @@ PlotLinear <- function( displayMovingAverage=TRUE, displayMovingAverageBands=TRU
     ylab="", sub=subTitle, col.sub=labelColor, xlab="",#xlab="Time",
        cex.lab=2, cex.sub=1.5)
   axis(1, at=seq(from=0, to=changePoint-monthsPerYear, by=12)+6, labels=seq(from=firstYear, to=firstYear+5, by=1),
-    col=gridColor, line=-1, tick=F, col.axis=colorBefore, cex.axis=1.5)
+    col=gridColor, line=-1, tick=FALSE, col.axis=colorBefore, cex.axis=1.5)
   axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
-    col=gridColor, line=-1, tick=F, col.axis=colorAfter, cex.axis=1.5)
+    col=gridColor, line=-1, tick=FALSE, col.axis=colorAfter, cex.axis=1.5)
   axis(2, at=yAxisTicks, col=labelColor, col.axis=labelColor, line=-0, tick=T, cex.axis=1.5)
   mtext("General Fertility Rate", side=2,line=2.5, cex=1)
 

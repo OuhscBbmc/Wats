@@ -28,7 +28,7 @@ BayesSingleSub::trendtest.MC.AR(beforeNaive, afterNaive)
 beforeClassic <- seasonalClassic$trend[dsLinear$StageID==1]
 afterClassic <- seasonalClassic$trend[dsLinear$StageID==2]
 mcmcRepCount <- 1000#000
-(gClassic <- BayesSingleSub::trendtest.Gibbs.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], return.chains=F, iterations=mcmcRepCount))
+(gClassic <- BayesSingleSub::trendtest.Gibbs.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], return.chains=FALSE, iterations=mcmcRepCount))
 (mcClassic <- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=mcmcRepCount))
 summary(mcClassic)
 # coda::gelman.diag(g$chains) #it needs multiple chains

@@ -134,7 +134,7 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
     else paletteLight <- colorspace::rainbow_hcl(n=length(stages), l=70)
   }
 #   grid.rect() #For exploring nested viewports
-  grid::pushViewport(grid::viewport(layout=grid::grid.layout(nrow=1, ncol=1, respect=T), gp=grid::gpar(cex=0.6, fill=NA)))
+  grid::pushViewport(grid::viewport(layout=grid::grid.layout(nrow=1, ncol=1, respect=TRUE), gp=grid::gpar(cex=0.6, fill=NA)))
 #   grid.rect() #For exploring nested viewports
   grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=1)) #This simple viewport is very important for the respected aspect ratio of 1.
 #   grid.rect() #For exploring nested viewports

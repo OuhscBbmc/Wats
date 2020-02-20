@@ -172,7 +172,7 @@ grid.newpage()
 
 # pushViewport(viewport(layout=grid.layout(nrow=1, ncol=1, respect=T), gp=gpar(cex=0.6, fill=NA)))
 pushViewport(viewport(layout=grid.layout(nrow=2, ncol=2, respect=T, widths=unit(c(1,1), c("null", "null")), heights=unit(c(1,.5), c("null", "null"))), gp=gpar(cex=0.6, fill=NA)))
-# pushViewport(viewport(layout=grid.layout(nrow=2, ncol=2, respect=F, widths=unit(c(1,1), c("null", "null")), heights=unit(c(1,.5), c("null", "null"))), gp=gpar(cex=0.6, fill=NA)))
+# pushViewport(viewport(layout=grid.layout(nrow=2, ncol=2, respect=FALSE, widths=unit(c(1,1), c("null", "null")), heights=unit(c(1,.5), c("null", "null"))), gp=gpar(cex=0.6, fill=NA)))
 
 ###
 ### Top left pane
@@ -290,14 +290,14 @@ upViewport(n=3)
 #
 # mtext(side=1, line=1, paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"), col=labelColor)
 # axis(1, at=seq(from=0, to=changePoint-monthsPerYear, by=12)+6, labels=seq(from=firstYear, to=firstYear+5, by=1),
-#      col=gridColor, line=-1, tick=F, col.axis=colorBefore, cex.axis=1.5)
+#      col=gridColor, line=-1, tick=FALSE, col.axis=colorBefore, cex.axis=1.5)
 # axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
-#      col=gridColor, line=-1, tick=F, col.axis=colorAfter, cex.axis=1.5)
+#      col=gridColor, line=-1, tick=FALSE, col.axis=colorAfter, cex.axis=1.5)
 # axis(2, at=yAxisTicks, col=labelColor, col.axis=labelColor, line=-0, tick=T, cex.axis=1.5)
 # mtext("General Fertility Rate", side=2,line=2.5, cex=1.25)
 #
 #
-# #  axis(1, at=seq(from=6, to=(monthCount), by=6), labels=rep(c("(Jun)", "(Dec)"), 5), col.axis=labelColor, line=0, tick=F, lty=0, cex.axis=.7)
+# #  axis(1, at=seq(from=6, to=(monthCount), by=6), labels=rep(c("(Jun)", "(Dec)"), 5), col.axis=labelColor, line=0, tick=FALSE, lty=0, cex.axis=.7)
 #
 #
 # linearVerticesXPre <- rep(NA,changePoint)
