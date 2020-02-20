@@ -1,9 +1,9 @@
 rm(list=ls(all=TRUE))
 library(Wats)
 library(grid)
-library(ggplot2) 
-library(boot) 
-library(circular) 
+library(ggplot2)
+library(boot)
+library(circular)
 
 dsLinear <- CountyMonthBirthRate2014Version[CountyMonthBirthRate2014Version$CountyName=="oklahoma", ]
 
@@ -21,16 +21,16 @@ bootSpread <- function( scores, conf=.68 ) {
 }
 # b <- bootSpread(dsLinear$BirthRate)
 
-# portfolioCartesian <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median, 
+# portfolioCartesian <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median,
 #                                    spreadFunction=bootSpread)
 #                                    #spreadFunction=seSpread)
-# 
+#
 # portfolioPolar <- PolarizeCartesian(portfolioCartesian$dsLinear, portfolioCartesian$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
 
 
 tsData <- stats::ts(
-  data = dsLinear$BirthRate, 
-  start = as.integer(dsLinear[1, c("Year", "Month")]), 
+  data = dsLinear$BirthRate,
+  start = as.integer(dsLinear[1, c("Year", "Month")]),
   end = as.integer(dsLinear[nrow(dsLinear), c("Year", "Month")]),
   frequency = 12)
 m <- decompose(tsData)

@@ -3,8 +3,8 @@ library(Wats)
 dsLinear <- CountyMonthBirthRate2014Version[CountyMonthBirthRate2014Version$CountyName=="oklahoma", ]
 
 tsData <- stats::ts(
-  data = dsLinear$BirthRate, 
-  start = as.integer(dsLinear[1, c("Year", "Month")]), 
+  data = dsLinear$BirthRate,
+  start = as.integer(dsLinear[1, c("Year", "Month")]),
   end = as.integer(dsLinear[nrow(dsLinear), c("Year", "Month")]),
   frequency = 12
 )
@@ -28,7 +28,7 @@ BayesSingleSub::trendtest.MC.AR(beforeNaive, afterNaive)
 beforeClassic <- seasonalClassic$trend[dsLinear$StageID==1]
 afterClassic <- seasonalClassic$trend[dsLinear$StageID==2]
 mcmcRepCount <- 1000#000
-(gClassic <- BayesSingleSub::trendtest.Gibbs.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], return.chains=F, iterations=mcmcRepCount))
+(gClassic <- BayesSingleSub::trendtest.Gibbs.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], return.chains=FALSE, iterations=mcmcRepCount))
 (mcClassic <- BayesSingleSub::trendtest.MC.AR(beforeClassic[!is.na(beforeClassic)], afterClassic[!is.na(afterClassic)], iterations=mcmcRepCount))
 summary(mcClassic)
 # coda::gelman.diag(g$chains) #it needs multiple chains

@@ -6,7 +6,7 @@
 \alias{AugmentYearDataWithSecondResolution}
 \title{Calculates variables necessary for WATS Plots}
 \usage{
-AugmentYearDataWithMonthResolution( dsLinear, dateName ) 
+AugmentYearDataWithMonthResolution( dsLinear, dateName )
 AugmentYearDataWithSecondResolution( dsLinear, dateName )
 }
 \arguments{
@@ -29,4 +29,3 @@ dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date
 head(dsLinear)
 
 }
-

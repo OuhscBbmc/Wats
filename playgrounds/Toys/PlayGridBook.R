@@ -15,7 +15,7 @@ pointsPerStage <- periodLength * 2
 totalPeriods <- 10 #stageCount*pointsPerStage
 totalPoints <- periodLength * totalPeriods
 timeIndex <- seq_len(totalPoints)
-periodID <- rep(seq_len(periodLength), totalPeriods) 
+periodID <- rep(seq_len(periodLength), totalPeriods)
 theta <- periodID * (2*pi/periodLength)
 residual <- 50 + rnorm(totalPoints, sd=5)
 
@@ -42,7 +42,7 @@ for( stageID in as.numeric(sort(unique(ds$StageID))) ){
     #ds[ds$StageID==stageID & ds$PeriodID==periodID, c("LowerY", "UpperY")] <- t(as.numeric(bandRange))
     ds[ds$StageID==stageID & ds$PeriodID==periodID, c("LowerY")] <- as.numeric(bandRange[1])
     ds[ds$StageID==stageID & ds$PeriodID==periodID, c("UpperY")] <- as.numeric(bandRange[2])
-    
+
 #     dsFull[dsFull$StageID==stageID & dsFull$PeriodID==periodID, c("LowerY")] <- as.numeric(bandRange[1])
 #     dsFull[dsFull$StageID==stageID & dsFull$PeriodID==periodID, c("UpperY")] <- as.numeric(bandRange[2])
   }
@@ -130,4 +130,3 @@ downViewport("plotRegion")
 grid.text("Pressure (mm Hg)\nversus\nTemperature (Celsius)",  x=unit(150, "native"), y=unit(600, "native"))
 upViewport(4)
 #from line 324 "customgrid.Rnw"
-

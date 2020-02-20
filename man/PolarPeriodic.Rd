@@ -4,20 +4,39 @@
 \alias{PolarPeriodic}
 \title{Polar Plot with Periodic Elements}
 \usage{
-PolarPeriodic(dsLinear, dsStageCyclePolar, xName, yName, stageIDName,
-  periodicLowerName = "PositionLower", periodicUpperName = "PositionUpper",
-  paletteDark = NULL, paletteLight = NULL, changePoints = NULL,
-  changePointLabels = NULL, drawObservedLine = TRUE,
-  drawPeriodicBand = TRUE, drawStageLabels = FALSE,
-  drawRadiusLabels = FALSE, jaggedPointSize = 2, jaggedLineSize = 1,
-  bandAlphaDark = 0.4, bandAlphaLight = 0.15, colorLabels = "gray50",
-  colorGridlines = "gray80", labelColor = "orange3",
-  changeLineAlpha = 0.5, changeLineSize = 3,
+PolarPeriodic(
+  dsLinear,
+  dsStageCyclePolar,
+  xName,
+  yName,
+  stageIDName,
+  periodicLowerName = "PositionLower",
+  periodicUpperName = "PositionUpper",
+  paletteDark = NULL,
+  paletteLight = NULL,
+  changePoints = NULL,
+  changePointLabels = NULL,
+  drawObservedLine = TRUE,
+  drawPeriodicBand = TRUE,
+  drawStageLabels = FALSE,
+  drawRadiusLabels = FALSE,
+  jaggedPointSize = 2,
+  jaggedLineSize = 1,
+  bandAlphaDark = 0.4,
+  bandAlphaLight = 0.15,
+  colorLabels = "gray50",
+  colorGridlines = "gray80",
+  labelColor = "orange3",
+  changeLineAlpha = 0.5,
+  changeLineSize = 3,
   tickLocations = base::pretty(x = dsLinear[, yName]),
-  graphFloor = min(tickLocations), graphCeiling = max(tickLocations),
-  cardinalLabels = NULL, originLabel = paste0("The origin represents ",
-  graphFloor, ";\\nthe perimeter represents ", graphCeiling, "."),
-  plotMargins = c(3.5, 2, 0.5, 2))
+  graphFloor = min(tickLocations),
+  graphCeiling = max(tickLocations),
+  cardinalLabels = NULL,
+  originLabel = paste0("The origin represents ", graphFloor,
+    ";\\nthe perimeter represents ", graphCeiling, "."),
+  plotMargins = c(3.5, 2, 0.5, 2)
+)
 }
 \arguments{
 \item{dsLinear}{The \code{data.frame} to containing the simple linear data.  There should be one record per observation.}
@@ -103,39 +122,38 @@ portfolio <- AnnotateData(
 rm(dsLinear)
 
 polarized <- PolarizeCartesian(
-  portfolio$dsLinear, 
-  portfolio$dsStageCycle, 
-  yName = "BirthRate", 
+  portfolio$dsLinear,
+  portfolio$dsStageCycle,
+  yName = "BirthRate",
   stageIDName = "StageID"
 )
 
 grid.newpage()
 PolarPeriodic(
-  dsLinear = polarized$dsObservedPolar, 
-  dsStageCyclePolar = polarized$dsStageCyclePolar, 
-  yName = "Radius", 
-  stageIDName = "StageID", 
+  dsLinear = polarized$dsObservedPolar,
+  dsStageCyclePolar = polarized$dsStageCyclePolar,
+  yName = "Radius",
+  stageIDName = "StageID",
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 
 grid.newpage()
 PolarPeriodic(
-  dsLinear = polarized$dsObservedPolar, 
-  dsStageCyclePolar = polarized$dsStageCyclePolar, 
-  yName = "Radius", 
-  stageIDName = "StageID", 
+  dsLinear = polarized$dsObservedPolar,
+  dsStageCyclePolar = polarized$dsStageCyclePolar,
+  yName = "Radius",
+  stageIDName = "StageID",
   drawPeriodicBand = FALSE
 )
 
 grid.newpage()
 PolarPeriodic(
-  dsLinear = polarized$dsObservedPolar, 
-  dsStageCyclePolar = polarized$dsStageCyclePolar, 
-  yName = "Radius", 
-  stageIDName = "StageID", 
-  drawObservedLine = FALSE, 
+  dsLinear = polarized$dsObservedPolar,
+  dsStageCyclePolar = polarized$dsStageCyclePolar,
+  yName = "Radius",
+  stageIDName = "StageID",
+  drawObservedLine = FALSE,
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 }
 \keyword{polar}
-

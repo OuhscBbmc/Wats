@@ -4,13 +4,19 @@
 \alias{PolarizeCartesian}
 \title{Manipulate Cartesian data to use in the WATS polar plot}
 \usage{
-PolarizeCartesian(dsLinear, dsStageCycle, yName, stageIDName,
+PolarizeCartesian(
+  dsLinear,
+  dsStageCycle,
+  yName,
+  stageIDName,
   cycleTallyName = "CycleTally",
   proportionThroughCycleName = "ProportionThroughCycle",
   periodicLowerName = "PositionLower",
   periodicCenterName = "PositionCenter",
-  periodicUpperName = "PositionUpper", plottedPointCountPerCycle = 120,
-  graphFloor = min(base::pretty(x = dsLinear[, yName])))
+  periodicUpperName = "PositionUpper",
+  plottedPointCountPerCycle = 120,
+  graphFloor = min(base::pretty(x = dsLinear[, yName]))
+)
 }
 \arguments{
 \item{dsLinear}{The \code{data.frame} to containing the simple linear data.  There should be one record per observation.}
@@ -39,8 +45,8 @@ PolarizeCartesian(dsLinear, dsStageCycle, yName, stageIDName,
 Returns a \code{data.frame}.
 }
 \description{
-Three operations are performed.  
-First, within each stage, the first row is repeated at the end, to close the loop.  
+Three operations are performed.
+First, within each stage, the first row is repeated at the end, to close the loop.
 Second, multiple points are interpolated (still in a Cartesian coordinates) so that the polar graph doesn't have sharp edges.  These sharp edges would be artifacts of the conversion, and not reflect the observed data.
 Third, the Cartesian points are coverted to polar coordinates.
 }
@@ -52,22 +58,22 @@ dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date
 
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- AnnotateData(
-  dsLinear = dsLinear, 
-  dvName = "BirthRate", 
-  centerFunction = median, 
+  dsLinear = dsLinear,
+  dvName = "BirthRate",
+  centerFunction = median,
   spreadFunction = hSpread
 )
 rm(dsLinear)
 
 polarized <- PolarizeCartesian(
-  dsLinear = portfolio$dsLinear, 
-  dsStageCycle = portfolio$dsStageCycle, 
-  yName = "BirthRate", 
+  dsLinear = portfolio$dsLinear,
+  dsStageCycle = portfolio$dsStageCycle,
+  yName = "BirthRate",
   stageIDName = "StageID"
 )
 
 library(ggplot2)
-ggplot(polarized$dsStageCyclePolar, aes(color=factor(StageID))) + 
+ggplot(polarized$dsStageCyclePolar, aes(color=factor(StageID))) +
   geom_path(aes(x=PolarLowerX, y=PolarLowerY), linetype=2) +
   geom_path(aes(x=PolarCenterX, y=PolarCenterY), size=2) +
   geom_path(aes(x=PolarUpperX, y=PolarUpperY), linetype=2) +
@@ -76,4 +82,3 @@ ggplot(polarized$dsStageCyclePolar, aes(color=factor(StageID))) +
   guides(color=FALSE)
 }
 \keyword{polar}
-

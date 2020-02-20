@@ -69,10 +69,9 @@ darkTheme <- ggplot2::theme(
   axis.text.x         = ggplot2::element_text(color="gray30", hjust=0),
   axis.text.y         = ggplot2::element_text(color="gray30"),
   axis.ticks.length   = grid::unit(0, "cm"),
-  axis.ticks.margin   = grid::unit(.00001, "cm"),
 #   panel.grid.minor.y  = element_line(color="gray95", size=.1),
 #   panel.grid.major    = element_line(color="gray90", size=.1),
-  panel.margin        = grid::unit(c(0, 0, 0, 0), "cm"),
+  panel.spacing       = grid::unit(c(0, 0, 0, 0), "cm"),
   plot.margin         = grid::unit(c(0, 0, 0, 0), "cm")
 )
 lightTheme <- darkTheme + ggplot2::theme(
@@ -310,7 +309,7 @@ utils::sessionInfo()
 ```
 
 ## References
-* McLeod, A.I., Yu, H., & Mahdi, E. (2011). [Time series analysis with R](http://www.stats.uwo.ca/faculty/aim/tsar/tsar.pdf). *Handbook of Statistics*, Volume 30, Elsevier. 
+* McLeod, A.I., Yu, H., & Mahdi, E. (2011). [Time series analysis with R](https://www.researchgate.net/publication/264520241_Time_Series_Analysis_with_R). *Handbook of Statistics*, Volume 30, Elsevier. 
 * Rodgers, J. L., St. John, C. A. & Coleman R.  (2005).  [Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999](http://www.ncbi.nlm.nih.gov/pubmed/16463916).  *Demography, 42*, 675-692.
 * De Vries, R. M. & Morey, R. D. (submitted). Bayesian hypothesis testing Single-Subject Data. *Psychological Methods*.
-* [US Census Intercensal Estimates](http://www.census.gov/popest/data/intercensal/index.html) for [199x](http://www.census.gov/popest/data/counties/totals/1990s/CO-99-02.html) and [200x](http://www.census.gov/popest/data/intercensal/county/county2010.html).
+* [US Census Intercensal Estimates](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html) for [199x](https://www.census.gov/data/tables/time-series/demo/popest/intercensal-1990-2000-state-and-county-totals.html) and [200x](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/2000-2010-intercensal.html).

@@ -1,7 +1,10 @@
 # Travis's native R Image (http://docs.travis-ci.com/user/languages/r/)
 language: r
 sudo: required
+cache: packages
 warnings_are_errors: true
+apt_packages:
+  - r-cran-mcmcpack
 r_github_packages:
   - jimhester/covr
 after_success:

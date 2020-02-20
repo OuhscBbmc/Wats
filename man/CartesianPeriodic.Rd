@@ -4,13 +4,29 @@
 \alias{CartesianPeriodic}
 \title{Linear Plot with Periodic Elements}
 \usage{
-CartesianPeriodic(dsLinear, dsPeriodic, xName, yName, stageIDName,
-  periodicLowerName = "PositionLower", periodicUpperName = "PositionUpper",
-  paletteDark = NULL, paletteLight = NULL, changePoints = NULL,
-  changePointLabels = NULL, drawPeriodicBand = TRUE, jaggedPointSize = 2,
-  jaggedLineSize = 0.5, bandAlphaDark = 0.4, bandAlphaLight = 0.15,
-  changeLineAlpha = 0.5, changeLineSize = 3, title = NULL,
-  xTitle = NULL, yTitle = NULL)
+CartesianPeriodic(
+  dsLinear,
+  dsPeriodic,
+  xName,
+  yName,
+  stageIDName,
+  periodicLowerName = "PositionLower",
+  periodicUpperName = "PositionUpper",
+  paletteDark = NULL,
+  paletteLight = NULL,
+  changePoints = NULL,
+  changePointLabels = NULL,
+  drawPeriodicBand = TRUE,
+  jaggedPointSize = 2,
+  jaggedLineSize = 0.5,
+  bandAlphaDark = 0.4,
+  bandAlphaLight = 0.15,
+  changeLineAlpha = 0.5,
+  changeLineSize = 3,
+  title = NULL,
+  xTitle = NULL,
+  yTitle = NULL
+)
 }
 \arguments{
 \item{dsLinear}{The \code{data.frame} to containing the simple linear data.  There should be one record per observation.}
@@ -63,27 +79,26 @@ Shows the interrupted time series in Cartesian coordinates and its a periodic/cy
 }
 \examples{
 library(Wats) #Load the package
-changeMonth <- base::as.Date("1996-02-15") 
+changeMonth <- base::as.Date("1996-02-15")
 dsLinear <- CountyMonthBirthRate2005Version
 dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- AnnotateData(
-    dsLinear, 
+    dsLinear,
     dvName = "BirthRate",
-    centerFunction = median, 
+    centerFunction = median,
     spreadFunction = hSpread
 )
 
 CartesianPeriodic(
-  portfolio$dsLinear, 
-  portfolio$dsPeriodic, 
-  xName = "Date", 
+  portfolio$dsLinear,
+  portfolio$dsPeriodic,
+  xName = "Date",
   yName = "BirthRate",
-  stageIDName = "StageID", 
-  changePoints = changeMonth, 
+  stageIDName = "StageID",
+  changePoints = changeMonth,
   changePointLabels = "Bombing Effect"
 )
 }
 \keyword{Cartesian}
-

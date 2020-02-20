@@ -7,7 +7,7 @@ library(ggplot2)
 
 line <- data.frame(x = c(1, 200), y = c(100, 1))
 base <- ggplot(mapping = aes(x, y)) + geom_line(data = line)
-base <- base + coord_polar("x") 
+base <- base + coord_polar("x")
 #This works:
 base + scale_x_continuous(limits=c(0, 200))
 #This doesn't work (presumably because 100 < 200)

@@ -1,18 +1,18 @@
-<!-- rmarkdown v1 -->
+WATS
+==========================
 
-| [GitHub](https://github.com/OuhscBbmc/Wats) | [Travis-CI](https://travis-ci.org/OuhscBbmc/Wats/builds) | [AppVeyor](https://ci.appveyor.com/project/wibeasley/Wats/history) | [Coveralls](https://coveralls.io/r/OuhscBbmc/Wats) |
+[GitHub](https://github.com/OuhscBbmc/Wats) | [Travis-CI](https://travis-ci.org/OuhscBbmc/Wats/builds) | [AppVeyor](https://ci.appveyor.com/project/wibeasley/Wats/history) | [Coveralls](https://coveralls.io/r/OuhscBbmc/Wats) |
 | :----- | :---------------------------: | :-----------------------------: | :-------: |
 | [Master](https://github.com/OuhscBbmc/Wats/tree/master) | [![Build Status](https://travis-ci.org/OuhscBbmc/Wats.svg?branch=master)](https://travis-ci.org/OuhscBbmc/Wats) | [![Build status](https://ci.appveyor.com/api/projects/status/2wkbuwqcmog4nhxf/branch/master?svg=true)](https://ci.appveyor.com/project/wibeasley/wats/branch/master) | [![Coverage Status](https://coveralls.io/repos/OuhscBbmc/Wats/badge.svg?branch=master)](https://coveralls.io/r/OuhscBbmc/Wats?branch=master) |
 | [Dev](https://github.com/OuhscBbmc/Wats/tree/dev) | [![Build Status](https://travis-ci.org/OuhscBbmc/Wats.svg?branch=dev)](https://travis-ci.org/OuhscBbmc/Wats) | [![Build status](https://ci.appveyor.com/api/projects/status/2wkbuwqcmog4nhxf/branch/dev?svg=true)](https://ci.appveyor.com/project/wibeasley/wats/branch/dev) | [![Coverage Status](https://coveralls.io/repos/OuhscBbmc/Wats/badge.svg?branch=dev)](https://coveralls.io/r/OuhscBbmc/Wats?branch=dev) | -- |
-| | *Ubuntu 12.04 LTS* | *Windows Server 2012* | *Test Coverage* | *Independently-hosted Archive* |
+| | *Ubuntu LTS* | *Windows Server* | *Test Coverage* | *Independently-hosted Archive* |
 
-## Welcome to the `Wats` Package
-This implements the approaches described in
+Welcome to the `Wats` Package. This implements the approaches described in
 [Joseph Lee Rodgers](http://www.vanderbilt.edu/psychological_sciences/bio/joe-rodgers), [William Howard Beasley](https://scholar.google.com/citations?user=ffsJTC0AAAAJ), and Matthew Schuelke (2014).
 [Wrap-around Time Series Plots (WATS Plots) for Interrupted Time Series Designs:
 Applications to Fertility Rates and the Oklahoma City Bombing.](http://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589) *Multivariate Behavioral Research*.
 
-The figures can be viewed in the vignettes, or in the [Handouts](https://github.com/OuhscBbmc/Wats/blob/master/UtilityScripts/Handouts.md) document.  The release version of Wats is available on [CRAN](https://cran.r-project.org/package=Wats).
+The figures can be viewed in the vignettes, or in the [Handouts](https://github.com/OuhscBbmc/Wats/blob/master/utility/handouts.md) document.  The release version of Wats is available on [CRAN](https://cran.r-project.org/package=Wats).
 
 ## Article Abstract
 > Many data structures, particular time series data, are naturally seasonal, cyclical, or otherwise circular.  Past graphical methods for time series have focused on linear plots.  In this paper, we move graphical analysis onto the circle.  We focus on two methods, one old and one new.  Rose diagrams are circular histograms, and can be produced in several different forms using the RRose software system.  In addition, we propose, develop, and illustrate a new circular graphical method, called Wrap-Around Time Series Plots (WATS plots) that is useful to support time series analyses in general, but in particular in relation to interrupted time series designs.  We illustrate the use of WATS Plots from an interrupted time series design evaluating the effect of the Oklahoma City bombing on birth rates in Oklahoma County during the ten years surrounding the bombing of the Murrah Building in Oklahoma City.  We compare WATS Plots to linear time series representations with smoothing.  Each method is shown to have advantages in relation to the other; in our example, the WATS Plots more clearly show the existence and effect size of the fertility differential.
@@ -30,7 +30,7 @@ The figures can be viewed in the vignettes, or in the [Handouts](https://github.
 <img src="https://raw.githubusercontent.com/OuhscBbmc/Wats/master/vignettes/figure_mbr_rmd/Figure6-1.png" alt="Figure6" style="width: 600px;"/>
 
 ## Reproducible Research
-When the Wats package is installed on your local machine, the [`Reproduce.R`](https://github.com/OuhscBbmc/Wats/blob/master/UtilityScripts/Reproduce.R) script starts with our initial datasets (ie, the vital statistics birth counts and the US Census population estimates) to create the derivative datasets and resulting graphs and analysis.
+When the Wats package is installed on your local machine, the [`Reproduce.R`](https://github.com/OuhscBbmc/Wats/blob/master/utility/reproduce.R) script starts with our initial datasets (ie, the vital statistics birth counts and the US Census population estimates) to create the derivative datasets and resulting graphs and analysis.
 
 ## Nonstandard Directories
 The following directories are not part of the standard R package:
@@ -43,9 +43,9 @@ The following directories are not part of the standard R package:
 
 ## Installing 
 
-| [CRAN](http://cran.rstudio.com/) | [Version](https://cran.r-project.org/package=Wats) | [Rate](http://cranlogs.r-pkg.org/) | [Zenodo](https://zenodo.org/search?ln=en&p=wats) | 
+| [CRAN](https://cran.r-project.org) | [Version](https://cran.r-project.org/package=Wats) | [Rate](http://cranlogs.r-pkg.org/) | [Zenodo](https://zenodo.org/search?ln=en&p=wats) | 
 |  :---- | :----: | :----: | :----: |
-| [Latest](https://cran.r-project.org/package=Wats) | [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/Wats)](https://cran.r-project.org/package=Wats) | ![CRANPace](http://cranlogs.r-pkg.org/badges/Wats) | [![DOI](https://zenodo.org/badge/4971/OuhscBbmc/Wats.svg)](https://zenodo.org/badge/latestdoi/4971/OuhscBbmc/Wats) |
+| [Latest](https://cran.r-project.org/package=Wats) | [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/Wats)](https://cran.r-project.org/package=Wats) | ![CRANPace](http://cranlogs.r-pkg.org/badges/Wats) | [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11921.svg)](https://doi.org/10.5281/zenodo.11921) |
 |   | *Latest CRAN version* | *CRAN Downloads* | *Independently-hosted Archive* |
 
 The released [CRAN](https://cran.r-project.org/package=Wats) version of Wats can be installed through R with.
@@ -60,4 +60,4 @@ devtools::install_github(repo="OuhscBbmc/Wats")
 ```
 
 ## Code Repository
-The software is written primarily in R, under the MIT License.  The DOI of this major release of the *repository* is [10.5281/zenodo.11921](http://dx.doi.org/10.5281/zenodo.11921).  (The DOI of the article is [10.1080/00273171.2014.946589](http://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589).)
+The software is written primarily in R, under the MIT License.  The DOI of this major release of the *repository* is [10.5281/zenodo.11921](https://doi.org/10.5281/zenodo.11921).  (The DOI of the article is [10.1080/00273171.2014.946589](http://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589).)

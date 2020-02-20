@@ -5,11 +5,13 @@
 ^appveyor\.yml$
 ^revdep$
 ^cran-comments\.md$
-^Readme.html$
+^README\.html$
 
-DocumentationPeek.pdf
-Datasets/
-DocumentationForDevelopers/
-Playgrounds/
-PublicationGraphs/
-UtilityScripts/
+documentation-peek.pdf
+datasets/
+documentation-for-developers/
+playgrounds/
+publication-graphs/
+utility/
+^doc$
+^Meta$

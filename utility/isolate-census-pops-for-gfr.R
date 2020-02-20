@@ -11,14 +11,14 @@ ouputPathCensusCountyMonth <- "./Datasets/CensusIntercensal/CensusCountyMonth.cs
 # Read in the datasets
 ###################
 #For 199x, create a list of data.frames; each one is a year's data.  Then bind to create a single dataset
-lstDatasets199x <- lapply(inputPathsCensus199x, function(path) dsCensus199x <- read.table(path, header=FALSE, stringsAsFactors=F)) #A list, where each element is a data.frame.
+lstDatasets199x <- lapply(inputPathsCensus199x, function(path) dsCensus199x <- read.table(path, header=FALSE, stringsAsFactors=FALSE)) #A list, where each element is a data.frame.
 dsCensus199x <- data.frame(do.call(plyr::rbind.fill, lstDatasets199x), stringsAsFactors=FALSE) #Vertically stack all the data.frames into a single data.frame
 
 #For 200x, the schema is different, and everything comes in one data file.  Each year is a distinct column.
-dsCensus200x <- read.csv(inputPathCensus200x, stringsAsFactors=F)
+dsCensus200x <- read.csv(inputPathCensus200x, stringsAsFactors=FALSE)
 
 #In the FIPS dataset, there is one record for each county.
-dsFips <- read.csv(inputPathFips, stringsAsFactors=F)
+dsFips <- read.csv(inputPathFips, stringsAsFactors=FALSE)
 
 #For 199x: See the codebook at ./Datasets/CensusIntercensal/STCH-Intercensal_layout.txt.  The State FIPS is missing for some reason
 #For 200x: See the codebook at ./Datasets/CensusIntercensal/CO-EST00INT-AGESEX-5YR.pdf.
@@ -81,7 +81,7 @@ dsCensus200x <- dsCensus200x[dsCensus200x$GfrEligible & dsCensus200x$WatsUrban, 
 #Sum across the remaining subgroups to get their total population.  Keep only 2000 (Remember 200x is wide, not long)
 dsCensus200xCounty <- plyr::ddply(dsCensus200x, .variables=c("Fips", "CountyName"), summarize, FecundPopulationCount=sum(POPESTIMATE2000))
 
-dsCensus200xCounty$Year <- 2000L 
+dsCensus200xCounty$Year <- 2000L
 
 ###################
 # Merge the two datasets (ie, for 199x and 200x)
@@ -120,8 +120,8 @@ dsCensusCountyMonth <- plyr::ddply(dsNext, .variables=c("Fips", "CountyName", "Y
 
 # library(ggplot2)
 # ggplot(dsInterpolated[dsCensusCountyMonth$Fips==40027L, ], aes(x=Date, y=Population, color=factor(Fips))) +
-#   geom_line() + 
-#   geom_line(aes(y=PopulationCount, ymin=0)) + 
+#   geom_line() +
+#   geom_line(aes(y=PopulationCount, ymin=0)) +
 #   geom_line(aes(y=PopulationCountNext))
 
 ###################

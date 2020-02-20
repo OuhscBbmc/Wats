@@ -11,8 +11,8 @@ x <- seq(0.1, 0.9, length=50)
 y <- runif(length(x), 0.1, 0.9)
 # gplot <- gTree(
 #   children=gList(
-#     rectGrob(gp=gpar(col="gray60", fill="white")), 
-#     linesGrob(x, y), 
+#     rectGrob(gp=gpar(col="gray60", fill="white")),
+#     linesGrob(x, y),
 #     pointsGrob(x, y, pch=16,  size=unit(1.5, "mm"))
 #   ),
 #   vp=viewport(width=unit(1, "npc") - unit(5, "mm"), height=unit(1, "npc") - unit(5, "mm"))
@@ -42,4 +42,3 @@ grid.draw(pointsGrob(x, y))
 popViewport(1)
 
 #line 1163 "objectgrid.Rnw"
-

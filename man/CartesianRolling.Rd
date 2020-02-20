@@ -4,16 +4,35 @@
 \alias{CartesianRolling}
 \title{Linear Plot with Rolling Summaries}
 \usage{
-CartesianRolling(dsLinear, xName, yName, stageIDName,
-  rollingLowerName = "RollingLower", rollingCenterName = "RollingCenter",
-  rollingUpperName = "RollingUpper", paletteDark = NULL,
-  paletteLight = NULL, colorSparse = grDevices::adjustcolor("tan1", 0.5),
-  changePoints = NULL, changePointLabels = NULL, drawJaggedLine = TRUE,
-  drawRollingLine = TRUE, drawRollingBand = TRUE,
-  drawSparseLineAndPoints = TRUE, jaggedPointSize = 2,
-  jaggedLineSize = 0.5, rollingLineSize = 1, sparsePointSize = 4,
-  sparseLineSize = 0.5, bandAlpha = 0.4, changeLineAlpha = 0.5,
-  changeLineSize = 3, title = NULL, xTitle = NULL, yTitle = NULL)
+CartesianRolling(
+  dsLinear,
+  xName,
+  yName,
+  stageIDName,
+  rollingLowerName = "RollingLower",
+  rollingCenterName = "RollingCenter",
+  rollingUpperName = "RollingUpper",
+  paletteDark = NULL,
+  paletteLight = NULL,
+  colorSparse = grDevices::adjustcolor("tan1", 0.5),
+  changePoints = NULL,
+  changePointLabels = NULL,
+  drawJaggedLine = TRUE,
+  drawRollingLine = TRUE,
+  drawRollingBand = TRUE,
+  drawSparseLineAndPoints = TRUE,
+  jaggedPointSize = 2,
+  jaggedLineSize = 0.5,
+  rollingLineSize = 1,
+  sparsePointSize = 4,
+  sparseLineSize = 0.5,
+  bandAlpha = 0.4,
+  changeLineAlpha = 0.5,
+  changeLineSize = 3,
+  title = NULL,
+  xTitle = NULL,
+  yTitle = NULL
+)
 }
 \arguments{
 \item{dsLinear}{The \code{data.frame} to containing the data.}
@@ -84,20 +103,19 @@ dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- AnnotateData(
-    dsLinear, 
+    dsLinear,
     dvName = "BirthRate",
-    centerFunction = median, 
+    centerFunction = median,
     spreadFunction = hSpread
 )
 
 CartesianRolling(
     portfolio$dsLinear,
-    xName = "Date", 
+    xName = "Date",
     yName = "BirthRate",
-    stageIDName = "StageID", 
-    changePoints = changeMonth, 
+    stageIDName = "StageID",
+    changePoints = changeMonth,
     changePointLabels = "Bombing Effect"
 )
 }
 \keyword{Cartesian}
-

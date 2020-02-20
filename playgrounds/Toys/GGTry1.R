@@ -14,7 +14,7 @@ pointsPerStage <- periodLength * 2
 totalPeriods <- 10 #stageCount*pointsPerStage
 totalPoints <- periodLength * totalPeriods
 x <- seq_len(totalPoints)
-periodID <- rep(seq_len(periodLength), totalPeriods) 
+periodID <- rep(seq_len(periodLength), totalPeriods)
 theta <- periodID / (2*pi)
 residual <- 50 + rnorm(totalPoints, sd=5)
 
@@ -48,7 +48,7 @@ for( stageID in as.numeric(sort(unique(ds$StageID))) ) {
     #ds[ds$StageID==stageID & ds$PeriodID==periodID, c("LowerY", "UpperY")] <- t(as.numeric(bandRange))
     ds[ds$StageID==stageID & ds$PeriodID==periodID, c("LowerY")] <- as.numeric(bandRange[1])
     ds[ds$StageID==stageID & ds$PeriodID==periodID, c("UpperY")] <- as.numeric(bandRange[2])
-    
+
     dsFull[dsFull$StageID==stageID & dsFull$PeriodID==periodID, c("LowerY")] <- as.numeric(bandRange[1])
     dsFull[dsFull$StageID==stageID & dsFull$PeriodID==periodID, c("UpperY")] <- as.numeric(bandRange[2])
   }
@@ -68,9 +68,9 @@ p <- ggplot(data=ds, mapping=aes(x=Theta, y=Y, ymin=LowerY, ymax=UpperY)) + scal
 p <- p + scale_y_continuous(limits=range(ds$Y))
 p <- p + scale_color_manual(values=groupColors)
 #p <- p +layer(geom="point", geom_params=list(size=1), stat="identity", stat_params=list()) #+scale_alpha_discrete(range = c(0, 1))
-#p <- p +layer(geom="ribbon", geom_params=list(color=NA, alpha=alphaLevel), stat="identity", stat_params=list(), data=dsFull, aes(x=X, ymin=LowerY, ymax=UpperY, color=StageID, fill=StageID)) + scale_fill_manual(values=groupColors) 
+#p <- p +layer(geom="ribbon", geom_params=list(color=NA, alpha=alphaLevel), stat="identity", stat_params=list(), data=dsFull, aes(x=X, ymin=LowerY, ymax=UpperY, color=StageID, fill=StageID)) + scale_fill_manual(values=groupColors)
 #p <- p +layer(geom="ribbon", geom_params=list(color=NA, alpha=alphaLevel), stat="identity", stat_params=list(), data=dsFull, aes(x=Theta, ymin=LowerY, ymax=UpperY, color=StageID, fill=StageID)) + scale_fill_manual(values=groupColors)
-#p <- p +layer(geom="line", geom_params=list(size=.5), stat="identity", stat_params=list(), mapping=aes(x=X, y=Y)) 
+#p <- p +layer(geom="line", geom_params=list(size=.5), stat="identity", stat_params=list(), mapping=aes(x=X, y=Y))
 
 #p <- p +layer(geom="path", geom_params=list(size=.5), stat="identity", stat_params=list(), mapping=aes(x=Theta, y=Y))
 p <- p +layer(geom="path", geom_params=list(size=.5), stat="identity", stat_params=list(), mapping=aes(x=X, y=Y))

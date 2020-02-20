@@ -142,7 +142,7 @@ for( pointIndex in 2:monthCount ) {
     rowTally <- rowTally + 1
     dsInterpolated[rowTally, 'DurationID'] <- rowTally
     dsInterpolated[rowTally, 'CycleID'] <- monthEst
-    dsInterpolated[rowTally, 'Radians'] <- radians      
+    dsInterpolated[rowTally, 'Radians'] <- radians
     dsInterpolated[rowTally, 'BirthRate'] <- birthRateEst
   }
 }
@@ -150,13 +150,13 @@ dsInterpolated$X <- dsInterpolated$BirthRate * sin(dsInterpolated$Radians)
 dsInterpolated$Y <- dsInterpolated$BirthRate * cos(dsInterpolated$Radians)
 
 dsBands <- data.frame(matrix(NA, nrow=length(unique(dsInterpolated$CycleID)), ncol=14))
-colnames(dsBands) <- c("CycleID", "Radians", "LowerBefore", "UpperBefore", "LowerAfter", "UpperAfter", 
+colnames(dsBands) <- c("CycleID", "Radians", "LowerBefore", "UpperBefore", "LowerAfter", "UpperAfter",
   "LowerBeforeX", "LowerBeforeY", "UpperBeforeX", "UpperBeforeY", "LowerAfterX", "LowerAfterY", "UpperAfterX", "UpperAfterY")
-  
+
 rowTally <- 1
 for( cycleID in sort(unique(dsInterpolated$CycleID)) ) {
   dsSliceBefore <- subset(dsInterpolated, CycleID==cycleID & DurationID <= changePoint * (interpolationPoints + 1))
-  dsSliceAfter <- subset(dsInterpolated, CycleID==cycleID & DurationID > changePoint * (interpolationPoints + 1))  
+  dsSliceAfter <- subset(dsInterpolated, CycleID==cycleID & DurationID > changePoint * (interpolationPoints + 1))
 
   dsBands[rowTally, 'CycleID'] <- cycleID
   dsBands[rowTally, 'Radians'] <- dsSliceBefore$Radians[1] #They should all have the same radians
@@ -164,7 +164,7 @@ for( cycleID in sort(unique(dsInterpolated$CycleID)) ) {
   dsBands[rowTally, 'UpperBefore'] <- as.numeric(quantile(dsSliceBefore$BirthRate, prob=upperQuantile))
   dsBands[rowTally, 'LowerAfter'] <- as.numeric(quantile(dsSliceAfter$BirthRate, prob=lowerQuantile))
   dsBands[rowTally, 'UpperAfter'] <- as.numeric(quantile(dsSliceAfter$BirthRate, prob=upperQuantile))
-    
+
   rowTally <- rowTally + 1
 }
 rowTally <- NA
@@ -209,11 +209,11 @@ PlotPolar <- function( drawLines ) {
   polarBeforeVerticesX <- c(dsBands$LowerBeforeX, dsBands$LowerBeforeX[1], dsBands$UpperBeforeX[1], rev(dsBands$UpperBeforeX))
   polarBeforeVerticesY <- c(dsBands$LowerBeforeY, dsBands$LowerBeforeY[1], dsBands$UpperBeforeY[1], rev(dsBands$UpperBeforeY))
   polarAfterVerticesX <- c(dsBands$LowerAfterX, dsBands$LowerAfterX[1], dsBands$UpperAfterX[1], rev(dsBands$UpperAfterX))
-  polarAfterVerticesY <- c(dsBands$LowerAfterY, dsBands$LowerAfterY[1], dsBands$UpperAfterY[1], rev(dsBands$UpperAfterY)) 
+  polarAfterVerticesY <- c(dsBands$LowerAfterY, dsBands$LowerAfterY[1], dsBands$UpperAfterY[1], rev(dsBands$UpperAfterY))
   polygon(x=polarBeforeVerticesX, y=polarBeforeVerticesY, border=NA, col=bandColorBefore[1])
   polygon(x=polarAfterVerticesX, y=polarAfterVerticesY, border=NA, col=bandColorAfter[2])
 }
-                         
+
 ### Start Graphing ###
 layout(rbind(c(1,2), c(3)), heights=c(1,.5))
 op <- par( pty="s", mar=c(1, 0, 0, 0) + 0.1)
@@ -226,18 +226,18 @@ par(pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars
 plot(NA, xlim=c(0, monthCount), ylim=c(graphFloor, graphCeiling), type="n", xaxt="n", xaxs="i", yaxt="n", yaxs="i", bty="n",
  #  ylab="General Fertility Rate", xlab="",#xlab="Time",
   ylab="", xlab="",#xlab="Time",
-  sub=paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"), 
+  sub=paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"),
   col.sub=labelColor, cex.lab=1.2)
 
   axis(1, at=seq(from=0, to=changePoint-monthsPerYear, by=12)+6, labels=seq(from=firstYear, to=firstYear+5, by=1),
-    col=gridColor, line=-1, tick=F, col.axis=colorBefore, cex.axis=1.5)
+    col=gridColor, line=-1, tick=FALSE, col.axis=colorBefore, cex.axis=1.5)
   axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
-    col=gridColor, line=-1, tick=F, col.axis=colorAfter, cex.axis=1.5)
-  axis(2, at=yAxisTicks, col=labelColor, col.axis=labelColor, line=-0, tick=T, cex.axis=1.5)  
-  mtext("General Fertility Rate", side=2,line=2.5, cex=1.25) 
-    
-    
-#  axis(1, at=seq(from=6, to=(monthCount), by=6), labels=rep(c("(Jun)", "(Dec)"), 5), col.axis=labelColor, line=0, tick=F, lty=0, cex.axis=.7)
+    col=gridColor, line=-1, tick=FALSE, col.axis=colorAfter, cex.axis=1.5)
+  axis(2, at=yAxisTicks, col=labelColor, col.axis=labelColor, line=-0, tick=T, cex.axis=1.5)
+  mtext("General Fertility Rate", side=2,line=2.5, cex=1.25)
+
+
+#  axis(1, at=seq(from=6, to=(monthCount), by=6), labels=rep(c("(Jun)", "(Dec)"), 5), col.axis=labelColor, line=0, tick=FALSE, lty=0, cex.axis=.7)
 
   abline(v=seq(from=monthsPerYear, to=monthCount, by=monthsPerYear), col=gridColor, lty=2)
   for( i in 2:monthCount ) {
@@ -250,37 +250,37 @@ plot(NA, xlim=c(0, monthCount), ylim=c(graphFloor, graphCeiling), type="n", xaxt
   abline(v=changePoint + xOffset, col=colorAfter)
   mtext("Bombing Effect", side=3, at=changePoint + xOffset, col=colorAfter, cex=.8)
 
-linearVerticesXPre <- rep(NA,changePoint) 
+linearVerticesXPre <- rep(NA,changePoint)
 linearVerticesXPost <- numeric(0)
-linearBeforeLowerVerticesYPre <- rep(NA,changePoint) 
-linearBeforeUpperVerticesYPre <- rep(NA,changePoint) 
+linearBeforeLowerVerticesYPre <- rep(NA,changePoint)
+linearBeforeUpperVerticesYPre <- rep(NA,changePoint)
 linearBeforeLowerVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
 linearBeforeUpperVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
-linearAfterLowerVerticesYPre <- rep(NA,changePoint) 
-linearAfterUpperVerticesYPre <- rep(NA,changePoint) 
+linearAfterLowerVerticesYPre <- rep(NA,changePoint)
+linearAfterUpperVerticesYPre <- rep(NA,changePoint)
 linearAfterLowerVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
 linearAfterUpperVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
 monthOffset <- rep(0:(yearCount-1), each=monthsPerYear) * monthsPerYear
 
-for( monthID in 1:changePoint ) { 
+for( monthID in 1:changePoint ) {
   desiredCycle <- monthID %% monthsPerYear
   if(desiredCycle==0) desiredCycle <- 12
-    
+
   linearVerticesXPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$CycleID + monthOffset[monthID]
   linearBeforeLowerVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$LowerBefore
-  linearBeforeUpperVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperBefore  
+  linearBeforeUpperVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperBefore
   linearAfterLowerVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$LowerAfter
   linearAfterUpperVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperAfter
 }
-for( monthID in (changePoint+1):monthCount ) {  
+for( monthID in (changePoint+1):monthCount ) {
   desiredCycle <- monthID %% monthsPerYear
   if(desiredCycle==0) desiredCycle <- 12
-    
+
   linearVerticesXPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$CycleID + monthOffset[monthID]
   linearBeforeLowerVerticesYPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$LowerBefore
-  linearBeforeUpperVerticesYPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperBefore  
+  linearBeforeUpperVerticesYPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperBefore
   linearAfterLowerVerticesYPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$LowerAfter
-  linearAfterUpperVerticesYPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperAfter 
+  linearAfterUpperVerticesYPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperAfter
 }
 
 linearVerticesXPre <- c(linearVerticesXPre, rev(linearVerticesXPre))
@@ -313,13 +313,13 @@ annualAverageTally <- 1
 for( i in monthsInAverage:monthCount ) {
   startRow <- i - (monthsInAverage-1)
   stopRow <- i
-  dsMoving$BirthRate[i] <- mean(ds$BirthRate[startRow:stopRow])  
-#  dsMoving$BirthRate[i] <- quantile(ds$BirthRate[startRow:stopRow], .5)  
+  dsMoving$BirthRate[i] <- mean(ds$BirthRate[startRow:stopRow])
+#  dsMoving$BirthRate[i] <- quantile(ds$BirthRate[startRow:stopRow], .5)
   dsMoving$UpperQuantile[i] <- quantile(ds$BirthRate[startRow:stopRow], upperQuantile)
-  dsMoving$LowerQuantile[i] <- quantile(ds$BirthRate[startRow:stopRow], lowerQuantile)  
+  dsMoving$LowerQuantile[i] <- quantile(ds$BirthRate[startRow:stopRow], lowerQuantile)
   if( (i >= monthsInAverage) && (i %% monthsInAverage == 2) ) {
     dsAnnualAverage$MonthID[annualAverageTally] <- ds$MonthID[i]
-    dsAnnualAverage$BirthRate[annualAverageTally] <- mean(ds$BirthRate[startRow:stopRow])      
+    dsAnnualAverage$BirthRate[annualAverageTally] <- mean(ds$BirthRate[startRow:stopRow])
     annualAverageTally <- annualAverageTally + 1
   }
 }
@@ -340,11 +340,11 @@ PlotLinear <- function( displayMovingAverage=TRUE, displayMovingAverageBands=TRU
     ylab="", sub=subTitle, col.sub=labelColor, xlab="",#xlab="Time",
        cex.lab=2, cex.sub=1.5)
   axis(1, at=seq(from=0, to=changePoint-monthsPerYear, by=12)+6, labels=seq(from=firstYear, to=firstYear+5, by=1),
-    col=gridColor, line=-1, tick=F, col.axis=colorBefore, cex.axis=1.5)
+    col=gridColor, line=-1, tick=FALSE, col.axis=colorBefore, cex.axis=1.5)
   axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
-    col=gridColor, line=-1, tick=F, col.axis=colorAfter, cex.axis=1.5)
+    col=gridColor, line=-1, tick=FALSE, col.axis=colorAfter, cex.axis=1.5)
   axis(2, at=yAxisTicks, col=labelColor, col.axis=labelColor, line=-0, tick=T, cex.axis=1.5)
-  mtext("General Fertility Rate", side=2,line=2.5, cex=1) 
+  mtext("General Fertility Rate", side=2,line=2.5, cex=1)
 
   abline(v=seq(from=monthsPerYear, to=monthCount, by=monthsPerYear), col=gridColor, lty=2)
   if( displayMovingAverage ) {

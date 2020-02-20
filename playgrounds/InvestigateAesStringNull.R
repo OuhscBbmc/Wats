@@ -14,7 +14,7 @@ dsRibbon$waylower <- dsRibbon$wt - 10
 # dsRibbon$wt <- NULL
 
 g <- ggplot(dsLine, aes_string(x="mpg", y="wt")) +
-  geom_line() 
+  geom_line()
 g
 
 #Setting y to NULL works with `aes` (unlike `aes_string` below).

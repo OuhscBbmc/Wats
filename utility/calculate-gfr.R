@@ -18,8 +18,8 @@ changeMonth <- as.Date("1996-02-15")
 ###################
 # Read in the datasets, lightly groom, & merge.
 ###################
-dsCensus <- utils::read.csv(inputPathCensusCountyMonth, stringsAsFactors=F)
-dsBirthCount <- utils::read.csv(inputPathBirthCountCountyMonth, stringsAsFactors=F)
+dsCensus <- utils::read.csv(inputPathCensusCountyMonth, stringsAsFactors=FALSE)
+dsBirthCount <- utils::read.csv(inputPathBirthCountCountyMonth, stringsAsFactors=FALSE)
 # sapply(dsCensus, class)
 # sapply(dsBirthCount, class)
 
@@ -57,9 +57,9 @@ dsCountyMonth2014$BirthRateMonthly <- dsCountyMonth2014$BirthCount / dsCountyMon
 
 #To recreate the 2005 paper, use only the 1990 estimate.
 dsCountyMonth2005 <- plyr::ddply(
-  .data= dsCountyMonth2005, 
+  .data= dsCountyMonth2005,
   .variables = "Fips",
-  .fun = transform, 
+  .fun = transform,
   BirthRateMonthly = (BirthCount / FecundPopulation[1] * 1000L)
 )
 
@@ -72,10 +72,10 @@ dsCountyMonth2005$BirthRate <- dsCountyMonth2005$BirthRateMonthly * dsCountyMont
 # ggplot(dsCountyMonth, aes(x=BirthRate, color=factor(Fips))) + geom_density()
 
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
-# dsOld <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
+# dsOld <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=FALSE)
 # dsOld$Date <- as.Date(dsOld$Date) + days(15)
-# 
-# ggplot(dsCountyMonth[dsCountyMonth$Fips==40109, ], aes(x=Date, color=factor(Fips))) + 
+#
+# ggplot(dsCountyMonth[dsCountyMonth$Fips==40109, ], aes(x=Date, color=factor(Fips))) +
 #   geom_line(aes(y=BirthRate), color="tomato") +
 #   geom_line(aes(y=BirthRateUnadjustedFrom1990), color="blue") +
 #   geom_line(mapping=aes(y=BirthRate), data=dsOld, color="green")
