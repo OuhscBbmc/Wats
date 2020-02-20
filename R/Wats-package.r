@@ -26,8 +26,8 @@
 #'  Peabody College, 230 Appleton Pl #552, Hobbs 202C, Vanderbilt University, Nashville, TN 37203.
 #'
 #'
-#'  Matthew Schuelke
-#'  --Senior Statistician, \href{http://www.slu.edu/division-of-research-administration-home/grants-development-office-(gdo)/contact}{Grants Development Office}
+#'  [Matthew Schuelke](https://www.slu.edu/slucor/faculty/schuelke-matt.php)
+#'  --Senior Statistician, Office of the Vice President for Research
 #'  Saint Louis University
 #'
 #' @references
