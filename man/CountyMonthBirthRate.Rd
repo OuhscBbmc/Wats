@@ -6,7 +6,8 @@
 \alias{CountyMonthBirthRate2005Version}
 \alias{CountyMonthBirthRate2014Version}
 \title{Monthly Growth Fertility Rates (GFR) for 12 urban Oklahoma counties}
-\format{A data frame with 1,440 observations on the following 11 variables.
+\format{
+A data frame with 1,440 observations on the following 11 variables.
 \describe{
    \item{Fips}{The county's 5-digit value according to the \emph{F}ederal \emph{I}nformation \emph{P}rocessing \emph{S}tandards.  \code{integer}}
    \item{CountyName}{The lower case name of the county. \code{character}}
@@ -21,7 +22,8 @@
    \item{DaysInYear}{The number of days in the specific years \code{integer}}
    \item{StageID}{The `Stage' of the month.  The pre-bombing records are `1' (accounting for 9 months of gestation); the post-bombing months are `2'. \code{integer}}
    \item{BirthRate}{The Growth Fertility Rate (GFR). \code{numeric}}
-}}
+}
+}
 \description{
 Monthly Growth Fertility Rates (GFR) for 12 urban counties in Oklahoma
 between January 1990 and December 1999.  The GFR is defined as the number of births divided
