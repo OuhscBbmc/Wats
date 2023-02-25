@@ -104,7 +104,7 @@ xScaleBlank  <- ggplot2::scale_x_date(breaks=dateSequence, labels=NULL) #This ke
 ```
 
 ### Individual Components
-Here is the basic linear rolling graph.  It doesn't require much specification, and will work with a wide range of approriate datasets.  This first (unpublished) graph displays all components.
+Here is the basic linear rolling graph.  It doesn't require much specification, and will work with a wide range of appropriate datasets.  This first (unpublished) graph displays all components.
 
 ```{r Figure2IndividualBasic}
 # dsLinearAll <- utils::read.csv("./Datasets/CountyMonthBirthRate2005Version.csv", stringsAsFactors=FALSE)

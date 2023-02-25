@@ -17,7 +17,6 @@ checks_to_exclude <- c(
   "covr",
   "cyclocomp",
   "lintr_line_length_linter"
-
 )
 gp <-
   goodpractice::all_checks() |>
