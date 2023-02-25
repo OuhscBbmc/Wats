@@ -34,6 +34,7 @@
 #' head(portfolio$dsLinear)
 #' head(portfolio$dsPeriodic)
 
+#' @importFrom rlang .data
 AnnotateData <- function( dsLinear,
                           dvName,
                           centerFunction,
@@ -74,7 +75,7 @@ AnnotateData <- function( dsLinear,
     dsLinear |> 
     dplyr::group_by(!! rlang::ensym(stageIDName), !! rlang::ensym(proportionIDName)) |> 
     dplyr::summarize(
-      ProportionThroughCycle  = mean(ProportionThroughCycle, na.rm = TRUE),
+      ProportionThroughCycle  = mean(.data$ProportionThroughCycle, na.rm = TRUE),
       PositionLower           = spreadFunction(!! rlang::ensym(dvName))[1],
       PositionCenter          = centerFunction(!! rlang::ensym(dvName)),
       PositionUpper           = spreadFunction(!! rlang::ensym(dvName))[2],
@@ -91,7 +92,7 @@ AnnotateData <- function( dsLinear,
   dsPeriodic <- 
     dsLinearTemp |> 
     dplyr::left_join(dsStageCycleTemp, by=proportionIDName, multiple = "all") |> 
-    dplyr::arrange(Date, StageIDTime, StageIDBand)
+    dplyr::arrange(.data$Date, .data$StageIDTime, .data$StageIDBand)
   
   # dsPeriodic <- dsPeriodic[order(dsPeriodic$Date, dsPeriodic$StageIDTime, dsPeriodic$StageIDBand), ]
 

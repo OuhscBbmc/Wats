@@ -22,6 +22,7 @@ Imports:
     lubridate,
     plyr,
     RColorBrewer,
+    rlang,
     testit,
     zoo
 Suggests:
