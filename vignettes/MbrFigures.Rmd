@@ -55,6 +55,7 @@ First, some R packages are loaded, and some variables and functions are defined.
 
 ```{r Definitions}
 changeMonth <- base::as.Date("1996-02-15") #as.Date("1995-04-19") + lubridate::weeks(39) = "1996-01-17"
+set.seed(444) # So bootstrap won't trigger a git diff
 
 vpLayout <- function(x, y) { grid::viewport(layout.pos.row=x, layout.pos.col=y) }
 
@@ -82,8 +83,8 @@ darkTheme <- ggplot2::theme(
   axis.text.x         = ggplot2::element_text(color="gray30", hjust=0),
 axis.text.y         = ggplot2::element_text(color="gray30"),
   axis.ticks.length   = grid::unit(0, "cm"),
-#   panel.grid.minor.y  = element_line(color="gray95", size=.1),
-#   panel.grid.major    = element_line(color="gray90", size=.1),
+#   panel.grid.minor.y  = element_line(color="gray95", linewidth=.1),
+#   panel.grid.major    = element_line(color="gray90", linewidth=.1),
   panel.spacing       = grid::unit(c(0, 0, 0, 0), "cm"),
   plot.margin         = grid::unit(c(0, 0, 0, 0), "cm")
 )
@@ -93,8 +94,8 @@ lightTheme <- darkTheme + ggplot2::theme(
   axis.title          = ggplot2::element_text(color="gray80", size=9),
   axis.text.x         = ggplot2::element_text(color="gray80", hjust=0),
   axis.text.y         = ggplot2::element_text(color="gray80"),
-  panel.grid.minor.y  = ggplot2::element_line(color="gray99", size=.1),
-  panel.grid.major    = ggplot2::element_line(color="gray95", size=.1)
+  panel.grid.minor.y  = ggplot2::element_line(color="gray99", linewidth=.1),
+  panel.grid.major    = ggplot2::element_line(color="gray95", linewidth=.1)
 )
 dateSequence <- base::seq.Date(from=base::as.Date("1990-01-01"), to=base::as.Date("1999-01-01"), by="years")
 xScale       <- ggplot2::scale_x_date(breaks=dateSequence, labels=scales::date_format("%Y"))
