@@ -11,7 +11,7 @@ Authors@R: c(person("Will", "Beasley", role = c("aut", "cre"), email =
     "Coleman", role = "ctb"), person("Mark Joseph", "Lachowicz", role =
     "ctb", email = "mark.j.lachowicz@vanderbilt.edu"))
 URL: https://github.com/OuhscBbmc/Wats,
-    http://ouhscbbmc.github.io/Wats/
+    https://ouhscbbmc.github.io/Wats/
 BugReports: https://github.com/OuhscBbmc/Wats/issues
 Depends:
     R (>= 4.1.0)

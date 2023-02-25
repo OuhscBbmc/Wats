@@ -35,7 +35,7 @@
 #' <<Joe, can you please finish/edit this sentence?>>
 #' The monthly birth counts were copied from county records by Ronnie Coleman during the
 #' summer of 2001 from state vital statistics records.  It was collected
-#' for \href{http://www.ncbi.nlm.nih.gov/pubmed/16463916}{Rodgers, St. John, & Coleman (2005)}.
+#' for \href{https://pubmed.ncbi.nlm.nih.gov/16463916/}{Rodgers, St. John, & Coleman (2005)}.
 #'
 #' The US Census' intercensal estimates are used for the January values of
 #' \code{FecundPopluation}.  Values for February-December are interpolated using
@@ -48,7 +48,7 @@
 #' @author Will Beasley
 #' @references
 #' Rodgers, J. L., St. John, C. A. & Coleman R. (2005).
-#' \href{http://www.ncbi.nlm.nih.gov/pubmed/16463916}{Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.}
+#' \href{https://pubmed.ncbi.nlm.nih.gov/16463916/}{Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.}
 #' \emph{Demography, 42}, 675-692.
 #'
 #' [Intercensal estimates for 199x](https://www.census.gov/data/tables/time-series/demo/popest/intercensal-1990-2000-state-and-county-totals.html)

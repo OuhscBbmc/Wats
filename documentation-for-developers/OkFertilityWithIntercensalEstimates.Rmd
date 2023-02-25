@@ -313,6 +313,6 @@ utils::sessionInfo()
 
 ## References
 * McLeod, A.I., Yu, H., & Mahdi, E. (2011). [Time series analysis with R](https://www.researchgate.net/publication/264520241_Time_Series_Analysis_with_R). *Handbook of Statistics*, Volume 30, Elsevier.
-* Rodgers, J. L., St. John, C. A. & Coleman R.  (2005).  [Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999](http://www.ncbi.nlm.nih.gov/pubmed/16463916).  *Demography, 42*, 675-692.
+* Rodgers, J. L., St. John, C. A. & Coleman R.  (2005).  [Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999](https://pubmed.ncbi.nlm.nih.gov/16463916/).  *Demography, 42*, 675-692.
 * De Vries, R. M. & Morey, R. D. (submitted). Bayesian hypothesis testing Single-Subject Data. *Psychological Methods*.
 * [US Census Intercensal Estimates](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html) for [199x](https://www.census.gov/data/tables/time-series/demo/popest/intercensal-1990-2000-state-and-county-totals.html) and [200x](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/2000-2010-intercensal.html).
