@@ -49,10 +49,8 @@ AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
     ) |> 
     dplyr::select(
       -isMin,
-    ) #|> 
-    # dplyr::pull(StageProgress)
-  
-  # browser()
+    )
+
   # dsLinear$StageProgress <- base::unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
   # return( dsLinear )
 }
@@ -84,16 +82,29 @@ AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
 #                     "CycleTally",
 #                     transform,
 #                     TerminalPointInCycle=(rank(ProportionThroughCycle)==max(rank(ProportionThroughCycle))))
-  SummarizeWithinStage <- function( d ) {
-    #     minValue <- min(d[[dateName]])
-    #     maxValue <- max(d[[dateName]])
-    #     isBetween <- ( (min(d[[dateName]]) < d[[dateName]]) & (d[[dateName]] < max(d[[dateName]])))
-    isMin <-  (base::min(d[[dateName]]) < d[[dateName]])
-    return( d$StageID + isMin*0.5 )
-  }
-  dsLinear$StageProgress <- base::unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
-#   dsLinear$StageProgress <- plyr::daply(dsLinear, "StageID", SummarizeWithinStage)
-  return( dsLinear )
+  dsLinear |> 
+    tibble::as_tibble() |> 
+    dplyr::group_by(StageID) |> 
+    dplyr::mutate(
+      isMin = (base::min(!! rlang::ensym(dateName)) < !! rlang::ensym(dateName)),
+    ) |> 
+    dplyr::ungroup() |> 
+    dplyr::mutate(
+      StageProgress = StageID + isMin*0.5, 
+    ) |> 
+    dplyr::select(
+      -isMin,
+    )
+  #   SummarizeWithinStage <- function( d ) {
+  #     #     minValue <- min(d[[dateName]])
+  #     #     maxValue <- max(d[[dateName]])
+  #     #     isBetween <- ( (min(d[[dateName]]) < d[[dateName]]) & (d[[dateName]] < max(d[[dateName]])))
+  #     isMin <-  (base::min(d[[dateName]]) < d[[dateName]])
+  #     return( d$StageID + isMin*0.5 )
+  #   }
+  #   dsLinear$StageProgress <- base::unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
+  # #   dsLinear$StageProgress <- plyr::daply(dsLinear, "StageID", SummarizeWithinStage)
+  #   return( dsLinear )
 }
 
 # library(Wats)
@@ -104,4 +115,3 @@ AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
 #
 # dsLinear$Date <- as.POSIXct(dsLinear$Date, tz="GMT")
 # dsLinear <- AugmentYearDataWithSecondResolution(dsLinear=dsLinear, dateName="Date")
-#
