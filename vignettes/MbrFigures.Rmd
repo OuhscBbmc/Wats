@@ -36,7 +36,7 @@ knitr::opts_chunk$set(
     out.width="600px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
     fig.path='figure-mbr-rmd/',
     # dev = "pdf", #Uncomment to produce vector graphics for publication; however png (the default) works better within html (ie, the format of this vignette).
-    dpi=400
+    # dpi=400
 )
 
 base::options(width=120) #So the output is 50% wider than the default.
@@ -268,6 +268,7 @@ topRightPanel <- Wats::PolarPeriodic(
   yName = "Radius",
   stageIDName = "StageID", #graphCeiling=7,
   drawObservedLine = FALSE,
+  cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1"),
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1"),
   originLabel = NULL
 )

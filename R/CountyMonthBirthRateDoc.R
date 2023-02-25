@@ -12,7 +12,7 @@
 #'
 #' The difference is that the 2005 version uses constant estimate for a county population
 #' --specifically the US Census 1990 estimates.  The 2014 version uses different estimates
-#' for each month --specificallly the US intercensal annual estimates, with linear interpolation
+#' for each month --specifically the US intercensal annual estimates, with linear interpolation
 #' for February through December of each year.
 #'
 #' @format A data frame with 1,440 observations on the following 11 variables.

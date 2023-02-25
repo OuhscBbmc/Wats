@@ -2,18 +2,19 @@ Package: Wats
 Title: Wrap Around Time Series Graphics
 Description: Wrap-around Time Series (WATS) plots for interrupted time series
     designs with seasonal patterns.
-Version: 0.10.4.9000
+Version: 0.11.1.9000
 Authors@R: c(person("Will", "Beasley", role = c("aut", "cre"), email =
-    "wibeasley@hotmail.com", comment = c(ORCID = "0000-0002-5613-5006")), 
+    "wibeasley@hotmail.com", comment = c(ORCID = "0000-0002-5613-5006")),
      person("Joe", "Rodgers", role = "aut", email =
     "joseph.l.rodgers@vanderbilt.edu"), person("Matthew", "Schuelke", role =
     "ctb", email = "schuelkem@slu.edu"), person("Ronnie",
     "Coleman", role = "ctb"), person("Mark Joseph", "Lachowicz", role =
     "ctb", email = "mark.j.lachowicz@vanderbilt.edu"))
-URL: https://github.com/OuhscBbmc/Wats
+URL: https://github.com/OuhscBbmc/Wats,
+    http://ouhscbbmc.github.io/Wats/
 BugReports: https://github.com/OuhscBbmc/Wats/issues
 Depends:
-    R (>= 3.0.0)
+    R (>= 4.1.0)
 Imports:
     colorspace,
     ggplot2,
@@ -25,6 +26,7 @@ Imports:
     zoo
 Suggests:
     boot,
+    covr,
     devtools,
     knitr,
     scales,
@@ -33,4 +35,4 @@ License: MIT + file LICENSE
 LazyData: TRUE
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.0.2
+RoxygenNote: 7.2.3
