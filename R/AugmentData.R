@@ -65,15 +65,25 @@ AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
   secondsInTheYear <- base::as.integer(base::difftime(lastOfYear, firstOfYear, units="sec"))
   dsLinear$ProportionThroughCycle <- secondsThroughTheYear /  secondsInTheYear
 
-  SummarizeWithinCycle <- function( d ) {
-    d$ProportionID <- base::rank(d$ProportionThroughCycle, ties.method="max")
-    d$StartingPointInCycle <- (d$ProportionID==base::min(d$ProportionID))
-    d$TerminalPointInCycle <- (d$ProportionID==base::max(d$ProportionID))
-    return( d )
-  }
-  dsLinear <- plyr::ddply(dsLinear, .variables="CycleTally", SummarizeWithinCycle) #base::transform,
+  # SummarizeWithinCycle <- function( d ) {
+  #   d$ProportionID <- base::rank(d$ProportionThroughCycle, ties.method="max")
+  #   d$StartingPointInCycle <- (d$ProportionID==base::min(d$ProportionID))
+  #   d$TerminalPointInCycle <- (d$ProportionID==base::max(d$ProportionID))
+  #   return( d )
+  # }
+  # dsLinear <- plyr::ddply(dsLinear, .variables="CycleTally", SummarizeWithinCycle) #base::transform,
 #                           ProportionID)
 
+  dsLinear <-
+    dsLinear |> 
+    dplyr::group_by(CycleTally) |> 
+    dplyr::mutate(
+      ProportionID          = base::rank(ProportionThroughCycle, ties.method="max"),
+      StartingPointInCycle  = (ProportionID == base::min(ProportionID)),
+      TerminalPointInCycle  = (ProportionID == base::max(ProportionID)),
+    ) |> 
+    dplyr::ungroup()
+  
   #dsLinear$ProportionID <- as.integer(round(rank(dsLinear$ProportionThroughCycle, ties.method="max") / max(dsLinear$CycleTally + 1)))
 #   dsLinear$ProportionID <- rank(dsLinear$ProportionThroughCycle, ties.method="max") / max(dsLinear$CycleTally + 1)
 #   dsLinear$StartingPointInCycle <- (dsLinear$ProportionID==min(dsLinear$ProportionID))
