@@ -35,7 +35,7 @@ and, therefore is better suited for the graphical aims of the 2014 manuscript.
 
 The difference is that the 2005 version uses constant estimate for a county population
 --specifically the US Census 1990 estimates.  The 2014 version uses different estimates
-for each month --specificallly the US intercensal annual estimates, with linear interpolation
+for each month --specifically the US intercensal annual estimates, with linear interpolation
 for February through December of each year.
 }
 \details{

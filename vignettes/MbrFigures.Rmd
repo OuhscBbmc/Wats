@@ -17,7 +17,6 @@ This vignette produces the graphs included in the initial MBR manuscript.
 ```
 
 ```{r set_options, echo=FALSE, results='hide'}
-library(base)
 library(utils)
 library(stats)
 library(grDevices)
@@ -34,7 +33,7 @@ knitr::opts_chunk$set(
     fig.width=6.5,
     fig.height=1.6,
     out.width="600px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
-    fig.path='figure-mbr-rmd/',
+    fig.path='figure-mbr-rmd/'
     # dev = "pdf", #Uncomment to produce vector graphics for publication; however png (the default) works better within html (ie, the format of this vignette).
     # dpi=400
 )
@@ -268,7 +267,6 @@ topRightPanel <- Wats::PolarPeriodic(
   yName = "Radius",
   stageIDName = "StageID", #graphCeiling=7,
   drawObservedLine = FALSE,
-  cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1"),
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1"),
   originLabel = NULL
 )
