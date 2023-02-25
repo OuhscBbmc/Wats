@@ -90,7 +90,7 @@ AnnotateData <- function( dsLinear,
   # dsPeriodic2 <- merge(x=dsLinearTemp, y=dsStageCycleTemp, by=c(proportionIDName), all.x=TRUE, all.y=TRUE)
   dsPeriodic <- 
     dsLinearTemp |> 
-    dplyr::left_join(dsStageCycleTemp, by=proportionIDName) |> 
+    dplyr::left_join(dsStageCycleTemp, by=proportionIDName, multiple = "all") |> 
     dplyr::arrange(Date, StageIDTime, StageIDBand)
   
   # dsPeriodic <- dsPeriodic[order(dsPeriodic$Date, dsPeriodic$StageIDTime, dsPeriodic$StageIDBand), ]

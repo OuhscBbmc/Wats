@@ -32,12 +32,29 @@ AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
   dsLinear$StartingPointInCycle <- (dsLinear$ProportionID==base::min(dsLinear$ProportionID))
   dsLinear$TerminalPointInCycle <- (dsLinear$ProportionID==base::max(dsLinear$ProportionID))
 
-  SummarizeWithinStage <- function( d ) {
-    isMin <- (base::min(d[[dateName]]) < d[[dateName]])
-    return( d$StageID + isMin*0.5 )
-  }
-  dsLinear$StageProgress <- base::unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
-  return( dsLinear )
+  # SummarizeWithinStage <- function( d ) {
+  #   isMin <- (base::min(d[[dateName]]) < d[[dateName]])
+  #   return( d$StageID + isMin*0.5 )
+  # }
+  # 
+  dsLinear |> 
+    tibble::as_tibble() |> 
+    dplyr::group_by(StageID) |> 
+    dplyr::mutate(
+      isMin = (base::min(!! rlang::ensym(dateName)) < !! rlang::ensym(dateName)),
+    ) |> 
+    dplyr::ungroup() |> 
+    dplyr::mutate(
+      StageProgress = StageID + isMin*0.5, 
+    ) |> 
+    dplyr::select(
+      -isMin,
+    ) #|> 
+    # dplyr::pull(StageProgress)
+  
+  # browser()
+  # dsLinear$StageProgress <- base::unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
+  # return( dsLinear )
 }
 AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
   yearOfEvent <- lubridate::year(dsLinear[[dateName]])
