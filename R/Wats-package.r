@@ -18,7 +18,8 @@
 #' @author
 #'  \href{http://scholar.google.com/citations?user=ffsJTC0AAAAJ}{William Howard Beasley}
 #'  --Associate Professor of Research, \href{https://ouhsc.edu/bbmc/team/}{University of Oklahoma Health Sciences Center},
-#'  \href{http://www.oumedicine.com/pediatrics}{Dept of Pediatrics}, Biomedical and Behavioral Methodology Core (\href{http://ouhsc.edu/bbmc/}{BBMC})
+#'  \href{https://medicine.ouhsc.edu/academic-departments/pediatrics}{Dept of Pediatrics}, 
+#'  Biomedical and Behavioral Methodology Core (\href{http://ouhsc.edu/bbmc/}{BBMC})
 #'
 #'
 #'  \href{http://www.vanderbilt.edu/psychological_sciences/bio/joe-rodgers}{Joseph Lee Rodgers}
