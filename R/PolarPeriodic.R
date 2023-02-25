@@ -102,7 +102,7 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
                           bandAlphaDark = .4, bandAlphaLight = .15,
                           colorLabels = "gray50", colorGridlines = "gray80", labelColor="orange3",
                           changeLineAlpha = .5, changeLineSize = 3,
-                          tickLocations = base::pretty(x = dsLinear[, yName]),
+                          tickLocations = base::pretty(x = dsLinear[[yName]]),
                           graphFloor = min(tickLocations),
                           graphCeiling = max(tickLocations),
                           cardinalLabels = NULL, originLabel = paste0("The origin represents ", graphFloor, ";\nthe perimeter represents ", graphCeiling, "."),
@@ -118,7 +118,7 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
 
   graphRadius <- graphCeiling - graphFloor
   vpRange <- c(-graphRadius, graphRadius) * 1.02
-  stages <- base::sort(base::unique(dsLinear[, stageIDName]))
+  stages <- base::sort(base::unique(dsLinear[[stageIDName]]))
   stageCount <- length(stages)
   #     testit::assert("The number of unique `StageID` values should be 1 greater than the number of `changePoints`.", stageCount==1+length(changePoints))
   if( !is.null(changePoints) ) testit::assert("The number of `changePoints` should equal the number of `changeLabels`.", length(changePoints)==length(changePointLabels))

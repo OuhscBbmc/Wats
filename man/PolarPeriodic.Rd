@@ -29,7 +29,7 @@ PolarPeriodic(
   labelColor = "orange3",
   changeLineAlpha = 0.5,
   changeLineSize = 3,
-  tickLocations = base::pretty(x = dsLinear[, yName]),
+  tickLocations = base::pretty(x = dsLinear[[yName]]),
   graphFloor = min(tickLocations),
   graphCeiling = max(tickLocations),
   cardinalLabels = NULL,

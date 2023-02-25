@@ -45,10 +45,10 @@ AnnotateData <- function( dsLinear,
                           proportionIDName="ProportionID",
                           terminalPointInCycleName="TerminalPointInCycle" ) {
 
-  pointsInCycle <- max(dsLinear[, proportionIDName])
+  pointsInCycle <- max(dsLinear[[proportionIDName]])
   testit::assert("The should be at least one point in a cycle", max(pointsInCycle)>=1)
 
-  z <- zoo::zooreg(data=dsLinear[, dvName], frequency=pointsInCycle)
+  z <- zoo::zooreg(data=dsLinear[[dvName]], frequency=pointsInCycle)
   rollingBounds <- zoo::rollapply(data=z, width=pointsInCycle, FUN=spreadFunction)
 
   dsLinear$RollingLower <- NA
@@ -58,14 +58,13 @@ AnnotateData <- function( dsLinear,
   dsLinear$RollingCenter[-seq_len(pointsInCycle-1) ] <- zoo::rollapply(data=z, width=pointsInCycle, FUN=centerFunction)
   dsLinear$RollingUpper[-seq_len(pointsInCycle-1) ] <- rollingBounds[, 2]
 
-
   summarizeStageCycle <- function( d ) {
-    positionBounds <- spreadFunction(d[, dvName])
+    positionBounds <- spreadFunction(d[[dvName]])
     #   print(positionBounds)
     data.frame(
       ProportionThroughCycle = mean(d$ProportionThroughCycle, na.rm=TRUE),
       PositionLower = positionBounds[1],
-      PositionCenter = centerFunction(d[, dvName]),
+      PositionCenter = centerFunction(d[[dvName]]),
       PositionUpper = positionBounds[2]
     )
   }
@@ -78,7 +77,7 @@ AnnotateData <- function( dsLinear,
   colnames(dsStageCycleTemp)[colnames(dsStageCycleTemp)==stageIDName] <- "StageIDBand" #Make sure `StageIDBand` matches the calls below.
 
   dsPeriodic <- merge(x=dsLinearTemp, y=dsStageCycleTemp, by=c(proportionIDName), all.x=TRUE, all.y=TRUE)
-  dsPeriodic <- dsPeriodic[order(dsPeriodic[, "Date"], dsPeriodic[, "StageIDTime"], dsPeriodic[, "StageIDBand"]), ]
+  dsPeriodic <- dsPeriodic[order(dsPeriodic$Date, dsPeriodic$StageIDTime, dsPeriodic$StageIDBand), ]
 
   return( list(dsLinear=dsLinear, dsStageCycle=dsStageCycle, dsPeriodic=dsPeriodic) )
 }

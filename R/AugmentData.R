@@ -21,11 +21,11 @@
 #' head(dsLinear)
 #'
 AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
-  yearOfEvent <- lubridate::year(dsLinear[, dateName])
+  yearOfEvent <- lubridate::year(dsLinear[[dateName]])
 
   minYearOfEvent <- base::min(yearOfEvent)
   dsLinear$CycleTally <- (yearOfEvent - minYearOfEvent)
-  monthsThroughTheYear <- lubridate::month(dsLinear[, dateName]) - .5
+  monthsThroughTheYear <- lubridate::month(dsLinear[[dateName]]) - .5
   monthsInTheYear <- 12L
   dsLinear$ProportionThroughCycle <- monthsThroughTheYear /  monthsInTheYear
   dsLinear$ProportionID <- base::rank(dsLinear$ProportionThroughCycle, ties.method="max") / base::max(dsLinear$CycleTally + 1)
@@ -33,20 +33,20 @@ AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
   dsLinear$TerminalPointInCycle <- (dsLinear$ProportionID==base::max(dsLinear$ProportionID))
 
   SummarizeWithinStage <- function( d ) {
-    isMin <- (base::min(d[, dateName]) < d[, dateName])
+    isMin <- (base::min(d[[dateName]]) < d[[dateName]])
     return( d$StageID + isMin*0.5 )
   }
   dsLinear$StageProgress <- base::unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
   return( dsLinear )
 }
 AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
-  yearOfEvent <- lubridate::year(dsLinear[, dateName])
+  yearOfEvent <- lubridate::year(dsLinear[[dateName]])
   firstOfYear <- base::ISOdate(year=yearOfEvent, month=1, day=1, tz="GMT")
   lastOfYear <- firstOfYear + lubridate::years(1)  #ISOdate(year=yearOfEvent + 1, month=1, day=1, tz="GMT")
 
   minYearOfEvent <- min(yearOfEvent)
   dsLinear$CycleTally <- (yearOfEvent - minYearOfEvent)
-  secondsThroughTheYear <- base::as.integer(base::difftime(time1=dsLinear[, dateName], firstOfYear, units="sec")) - .5
+  secondsThroughTheYear <- base::as.integer(base::difftime(time1=dsLinear[[dateName]], firstOfYear, units="sec")) - .5
   secondsInTheYear <- base::as.integer(base::difftime(lastOfYear, firstOfYear, units="sec"))
   dsLinear$ProportionThroughCycle <- secondsThroughTheYear /  secondsInTheYear
 
@@ -68,10 +68,10 @@ AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
 #                     transform,
 #                     TerminalPointInCycle=(rank(ProportionThroughCycle)==max(rank(ProportionThroughCycle))))
   SummarizeWithinStage <- function( d ) {
-    #     minValue <- min(d[, dateName])
-    #     maxValue <- max(d[, dateName])
-    #     isBetween <- ( (min(d[, dateName]) < d[, dateName]) & (d[, dateName] < max(d[, dateName])))
-    isMin <-  (base::min(d[, dateName]) < d[, dateName])
+    #     minValue <- min(d[[dateName]])
+    #     maxValue <- max(d[[dateName]])
+    #     isBetween <- ( (min(d[[dateName]]) < d[[dateName]]) & (d[[dateName]] < max(d[[dateName]])))
+    isMin <-  (base::min(d[[dateName]]) < d[[dateName]])
     return( d$StageID + isMin*0.5 )
   }
   dsLinear$StageProgress <- base::unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))

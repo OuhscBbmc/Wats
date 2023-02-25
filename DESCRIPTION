@@ -28,9 +28,11 @@ Suggests:
     boot,
     covr,
     devtools,
+    dplyr,
     knitr,
     scales,
-    testthat
+    testthat,
+    tibble
 License: MIT + file LICENSE
 LazyData: TRUE
 VignetteBuilder: knitr

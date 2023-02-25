@@ -40,7 +40,7 @@ Rodgers, J.L., St. John, C. A. & Coleman R. (2005).
 \author{
 \href{http://scholar.google.com/citations?user=ffsJTC0AAAAJ}{William Howard Beasley}
  --Associate Professor of Research, \href{https://ouhsc.edu/bbmc/team/}{University of Oklahoma Health Sciences Center},
- \href{https://medicine.ouhsc.edu/academic-departments/pediatrics}{Dept of Pediatrics}, 
+ \href{https://medicine.ouhsc.edu/academic-departments/pediatrics}{Dept of Pediatrics},
  Biomedical and Behavioral Methodology Core (\href{http://ouhsc.edu/bbmc/}{BBMC})
 
 

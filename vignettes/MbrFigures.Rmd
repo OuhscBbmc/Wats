@@ -21,11 +21,11 @@ library(utils)
 library(stats)
 library(grDevices)
 library(grid)
-library(plyr)
 library(scales)
 library(ggplot2)
 library(boot)
 library(Wats)
+requireNamespace("dplyr")
 
 knitr::opts_chunk$set(
     comment=NA,
@@ -111,8 +111,16 @@ Here is the basic linear rolling graph.  It doesn't require much specification, 
 
 # Uncomment the next two lines to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
-dsLinearAll <- CountyMonthBirthRate2005Version
+
+dsLinearAll <-
+  CountyMonthBirthRate2005Version |>
+  tibble::as_tibble()
+# dsLinearAll <- CountyMonthBirthRate2005Version
 dsLinearOkc <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ]
+
+# dsLinearOkc <- 
+#   dsLinearAll |> 
+#   dplyr::filter(CountyName == "oklahoma")
 
 dsLinearOkc <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinearOkc, dateName="Date")
 
@@ -285,8 +293,13 @@ This figure compares Oklahoma County against the (other) largest urban counties.
 # dsLinearAll <- Wats::AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2005Version, dateName="Date")
 
 #Identify the average size of the fecund population
-plyr::ddply(dsLinearAll, "CountyName", plyr::summarize, Mean=base::mean(FecundPopulation))
-
+# plyr::ddply(dsLinearAll, "CountyName", plyr::summarize, Mean=base::mean(FecundPopulation))
+dsLinearAll |> 
+  dplyr::group_by(CountyName) |> 
+  dplyr::summarize(
+    Mean = base::mean(FecundPopulation)
+  ) |> 
+  dplyr::ungroup()
 
 GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spreadFunction=hSpread, changeMonth=as.Date("1996-02-15") ) {
   dsLinear <- dsLinearAll[dsLinearAll$CountyName==countyName, ]
