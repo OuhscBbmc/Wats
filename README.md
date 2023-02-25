@@ -1,12 +1,6 @@
 WATS
 ==========================
 
-[GitHub](https://github.com/OuhscBbmc/Wats) | [Travis-CI](https://travis-ci.org/OuhscBbmc/Wats/builds) | [AppVeyor](https://ci.appveyor.com/project/wibeasley/Wats/history) | [Coveralls](https://coveralls.io/github/OuhscBbmc/Wats) |
-| :----- | :---------------------------: | :-----------------------------: | :-------: |
-| [Master](https://github.com/OuhscBbmc/Wats/tree/master) | [![Build Status](https://travis-ci.org/OuhscBbmc/Wats.svg?branch=master)](https://travis-ci.org/OuhscBbmc/Wats) | [![Build status](https://ci.appveyor.com/api/projects/status/2wkbuwqcmog4nhxf/branch/master?svg=true)](https://ci.appveyor.com/project/wibeasley/wats/branch/master) | [![Coverage Status](https://coveralls.io/repos/OuhscBbmc/Wats/badge.svg?branch=master)](https://coveralls.io/github/OuhscBbmc/Wats?branch=master) |
-| [Dev](https://github.com/OuhscBbmc/Wats/tree/dev) | [![Build Status](https://travis-ci.org/OuhscBbmc/Wats.svg?branch=dev)](https://travis-ci.org/OuhscBbmc/Wats) | [![Build status](https://ci.appveyor.com/api/projects/status/2wkbuwqcmog4nhxf/branch/dev?svg=true)](https://ci.appveyor.com/project/wibeasley/wats/branch/dev) | [![Coverage Status](https://coveralls.io/repos/OuhscBbmc/Wats/badge.svg?branch=dev)](https://coveralls.io/github/OuhscBbmc/Wats?branch=dev) | -- |
-| | *Ubuntu LTS* | *Windows Server* | *Test Coverage* | *Independently-hosted Archive* |
-
 Welcome to the `Wats` Package. This implements the approaches described in
 [Joseph Lee Rodgers](https://www.vanderbilt.edu/psychological_sciences/bio/joe-rodgers), [William Howard Beasley](https://scholar.google.com/citations?user=ffsJTC0AAAAJ), and Matthew Schuelke (2014).
 [Wrap-around Time Series Plots (WATS Plots) for Interrupted Time Series Designs:
@@ -41,23 +35,35 @@ The following directories are not part of the standard R package:
  * `Playgrounds`: R snippets to help developers experiment with potential new features.
  * `UtilityScripts`: R scripts that aren't incorpated into the package.  They help automate certain tasks, or document how parts of the package were created.
 
-## Installing 
-
-| [CRAN](https://cran.r-project.org) | [Version](https://cran.r-project.org/package=Wats) | [Rate](https://cranlogs.r-pkg.org:443/) | [Zenodo](https://zenodo.org/search?ln=en&p=wats) | 
-|  :---- | :----: | :----: | :----: |
-| [Latest](https://cran.r-project.org/package=Wats) | [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/Wats)](https://cran.r-project.org/package=Wats) | ![CRANPace](https://cranlogs.r-pkg.org:443/badges/Wats) | [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11921.svg)](https://doi.org/10.5281/zenodo.11921) |
-|   | *Latest CRAN version* | *CRAN Downloads* | *Independently-hosted Archive* |
+## Installing
 
 The released [CRAN](https://cran.r-project.org/package=Wats) version of Wats can be installed through R with.
 ```R
 install.packages("Wats")
 ```
 
-The latest development version of Wats can be installed from [GitHub](https://github.com/OuhscBbmc/Wats) after installing the `devtools` package.
+The latest development version of Wats can be installed from [GitHub](https://github.com/OuhscBbmc/Wats) after installing the `remotes` package.
 ```R
-install.packages("devtools")
-devtools::install_github(repo="OuhscBbmc/Wats")
+install.packages("remotes")
+remotes::install_github("OuhscBbmc/Wats")
 ```
 
 ## Code Repository
 The software is written primarily in R, under the MIT License.  The DOI of this major release of the *repository* is [10.5281/zenodo.11921](https://doi.org/10.5281/zenodo.11921).  (The DOI of the article is [10.1080/00273171.2014.946589](https://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589).)
+
+## Build Status and Package Characteristics
+
+| [Branch](https://github.com/OuhscBbmc/Wats) | [GitHub Actions](https://github.com/OuhscBbmc/Wats/actions) | [Codecov](https://app.codecov.io/gh/OuhscBbmc/Wats) |
+| :----- | :---------------------------: | :-------: |
+| [Main](https://github.com/OuhscBbmc/Wats/tree/main) | [![R-CMD-check](https://github.com/OuhscBbmc/Wats/workflows/R-CMD-check/badge.svg?branch=main)](https://github.com/OuhscBbmc/Wats/actions) |  [![codecov](https://codecov.io/gh/OuhscBbmc/Wats/branch/main/graph/badge.svg)](https://app.codecov.io/gh/OuhscBbmc/Wats/branch/main) |
+| [Dev](https://github.com/OuhscBbmc/Wats/tree/dev) | [![R-CMD-check](https://github.com/OuhscBbmc/Wats/workflows/R-CMD-check/badge.svg?branch=dev)](https://github.com/OuhscBbmc/Wats/actions) | [![codecov](https://codecov.io/gh/OuhscBbmc/Wats/branch/dev/graph/badge.svg)](https://app.codecov.io/gh/OuhscBbmc/Wats/branch/dev) |
+| | *Ubuntu Latest* | *Test Coverage* |
+
+| Key | Value |
+| :--- | :----- |
+| [License](https://choosealicense.com/) | [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.com/licenses/mit/) |
+| [CRAN Version](https://cran.r-project.org/package=Wats) | [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/Wats)](https://cran.r-project.org/package=Wats) |
+| [CRAN Rate](https://cranlogs.r-pkg.org/) | ![CRAN Pace](https://cranlogs.r-pkg.org/badges/Wats) |
+| [Zenodo Archive](https://zenodo.org/search?ln=en&p=Wats) | [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.11921.svg)](https://doi.org/10.5281/zenodo.11921) |
+| [Production Doc](https://www.rdocumentation.org/) | [![RDoc](https://api.rdocumentation.org/badges/version/Wats)](https://www.rdocumentation.org/packages/Wats) |
+| [Development Doc](https://ouhscbbmc.github.io/Wats/) | [![rdoc](https://img.shields.io/badge/pkgdown-GitHub.io-orange.svg?longCache=true&style=style=for-the-badge)](https://ouhscbbmc.github.io/Wats/) |
