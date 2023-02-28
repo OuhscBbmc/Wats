@@ -42,8 +42,8 @@
 #' [approx()].
 #'
 #' The datasets were manipulated to produce this data frame by the two R files
-#' [IsolateCensusPopsForGfr.R](https://github.com/OuhscBbmc/Wats/blob/master/utility/isolate-census-pops-for-gfr.R)
-#' and [CalculateGfr.R](https://github.com/OuhscBbmc/Wats/blob/master/utility/calculate-gfr.R).
+#' [IsolateCensusPopsForGfr.R](https://github.com/OuhscBbmc/Wats/blob/main/utility/isolate-census-pops-for-gfr.R)
+#' and [CalculateGfr.R](https://github.com/OuhscBbmc/Wats/blob/main/utility/calculate-gfr.R).
 #'
 #' @author Will Beasley
 #' @references

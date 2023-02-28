@@ -48,8 +48,8 @@ The US Census' intercensal estimates are used for the January values of
 \code{\link[=approx]{approx()}}.
 
 The datasets were manipulated to produce this data frame by the two R files
-\href{https://github.com/OuhscBbmc/Wats/blob/master/utility/isolate-census-pops-for-gfr.R}{IsolateCensusPopsForGfr.R}
-and \href{https://github.com/OuhscBbmc/Wats/blob/master/utility/calculate-gfr.R}{CalculateGfr.R}.
+\href{https://github.com/OuhscBbmc/Wats/blob/main/utility/isolate-census-pops-for-gfr.R}{IsolateCensusPopsForGfr.R}
+and \href{https://github.com/OuhscBbmc/Wats/blob/main/utility/calculate-gfr.R}{CalculateGfr.R}.
 }
 \examples{
 library(ggplot2)
