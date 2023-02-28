@@ -16,7 +16,7 @@ running
 \code{remotes::install_github(repo = "OuhscBbmc/Wats")}.
 (make sure \href{https://cran.r-project.org/package=remotes}{remotes} is already installed).
 If you're having trouble with the package, please install the development version.  If this doesn't solve
-your problem, please create an \link{issue} https://github.com/OuhscBbmc/Wats/issues), or email Will.
+your problem, please create an \href{https://github.com/OuhscBbmc/Wats/issues}{issue}, or email Will.
 }
 \examples{
 \dontrun{

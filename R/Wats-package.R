@@ -13,7 +13,7 @@
 #' `remotes::install_github(repo = "OuhscBbmc/Wats")`.
 #' (make sure [remotes](https://cran.r-project.org/package=remotes) is already installed).
 #' If you're having trouble with the package, please install the development version.  If this doesn't solve
-#' your problem, please create an [issue] https://github.com/OuhscBbmc/Wats/issues), or email Will.
+#' your problem, please create an [issue](https://github.com/OuhscBbmc/Wats/issues), or email Will.
 #'
 #' @author
 #'  [William Howard Beasley](http://scholar.google.com/citations?user=ffsJTC0AAAAJ)
