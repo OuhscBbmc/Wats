@@ -39,18 +39,16 @@ Rodgers, J.L., St. John, C. A. & Coleman R. (2005).
 }
 \author{
 \href{http://scholar.google.com/citations?user=ffsJTC0AAAAJ}{William Howard Beasley}
- --Associate Professor of Research, \href{https://ouhsc.edu/bbmc/team/}{University of Oklahoma Health Sciences Center},
- \href{https://medicine.ouhsc.edu/academic-departments/pediatrics}{Dept of Pediatrics}, 
- Biomedical and Behavioral Methodology Core (\href{http://ouhsc.edu/bbmc/}{BBMC})
+--Associate Professor of Research, \href{https://ouhsc.edu/bbmc/team/}{University of Oklahoma Health Sciences Center},
+\href{https://medicine.ouhsc.edu/academic-departments/pediatrics}{Dept of Pediatrics},
+Biomedical and Behavioral Methodology Core (\href{http://ouhsc.edu/bbmc/}{BBMC})
 
+\href{http://www.vanderbilt.edu/psychological_sciences/bio/joe-rodgers}{Joseph Lee Rodgers}
+--Director, Quantitative Methods, Department of Psychology and Human Development,
+Peabody College, 230 Appleton Pl #552, Hobbs 202C, Vanderbilt University, Nashville, TN 37203.
 
- \href{http://www.vanderbilt.edu/psychological_sciences/bio/joe-rodgers}{Joseph Lee Rodgers}
- --Director, Quantitative Methods, Department of Psychology and Human Development,
- Peabody College, 230 Appleton Pl #552, Hobbs 202C, Vanderbilt University, Nashville, TN 37203.
-
-
- [Matthew Schuelke](https://www.slu.edu/slucor/faculty/schuelke-matt.php)
- --Senior Statistician, Office of the Vice President for Research
- Saint Louis University
+\href{https://www.slu.edu/slucor/faculty/schuelke-matt.php}{Matthew Schuelke}
+--Senior Statistician, Office of the Vice President for Research
+Saint Louis University
 }
 \keyword{package}

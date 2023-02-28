@@ -93,7 +93,7 @@ PolarPeriodic(
 
 \item{graphCeiling}{The value of the criterion/dependent variable at the outside of the polar plot.}
 
-\item{cardinalLabels}{The four labels placed  where `North', `East', `South', and `West' typically are.}
+\item{cardinalLabels}{The four labels placed  where \verb{North', }East', \verb{South', and }West' typically are.}
 
 \item{originLabel}{Explains what the criterion variable's value is at the origin.  Use \code{NULL} if no explanation is desired.}
 

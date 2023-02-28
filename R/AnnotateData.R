@@ -3,9 +3,9 @@
 #' @title Finds midpoints and bands for the within and between cycles.
 #'
 #' @description Finds midpoints and bands for the within and between cycles.  This the second of two functions
-#' that needs to be called to produce WATS Plots.  \code{AugmentZZZ} is the first.
+#' that needs to be called to produce WATS Plots.  `AugmentZZZ` is the first.
 #'
-#' @param dsLinear The \code{data.frame} to containing the detailed data.
+#' @param dsLinear The [data.frame] to containing the detailed data.
 #' @param dvName The name of the dependent/criterion variable.
 #' @param centerFunction A function to calculate the center of a subsample.
 #' @param spreadFunction A function to calculate the bands of a subsample.
@@ -15,7 +15,7 @@
 #' @param proportionThroughCycleName The variable name indicating how far the point is through a cycle.  For example, 0 degrees would be \code{0}, 180 degrees would be \code{0.5}, 359 degrees would be \code{0.9972}, and 360 degrees would be \code{0}.
 #' @param proportionIDName The variable name indicating the ordinal position through a cycle.
 #' @param terminalPointInCycleName The variable name indicating the last point within a given cycle.
-#' @return Returns a \code{data.frame} with additional variables <<Say what they are>>.
+#' @return Returns a `data.frame` with additional variables <<Say what they are>>.
 #' @examples
 #' library(Wats)
 #' dsLinear <- CountyMonthBirthRate2005Version

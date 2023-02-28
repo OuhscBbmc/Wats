@@ -18,7 +18,7 @@ AnnotateData(
 )
 }
 \arguments{
-\item{dsLinear}{The \code{data.frame} to containing the detailed data.}
+\item{dsLinear}{The \link{data.frame} to containing the detailed data.}
 
 \item{dvName}{The name of the dependent/criterion variable.}
 
@@ -39,7 +39,7 @@ AnnotateData(
 \item{terminalPointInCycleName}{The variable name indicating the last point within a given cycle.}
 }
 \value{
-Returns a \code{data.frame} with additional variables <<Say what they are>>.
+Returns a \code{data.frame} with additional variables <\if{html}{\out{<Say what they are>}}>.
 }
 \description{
 Finds midpoints and bands for the within and between cycles.  This the second of two functions
