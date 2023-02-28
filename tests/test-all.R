@@ -1,12 +1,6 @@
-# library(testthat)
+# Modeled after the R6 testing structure: https://github.com/wch/R6/blob/main/tests/testthat.R
+library(testthat)
 library(Wats)
 
-packages <- utils::installed.packages()
-testthatVersion <- packages[packages[, 1]=="testthat", "Version"]
-message("testthat package version: ", testthatVersion)
-
-if(  testthatVersion >= "0.8" ) {
-  testthat::test_check("Wats")
-}
-rm(packages)
-# testthat::test_package("Wats")
+# source("R/helpers-testing.R")
+testthat::test_check("Wats")

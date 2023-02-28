@@ -69,7 +69,7 @@ CartesianRolling <- function(dsLinear, xName, yName, stageIDName,
                               bandAlpha=.4, changeLineAlpha=.5, changeLineSize=3,
                               title=NULL, xTitle=NULL, yTitle=NULL ) {
 
-  stages <- base::sort(base::unique(dsLinear[, stageIDName]))
+  stages <- base::sort(base::unique(dsLinear[[stageIDName]]))
   stageCount <- length(stages)
   testit::assert("The number of unique `StageID` values should be 1 greater than the number of `changePoints`.", stageCount==1+length(changePoints))
   if( !is.null(changePoints) ) testit::assert("The number of `changePoints` should equal the number of `changeLabels`.", length(changePoints)==length(changePointLabels))

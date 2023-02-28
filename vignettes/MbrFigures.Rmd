@@ -8,7 +8,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# Figures for the MBR Manuscript
 This vignette produces the graphs included in the initial MBR manuscript.
 
 ```{r set_root_directory, echo=FALSE, results='hide'}
@@ -18,16 +17,15 @@ This vignette produces the graphs included in the initial MBR manuscript.
 ```
 
 ```{r set_options, echo=FALSE, results='hide'}
-library(base)
 library(utils)
 library(stats)
 library(grDevices)
 library(grid)
-library(plyr)
 library(scales)
 library(ggplot2)
 library(boot)
 library(Wats)
+requireNamespace("dplyr")
 
 knitr::opts_chunk$set(
     comment=NA,
@@ -35,7 +33,7 @@ knitr::opts_chunk$set(
     fig.width=6.5,
     fig.height=1.6,
     out.width="600px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
-    fig.path='figure_mbr_rmd/'
+    fig.path='figure-mbr-rmd/'
     # dev = "pdf", #Uncomment to produce vector graphics for publication; however png (the default) works better within html (ie, the format of this vignette).
     # dpi=400
 )
@@ -49,7 +47,7 @@ set.seed(444) # Avoid bootstrap from triggering diffs
 ## Figure 1: Cartesian Rolling - 2005 Version
 Figure 1:  Raw monthly birth rates (General Fertility Rates;  GFR's) for Oklahoma County, 1990-1999, plotted in a linear plot;  the "bombing effect" is located ten months after the Oklahoma City bombing.
 
-<img src="./figure_static/Fig1_2005CartesianRolling.png" alt="Fig1_2005CartesianRolling" style="width: 600px;"/>
+<img src="./figure-static/Fig1_2005CartesianRolling.png" alt="Fig1_2005CartesianRolling" style="width: 600px;"/>
 
 ## Figure 2: Cartesian Rolling - 2014 Version
 Smoothed monthly birth rates (General Fertility Rates; GFRs) for Oklahoma County, 1990-1999, plotted in a linear plot.  The top plot shows the connected raw data with a February smoother; the middle plot shows smoothing with a 12-month moving average, blue/green line, superimposed on a February smoother, red line); the bottom plot shows the smoothers and confidence bands, which are H-spreads defined using the distribution of GFR's for the given month and 11 previous months.
@@ -58,6 +56,7 @@ First, some R packages are loaded, and some variables and functions are defined.
 
 ```{r Definitions}
 changeMonth <- base::as.Date("1996-02-15") #as.Date("1995-04-19") + lubridate::weeks(39) = "1996-01-17"
+set.seed(444) # So bootstrap won't trigger a git diff
 
 vpLayout <- function(x, y) { grid::viewport(layout.pos.row=x, layout.pos.col=y) }
 
@@ -85,8 +84,8 @@ darkTheme <- ggplot2::theme(
   axis.text.x         = ggplot2::element_text(color="gray30", hjust=0),
 axis.text.y         = ggplot2::element_text(color="gray30"),
   axis.ticks.length   = grid::unit(0, "cm"),
-#   panel.grid.minor.y  = element_line(color="gray95", size=.1),
-#   panel.grid.major    = element_line(color="gray90", size=.1),
+#   panel.grid.minor.y  = element_line(color="gray95", linewidth=.1),
+#   panel.grid.major    = element_line(color="gray90", linewidth=.1),
   panel.spacing       = grid::unit(c(0, 0, 0, 0), "cm"),
   plot.margin         = grid::unit(c(0, 0, 0, 0), "cm")
 )
@@ -96,8 +95,8 @@ lightTheme <- darkTheme + ggplot2::theme(
   axis.title          = ggplot2::element_text(color="gray80", size=9),
   axis.text.x         = ggplot2::element_text(color="gray80", hjust=0),
   axis.text.y         = ggplot2::element_text(color="gray80"),
-  panel.grid.minor.y  = ggplot2::element_line(color="gray99", size=.1),
-  panel.grid.major    = ggplot2::element_line(color="gray95", size=.1)
+  panel.grid.minor.y  = ggplot2::element_line(color="gray99", linewidth=.1),
+  panel.grid.major    = ggplot2::element_line(color="gray95", linewidth=.1)
 )
 dateSequence <- base::seq.Date(from=base::as.Date("1990-01-01"), to=base::as.Date("1999-01-01"), by="years")
 xScale       <- ggplot2::scale_x_date(breaks=dateSequence, labels=scales::date_format("%Y"))
@@ -114,8 +113,16 @@ Here is the basic linear rolling graph.  It doesn't require much specification, 
 
 # Uncomment the next two lines to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
-dsLinearAll <- CountyMonthBirthRate2005Version
+
+dsLinearAll <-
+  CountyMonthBirthRate2005Version |>
+  tibble::as_tibble()
+# dsLinearAll <- CountyMonthBirthRate2005Version
 dsLinearOkc <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ]
+
+# dsLinearOkc <- 
+#   dsLinearAll |> 
+#   dplyr::filter(CountyName == "oklahoma")
 
 dsLinearOkc <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinearOkc, dateName="Date")
 
@@ -264,7 +271,7 @@ grid::upViewport()
 
 ## Create top right panel
 grid::pushViewport(grid::viewport(layout.pos.col=2, layout.pos.row=1))
-topRighttPanel <- Wats::PolarPeriodic(
+topRightPanel <- Wats::PolarPeriodic(
   dsLinear = portfolioPolar$dsObservedPolar,
   dsStageCyclePolar = portfolioPolar$dsStageCyclePolar,
   yName = "Radius",
@@ -288,8 +295,13 @@ This figure compares Oklahoma County against the (other) largest urban counties.
 # dsLinearAll <- Wats::AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2005Version, dateName="Date")
 
 #Identify the average size of the fecund population
-plyr::ddply(dsLinearAll, "CountyName", plyr::summarize, Mean=base::mean(FecundPopulation))
-
+# plyr::ddply(dsLinearAll, "CountyName", plyr::summarize, Mean=base::mean(FecundPopulation))
+dsLinearAll |> 
+  dplyr::group_by(CountyName) |> 
+  dplyr::summarize(
+    Mean = base::mean(FecundPopulation)
+  ) |> 
+  dplyr::ungroup()
 
 GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spreadFunction=hSpread, changeMonth=as.Date("1996-02-15") ) {
   dsLinear <- dsLinearAll[dsLinearAll$CountyName==countyName, ]
@@ -330,7 +342,7 @@ for( i in base::seq_along(counties) ) {
 grid::popViewport()
 ```
 
-Here are all 12 counties that Ronnie colelcted birth records for.  This extended graph is not in the mauscript.
+Here are all 12 counties that Ronnie collected birth records for.  This extended graph is not in the manuscript.
 
 ```{r Figure7AllCounties, fig.height=6.5 * 12/5}
 counties <- base::sort(base::unique(dsLinearAll$CountyName))

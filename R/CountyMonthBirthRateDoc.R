@@ -35,25 +35,25 @@
 #' <<Joe, can you please finish/edit this sentence?>>
 #' The monthly birth counts were copied from county records by Ronnie Coleman during the
 #' summer of 2001 from state vital statistics records.  It was collected
-#' for [Rodgers, St. John, & Coleman (2005)](http://www.ncbi.nlm.nih.gov/pubmed/16463916).
+#' for [Rodgers, St. John, & Coleman (2005)](https://pubmed.ncbi.nlm.nih.gov/16463916/).
 #'
 #' The US Census' intercensal estimates are used for the January values of
 #' `FecundPopluation`.  Values for February-December are interpolated using
 #' [approx()].
 #'
 #' The datasets were manipulated to produce this data frame by the two R files
-#' [IsolateCensusPopsForGfr.R](https://github.com/OuhscBbmc/Wats/blob/master/utility/isolate-census-pops-for-gfr.R)
-#' and [CalculateGfr.R](https://github.com/OuhscBbmc/Wats/blob/master/utility/calculate-gfr.R).
+#' [IsolateCensusPopsForGfr.R](https://github.com/OuhscBbmc/Wats/blob/main/utility/isolate-census-pops-for-gfr.R)
+#' and [CalculateGfr.R](https://github.com/OuhscBbmc/Wats/blob/main/utility/calculate-gfr.R).
 #'
 #' @author Will Beasley
 #' @references
 #' Rodgers, J. L., St. John, C. A. & Coleman R. (2005).
-#' [Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.](http://www.ncbi.nlm.nih.gov/pubmed/16463916)
+#' [Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.](https://pubmed.ncbi.nlm.nih.gov/16463916/)
 #' *Demography, 42*, 675-692.
 #'
 #' [Intercensal estimates for 199x](https://www.census.gov/data/tables/time-series/demo/popest/intercensal-1990-2000-state-and-county-totals.html)
 #'
-#' [Intercensal estimates for 200x](http://www.census.gov/popest/data/intercensal/county/county2010.html)
+#' [Intercensal estimates for 200x](https://www.census.gov/data/datasets/time-series/demo/popest/intercensal-2000-2010-counties.html)
 #'
 #'
 #' * [US Census Intercensal Estimates](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html)

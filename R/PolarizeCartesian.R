@@ -5,12 +5,12 @@
 #' @description Three operations are performed.
 #' First, within each stage, the first row is repeated at the end, to close the loop.
 #' Second, multiple points are interpolated (still in a Cartesian coordinates) so that the polar graph doesn't have sharp edges.  These sharp edges would be artifacts of the conversion, and not reflect the observed data.
-#' Third, the Cartesian points are coverted to polar coordinates.
+#' Third, the Cartesian points are converted to polar coordinates.
 #'
-#' @param dsLinear The \code{data.frame} to containing the simple linear data.  There should be one record per observation.
-#' @param dsStageCycle The \code{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \code{data.frame} should have three times as many rows as \code{dsLinear}.
+#' @param dsLinear The [data.frame] to containing the simple linear data.  There should be one record per observation.
+#' @param dsStageCycle The [data.frame] to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this [data.frame] should have three times as many rows as `dsLinear`.
 #' @param yName The variable name containing the dependent/criterion variable.
-#' @param stageIDName The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.
+#' @param stageIDName The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `StageID` is `1`, and is `2` afterwards.
 #' @param cycleTallyName The variable name indicating how many \emph{complete} cycles have occurred at that observation.
 #' @param proportionThroughCycleName The variable name showing how far through a cycle the observation (or summarized observations) occurred.
 #' @param periodicLowerName The variable name showing the lower bound of a stage's periodic estimate.
@@ -18,7 +18,7 @@
 #' @param periodicUpperName The variable name showing the upper bound of a stage's periodic estimate.
 #' @param plottedPointCountPerCycle The number of points that are plotted per cycle.  If the polar graph has 'sharp corners', then increase this value.
 #' @param graphFloor The value of the criterion/dependent variable at the center of the polar plot.
-#' @return Returns a \code{data.frame}.
+#' @return Returns a [data.frame].
 #' @keywords polar
 #' @examples
 #' library(Wats)
@@ -59,13 +59,13 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
                       proportionThroughCycleName="ProportionThroughCycle",
                       periodicLowerName="PositionLower", periodicCenterName="PositionCenter", periodicUpperName="PositionUpper",
                       plottedPointCountPerCycle=120,
-                      graphFloor=min(base::pretty(x=dsLinear[, yName]))) {
+                      graphFloor=min(base::pretty(x=dsLinear[[yName]]))) {
   #TODO: allow counter-clockwise and arbitrary angle for theta=0
 
 
-#   print(dsLinear[, cycleTallyName])
-#   print(dsLinear[, proportionThroughCycleName])
-#   print(dsLinear[, yName])
+#   print(dsLinear[[cycleTallyName]])
+#   print(dsLinear[[proportionThroughCycleName]])
+#   print(dsLinear[[yName]])
 
   closeLoop <- function( d ) {
     d[nrow(d) + 1, ] <- d[1, ] #Within each stage, repeat the first row at the end of the stage's data.frame.
@@ -73,10 +73,10 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
     return( d )
   }
   interpolateObserved <- function( d, pointsPerCycleCount ) {
-    observed <- stats::approx(x = d[, cycleTallyName] + d[, proportionThroughCycleName],
-                              y = d[, yName],
+    observed <- stats::approx(x = d[[cycleTallyName]] + d[[proportionThroughCycleName]],
+                              y = d[[yName]],
                               n = pointsPerCycleCount)
-    stageProgress <- stats::approx(x = unique(d[, stageIDName]) + 0:1,
+    stageProgress <- stats::approx(x = unique(d[[stageIDName]]) + 0:1,
                                    n = pointsPerCycleCount + 1)
 
     base::data.frame(
@@ -86,9 +86,9 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
     )
   }
   interpolateBand <- function( d, pointsPerCycleCount ) {
-    lower <- stats::approx(x=d[, proportionThroughCycleName], y=d[, periodicLowerName], n=pointsPerCycleCount)
-    center <- stats::approx(x=d[, proportionThroughCycleName], y=d[, periodicCenterName], n=pointsPerCycleCount)
-    upper <- stats::approx(x=d[, proportionThroughCycleName], y=d[, periodicUpperName], n=pointsPerCycleCount)
+    lower <- stats::approx(x=d[[proportionThroughCycleName]], y=d[[periodicLowerName]], n=pointsPerCycleCount)
+    center <- stats::approx(x=d[[proportionThroughCycleName]], y=d[[periodicCenterName]], n=pointsPerCycleCount)
+    upper <- stats::approx(x=d[[proportionThroughCycleName]], y=d[[periodicUpperName]], n=pointsPerCycleCount)
 
     base::data.frame(
       LowerX = lower$x,

@@ -92,9 +92,16 @@ test_that("AnnotateDataWithMonthResolution-Median", {
   expect_equal(dim(portfolio$dsLinear), expected=c(120, 21), label="The dimensions of dsLinear should be correct.")
   expect_equal(dim(portfolio$dsPeriodic), expected=c(240, 9), label="The dimensions of dsPeriodic should be correct.")
 
-  expect_equal(portfolio$dsStageCycle, expected=expectedStageCycle, label="The dsStageCycle should be correct.")
-  expect_equal(head(portfolio$dsLinear), expected=expectedLinearHead, label="The head of the dsLinear should be correct.")
-  expect_equal(head(portfolio$dsPeriodic), expected=expectedPeriodicHead, label="The head of the dsPeriodic should be correct.")
+  expect_equivalent(portfolio$dsStageCycle, expected=expectedStageCycle, label="The dsStageCycle should be correct.")
+  expect_equivalent(head(portfolio$dsLinear), expected=expectedLinearHead, label="The head of the dsLinear should be correct.")
+  #expect_equivalent(head(portfolio$dsPeriodic), expected=expectedPeriodicHead, label="The head of the dsPeriodic should be correct.")
+  portfolio$dsPeriodic |> 
+    head() |> 
+    dplyr::select(
+      ProportionID, Date, StageIDTime, StageProgress, StageIDBand,
+      ProportionThroughCycle, PositionLower, PositionCenter, PositionUpper, 
+    ) |> 
+    expect_equivalent(expected=expectedPeriodicHead, label="The head of the dsPeriodic should be correct.")
 })
 test_that("AnnotateDataWithMonthResolution-Median", {
   dsLinear <- CountyMonthBirthRate2005Version
@@ -181,7 +188,14 @@ test_that("AnnotateDataWithMonthResolution-Median", {
   expect_equal(dim(portfolio$dsLinear), expected=c(120, 21), label="The dimensions of dsLinear should be correct.")
   expect_equal(dim(portfolio$dsPeriodic), expected=c(240, 9), label="The dimensions of dsPeriodic should be correct.")
 
-  expect_equal(portfolio$dsStageCycle, expected=expectedStageCycle, label="The dsStageCycle should be correct.")
-  expect_equal(head(portfolio$dsLinear), expected=expectedLinearHead, label="The head of the dsLinear should be correct.")
-  expect_equal(head(portfolio$dsPeriodic), expected=expectedPeriodicHead, label="The head of the dsPeriodic should be correct.")
+  expect_equivalent(portfolio$dsStageCycle, expected=expectedStageCycle, label="The dsStageCycle should be correct.")
+  expect_equivalent(head(portfolio$dsLinear), expected=expectedLinearHead, label="The head of the dsLinear should be correct.")
+  # expect_equivalent(head(portfolio$dsPeriodic), expected=expectedPeriodicHead, label="The head of the dsPeriodic should be correct.")
+  portfolio$dsPeriodic |> 
+    head() |> 
+    dplyr::select(
+      ProportionID, Date, StageIDTime, StageProgress, StageIDBand,
+      ProportionThroughCycle, PositionLower, PositionCenter, PositionUpper, 
+    ) |> 
+    expect_equivalent(expected=expectedPeriodicHead, label="The head of the dsPeriodic should be correct.")
 })

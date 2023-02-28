@@ -52,7 +52,7 @@ summary(fitClassic)
 
 #Seasonality is accounted for after a loess is fit through it.
 lag <- 1 #Significant for many different values of lag, including 1
-trendLineLoess <- as.numeric(seasonalLoess$time.series[, 2])
+trendLineLoess <- as.numeric(seasonalLoess$time.series[[2]])
 y <- trendLineLoess[(lag+1):length(trendLineLoess)]
 y1 <- trendLineLoess[1:(length(trendLineLoess) - lag)]
 step <- c(rep(0, times=sum(dsLinear$StageID==1)-lag), rep(1, times=sum(dsLinear$StageID==2)))
