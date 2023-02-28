@@ -330,7 +330,7 @@ for( i in base::seq_along(counties) ) {
 grid::popViewport()
 ```
 
-Here are all 12 counties that Ronnie colelcted birth records for.  This extended graph is not in the mauscript.
+Here are all 12 counties that Ronnie collected birth records for.  This extended graph is not in the manuscript.
 
 ```{r Figure7AllCounties, fig.height=6.5 * 12/5}
 counties <- base::sort(base::unique(dsLinearAll$CountyName))

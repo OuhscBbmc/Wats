@@ -48,7 +48,7 @@ Returns a \link{data.frame}.
 Three operations are performed.
 First, within each stage, the first row is repeated at the end, to close the loop.
 Second, multiple points are interpolated (still in a Cartesian coordinates) so that the polar graph doesn't have sharp edges.  These sharp edges would be artifacts of the conversion, and not reflect the observed data.
-Third, the Cartesian points are coverted to polar coordinates.
+Third, the Cartesian points are converted to polar coordinates.
 }
 \examples{
 library(Wats)

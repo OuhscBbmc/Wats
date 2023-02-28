@@ -5,7 +5,7 @@
 #' @description Three operations are performed.
 #' First, within each stage, the first row is repeated at the end, to close the loop.
 #' Second, multiple points are interpolated (still in a Cartesian coordinates) so that the polar graph doesn't have sharp edges.  These sharp edges would be artifacts of the conversion, and not reflect the observed data.
-#' Third, the Cartesian points are coverted to polar coordinates.
+#' Third, the Cartesian points are converted to polar coordinates.
 #'
 #' @param dsLinear The [data.frame] to containing the simple linear data.  There should be one record per observation.
 #' @param dsStageCycle The [data.frame] to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this [data.frame] should have three times as many rows as `dsLinear`.
