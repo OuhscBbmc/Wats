@@ -20,8 +20,7 @@ A data frame with 1,440 observations on the following 11 variables.
 \item{Date}{The year and month of the record, with a date of the 15th. Centering the date within the month makes the value a little more representative and the graphs a little easier. \code{date}}
 \item{DaysInMonth}{The number of days in the specific month. \code{integer}}
 \item{DaysInYear}{The number of days in the specific years \code{integer}}
-\item{StageID}{The \verb{Stage' of the month.  The pre-bombing records are }1' (accounting for 9 months of gestation); the post-bombing months are `2'. \code{integer}}
-\item{BirthRate}{The Growth Fertility Rate (GFR). \code{numeric}}
+\item{StageID}{The \verb{Stage' of the month.  The pre-bombing records are }1' (accounting for 9 months of gestation); the post-bombing months are \verb{2'. }integer\verb{\} \\item\{BirthRate\}\{The Growth Fertility Rate (GFR). }numeric`}
 }
 }
 \description{
@@ -46,7 +45,7 @@ for \href{http://www.ncbi.nlm.nih.gov/pubmed/16463916}{Rodgers, St. John, & Cole
 
 The US Census' intercensal estimates are used for the January values of
 \code{FecundPopluation}.  Values for February-December are interpolated using
-\href{http://stat.ethz.ch/R-manual/R-devel/library/stats/html/approxfun.html}{\code{approx}}.
+\code{\link[=approx]{approx()}}.
 
 The datasets were manipulated to produce this data frame by the two R files
 \href{https://github.com/OuhscBbmc/Wats/blob/master/utility/isolate-census-pops-for-gfr.R}{IsolateCensusPopsForGfr.R}

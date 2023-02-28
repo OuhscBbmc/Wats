@@ -35,7 +35,7 @@ CartesianRolling(
 )
 }
 \arguments{
-\item{dsLinear}{The \code{data.frame} to containing the data.}
+\item{dsLinear}{The \link{data.frame} to containing the data.}
 
 \item{xName}{The variable name containing the date.}
 
@@ -55,7 +55,7 @@ CartesianRolling(
 
 \item{colorSparse}{The color of the `slowest' trend line, which plots only one value per cycle.}
 
-\item{changePoints}{A vector of values indicate the interruptions between stages.  It typically works best as a \code{Date} or a \code{POSIXct} class.}
+\item{changePoints}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
 
 \item{changePointLabels}{The text plotted above each interruption.}
 
@@ -90,7 +90,7 @@ CartesianRolling(
 \item{yTitle}{The string describing the \emph{y}-axis.}
 }
 \value{
-Returns a \code{ggplot2} graphing object
+Returns a ggplot2 graphing object
 }
 \description{
 Shows the interrupted time series in Cartesian coordinates without a periodic/cyclic components.
