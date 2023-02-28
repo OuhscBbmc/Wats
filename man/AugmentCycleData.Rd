@@ -10,16 +10,16 @@ AugmentYearDataWithMonthResolution( dsLinear, dateName )
 AugmentYearDataWithSecondResolution( dsLinear, dateName )
 }
 \arguments{
-\item{dsLinear}{The \code{data.frame} to containing the detailed data.}
+\item{dsLinear}{The \link{data.frame} to containing the detailed data.}
 
 \item{dateName}{The variable name in \code{dsLinear} containing the date or datetime value.}
 }
 \value{
-Returns a \code{data.frame} with additional variables: \code{CycleTally}, \code{ProportionThroughCycle}, \code{ProportionID}, and \code{TerminalPointInCycle}.
+Returns a \link{data.frame} with additional variables: \code{CycleTally}, \code{ProportionThroughCycle}, \code{ProportionID}, and \code{TerminalPointInCycle}.
 }
 \description{
 Calculates variables necessary for WATS Plots.  This the first of two functions
-that needs to be called to produce WATS Plots.  \code{AnnotateData} is the second.
+that needs to be called to produce WATS Plots.  \code{\link[=AnnotateData]{AnnotateData()}} is the second.
 }
 \examples{
 library(Wats)
