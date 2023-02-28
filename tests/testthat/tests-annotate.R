@@ -3,10 +3,6 @@ library(testthat)
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt") #This approach accounts for working on developmental box.
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt") #This approach accounts for working on developmental box.
 
-
-###########
-context("Annotate")
-###########
 test_that("AnnotateDataWithMonthResolution-Median", {
   dsLinear <- CountyMonthBirthRate2005Version
   dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]

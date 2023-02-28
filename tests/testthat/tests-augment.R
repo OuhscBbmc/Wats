@@ -3,10 +3,6 @@ library(testthat)
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt") #This approach accounts for working on developmental box.
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt") #This approach accounts for working on developmental box.
 
-
-###########
-context("Augment")
-###########
 test_that("AugmentYearDataWithMonthResolution", {
   dsBirthRate <- CountyMonthBirthRate2005Version[CountyMonthBirthRate2005Version$CountyName=="oklahoma", ]
 #   dsBirthRate$Date <- as.Date(dsBirthRate$Date)
