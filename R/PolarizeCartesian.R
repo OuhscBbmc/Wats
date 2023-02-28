@@ -67,12 +67,12 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
 #   print(dsLinear[[proportionThroughCycleName]])
 #   print(dsLinear[[yName]])
 
-  closeLoop <- function( d ) {
+  closeLoop <- function (d) {
     d[nrow(d) + 1, ] <- d[1, ] #Within each stage, repeat the first row at the end of the stage's data.frame.
     d[nrow(d), proportionThroughCycleName] <- 1 + d[nrow(d), proportionThroughCycleName]
     return( d )
   }
-  interpolateObserved <- function( d, pointsPerCycleCount ) {
+  interpolateObserved <- function (d, pointsPerCycleCount) {
     observed <- stats::approx(x = d[[cycleTallyName]] + d[[proportionThroughCycleName]],
                               y = d[[yName]],
                               n = pointsPerCycleCount)
@@ -85,7 +85,7 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
       StageProgress = stageProgress$y[seq_len(pointsPerCycleCount)] #Which chops off the last value.
     )
   }
-  interpolateBand <- function( d, pointsPerCycleCount ) {
+  interpolateBand <- function (d, pointsPerCycleCount) {
     lower <- stats::approx(x=d[[proportionThroughCycleName]], y=d[[periodicLowerName]], n=pointsPerCycleCount)
     center <- stats::approx(x=d[[proportionThroughCycleName]], y=d[[periodicCenterName]], n=pointsPerCycleCount)
     upper <- stats::approx(x=d[[proportionThroughCycleName]], y=d[[periodicUpperName]], n=pointsPerCycleCount)
@@ -99,9 +99,9 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
       UpperY = upper$y
     )
   }
-  polarizeObserved <- function( d, graphFloor=graphFloor ) {
+  polarizeObserved <- function (d, graphFloor=graphFloor) {
     #After R 3.1.0 has been out for a while, consider using sinpi()`.
-    if( nrow(d)==0 ) {
+    if (nrow(d) == 0L) {
       stageStart <- logical(0)
       stageEnd <- logical(0)
     } else {
@@ -121,8 +121,8 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
       stringsAsFactors = FALSE
     )
   }
-  polarizeBand <- function( d, graphFloor=graphFloor ) {
-    if( nrow(d)==0 ) {
+  polarizeBand <- function (d, graphFloor = graphFloor) {
+    if (nrow(d) == 0L) {
       stageStart <- logical(0)
       stageEnd <- logical(0)
     } else {

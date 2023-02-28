@@ -95,12 +95,12 @@ test_that("AnnotateDataWithMonthResolution-Median", {
   expect_equivalent(portfolio$dsStageCycle, expected=expectedStageCycle, label="The dsStageCycle should be correct.")
   expect_equivalent(head(portfolio$dsLinear), expected=expectedLinearHead, label="The head of the dsLinear should be correct.")
   #expect_equivalent(head(portfolio$dsPeriodic), expected=expectedPeriodicHead, label="The head of the dsPeriodic should be correct.")
-  portfolio$dsPeriodic |> 
-    head() |> 
+  portfolio$dsPeriodic |>
+    head() |>
     dplyr::select(
       ProportionID, Date, StageIDTime, StageProgress, StageIDBand,
-      ProportionThroughCycle, PositionLower, PositionCenter, PositionUpper, 
-    ) |> 
+      ProportionThroughCycle, PositionLower, PositionCenter, PositionUpper,
+    ) |>
     expect_equivalent(expected=expectedPeriodicHead, label="The head of the dsPeriodic should be correct.")
 })
 test_that("AnnotateDataWithMonthResolution-Median", {
@@ -191,11 +191,11 @@ test_that("AnnotateDataWithMonthResolution-Median", {
   expect_equivalent(portfolio$dsStageCycle, expected=expectedStageCycle, label="The dsStageCycle should be correct.")
   expect_equivalent(head(portfolio$dsLinear), expected=expectedLinearHead, label="The head of the dsLinear should be correct.")
   # expect_equivalent(head(portfolio$dsPeriodic), expected=expectedPeriodicHead, label="The head of the dsPeriodic should be correct.")
-  portfolio$dsPeriodic |> 
-    head() |> 
+  portfolio$dsPeriodic |>
+    head() |>
     dplyr::select(
       ProportionID, Date, StageIDTime, StageProgress, StageIDBand,
-      ProportionThroughCycle, PositionLower, PositionCenter, PositionUpper, 
-    ) |> 
+      ProportionThroughCycle, PositionLower, PositionCenter, PositionUpper,
+    ) |>
     expect_equivalent(expected=expectedPeriodicHead, label="The head of the dsPeriodic should be correct.")
 })
