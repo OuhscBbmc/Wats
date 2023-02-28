@@ -3,8 +3,8 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   MbrFigures: MbrFigures.html
-last_built: 2023-02-28T07:21Z
+last_built: 2023-02-28T08:14Z
 urls:
-  reference: http://ouhscbbmc.github.io/Wats/reference
-  article: http://ouhscbbmc.github.io/Wats/articles
+  reference: https://ouhscbbmc.github.io/Wats/reference
+  article: https://ouhscbbmc.github.io/Wats/articles
 

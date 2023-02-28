@@ -77,22 +77,19 @@
 
     
     
-<div class="section level2">
-<h2 id="figures-for-the-mbr-manuscript">Figures for the MBR Manuscript<a class="anchor" aria-label="anchor" href="#figures-for-the-mbr-manuscript"></a>
-</h2>
 <p>This vignette produces the graphs included in the initial MBR
 manuscript.</p>
-<div class="section level3">
-<h3 id="figure-1-cartesian-rolling---2005-version">Figure 1: Cartesian Rolling - 2005 Version<a class="anchor" aria-label="anchor" href="#figure-1-cartesian-rolling---2005-version"></a>
-</h3>
+<div class="section level2">
+<h2 id="figure-1-cartesian-rolling---2005-version">Figure 1: Cartesian Rolling - 2005 Version<a class="anchor" aria-label="anchor" href="#figure-1-cartesian-rolling---2005-version"></a>
+</h2>
 <p>Figure 1: Raw monthly birth rates (General Fertility Rates; GFR’s)
 for Oklahoma County, 1990-1999, plotted in a linear plot; the “bombing
 effect” is located ten months after the Oklahoma City bombing.</p>
-<p><img src="figure_static/Fig1_2005CartesianRolling.png" alt="Fig1_2005CartesianRolling" style="width: 600px;"></p>
+<p><img src="figure-static/Fig1_2005CartesianRolling.png" alt="Fig1_2005CartesianRolling" style="width: 600px;"></p>
 </div>
-<div class="section level3">
-<h3 id="figure-2-cartesian-rolling---2014-version">Figure 2: Cartesian Rolling - 2014 Version<a class="anchor" aria-label="anchor" href="#figure-2-cartesian-rolling---2014-version"></a>
-</h3>
+<div class="section level2">
+<h2 id="figure-2-cartesian-rolling---2014-version">Figure 2: Cartesian Rolling - 2014 Version<a class="anchor" aria-label="anchor" href="#figure-2-cartesian-rolling---2014-version"></a>
+</h2>
 <p>Smoothed monthly birth rates (General Fertility Rates; GFRs) for
 Oklahoma County, 1990-1999, plotted in a linear plot. The top plot shows
 the connected raw data with a February smoother; the middle plot shows
@@ -104,6 +101,7 @@ of GFR’s for the given month and 11 previous months.</p>
 are defined.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">changeMonth</span> <span class="op">&lt;-</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1996-02-15"</span><span class="op">)</span> <span class="co">#as.Date("1995-04-19") + lubridate::weeks(39) = "1996-01-17"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">444</span><span class="op">)</span> <span class="co"># So bootstrap won't trigger a git diff</span></span>
 <span></span>
 <span><span class="va">vpLayout</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="op">{</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span>layout.pos.row<span class="op">=</span><span class="va">x</span>, layout.pos.col<span class="op">=</span><span class="va">y</span><span class="op">)</span> <span class="op">}</span></span>
 <span></span>
@@ -131,8 +129,8 @@ are defined.</p>
 <span>  axis.text.x         <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"gray30"</span>, hjust<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>axis.text.y         <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"gray30"</span><span class="op">)</span>,</span>
 <span>  axis.ticks.length   <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">0</span>, <span class="st">"cm"</span><span class="op">)</span>,</span>
-<span><span class="co">#   panel.grid.minor.y  = element_line(color="gray95", size=.1),</span></span>
-<span><span class="co">#   panel.grid.major    = element_line(color="gray90", size=.1),</span></span>
+<span><span class="co">#   panel.grid.minor.y  = element_line(color="gray95", linewidth=.1),</span></span>
+<span><span class="co">#   panel.grid.major    = element_line(color="gray90", linewidth=.1),</span></span>
 <span>  panel.spacing       <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, <span class="st">"cm"</span><span class="op">)</span>,</span>
 <span>  plot.margin         <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, <span class="st">"cm"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
@@ -142,30 +140,35 @@ are defined.</p>
 <span>  axis.title          <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"gray80"</span>, size<span class="op">=</span><span class="fl">9</span><span class="op">)</span>,</span>
 <span>  axis.text.x         <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"gray80"</span>, hjust<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>  axis.text.y         <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"gray80"</span><span class="op">)</span>,</span>
-<span>  panel.grid.minor.y  <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"gray99"</span>, size<span class="op">=</span><span class="fl">.1</span><span class="op">)</span>,</span>
-<span>  panel.grid.major    <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"gray95"</span>, size<span class="op">=</span><span class="fl">.1</span><span class="op">)</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<pre><code>Warning:  [1m [22mThe `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
- [36mℹ [39m Please use the `linewidth` argument instead.</code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dateSequence</span> <span class="op">&lt;-</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/seq.Date.html" class="external-link">seq.Date</a></span><span class="op">(</span>from<span class="op">=</span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1990-01-01"</span><span class="op">)</span>, to<span class="op">=</span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1999-01-01"</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"years"</span><span class="op">)</span></span>
+<span>  panel.grid.minor.y  <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"gray99"</span>, linewidth<span class="op">=</span><span class="fl">.1</span><span class="op">)</span>,</span>
+<span>  panel.grid.major    <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_line</a></span><span class="op">(</span>color<span class="op">=</span><span class="st">"gray95"</span>, linewidth<span class="op">=</span><span class="fl">.1</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">dateSequence</span> <span class="op">&lt;-</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/seq.Date.html" class="external-link">seq.Date</a></span><span class="op">(</span>from<span class="op">=</span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1990-01-01"</span><span class="op">)</span>, to<span class="op">=</span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1999-01-01"</span><span class="op">)</span>, by<span class="op">=</span><span class="st">"years"</span><span class="op">)</span></span>
 <span><span class="va">xScale</span>       <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_date.html" class="external-link">scale_x_date</a></span><span class="op">(</span>breaks<span class="op">=</span><span class="va">dateSequence</span>, labels<span class="op">=</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/date_format.html" class="external-link">date_format</a></span><span class="op">(</span><span class="st">"%Y"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">xScaleBlank</span>  <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_date.html" class="external-link">scale_x_date</a></span><span class="op">(</span>breaks<span class="op">=</span><span class="va">dateSequence</span>, labels<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span> <span class="co">#This keeps things proportional down the three frames.</span></span></code></pre></div>
-<div class="section level4">
-<h4 id="individual-components">Individual Components<a class="anchor" aria-label="anchor" href="#individual-components"></a>
-</h4>
+<div class="section level3">
+<h3 id="individual-components">Individual Components<a class="anchor" aria-label="anchor" href="#individual-components"></a>
+</h3>
 <p>Here is the basic linear rolling graph. It doesn’t require much
 specification, and will work with a wide range of appropriate datasets.
 This first (unpublished) graph displays all components.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># dsLinearAll &lt;- utils::read.csv("./Datasets/CountyMonthBirthRate2005Version.csv", stringsAsFactors=FALSE)</span></span>
 <span><span class="co"># dsLinearAll$Date &lt;- base::as.Date(dsLinearAll$Date)</span></span>
 <span><span class="co"># dsLinearOkc &lt;- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ]</span></span>
 <span></span>
 <span><span class="co"># Uncomment the next two lines to use the version built into the package.  By default, it uses the</span></span>
 <span><span class="co"># CSV to promote reproducible research, since the CSV format is more open and accessible to more software.</span></span>
-<span><span class="va">dsLinearAll</span> <span class="op">&lt;-</span> <span class="va">CountyMonthBirthRate2005Version</span></span>
+<span></span>
+<span><span class="va">dsLinearAll</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">CountyMonthBirthRate2005Version</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># dsLinearAll &lt;- CountyMonthBirthRate2005Version</span></span>
 <span><span class="va">dsLinearOkc</span> <span class="op">&lt;-</span> <span class="va">dsLinearAll</span><span class="op">[</span><span class="va">dsLinearAll</span><span class="op">$</span><span class="va">CountyName</span><span class="op">==</span><span class="st">"oklahoma"</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="co"># dsLinearOkc &lt;- </span></span>
+<span><span class="co">#   dsLinearAll |&gt; </span></span>
+<span><span class="co">#   dplyr::filter(CountyName == "oklahoma")</span></span>
 <span></span>
 <span><span class="va">dsLinearOkc</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/AugmentCycleData.html">AugmentYearDataWithMonthResolution</a></span><span class="op">(</span>dsLinear<span class="op">=</span><span class="va">dsLinearOkc</span>, dateName<span class="op">=</span><span class="st">"Date"</span><span class="op">)</span></span>
 <span></span>
@@ -179,11 +182,11 @@ This first (unpublished) graph displays all components.</p>
 <span>  changePoints <span class="op">=</span> <span class="va">changeMonth</span>,</span>
 <span>  changePointLabels <span class="op">=</span> <span class="st">"Bombing Effect"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure_mbr_rmd/Figure2IndividualBasic-1.png" width="600px"></p>
+<p><img src="figure-mbr-rmd/Figure2IndividualBasic-1.png" width="600px"></p>
 <p>The version for the manuscript was tweaked to take advantage of
 certain features of the dataset. This is what it looks like when all
 three stylized panels are combined.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">topPanel</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/CartesianRolling.html">CartesianRolling</a></span><span class="op">(</span></span>
 <span>  dsLinear <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsLinear</span>,</span>
 <span>  xName <span class="op">=</span> <span class="st">"Date"</span>,</span>
@@ -230,15 +233,15 @@ three stylized panels are combined.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">middlePanel</span>, vp<span class="op">=</span><span class="fu">vpLayout</span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">bottomPanel</span>, vp<span class="op">=</span><span class="fu">vpLayout</span><span class="op">(</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure_mbr_rmd/Figure2Stylized-1.png" width="600px"></p>
+<p><img src="figure-mbr-rmd/Figure2Stylized-1.png" width="600px"></p>
 </div>
 </div>
-<div class="section level3">
-<h3 id="figure-4-carteisan-periodic">Figure 4: Carteisan Periodic<a class="anchor" aria-label="anchor" href="#figure-4-carteisan-periodic"></a>
-</h3>
+<div class="section level2">
+<h2 id="figure-4-carteisan-periodic">Figure 4: Carteisan Periodic<a class="anchor" aria-label="anchor" href="#figure-4-carteisan-periodic"></a>
+</h2>
 <p>Carteisan plot of the GFR time series data in Oklahoma County, with
 H-spread Bands superimposed.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cartesianPeriodic</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/CartesianPeriodic.html">CartesianPeriodic</a></span><span class="op">(</span></span>
 <span>  <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsLinear</span>,</span>
 <span>  <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsPeriodic</span>,</span>
@@ -251,18 +254,18 @@ H-spread Bands superimposed.</p>
 <span>  drawPeriodicBand <span class="op">=</span> <span class="cn">TRUE</span> <span class="co">#The only difference from the simple linear graph above</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cartesianPeriodic</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure_mbr_rmd/Figure4Basic-1.png" width="600px"></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p><img src="figure-mbr-rmd/Figure4Basic-1.png" width="600px"></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cartesianPeriodic</span> <span class="op">&lt;-</span> <span class="va">cartesianPeriodic</span> <span class="op">+</span> <span class="va">xScale</span> <span class="op">+</span> <span class="va">darkTheme</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cartesianPeriodic</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure_mbr_rmd/Figure4Stylized-1.png" width="600px"></p>
+<p><img src="figure-mbr-rmd/Figure4Stylized-1.png" width="600px"></p>
 </div>
-<div class="section level3">
-<h3 id="figure-5-polar-periodic">Figure 5: Polar Periodic<a class="anchor" aria-label="anchor" href="#figure-5-polar-periodic"></a>
-</h3>
+<div class="section level2">
+<h2 id="figure-5-polar-periodic">Figure 5: Polar Periodic<a class="anchor" aria-label="anchor" href="#figure-5-polar-periodic"></a>
+</h2>
 <p>Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data,
 1990-1999</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">portfolioPolar</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/PolarizeCartesian.html">PolarizeCartesian</a></span><span class="op">(</span></span>
 <span>  dsLinear <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsLinear</span>,</span>
 <span>  dsStageCycle <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsStageCycle</span>,</span>
@@ -282,10 +285,10 @@ H-spread Bands superimposed.</p>
 <span>  drawRadiusLabels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  cardinalLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure_mbr_rmd/Figure5-1.png" width="300px"> ## Figure 6:
+<p><img src="figure-mbr-rmd/Figure5-1.png" width="300px"> ## Figure 6:
 WATS and Cartesian Wrap Around Time Series (WATS Plot) of the Oklahoma
 City GFR data, 1990-1999</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">portfolioPolar</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/PolarizeCartesian.html">PolarizeCartesian</a></span><span class="op">(</span></span>
 <span>  dsLinear <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsLinear</span>,</span>
 <span>  dsStageCycle <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsStageCycle</span>,</span>
@@ -317,7 +320,7 @@ City GFR data, 1990-1999</p>
 <span></span>
 <span><span class="co">## Create top right panel</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">pushViewport</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span>layout.pos.col<span class="op">=</span><span class="fl">2</span>, layout.pos.row<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">topRighttPanel</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/PolarPeriodic.html">PolarPeriodic</a></span><span class="op">(</span></span>
+<span><span class="va">topRightPanel</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/PolarPeriodic.html">PolarPeriodic</a></span><span class="op">(</span></span>
 <span>  dsLinear <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">dsObservedPolar</span>,</span>
 <span>  dsStageCyclePolar <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">dsStageCyclePolar</span>,</span>
 <span>  yName <span class="op">=</span> <span class="st">"Radius"</span>,</span>
@@ -332,32 +335,40 @@ City GFR data, 1990-1999</p>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">pushViewport</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span>layout.pos.col<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, layout.pos.row<span class="op">=</span><span class="fl">2</span>, gp<span class="op">=</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>cex<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cartesianPeriodic</span>, vp<span class="op">=</span><span class="fu">vpLayout</span><span class="op">(</span>x<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co">#Print across both columns of the bottom row.</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">upViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure_mbr_rmd/Figure6-1.png" width="600px"></p>
+<p><img src="figure-mbr-rmd/Figure6-1.png" width="600px"></p>
 </div>
-<div class="section level3">
-<h3 id="figure-7-county-comparison">Figure 7: County Comparison<a class="anchor" aria-label="anchor" href="#figure-7-county-comparison"></a>
-</h3>
+<div class="section level2">
+<h2 id="figure-7-county-comparison">Figure 7: County Comparison<a class="anchor" aria-label="anchor" href="#figure-7-county-comparison"></a>
+</h2>
 <p>This figure compares Oklahoma County against the (other) largest
 urban counties.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># dsLinearAll &lt;- Wats::AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2005Version, dateName="Date")</span></span>
 <span></span>
 <span><span class="co">#Identify the average size of the fecund population</span></span>
-<span><span class="fu">plyr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyr/man/ddply.html" class="external-link">ddply</a></span><span class="op">(</span><span class="va">dsLinearAll</span>, <span class="st">"CountyName"</span>, <span class="fu">plyr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/plyr/man/summarise.html" class="external-link">summarize</a></span>, Mean<span class="op">=</span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">FecundPopulation</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code>     CountyName       Mean
-1      canadian  18332.596
-2     cleveland  48865.271
-3      comanche  26268.104
-4         creek  13402.358
-5         logan   7065.562
-6       mcclain   5434.525
-7      oklahoma 146882.529
-8         osage   8529.625
-9  pottawatomie  13604.321
-10       rogers  13383.292
-11        tulsa 123783.479
-12      wagoner  11579.967</code></pre>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<span><span class="co"># plyr::ddply(dsLinearAll, "CountyName", plyr::summarize, Mean=base::mean(FecundPopulation))</span></span>
+<span><span class="va">dsLinearAll</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">CountyName</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
+<span>    Mean <span class="op">=</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">FecundPopulation</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code> [38;5;246m# A tibble: 12 × 2 [39m
+   CountyName      Mean
+    [3m [38;5;246m&lt;chr&gt; [39m [23m           [3m [38;5;246m&lt;dbl&gt; [39m [23m
+ [38;5;250m 1 [39m canadian       [4m1 [24m [4m8 [24m333.
+ [38;5;250m 2 [39m cleveland      [4m4 [24m [4m8 [24m865.
+ [38;5;250m 3 [39m comanche       [4m2 [24m [4m6 [24m268.
+ [38;5;250m 4 [39m creek          [4m1 [24m [4m3 [24m402.
+ [38;5;250m 5 [39m logan           [4m7 [24m066.
+ [38;5;250m 6 [39m mcclain         [4m5 [24m435.
+ [38;5;250m 7 [39m oklahoma      [4m1 [24m [4m4 [24m [4m6 [24m883.
+ [38;5;250m 8 [39m osage           [4m8 [24m530.
+ [38;5;250m 9 [39m pottawatomie   [4m1 [24m [4m3 [24m604.
+ [38;5;250m10 [39m rogers         [4m1 [24m [4m3 [24m383.
+ [38;5;250m11 [39m tulsa         [4m1 [24m [4m2 [24m [4m3 [24m783.
+ [38;5;250m12 [39m wagoner        [4m1 [24m [4m1 [24m580.</code></pre>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">GraphRowComparison</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span> <span class="va">rowLabel</span><span class="op">=</span><span class="st">""</span>, <span class="va">countyName</span><span class="op">=</span><span class="st">"oklahoma"</span>, <span class="va">spreadFunction</span><span class="op">=</span><span class="va">hSpread</span>, <span class="va">changeMonth</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1996-02-15"</span><span class="op">)</span> <span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">dsLinear</span> <span class="op">&lt;-</span> <span class="va">dsLinearAll</span><span class="op">[</span><span class="va">dsLinearAll</span><span class="op">$</span><span class="va">CountyName</span><span class="op">==</span><span class="va">countyName</span>, <span class="op">]</span></span>
 <span>  <span class="va">dsLinear</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/AugmentCycleData.html">AugmentYearDataWithMonthResolution</a></span><span class="op">(</span>dsLinear<span class="op">=</span><span class="va">dsLinear</span>, dateName<span class="op">=</span><span class="st">"Date"</span><span class="op">)</span></span>
@@ -395,10 +406,10 @@ urban counties.</p>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure_mbr_rmd/Figure7-1.png" width="600px"></p>
-<p>Here are all 12 counties that Ronnie colelcted birth records for.
-This extended graph is not in the mauscript.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<p><img src="figure-mbr-rmd/Figure7-1.png" width="600px"></p>
+<p>Here are all 12 counties that Ronnie collected birth records for.
+This extended graph is not in the manuscript.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">counties</span> <span class="op">&lt;-</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dsLinearAll</span><span class="op">$</span><span class="va">CountyName</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">countyNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Canadian"</span>, <span class="st">"Cleveland"</span>, <span class="st">"Comanche"</span>, <span class="st">"Creek"</span>, <span class="st">"Logan"</span>, <span class="st">"McClain"</span>, <span class="st">"Oklahoma"</span>, <span class="st">"Osage"</span>, <span class="st">"Pottawatomie"</span>, <span class="st">"Rogers"</span>, <span class="st">"Tulsa"</span>, <span class="st">"Wagoner"</span><span class="op">)</span></span>
 <span></span>
@@ -410,14 +421,14 @@ This extended graph is not in the mauscript.</p>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure_mbr_rmd/Figure7AllCounties-1.png" width="600px"></p>
+<p><img src="figure-mbr-rmd/Figure7AllCounties-1.png" width="600px"></p>
 </div>
-<div class="section level3">
-<h3 id="figure-8-error-band-comparison">Figure 8: Error Band Comparison<a class="anchor" aria-label="anchor" href="#figure-8-error-band-comparison"></a>
-</h3>
+<div class="section level2">
+<h2 id="figure-8-error-band-comparison">Figure 8: Error Band Comparison<a class="anchor" aria-label="anchor" href="#figure-8-error-band-comparison"></a>
+</h2>
 <p>This figure demonstrates that WATS accommodates many types of error
 bands.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spreads</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hSpread"</span>, <span class="st">"fullSpread"</span>, <span class="st">"seSpread"</span>, <span class="st">"bootSpread"</span><span class="op">)</span></span>
 <span><span class="va">spreadNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"H-Spread"</span>, <span class="st">"Range"</span>, <span class="st">"+/-1 SE"</span>, <span class="st">"Bootstrap"</span><span class="op">)</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -428,14 +439,14 @@ bands.</p>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">upViewport</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">upViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure_mbr_rmd/Figure8-1.png" width="600px"></p>
+<p><img src="figure-mbr-rmd/Figure8-1.png" width="600px"></p>
 </div>
-<div class="section level3">
-<h3 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
-</h3>
+<div class="section level2">
+<h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
+</h2>
 <p>The current vignette was build on a system using the following
 software.</p>
-<pre><code>Report created by runner at Tue Feb 28 07:22:02 2023, +0000</code></pre>
+<pre><code>Report created by runner at Tue Feb 28 08:14:49 2023, +0000</code></pre>
 <pre><code>R version 4.2.2 (2022-10-31)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: Ubuntu 22.04.2 LTS
@@ -453,19 +464,19 @@ attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] Wats_0.11.1.9000 boot_1.3-28      ggplot2_3.4.1    scales_1.2.1     plyr_1.8.8      
+[1] Wats_0.11.1.9000 boot_1.3-28      ggplot2_3.4.1    scales_1.2.1    
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.10        highr_0.10         RColorBrewer_1.1-3 bslib_0.4.2        compiler_4.2.2     pillar_1.8.1      
- [7] jquerylib_0.1.4    tools_4.2.2        digest_0.6.31      lattice_0.20-45    timechange_0.2.0   lubridate_1.9.2   
-[13] jsonlite_1.8.4     evaluate_0.20      memoise_2.0.1      lifecycle_1.0.3    tibble_3.1.8       gtable_0.3.1      
-[19] pkgconfig_2.0.3    rlang_1.0.6        cli_3.6.0          yaml_2.3.7         pkgdown_2.0.7      xfun_0.37         
-[25] fastmap_1.1.1      withr_2.5.0        stringr_1.5.0      knitr_1.42         generics_0.1.3     desc_1.4.2        
-[31] fs_1.6.1           vctrs_0.5.2        sass_0.4.5         systemfonts_1.0.4  rprojroot_2.0.3    glue_1.6.2        
-[37] R6_2.5.1           textshaping_0.3.6  fansi_1.0.4        rmarkdown_2.20     farver_2.1.1       purrr_1.0.1       
-[43] magrittr_2.0.3     htmltools_0.5.4    testit_0.13        colorspace_2.1-0   labeling_0.4.2     ragg_1.2.5        
-[49] utf8_1.2.3         stringi_1.7.12     munsell_0.5.0      cachem_1.0.7       zoo_1.8-11        </code></pre>
-</div>
+ [1] zoo_1.8-11         tidyselect_1.2.0   xfun_0.37          bslib_0.4.2        purrr_1.0.1        lattice_0.20-45   
+ [7] colorspace_2.1-0   vctrs_0.5.2        generics_0.1.3     htmltools_0.5.4    yaml_2.3.7         utf8_1.2.3        
+[13] rlang_1.0.6        pkgdown_2.0.7      jquerylib_0.1.4    pillar_1.8.1       glue_1.6.2         withr_2.5.0       
+[19] RColorBrewer_1.1-3 lifecycle_1.0.3    plyr_1.8.8         stringr_1.5.0      munsell_0.5.0      gtable_0.3.1      
+[25] ragg_1.2.5         memoise_2.0.1      evaluate_0.20      labeling_0.4.2     knitr_1.42         fastmap_1.1.1     
+[31] fansi_1.0.4        highr_0.10         Rcpp_1.0.10        cachem_1.0.7       desc_1.4.2         jsonlite_1.8.4    
+[37] farver_2.1.1       systemfonts_1.0.4  fs_1.6.1           textshaping_0.3.6  testit_0.13        digest_0.6.31     
+[43] stringi_1.7.12     dplyr_1.1.0        rprojroot_2.0.3    cli_3.6.0          tools_4.2.2        magrittr_2.0.3    
+[49] sass_0.4.5         tibble_3.1.8       pkgconfig_2.0.3    lubridate_1.9.2    timechange_0.2.0   rmarkdown_2.20    
+[55] R6_2.5.1           compiler_4.2.2    </code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

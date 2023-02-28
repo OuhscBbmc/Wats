@@ -136,64 +136,45 @@ that needs to be called to produce WATS Plots.  <code>AugmentZZZ</code> is the f
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">portfolio</span><span class="op">$</span><span class="va">dsStageCycle</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   StageID ProportionID ProportionThroughCycle PositionLower PositionCenter</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1            1             0.04166667      66.82005       70.13930</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       1            2             0.12500000      68.93747       69.53782</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       1            3             0.20833333      66.13076       69.70012</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       1            4             0.29166667      67.71910       69.30147</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       1            5             0.37500000      67.65719       68.58747</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       1            6             0.45833333      70.88414       71.13025</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   PositionUpper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1      70.55044</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      71.72977</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      69.91971</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      71.56912</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5      70.55044</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      72.88710</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   StageID ProportionID ProportionThroughCycle PositionLower PositionCe…¹ Posit…²</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>       1            1                 0.041<span style="text-decoration: underline;">7</span>          66.8         70.1    70.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>       1            2                 0.125           68.9         69.5    71.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>       1            3                 0.208           66.1         69.7    69.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>       1            4                 0.292           67.7         69.3    71.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>       1            5                 0.375           67.7         68.6    70.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>       1            6                 0.458           70.9         71.1    72.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​PositionCenter, ²​PositionUpper</span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">portfolio</span><span class="op">$</span><span class="va">dsLinear</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Fips CountyName Year Month FecundPopulation BirthCount       Date</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 721 40109   oklahoma 1990     1         143192.0        853 1990-01-15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 722 40109   oklahoma 1990     2         143278.7        758 1990-02-15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 723 40109   oklahoma 1990     3         143365.3        886 1990-03-15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 724 40109   oklahoma 1990     4         143452.0        871 1990-04-15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 725 40109   oklahoma 1990     5         143538.7        822 1990-05-15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 726 40109   oklahoma 1990     6         143625.3        834 1990-06-15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     DaysInMonth DaysInYear StageID BirthRateMonthly BirthRate CycleTally</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 721          31        365       1         5.957037  70.13930          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 722          28        365       1         5.293592  69.00575          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 723          31        365       1         6.187497  72.85278          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 724          30        365       1         6.082742  74.00669          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 725          31        365       1         5.740544  67.59028          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 726          30        365       1         5.824348  70.86290          0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     ProportionThroughCycle ProportionID StartingPointInCycle</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 721             0.04166667            1                 TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 722             0.12500000            2                FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 723             0.20833333            3                FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 724             0.29166667            4                FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 725             0.37500000            5                FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 726             0.45833333            6                FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     TerminalPointInCycle StageProgress RollingLower RollingCenter RollingUpper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 721                FALSE           1.0           NA            NA           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 722                FALSE           1.5           NA            NA           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 723                FALSE           1.5           NA            NA           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 724                FALSE           1.5           NA            NA           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 725                FALSE           1.5           NA            NA           NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 726                FALSE           1.5           NA            NA           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 21</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Fips CountyN…¹  Year Month Fecun…² Birth…³ Date       DaysI…⁴ DaysI…⁵ StageID</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="text-decoration: underline;">40</span>109 oklahoma   <span style="text-decoration: underline;">1</span>990     1 <span style="text-decoration: underline;">143</span>192      853 1990-01-15      31     365       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">40</span>109 oklahoma   <span style="text-decoration: underline;">1</span>990     2 <span style="text-decoration: underline;">143</span>279.     758 1990-02-15      28     365       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> <span style="text-decoration: underline;">40</span>109 oklahoma   <span style="text-decoration: underline;">1</span>990     3 <span style="text-decoration: underline;">143</span>365.     886 1990-03-15      31     365       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">40</span>109 oklahoma   <span style="text-decoration: underline;">1</span>990     4 <span style="text-decoration: underline;">143</span>452      871 1990-04-15      30     365       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> <span style="text-decoration: underline;">40</span>109 oklahoma   <span style="text-decoration: underline;">1</span>990     5 <span style="text-decoration: underline;">143</span>539.     822 1990-05-15      31     365       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> <span style="text-decoration: underline;">40</span>109 oklahoma   <span style="text-decoration: underline;">1</span>990     6 <span style="text-decoration: underline;">143</span>625.     834 1990-06-15      30     365       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 11 more variables: BirthRateMonthly &lt;dbl&gt;, BirthRate &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   CycleTally &lt;dbl&gt;, ProportionThroughCycle &lt;dbl&gt;, ProportionID &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   StartingPointInCycle &lt;lgl&gt;, TerminalPointInCycle &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   StageProgress &lt;dbl&gt;, RollingLower &lt;dbl&gt;, RollingCenter &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   RollingUpper &lt;dbl&gt;, and abbreviated variable names ¹​CountyName,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​FecundPopulation, ³​BirthCount, ⁴​DaysInMonth, ⁵​DaysInYear</span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">portfolio</span><span class="op">$</span><span class="va">dsPeriodic</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    ProportionID       Date StageIDTime StageProgress StageIDBand</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1             1 1990-01-15           1           1.0           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2             1 1990-01-15           1           1.0           2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21            2 1990-02-15           1           1.5           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22            2 1990-02-15           1           1.5           2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43            3 1990-03-15           1           1.5           1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44            3 1990-03-15           1           1.5           2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    ProportionThroughCycle PositionLower PositionCenter PositionUpper</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1              0.04166667      66.82005       70.13930      70.55044</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2              0.04166667      70.75600       73.51059      73.59282</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21             0.12500000      68.93747       69.53782      71.72977</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22             0.12500000      69.34846       71.96444      74.14932</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43             0.20833333      66.13076       69.70012      69.91971</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44             0.20833333      70.70149       71.12602      72.54443</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 9</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Date       StageIDTime Propo…¹ Stage…² Stage…³ Propo…⁴ Posit…⁵ Posit…⁶ Posit…⁷</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 1990-01-15           1       1     1         1  0.041<span style="text-decoration: underline;">7</span>    66.8    70.1    70.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 1990-01-15           1       1     1         2  0.041<span style="text-decoration: underline;">7</span>    70.8    73.5    73.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 1990-02-15           1       2     1.5       1  0.125     68.9    69.5    71.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 1990-02-15           1       2     1.5       2  0.125     69.3    72.0    74.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 1990-03-15           1       3     1.5       1  0.208     66.1    69.7    69.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 1990-03-15           1       3     1.5       2  0.208     70.7    71.1    72.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​ProportionID, ²​StageProgress,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ³​StageIDBand, ⁴​ProportionThroughCycle, ⁵​PositionLower, ⁶​PositionCenter,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁷​PositionUpper</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
