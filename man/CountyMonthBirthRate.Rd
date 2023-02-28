@@ -9,19 +9,18 @@
 \format{
 A data frame with 1,440 observations on the following 11 variables.
 \describe{
-   \item{Fips}{The county's 5-digit value according to the \emph{F}ederal \emph{I}nformation \emph{P}rocessing \emph{S}tandards.  \code{integer}}
-   \item{CountyName}{The lower case name of the county. \code{character}}
-   \item{Year}{The year of the record, ranging from 1990 to 1999. \code{integer}}
-   \item{Month}{The month of the record, ranging from 1 to 12. \code{integer}}
-   \item{FecundPopulation}{The number of females in the county, ages of
-   15 to 44. \code{numeric}}
-   \item{BirthCount}{The number of births in a county for the given month.
-   \code{integer}}
-   \item{Date}{The year and month of the record, with a date of the 15th. Centering the date within the month makes the value a little more representative and the graphs a little easier. \code{date}}
-   \item{DaysInMonth}{The number of days in the specific month. \code{integer}}
-   \item{DaysInYear}{The number of days in the specific years \code{integer}}
-   \item{StageID}{The `Stage' of the month.  The pre-bombing records are `1' (accounting for 9 months of gestation); the post-bombing months are `2'. \code{integer}}
-   \item{BirthRate}{The Growth Fertility Rate (GFR). \code{numeric}}
+\item{Fips}{The county's 5-digit value according to the \emph{F}ederal \emph{I}nformation \emph{P}rocessing \emph{S}tandards.  \code{integer}}
+\item{CountyName}{The lower case name of the county. \code{character}}
+\item{Year}{The year of the record, ranging from 1990 to 1999. \code{integer}}
+\item{Month}{The month of the record, ranging from 1 to 12. \code{integer}}
+\item{FecundPopulation}{The number of females in the county, ages of
+15 to 44. \code{numeric}}
+\item{BirthCount}{The number of births in a county for the given month.
+\code{integer}}
+\item{Date}{The year and month of the record, with a date of the 15th. Centering the date within the month makes the value a little more representative and the graphs a little easier. \code{date}}
+\item{DaysInMonth}{The number of days in the specific month. \code{integer}}
+\item{DaysInYear}{The number of days in the specific years \code{integer}}
+\item{StageID}{The \verb{Stage' of the month.  The pre-bombing records are }1' (accounting for 9 months of gestation); the post-bombing months are \verb{2'. }integer\verb{\} \\item\{BirthRate\}\{The Growth Fertility Rate (GFR). }numeric`}
 }
 }
 \description{
@@ -42,15 +41,15 @@ for February through December of each year.
 <<Joe, can you please finish/edit this sentence?>>
 The monthly birth counts were copied from county records by Ronnie Coleman during the
 summer of 2001 from state vital statistics records.  It was collected
-for \href{https://pubmed.ncbi.nlm.nih.gov/16463916/}{Rodgers, St. John, & Coleman (2005)}.
+for \href{http://www.ncbi.nlm.nih.gov/pubmed/16463916}{Rodgers, St. John, & Coleman (2005)}.
 
 The US Census' intercensal estimates are used for the January values of
 \code{FecundPopluation}.  Values for February-December are interpolated using
-\href{http://stat.ethz.ch/R-manual/R-devel/library/stats/html/approxfun.html}{\code{approx}}.
+\code{\link[=approx]{approx()}}.
 
 The datasets were manipulated to produce this data frame by the two R files
-\href{https://github.com/OuhscBbmc/Wats/blob/master/utility/isolate-census-pops-for-gfr.R}{IsolateCensusPopsForGfr.R}
-and \href{https://github.com/OuhscBbmc/Wats/blob/master/utility/calculate-gfr.R}{CalculateGfr.R}.
+\href{https://github.com/OuhscBbmc/Wats/blob/main/utility/isolate-census-pops-for-gfr.R}{IsolateCensusPopsForGfr.R}
+and \href{https://github.com/OuhscBbmc/Wats/blob/main/utility/calculate-gfr.R}{CalculateGfr.R}.
 }
 \examples{
 library(ggplot2)
@@ -78,17 +77,17 @@ labs(title="Distributions of County Fertility")
 }
 \references{
 Rodgers, J. L., St. John, C. A. & Coleman R. (2005).
-\href{https://pubmed.ncbi.nlm.nih.gov/16463916/}{Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.}
+\href{http://www.ncbi.nlm.nih.gov/pubmed/16463916}{Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.}
 \emph{Demography, 42}, 675-692.
 
-[Intercensal estimates for 199x](https://www.census.gov/data/tables/time-series/demo/popest/intercensal-1990-2000-state-and-county-totals.html)
+\href{https://www.census.gov/data/tables/time-series/demo/popest/intercensal-1990-2000-state-and-county-totals.html}{Intercensal estimates for 199x}
 
-[Intercensal estimates for 200x](http://www.census.gov/popest/data/intercensal/county/county2010.html)
-
-
-* [US Census Intercensal Estimates](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html)
-for [199x]()
-and [200x](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/2000-2010-intercensal.html).
+\href{http://www.census.gov/popest/data/intercensal/county/county2010.html}{Intercensal estimates for 200x}
+\itemize{
+\item \href{https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html}{US Census Intercensal Estimates}
+for \url{199x}
+and \href{https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/2000-2010-intercensal.html}{200x}.
+}
 }
 \author{
 Will Beasley

@@ -7,12 +7,12 @@
 #' @title Calculates variables necessary for WATS Plots
 #'
 #' @description Calculates variables necessary for WATS Plots.  This the first of two functions
-#' that needs to be called to produce WATS Plots.  \code{AnnotateData} is the second.
+#' that needs to be called to produce WATS Plots.  [AnnotateData()] is the second.
 #'
-#' @param dsLinear The \code{data.frame} to containing the detailed data.
-#' @param dateName The variable name in \code{dsLinear} containing the date or datetime value.
-# @param stageIDName The variable name indicating the stage. In a typical interrupted time series, these values are \code{1} before the interruption and \code{2} after.
-#' @return Returns a \code{data.frame} with additional variables: \code{CycleTally}, \code{ProportionThroughCycle}, \code{ProportionID}, and \code{TerminalPointInCycle}.
+#' @param dsLinear The [data.frame] to containing the detailed data.
+#' @param dateName The variable name in `dsLinear` containing the date or datetime value.
+# @param stageIDName The variable name indicating the stage. In a typical interrupted time series, these values are `1` before the interruption and `2` after.
+#' @return Returns a [data.frame] with additional variables: `CycleTally`, `ProportionThroughCycle`, `ProportionID`, and `TerminalPointInCycle`.
 #' @examples
 #' library(Wats)
 #' dsLinear <- CountyMonthBirthRate2005Version

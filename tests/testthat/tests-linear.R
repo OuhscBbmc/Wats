@@ -5,9 +5,6 @@
 # changeMonth <- as.Date("1996-02-15") # as.Date(dateBombing + weeks(40))
 # dsLinear$StageID <- ifelse(dsLinear$Date < changeMonth, 1L, 2L)
 #
-# ###########
-# context("Linear")
-# ###########
 # test_that("Smoke Test", {
 # #   Wats::LinearPlot(dsPlot=dsLinear, xName="Date", yName="BirthRate", idName="StageID")
 #

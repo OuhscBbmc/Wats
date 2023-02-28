@@ -29,9 +29,9 @@ CartesianPeriodic(
 )
 }
 \arguments{
-\item{dsLinear}{The \code{data.frame} to containing the simple linear data.  There should be one record per observation.}
+\item{dsLinear}{The \link{data.frame} to containing the simple linear data.  There should be one record per observation.}
 
-\item{dsPeriodic}{The \code{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \code{data.frame} should have three times as many rows as \code{dsLinear}.}
+\item{dsPeriodic}{The \link{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{dsLinear}.}
 
 \item{xName}{The variable name containing the date.}
 
@@ -47,7 +47,7 @@ CartesianPeriodic(
 
 \item{paletteLight}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{changePoints}{A vector of values indicate the interruptions between stages.  It typically works best as a \code{Date} or a \code{POSIXct} class.}
+\item{changePoints}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
 
 \item{changePointLabels}{The text plotted above each interruption.}
 
@@ -72,7 +72,7 @@ CartesianPeriodic(
 \item{yTitle}{The string describing the \emph{y}-axis.}
 }
 \value{
-Returns a \code{ggplot2} graphing object
+Returns a ggplot2 graphing object
 }
 \description{
 Shows the interrupted time series in Cartesian coordinates and its a periodic/cyclic components.

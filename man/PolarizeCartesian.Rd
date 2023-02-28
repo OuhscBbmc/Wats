@@ -19,9 +19,9 @@ PolarizeCartesian(
 )
 }
 \arguments{
-\item{dsLinear}{The \code{data.frame} to containing the simple linear data.  There should be one record per observation.}
+\item{dsLinear}{The \link{data.frame} to containing the simple linear data.  There should be one record per observation.}
 
-\item{dsStageCycle}{The \code{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \code{data.frame} should have three times as many rows as \code{dsLinear}.}
+\item{dsStageCycle}{The \link{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{dsLinear}.}
 
 \item{yName}{The variable name containing the dependent/criterion variable.}
 
@@ -42,7 +42,7 @@ PolarizeCartesian(
 \item{graphFloor}{The value of the criterion/dependent variable at the center of the polar plot.}
 }
 \value{
-Returns a \code{data.frame}.
+Returns a \link{data.frame}.
 }
 \description{
 Three operations are performed.

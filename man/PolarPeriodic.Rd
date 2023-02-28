@@ -39,9 +39,9 @@ PolarPeriodic(
 )
 }
 \arguments{
-\item{dsLinear}{The \code{data.frame} to containing the simple linear data.  There should be one record per observation.}
+\item{dsLinear}{The \link{data.frame} to containing the simple linear data.  There should be one record per observation.}
 
-\item{dsStageCyclePolar}{The \code{data.frame} to containing the bands for a single period.  There should be one record per theta per stage.  If there are three stages, this \code{data.frame} should have three times as many rows as \code{dsLinear}.}
+\item{dsStageCyclePolar}{The \link{data.frame} to containing the bands for a single period.  There should be one record per theta per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{dsLinear}.}
 
 \item{xName}{The variable name containing the date.}
 
@@ -57,7 +57,7 @@ PolarPeriodic(
 
 \item{paletteLight}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{changePoints}{A vector of values indicate the interruptions between stages.  It typically works best as a \code{Date} or a \code{POSIXct} class.}
+\item{changePoints}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
 
 \item{changePointLabels}{The text plotted above each interruption.}
 
@@ -93,14 +93,14 @@ PolarPeriodic(
 
 \item{graphCeiling}{The value of the criterion/dependent variable at the outside of the polar plot.}
 
-\item{cardinalLabels}{The four labels placed  where `North', `East', `South', and `West' typically are.}
+\item{cardinalLabels}{The four labels placed  where \verb{North', }East', \verb{South', and }West' typically are.}
 
 \item{originLabel}{Explains what the criterion variable's value is at the origin.  Use \code{NULL} if no explanation is desired.}
 
 \item{plotMargins}{A vector of four \code{numeric} values, specifying the number of lines in the bottom, left, top and right margins.}
 }
 \value{
-Returns a \code{grid} graphical object (ie, a \href{http://stat.ethz.ch/R-manual/R-devel/library/grid/html/grid.grob.html}{\code{grob}}.)
+Returns a grid graphical object (ie, a \code{\link[grid:grid.grob]{grid::grob()}}.)
 }
 \description{
 Shows the interrupted time series in Cartesian coordinates and its a periodic/cyclic components.
