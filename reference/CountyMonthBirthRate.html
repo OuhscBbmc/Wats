@@ -85,37 +85,34 @@ for February through December of each year.</p>
     <p>A data frame with 1,440 observations on the following 11 variables.</p><dl><dt>Fips</dt>
 <dd><p>The county's 5-digit value according to the <em>F</em>ederal <em>I</em>nformation <em>P</em>rocessing <em>S</em>tandards.  <code>integer</code></p></dd>
 
-   <dt>CountyName</dt>
+<dt>CountyName</dt>
 <dd><p>The lower case name of the county. <code>character</code></p></dd>
 
-   <dt>Year</dt>
+<dt>Year</dt>
 <dd><p>The year of the record, ranging from 1990 to 1999. <code>integer</code></p></dd>
 
-   <dt>Month</dt>
+<dt>Month</dt>
 <dd><p>The month of the record, ranging from 1 to 12. <code>integer</code></p></dd>
 
-   <dt>FecundPopulation</dt>
+<dt>FecundPopulation</dt>
 <dd><p>The number of females in the county, ages of
-   15 to 44. <code>numeric</code></p></dd>
+15 to 44. <code>numeric</code></p></dd>
 
-   <dt>BirthCount</dt>
+<dt>BirthCount</dt>
 <dd><p>The number of births in a county for the given month.
-   <code>integer</code></p></dd>
+<code>integer</code></p></dd>
 
-   <dt>Date</dt>
+<dt>Date</dt>
 <dd><p>The year and month of the record, with a date of the 15th. Centering the date within the month makes the value a little more representative and the graphs a little easier. <code>date</code></p></dd>
 
-   <dt>DaysInMonth</dt>
+<dt>DaysInMonth</dt>
 <dd><p>The number of days in the specific month. <code>integer</code></p></dd>
 
-   <dt>DaysInYear</dt>
+<dt>DaysInYear</dt>
 <dd><p>The number of days in the specific years <code>integer</code></p></dd>
 
-   <dt>StageID</dt>
-<dd><p>The `Stage' of the month.  The pre-bombing records are `1' (accounting for 9 months of gestation); the post-bombing months are `2'. <code>integer</code></p></dd>
-
-   <dt>BirthRate</dt>
-<dd><p>The Growth Fertility Rate (GFR). <code>numeric</code></p></dd>
+<dt>StageID</dt>
+<dd><p>The <code>Stage' of the month.  The pre-bombing records are </code>1' (accounting for 9 months of gestation); the post-bombing months are <code>2'. </code>integer<code>} \item{BirthRate}{The Growth Fertility Rate (GFR). </code>numeric`</p></dd>
 
 
 </dl></div>
@@ -127,7 +124,7 @@ summer of 2001 from state vital statistics records.  It was collected
 for <a href="http://www.ncbi.nlm.nih.gov/pubmed/16463916" class="external-link">Rodgers, St. John, &amp; Coleman (2005)</a>.</p>
 <p>The US Census' intercensal estimates are used for the January values of
 <code>FecundPopluation</code>.  Values for February-December are interpolated using
-<a href="http://stat.ethz.ch/R-manual/R-devel/library/stats/html/approxfun.html" class="external-link"><code>approx</code></a>.</p>
+<code><a href="https://rdrr.io/r/stats/approxfun.html" class="external-link">approx()</a></code>.</p>
 <p>The datasets were manipulated to produce this data frame by the two R files
 <a href="https://github.com/OuhscBbmc/Wats/blob/master/utility/isolate-census-pops-for-gfr.R" class="external-link">IsolateCensusPopsForGfr.R</a>
 and <a href="https://github.com/OuhscBbmc/Wats/blob/master/utility/calculate-gfr.R" class="external-link">CalculateGfr.R</a>.</p>
@@ -137,13 +134,11 @@ and <a href="https://github.com/OuhscBbmc/Wats/blob/master/utility/calculate-gfr
     <p>Rodgers, J. L., St. John, C. A. &amp; Coleman R. (2005).
 <a href="http://www.ncbi.nlm.nih.gov/pubmed/16463916" class="external-link">Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.</a>
 <em>Demography, 42</em>, 675-692.</p>
-<p>[Intercensal estimates for 199x](https://www.census.gov/data/tables/time-series/demo/popest/intercensal-1990-2000-state-and-county-totals.html)</p>
-<p>[Intercensal estimates for 200x](http://www.census.gov/popest/data/intercensal/county/county2010.html)</p>
-
-<p>* [US Census Intercensal Estimates](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html) 
-for [199x]() 
-and [200x](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/2000-2010-intercensal.html).</p>
-    </div>
+<p><a href="https://www.census.gov/data/tables/time-series/demo/popest/intercensal-1990-2000-state-and-county-totals.html" class="external-link">Intercensal estimates for 199x</a></p>
+<p><a href="http://www.census.gov/popest/data/intercensal/county/county2010.html" class="external-link">Intercensal estimates for 200x</a></p><ul><li><p><a href="https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html" class="external-link">US Census Intercensal Estimates</a>
+for <a href="199x">199x</a>
+and <a href="https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/2000-2010-intercensal.html" class="external-link">200x</a>.</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p>Will Beasley</p>
