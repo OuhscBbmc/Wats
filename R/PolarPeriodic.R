@@ -4,29 +4,29 @@
 #'
 #' @description Shows the interrupted time series in Cartesian coordinates and its a periodic/cyclic components.
 #'
-#' @param dsLinear The \code{data.frame} to containing the simple linear data.  There should be one record per observation.
-#' @param dsStageCyclePolar The \code{data.frame} to containing the bands for a single period.  There should be one record per theta per stage.  If there are three stages, this \code{data.frame} should have three times as many rows as \code{dsLinear}.
+#' @param dsLinear The [data.frame] to containing the simple linear data.  There should be one record per observation.
+#' @param dsStageCyclePolar The [data.frame] to containing the bands for a single period.  There should be one record per theta per stage.  If there are three stages, this [data.frame] should have three times as many rows as `dsLinear`.
 #' @param xName The variable name containing the date.
 #' @param yName The variable name containing the dependent/criterion variable.
-#' @param stageIDName The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.
+#' @param stageIDName The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `StageID` is `1`, and is `2` afterwards.
 
 #' @param periodicLowerName The variable name showing the lower bound of a stage's periodic estimate.
 #' @param periodicUpperName The variable name showing the upper bound of a stage's periodic estimate.
-#' @param paletteDark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.
-#' @param paletteLight A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.
-#' @param changePoints A vector of values indicate the interruptions between stages.  It typically works best as a \code{Date} or a \code{POSIXct} class.
+#' @param paletteDark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each `StageID` value.  If no vector is specified, a default will be chosen, based on the number of stages.
+#' @param paletteLight A vector of colors used for the light graphical elements.  The vector should have one color for each `StageID` value.  If no vector is specified, a default will be chosen, based on the number of stages.
+#' @param changePoints A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.
 #' @param changePointLabels The text plotted above each interruption.
-#' @param drawObservedLine A boolean value indicating if the longitudinal observed line should be plotted (whose values are take from \code{dsLinear}).
-#' @param drawPeriodicBand A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodicLowerName} and \code{periodicUpperName} fields).
-#' @param drawStageLabels A boolean value indicating if the stage labels should be plotted (whose values are take from \code{dsLinear}).
-#' @param drawRadiusLabels A boolean value indicating if the gridline/radius labels should be plotted (whose values are take from \code{tickLocations}).
+#' @param drawObservedLine A boolean value indicating if the longitudinal observed line should be plotted (whose values are take from `dsLinear`).
+#' @param drawPeriodicBand A boolean value indicating if the bands should be plotted (whose values are take from the `periodicLowerName` and `periodicUpperName` fields).
+#' @param drawStageLabels A boolean value indicating if the stage labels should be plotted (whose values are take from `dsLinear`).
+#' @param drawRadiusLabels A boolean value indicating if the gridline/radius labels should be plotted (whose values are take from `tickLocations`).
 #' @param jaggedPointSize The size of the observed data points.
 #' @param jaggedLineSize The size of the line connecting the observed data points.
 #'
 #' @param bandAlphaDark The amount of transparency of the band appropriate for a stage's \emph{x} values.
 #' @param bandAlphaLight The amount of transparency of the band comparison stages for a given \emph{x} value.
 #' @param changeLineAlpha The amount of transparency marking each interruption.
-#' @param colorLabels The color for \code{cardinalLabels} and \code{originLabel}.
+#' @param colorLabels The color for `cardinalLabels` and `originLabel`.
 #' @param colorGridlines The color for the gridlines.
 #' @param labelColor The color of the text labels imposed on the line.
 #' @param changeLineSize The width of a line marking an interruption.
@@ -35,10 +35,10 @@
 #' @param graphCeiling The value of the criterion/dependent variable at the outside of the polar plot.
 #'
 #' @param cardinalLabels The four labels placed  where `North', `East', `South', and `West' typically are.
-#' @param originLabel Explains what the criterion variable's value is at the origin.  Use \code{NULL} if no explanation is desired.
-#' @param plotMargins A vector of four \code{numeric} values, specifying the number of lines in the bottom, left, top and right margins.
+#' @param originLabel Explains what the criterion variable's value is at the origin.  Use `NULL` if no explanation is desired.
+#' @param plotMargins A vector of four `numeric` values, specifying the number of lines in the bottom, left, top and right margins.
 #'
-#' @return Returns a \code{grid} graphical object (ie, a \href{http://stat.ethz.ch/R-manual/R-devel/library/grid/html/grid.grob.html}{\code{grob}}.)
+#' @return Returns a grid graphical object (ie, a [grid::grob()].)
 #' @keywords polar
 #' @examples
 #' library(grid)

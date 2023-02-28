@@ -7,10 +7,10 @@
 #' Second, multiple points are interpolated (still in a Cartesian coordinates) so that the polar graph doesn't have sharp edges.  These sharp edges would be artifacts of the conversion, and not reflect the observed data.
 #' Third, the Cartesian points are coverted to polar coordinates.
 #'
-#' @param dsLinear The \code{data.frame} to containing the simple linear data.  There should be one record per observation.
-#' @param dsStageCycle The \code{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \code{data.frame} should have three times as many rows as \code{dsLinear}.
+#' @param dsLinear The [data.frame] to containing the simple linear data.  There should be one record per observation.
+#' @param dsStageCycle The [data.frame] to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this [data.frame] should have three times as many rows as `dsLinear`.
 #' @param yName The variable name containing the dependent/criterion variable.
-#' @param stageIDName The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.
+#' @param stageIDName The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `StageID` is `1`, and is `2` afterwards.
 #' @param cycleTallyName The variable name indicating how many \emph{complete} cycles have occurred at that observation.
 #' @param proportionThroughCycleName The variable name showing how far through a cycle the observation (or summarized observations) occurred.
 #' @param periodicLowerName The variable name showing the lower bound of a stage's periodic estimate.
@@ -18,7 +18,7 @@
 #' @param periodicUpperName The variable name showing the upper bound of a stage's periodic estimate.
 #' @param plottedPointCountPerCycle The number of points that are plotted per cycle.  If the polar graph has 'sharp corners', then increase this value.
 #' @param graphFloor The value of the criterion/dependent variable at the center of the polar plot.
-#' @return Returns a \code{data.frame}.
+#' @return Returns a [data.frame].
 #' @keywords polar
 #' @examples
 #' library(Wats)
