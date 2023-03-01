@@ -37,17 +37,17 @@ AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
   #   isMin <- (base::min(d[[dateName]]) < d[[dateName]])
   #   return( d$StageID + isMin*0.5 )
   # }
-  # 
-  dsLinear |> 
-    tibble::as_tibble() |> 
-    dplyr::group_by(.data$StageID) |> 
+  #
+  dsLinear |>
+    tibble::as_tibble() |>
+    dplyr::group_by(.data$StageID) |>
     dplyr::mutate(
       isMin = (base::min(!! rlang::ensym(dateName)) < !! rlang::ensym(dateName)),
-    ) |> 
-    dplyr::ungroup() |> 
+    ) |>
+    dplyr::ungroup() |>
     dplyr::mutate(
-      StageProgress = .data$StageID + .data$isMin*0.5, 
-    ) |> 
+      StageProgress = .data$StageID + .data$isMin*0.5,
+    ) |>
     dplyr::select(
       -.data$isMin,
     )
@@ -76,15 +76,15 @@ AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
 #                           ProportionID)
 
   dsLinear <-
-    dsLinear |> 
-    dplyr::group_by(.data$CycleTally) |> 
+    dsLinear |>
+    dplyr::group_by(.data$CycleTally) |>
     dplyr::mutate(
       ProportionID          = base::rank(.data$ProportionThroughCycle, ties.method="max"),
       StartingPointInCycle  = (.data$ProportionID == base::min(.data$ProportionID)),
       TerminalPointInCycle  = (.data$ProportionID == base::max(.data$ProportionID)),
-    ) |> 
+    ) |>
     dplyr::ungroup()
-  
+
   #dsLinear$ProportionID <- as.integer(round(rank(dsLinear$ProportionThroughCycle, ties.method="max") / max(dsLinear$CycleTally + 1)))
 #   dsLinear$ProportionID <- rank(dsLinear$ProportionThroughCycle, ties.method="max") / max(dsLinear$CycleTally + 1)
 #   dsLinear$StartingPointInCycle <- (dsLinear$ProportionID==min(dsLinear$ProportionID))
@@ -93,16 +93,16 @@ AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
 #                     "CycleTally",
 #                     transform,
 #                     TerminalPointInCycle=(rank(ProportionThroughCycle)==max(rank(ProportionThroughCycle))))
-  dsLinear |> 
-    tibble::as_tibble() |> 
-    dplyr::group_by(.data$StageID) |> 
+  dsLinear |>
+    tibble::as_tibble() |>
+    dplyr::group_by(.data$StageID) |>
     dplyr::mutate(
       isMin = (base::min(!! rlang::ensym(dateName)) < !! rlang::ensym(dateName)),
-    ) |> 
-    dplyr::ungroup() |> 
+    ) |>
+    dplyr::ungroup() |>
     dplyr::mutate(
-      StageProgress = .data$StageID + .data$isMin*0.5, 
-    ) |> 
+      StageProgress = .data$StageID + .data$isMin*0.5,
+    ) |>
     dplyr::select(
       -.data$isMin,
     )

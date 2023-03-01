@@ -2,7 +2,6 @@ rm(list=ls(all=TRUE))
 # opar <- par(no.readonly=TRUE)
 library(colorspace)
 library(grid)
-library(plyr)
 library(MASS) #For rlm
 library(lubridate)
 library(gridBase)

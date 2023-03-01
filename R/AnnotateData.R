@@ -70,18 +70,18 @@ AnnotateData <- function( dsLinear,
   #   )
   # }
   # dsStageCycle2 <- plyr::ddply(dsLinear, .variables=c(stageIDName, proportionIDName), .fun=summarizeStageCycle)
-  
-  dsStageCycle <- 
-    dsLinear |> 
-    dplyr::group_by(!! rlang::ensym(stageIDName), !! rlang::ensym(proportionIDName)) |> 
+
+  dsStageCycle <-
+    dsLinear |>
+    dplyr::group_by(!! rlang::ensym(stageIDName), !! rlang::ensym(proportionIDName)) |>
     dplyr::summarize(
       ProportionThroughCycle  = mean(.data$ProportionThroughCycle, na.rm = TRUE),
       PositionLower           = spreadFunction(!! rlang::ensym(dvName))[1],
       PositionCenter          = centerFunction(!! rlang::ensym(dvName)),
       PositionUpper           = spreadFunction(!! rlang::ensym(dvName))[2],
-    ) |> 
+    ) |>
     dplyr::ungroup()
-  
+
   dsLinearTemp <- dsLinear[, c("Date", stageIDName, proportionIDName, stageProgressName)]
   colnames(dsLinearTemp)[colnames(dsLinearTemp)==stageIDName] <- "StageIDTime" #Make sure `StageIDTime` matches the two calls below.
 
@@ -89,11 +89,11 @@ AnnotateData <- function( dsLinear,
   colnames(dsStageCycleTemp)[colnames(dsStageCycleTemp)==stageIDName] <- "StageIDBand" #Make sure `StageIDBand` matches the calls below.
 
   # dsPeriodic2 <- merge(x=dsLinearTemp, y=dsStageCycleTemp, by=c(proportionIDName), all.x=TRUE, all.y=TRUE)
-  dsPeriodic <- 
-    dsLinearTemp |> 
-    dplyr::left_join(dsStageCycleTemp, by=proportionIDName, multiple = "all") |> 
+  dsPeriodic <-
+    dsLinearTemp |>
+    dplyr::left_join(dsStageCycleTemp, by=proportionIDName, multiple = "all") |>
     dplyr::arrange(.data$Date, .data$StageIDTime, .data$StageIDBand)
-  
+
   # dsPeriodic <- dsPeriodic[order(dsPeriodic$Date, dsPeriodic$StageIDTime, dsPeriodic$StageIDBand), ]
 
   return( list(dsLinear=dsLinear, dsStageCycle=dsStageCycle, dsPeriodic=dsPeriodic) )
