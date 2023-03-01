@@ -134,6 +134,8 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
       stageStart <- c(TRUE, rep(FALSE, times=nrow(d)-1))
       stageEnd <- c(rep(FALSE, times=nrow(d)-1), TRUE)
     }
+
+    # browser()
     base::data.frame(
       PolarLowerX = (d$LowerY - graphFloor) * sin(2 * pi * d$LowerX),
       PolarLowerY = (d$LowerY - graphFloor) * cos(2 * pi * d$LowerX),
@@ -174,14 +176,14 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
     ) |>
     dplyr::ungroup()
 
-  # dsStageCycleInterpolated <-
-  #   dsStageCycleClosed |>
-  #   dplyr::group_by(!! rlang::ensym(stageIDName)) |>
-  #   dplyr::do(
-  #     polarizeBand(., graphFloor = graphFloor)
-  #   ) |>
-  #   dplyr::ungroup()
-  #
+  dsStageCycleInterpolated <-
+    dsStageCycleClosed |>
+    dplyr::group_by(!! rlang::ensym(stageIDName)) |>
+    dplyr::do(
+      interpolateBand(., pointsPerCycleCount = plottedPointCountPerCycle)
+    ) |>
+    dplyr::ungroup()
+
   # dsStageCyclePolar <-
   #   dsStageCycleInterpolated |>
   #   dplyr::group_by(!! rlang::ensym(stageIDName)) |>
@@ -194,7 +196,7 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
   # dsObservedPolar <- plyr::ddply(dsObservedInterpolated, .variables=stageIDName, .fun=polarizeObserved, graphFloor=graphFloor)
   #
   # dsStageCycleClosed <- plyr::ddply(dsStageCycle, .variables=stageIDName, .fun=closeLoop)
-  dsStageCycleInterpolated <- plyr::ddply(dsStageCycleClosed, .variables=stageIDName, .fun=interpolateBand, pointsPerCycleCount=plottedPointCountPerCycle)
+  # dsStageCycleInterpolated <- plyr::ddply(dsStageCycleClosed, .variables=stageIDName, .fun=interpolateBand, pointsPerCycleCount=plottedPointCountPerCycle)
   dsStageCyclePolar <- plyr::ddply(dsStageCycleInterpolated, .variables=stageIDName, .fun=polarizeBand, graphFloor=graphFloor)
 
   return( list(dsObservedPolar=dsObservedPolar, dsStageCyclePolar=dsStageCyclePolar, GraphFloor=graphFloor) )
