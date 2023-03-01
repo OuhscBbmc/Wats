@@ -17,6 +17,7 @@ Depends:
     R (>= 4.2.0)
 Imports:
     colorspace,
+    dplyr,
     ggplot2,
     grid,
     lubridate,
@@ -29,7 +30,6 @@ Suggests:
     boot,
     covr,
     devtools,
-    dplyr,
     knitr,
     scales,
     testthat,
