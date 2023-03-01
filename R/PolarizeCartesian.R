@@ -52,7 +52,6 @@
 #'   guides(color=FALSE)
 
 #For a more polished graph, see PolarPeriodic().
-
 PolarizeCartesian <- function(dsLinear, dsStageCycle,
                       yName, stageIDName,
                       cycleTallyName="CycleTally",
@@ -73,12 +72,18 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
     return( d )
   }
   interpolateObserved <- function(d, pointsPerCycleCount) {
-    observed <- stats::approx(x = d[[cycleTallyName]] + d[[proportionThroughCycleName]],
-                              y = d[[yName]],
-                              n = pointsPerCycleCount)
-    stageProgress <- stats::approx(x = unique(d[[stageIDName]]) + 0:1,
-                                   n = pointsPerCycleCount + 1)
-
+    observed <-
+      stats::approx(
+        x = d[[cycleTallyName]] + d[[proportionThroughCycleName]],
+        y = d[[yName]],
+        n = pointsPerCycleCount
+      )
+    stageProgress <-
+      stats::approx(
+        x = unique(d[[stageIDName]]) + 0:1,
+        n = pointsPerCycleCount + 1
+      )
+    # browser()
     base::data.frame(
       ObservedX = observed$x,
       ObservedY = observed$y,
@@ -145,10 +150,50 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
     )
   }
 
-  dsObservedInterpolated <- plyr::ddply(dsLinear, .variables=stageIDName, .fun=interpolateObserved, pointsPerCycleCount=plottedPointCountPerCycle)
-  dsObservedPolar <- plyr::ddply(dsObservedInterpolated, .variables=stageIDName, .fun=polarizeObserved, graphFloor=graphFloor)
+  dsObservedInterpolated <-
+    dsLinear |>
+    dplyr::group_by(!! rlang::ensym(stageIDName)) |>
+    dplyr::do(
+      interpolateObserved(., pointsPerCycleCount=plottedPointCountPerCycle)
+    ) |>
+    dplyr::ungroup()
 
-  dsStageCycleClosed <- plyr::ddply(dsStageCycle, .variables=stageIDName, .fun=closeLoop)
+  dsObservedPolar <-
+    dsObservedInterpolated |>
+    dplyr::group_by(!! rlang::ensym(stageIDName)) |>
+    dplyr::do(
+      polarizeObserved(., graphFloor=graphFloor)
+    ) |>
+    dplyr::ungroup()
+
+  dsStageCycleClosed <-
+    dsStageCycle |>
+    dplyr::group_by(!! rlang::ensym(stageIDName)) |>
+    dplyr::do(
+      closeLoop(.)
+    ) |>
+    dplyr::ungroup()
+
+  # dsStageCycleInterpolated <-
+  #   dsStageCycleClosed |>
+  #   dplyr::group_by(!! rlang::ensym(stageIDName)) |>
+  #   dplyr::do(
+  #     polarizeBand(., graphFloor = graphFloor)
+  #   ) |>
+  #   dplyr::ungroup()
+  #
+  # dsStageCyclePolar <-
+  #   dsStageCycleInterpolated |>
+  #   dplyr::group_by(!! rlang::ensym(stageIDName)) |>
+  #   dplyr::do(
+  #     polarizeBand(., graphFloor = graphFloor)
+  #   ) |>
+  #   dplyr::ungroup()
+
+  # dsObservedInterpolated <- plyr::ddply(dsLinear, .variables=stageIDName, .fun=interpolateObserved, pointsPerCycleCount=plottedPointCountPerCycle)
+  # dsObservedPolar <- plyr::ddply(dsObservedInterpolated, .variables=stageIDName, .fun=polarizeObserved, graphFloor=graphFloor)
+  #
+  # dsStageCycleClosed <- plyr::ddply(dsStageCycle, .variables=stageIDName, .fun=closeLoop)
   dsStageCycleInterpolated <- plyr::ddply(dsStageCycleClosed, .variables=stageIDName, .fun=interpolateBand, pointsPerCycleCount=plottedPointCountPerCycle)
   dsStageCyclePolar <- plyr::ddply(dsStageCycleInterpolated, .variables=stageIDName, .fun=polarizeBand, graphFloor=graphFloor)
 

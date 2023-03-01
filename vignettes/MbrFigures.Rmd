@@ -238,8 +238,8 @@ Wats::PolarPeriodic(
   drawRadiusLabels = TRUE,
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
 )
-
 ```
+
 ## Figure 6: WATS and Cartesian
 Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
