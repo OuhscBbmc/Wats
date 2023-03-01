@@ -49,7 +49,7 @@ AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
       StageProgress = .data$StageID + .data$isMin*0.5,
     ) |>
     dplyr::select(
-      -.data$isMin,
+      -isMin,
     )
 
   # dsLinear$StageProgress <- base::unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
@@ -104,7 +104,7 @@ AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
       StageProgress = .data$StageID + .data$isMin*0.5,
     ) |>
     dplyr::select(
-      -.data$isMin,
+      -isMin,
     )
   #   SummarizeWithinStage <- function( d ) {
   #     #     minValue <- min(d[[dateName]])
