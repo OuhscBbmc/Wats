@@ -164,10 +164,10 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
 
   if (drawPeriodicBand) {
     for (stageID in stages) {
-      lowerX <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarLowerX"]
-      lowerY <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarLowerY"]
-      upperX <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarUpperX"]
-      upperY <- dsStageCyclePolar[dsStageCyclePolar$StageID==stageID, "PolarUpperY"]
+      lowerX <- dsStageCyclePolar$PolarLowerX[dsStageCyclePolar$StageID == stageID]
+      lowerY <- dsStageCyclePolar$PolarLowerY[dsStageCyclePolar$StageID == stageID]
+      upperX <- dsStageCyclePolar$PolarUpperX[dsStageCyclePolar$StageID == stageID]
+      upperY <- dsStageCyclePolar$PolarUpperY[dsStageCyclePolar$StageID == stageID]
 
       x <- c(lowerX, rev(upperX))
       y <- c(lowerY, rev(upperY))

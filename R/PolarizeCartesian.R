@@ -60,8 +60,8 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
                       plottedPointCountPerCycle=120,
                       graphFloor=min(base::pretty(x=dsLinear[[yName]]))) {
   #TODO: allow counter-clockwise and arbitrary angle for theta=0
-
-
+#
+#   utils::globalVariables(".")
 #   print(dsLinear[[cycleTallyName]])
 #   print(dsLinear[[proportionThroughCycleName]])
 #   print(dsLinear[[yName]])
@@ -135,7 +135,6 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
       stageEnd <- c(rep(FALSE, times=nrow(d)-1), TRUE)
     }
 
-    # browser()
     base::data.frame(
       PolarLowerX = (d$LowerY - graphFloor) * sin(2 * pi * d$LowerX),
       PolarLowerY = (d$LowerY - graphFloor) * cos(2 * pi * d$LowerX),
@@ -184,20 +183,20 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
     ) |>
     dplyr::ungroup()
 
-  # dsStageCyclePolar <-
-  #   dsStageCycleInterpolated |>
-  #   dplyr::group_by(!! rlang::ensym(stageIDName)) |>
-  #   dplyr::do(
-  #     polarizeBand(., graphFloor = graphFloor)
-  #   ) |>
-  #   dplyr::ungroup()
+  dsStageCyclePolar <-
+    dsStageCycleInterpolated |>
+    dplyr::group_by(!! rlang::ensym(stageIDName)) |>
+    dplyr::do(
+      polarizeBand(., graphFloor = graphFloor)
+    ) |>
+    dplyr::ungroup()
 
   # dsObservedInterpolated <- plyr::ddply(dsLinear, .variables=stageIDName, .fun=interpolateObserved, pointsPerCycleCount=plottedPointCountPerCycle)
   # dsObservedPolar <- plyr::ddply(dsObservedInterpolated, .variables=stageIDName, .fun=polarizeObserved, graphFloor=graphFloor)
   #
   # dsStageCycleClosed <- plyr::ddply(dsStageCycle, .variables=stageIDName, .fun=closeLoop)
   # dsStageCycleInterpolated <- plyr::ddply(dsStageCycleClosed, .variables=stageIDName, .fun=interpolateBand, pointsPerCycleCount=plottedPointCountPerCycle)
-  dsStageCyclePolar <- plyr::ddply(dsStageCycleInterpolated, .variables=stageIDName, .fun=polarizeBand, graphFloor=graphFloor)
+  # dsStageCyclePolar <- plyr::ddply(dsStageCycleInterpolated, .variables=stageIDName, .fun=polarizeBand, graphFloor=graphFloor)
 
   return( list(dsObservedPolar=dsObservedPolar, dsStageCyclePolar=dsStageCyclePolar, GraphFloor=graphFloor) )
 }

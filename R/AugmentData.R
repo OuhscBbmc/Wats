@@ -22,6 +22,9 @@
 #'
 #' @importFrom rlang .data
 AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
+
+  # utils::globalVariables("isMin")
+
   yearOfEvent <- lubridate::year(dsLinear[[dateName]])
 
   minYearOfEvent <- base::min(yearOfEvent)
@@ -56,6 +59,9 @@ AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
   # return( dsLinear )
 }
 AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
+
+  # utils::globalVariables("isMin")
+
   yearOfEvent <- lubridate::year(dsLinear[[dateName]])
   firstOfYear <- base::ISOdate(year=yearOfEvent, month=1, day=1, tz="GMT")
   lastOfYear <- firstOfYear + lubridate::years(1)  #ISOdate(year=yearOfEvent + 1, month=1, day=1, tz="GMT")
