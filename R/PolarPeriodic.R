@@ -126,11 +126,11 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
   if (!is.null(paletteLight )) testit::assert("The number of `paletteLight` colors should equal the number of unique `StageID` values.", stageCount==length(paletteLight))
 
   if (is.null(paletteDark)) {
-    if( length(stages) <= 4L) paletteDark <- RColorBrewer::brewer.pal(n=10L, name="Paired")[c(2L,4L,6L,8L)] #There's not a risk of defining more colors than levels
+    if (length(stages) <= 4L) paletteDark <- RColorBrewer::brewer.pal(n=10L, name="Paired")[c(2L,4L,6L,8L)] #There's not a risk of defining more colors than levels
     else paletteDark <- colorspace::rainbow_hcl(n=length(stages), l=40)
   }
   if (is.null(paletteLight)) {
-    if( length(stages) <= 4L) paletteLight <- RColorBrewer::brewer.pal(n=10L, name="Paired")[c(1L,3L,5L,7L)] #There's not a risk of defining more colors than levels
+    if (length(stages) <= 4L) paletteLight <- RColorBrewer::brewer.pal(n=10L, name="Paired")[c(1L,3L,5L,7L)] #There's not a risk of defining more colors than levels
     else paletteLight <- colorspace::rainbow_hcl(n=length(stages), l=70)
   }
 #   grid.rect() #For exploring nested viewports
@@ -181,7 +181,7 @@ PolarPeriodic <- function(dsLinear, dsStageCyclePolar,
 #                                     default.units="native", name="l")
 #     grid::grid.draw(gObserved)
     for (stage in stages) {
-      dsStage <- dsLinear[stage<=dsLinear$StageProgress & dsLinear$StageProgress<=(stage+1), ]
+      dsStage <- dsLinear[stage <= dsLinear$StageProgress & dsLinear$StageProgress <= (stage+1), ]
 
       gObserved <- grid::polylineGrob(x=dsStage$ObservedX, y=dsStage$ObservedY,
                                       gp=grid::gpar(col=paletteDark[stage], lwd=jaggedLineSize),

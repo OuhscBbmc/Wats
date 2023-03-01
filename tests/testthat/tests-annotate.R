@@ -8,7 +8,9 @@ test_that("AnnotateDataWithMonthResolution-Median", {
   dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
   dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 
-  hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+  hSpread <- function( scores ) {
+    return( quantile(x=scores, probs=c(.25, .75)) )
+  }
   portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 
   #   head(portfolio$dsStageCycle); dput(portfolio$dsStageCycle)
@@ -108,7 +110,9 @@ test_that("AnnotateDataWithMonthResolution-Median", {
   dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
   dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
 
-  hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+  hSpread <- function( scores ) {
+    return( quantile(x=scores, probs=c(.25, .75)) )
+  }
   portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=mean, spreadFunction=hSpread)
 
   #   head(portfolio$dsStageCycle); dput(portfolio$dsStageCycle)
