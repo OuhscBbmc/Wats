@@ -19,12 +19,8 @@ knitr::opts_knit$set(root.dir = "../")
 ```
 
 ```{r set_options, echo=FALSE, results='hide'}
-library(base)
-library(utils)
-library(stats)
 library(grDevices)
 library(grid)
-library(plyr)
 library(scales)
 library(ggplot2)
 library(boot)

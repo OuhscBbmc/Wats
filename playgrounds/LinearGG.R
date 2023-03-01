@@ -2,7 +2,6 @@ rm(list=ls(all=TRUE))
 library(grid)
 library(colorspace)
 library(lubridate)
-library(plyr)
 library(ggplot2)
 library(zoo)
 

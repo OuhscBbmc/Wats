@@ -5,13 +5,13 @@ rm(list=ls(all=TRUE))
 requireNamespace("dplyr")
 requireNamespace("testit")
 
-inputPathCensusCountyMonth <- "./datasets/CensusIntercensal/CensusCountyMonth.csv"
-inputPathBirthCountCountyMonth <- "./datasets/BirthCountState.csv"
-outputPathBirthCountCountyMonthCsv2014 <- "./datasets/CountyMonthBirthRate2014Version.csv"
-outputPathBirthCountCountyMonthCsv2005 <- "./datasets/CountyMonthBirthRate2005Version.csv"
-outputPathBirthCountCountyMonthRda2014 <- "./data/CountyMonthBirthRate2014Version.rda"
-outputPathBirthCountCountyMonthRda2005 <- "./data/CountyMonthBirthRate2005Version.rda"
-changeMonth <- as.Date("1996-02-15")
+inputPathCensusCountyMonth              <- "datasets/CensusIntercensal/CensusCountyMonth.csv"
+inputPathBirthCountCountyMonth          <- "datasets/BirthCountState.csv"
+outputPathBirthCountCountyMonthCsv2014  <- "datasets/CountyMonthBirthRate2014Version.csv"
+outputPathBirthCountCountyMonthCsv2005  <- "datasets/CountyMonthBirthRate2005Version.csv"
+outputPathBirthCountCountyMonthRda2014  <- "data/CountyMonthBirthRate2014Version.rda"
+outputPathBirthCountCountyMonthRda2005  <- "data/CountyMonthBirthRate2005Version.rda"
+changeMonth                             <- as.Date("1996-02-15")
 
 ###################
 # Read in the datasets, lightly groom, & merge.
@@ -41,7 +41,7 @@ dsBirthCount <-
         "pottawat"  ~ "pottawatomie",
         "rogers"    ~ "rogers",
         "tulsa"     ~ "tulsa",
-        "wagoner"   ~ "wagoner",
+        "wagoner"   ~ "wagoner"
       ),
   )
 

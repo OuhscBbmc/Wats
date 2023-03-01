@@ -1,11 +1,10 @@
 rm(list=ls(all=TRUE))
-library(plyr)
-library(testit)
-inputPathsCensus199x <- paste0("./Datasets/CensusIntercensal/STCH-icen199", 0:9, ".txt")
-inputPathCensus200x <- "./Datasets/CensusIntercensal/CO-EST00INT-AGESEX-5YR.csv"
-inputPathFips <- "./Datasets/CountyFipsCode.csv"
-ouputPathCensusCountyYear <- "./Datasets/CensusIntercensal/CensusCountyYear.csv"
-ouputPathCensusCountyMonth <- "./Datasets/CensusIntercensal/CensusCountyMonth.csv"
+requireNamespace("testit")
+inputPathsCensus199x        <- paste0("./datasets/CensusIntercensal/STCH-icen199", 0:9, ".txt")
+inputPathCensus200x         <- "./datasets/CensusIntercensal/CO-EST00INT-AGESEX-5YR.csv"
+inputPathFips               <- "./datasets/CountyFipsCode.csv"
+ouputPathCensusCountyYear   <- "./datasets/CensusIntercensal/CensusCountyYear.csv"
+ouputPathCensusCountyMonth  <- "./datasets/CensusIntercensal/CensusCountyMonth.csv"
 
 ###################
 # Read in the datasets
