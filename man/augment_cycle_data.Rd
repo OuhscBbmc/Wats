@@ -6,13 +6,13 @@
 \alias{augment_year_data_with_second_resolution}
 \title{Calculates variables necessary for WATS Plots}
 \usage{
-augment_year_data_with_month_resolution( ds_linear, dateName )
-augment_year_data_with_second_resolution( ds_linear, dateName )
+augment_year_data_with_month_resolution( ds_linear, date_name )
+augment_year_data_with_second_resolution( ds_linear, date_name )
 }
 \arguments{
 \item{ds_linear}{The \link{data.frame} to containing the detailed data.}
 
-\item{dateName}{The variable name in \code{ds_linear} containing the date or datetime value.}
+\item{date_name}{The variable name in \code{ds_linear} containing the date or datetime value.}
 }
 \value{
 Returns a \link{data.frame} with additional variables: \code{CycleTally}, \code{ProportionThroughCycle}, \code{ProportionID}, and \code{TerminalPointInCycle}.
@@ -25,7 +25,7 @@ that needs to be called to produce WATS Plots.  \code{\link[=annotate_data]{anno
 library(Wats)
 ds_linear <- county_month_birth_rate_2005_version
 ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
+ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
 head(ds_linear)
 
 }

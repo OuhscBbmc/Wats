@@ -49,7 +49,7 @@ that needs to be called to produce WATS Plots.  \code{AugmentZZZ} is the first.
 library(Wats)
 ds_linear <- county_month_birth_rate_2005_version
 ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
+ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
 
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- annotate_data(

@@ -100,7 +100,7 @@ Smoothed monthly  birth rates (General Fertility Rates;  GFR's) for Oklahoma Cou
 dsLinearAll <- county_month_birth_rate_2014_version
 ds_linear <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ]
 
-ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
+ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
 
 portfolioCartesian <- Wats::annotate_data(ds_linear, dv_name="BirthRate", center_function=stats::median, spread_function=hSpread)
 
@@ -232,7 +232,7 @@ The remaining two sections depart from the MBR manuscript analyses.  Its goal is
 This section uses an approach advocated by McLeod, Yu, & Mahdi (2011), which is consistent other articles, including Rodgers et al. (2005).  There are two trends that are de-seasonalized.  The first is the 'classic' approach which uses the observed trend line (see [`decompose()` on CRAN](http://stat.ethz.ch/R-manual/R-devel/library/stats/html/decompose.html)).  The second is a smoothed version, where a loess is passed through the observed data; this smoothed line is then de-seasonalized (see [`stl()` on CRAN](stat.ethz.ch/R-manual/R-devel/library/stats/html/stl.html)).  Both approaches lead to comparable conclusions.  The post-bombing fertility is significantly higher  than the pre-bombing fertility (ie, the `step` coefficient is significantly more positive).
 
 ```{r ConfirmatoryFrequentist, fig.height=6.5}
-ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
+ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
 
 tsData <- stats::ts(
   data = ds_linear$BirthRate,

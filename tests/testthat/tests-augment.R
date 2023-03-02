@@ -11,7 +11,7 @@ test_that("augment_year_data_with_month_resolution", {
 
   expectedColumnNames <- c(colnames(dsBirthRate), "CycleTally", "ProportionThroughCycle", "ProportionID"
                            , "StartingPointInCycle", "TerminalPointInCycle", "StageProgress")
-  actual <- Wats::augment_year_data_with_month_resolution(ds=dsBirthRate, dateName="Date")
+  actual <- Wats::augment_year_data_with_month_resolution(ds=dsBirthRate, date_name="Date")
 
   expect_equal(mean(actual$ProportionThroughCycle), expected=0.5, label="The mean of the proportion should be 0.5.")
   expect_equal(actual$ProportionID, expected=rep(1:12, times=10), label="The `ProportionID` should be correct.")
@@ -28,7 +28,7 @@ test_that("augment_year_data_with_second_resolution", {
 
   expectedColumnNames <- c(colnames(dsBirthRate), "CycleTally", "ProportionThroughCycle", "ProportionID"
                            , "StartingPointInCycle", "TerminalPointInCycle", "StageProgress")
-  actual <- Wats::augment_year_data_with_second_resolution(ds=dsBirthRate, dateName="Date")
+  actual <- Wats::augment_year_data_with_second_resolution(ds=dsBirthRate, date_name="Date")
 
   expect_equal(mean(actual$ProportionThroughCycle), expected=0.4933366, tolerance=1e-7, label="The mean of the proportion should be a little less than 0.5 (ie, ~.4933366) because the calender's first months are shorter than its last.")
   expect_equal(actual$ProportionID, expected=rep(1:12, times=10), label="The `ProportionID` should be correct.")

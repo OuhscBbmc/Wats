@@ -128,7 +128,7 @@ dsLinearOkc <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ]
 #   dsLinearAll |>
 #   dplyr::filter(CountyName == "oklahoma")
 
-dsLinearOkc <- Wats::augment_year_data_with_month_resolution(ds_linear=dsLinearOkc, dateName="Date")
+dsLinearOkc <- augment_year_data_with_month_resolution(ds_linear=dsLinearOkc, date_name="Date")
 
 portfolioCartesian <- Wats::annotate_data(dsLinearOkc, dv_name="BirthRate", center_function=stats::median, spread_function=hSpread)
 
@@ -296,7 +296,7 @@ grid::upViewport()
 This figure compares Oklahoma County against the (other) largest urban counties.
 
 ```{r Figure7, fig.height=6.5}
-# dsLinearAll <- Wats::augment_year_data_with_month_resolution(ds_linear=county_month_birth_rate_2005_version, dateName="Date")
+# dsLinearAll <- Wats::augment_year_data_with_month_resolution(ds_linear=county_month_birth_rate_2005_version, date_name="Date")
 
 #Identify the average size of the fecund population
 # plyr::ddply(dsLinearAll, "CountyName", plyr::summarize, Mean=base::mean(FecundPopulation))
@@ -309,7 +309,7 @@ dsLinearAll |>
 
 GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spread_function=hSpread, changeMonth=as.Date("1996-02-15") ) {
   ds_linear <- dsLinearAll[dsLinearAll$CountyName==countyName, ]
-  ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
+  ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
   portfolioCartesian <- Wats::annotate_data(ds_linear, dv_name="BirthRate", center_function=stats::median, spread_function=spread_function)
   portfolioPolar <- Wats::polarize_cartesian(ds_linear=portfolioCartesian$ds_linear, dsStageCycle=portfolioCartesian$dsStageCycle, yName="BirthRate", stage_id_name="StageID", plottedPointCountPerCycle=7200)
   cartesian_periodic <- Wats::cartesian_periodic(portfolioCartesian$ds_linear, portfolioCartesian$dsPeriodic, xName="Date", yName="BirthRate", stage_id_name="StageID", changePoints=changeMonth, changePointLabels=""  )

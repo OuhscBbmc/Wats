@@ -32,7 +32,7 @@ lightTheme <- ggplot2::theme(
 
 GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spread_function=hSpread, changeMonth=as.Date("1996-02-15") ) {
   ds_linear <- county_month_birth_rate_2005_version[county_month_birth_rate_2005_version$CountyName==countyName, ]
-  ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
+  ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
   portfolioCartesian <- annotate_data(ds_linear, dv_name="BirthRate", center_function=median, spread_function=spread_function)
   portfolioPolar <- polarize_cartesian(ds_linear=portfolioCartesian$ds_linear, dsStageCycle=portfolioCartesian$dsStageCycle, yName="BirthRate", stage_id_name="StageID", plottedPointCountPerCycle=7200)
   cartesian_periodic <- cartesian_periodic(portfolioCartesian$ds_linear, portfolioCartesian$dsPeriodic, xName="Date", yName="BirthRate", stage_id_name="StageID", changePoints=changeMonth, changePointLabels=""  )

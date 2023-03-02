@@ -20,7 +20,7 @@
 #' library(Wats)
 #' ds_linear <- county_month_birth_rate_2005_version
 #' ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
 #'
 #' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 #' portfolio <- annotate_data(
@@ -102,7 +102,7 @@ annotate_data <- function( ds_linear,
 # library(Wats)
 # ds_linear <- county_month_birth_rate_2005_version
 # ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-# ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
+# ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
 #
 # hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 # portfolio <- annotate_data(ds_linear, dv_name="BirthRate", center_function=median, spread_function=hSpread)
