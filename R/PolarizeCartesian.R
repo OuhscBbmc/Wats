@@ -61,7 +61,7 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
                       graphFloor=min(base::pretty(x=dsLinear[[yName]]))) {
   #TODO: allow counter-clockwise and arbitrary angle for theta=0
 #
-#   utils::globalVariables(".")
+  . <- NULL # avoid "Undefined global functions or variables"
 #   print(dsLinear[[cycleTallyName]])
 #   print(dsLinear[[proportionThroughCycleName]])
 #   print(dsLinear[[yName]])

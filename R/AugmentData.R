@@ -22,8 +22,7 @@
 #'
 #' @importFrom rlang .data
 AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
-
-  # utils::globalVariables("isMin")
+  isMin <- NULL # avoid "Undefined global functions or variables"
 
   yearOfEvent <- lubridate::year(dsLinear[[dateName]])
 
@@ -59,8 +58,7 @@ AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
   # return( dsLinear )
 }
 AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
-
-  # utils::globalVariables("isMin")
+  isMin <- NULL # avoid "Undefined global functions or variables"
 
   yearOfEvent <- lubridate::year(dsLinear[[dateName]])
   firstOfYear <- base::ISOdate(year=yearOfEvent, month=1, day=1, tz="GMT")
