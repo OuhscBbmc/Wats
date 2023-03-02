@@ -1,10 +1,10 @@
 rm(list=ls(all=TRUE))
 requireNamespace("testit")
-inputPathsCensus199x        <- paste0("./datasets/CensusIntercensal/STCH-icen199", 0:9, ".txt")
-inputPathCensus200x         <- "./datasets/CensusIntercensal/CO-EST00INT-AGESEX-5YR.csv"
-inputPathFips               <- "./datasets/CountyFipsCode.csv"
-ouputPathCensusCountyYear   <- "./datasets/CensusIntercensal/CensusCountyYear.csv"
-ouputPathCensusCountyMonth  <- "./datasets/CensusIntercensal/CensusCountyMonth.csv"
+inputPathsCensus199x        <- paste0("datasets/CensusIntercensal/STCH-icen199", 0:9, ".txt")
+inputPathCensus200x         <- "datasets/CensusIntercensal/CO-EST00INT-AGESEX-5YR.csv"
+inputPathFips               <- "datasets/CountyFipsCode.csv"
+ouputPathCensusCountyYear   <- "datasets/CensusIntercensal/CensusCountyYear.csv"
+ouputPathCensusCountyMonth  <- "datasets/CensusIntercensal/CensusCountyMonth.csv"
 
 ###################
 # Read in the datasets
@@ -58,7 +58,7 @@ dsCensus199x <- merge(x=dsCensus199x, y=dsFips, by="Fips", all.x=TRUE, all.y=FAL
 dsCensus199x <- dsCensus199x[dsCensus199x$GfrEligible & dsCensus199x$WatsUrban, ]
 
 #Sum across the remaining subgroups to get their total population.
-dsCensus199xCounty <- plyr::ddply(dsCensus199x, .variables=c("Fips", "Year", "CountyName"), summarize, FecundPopulationCount=sum(PopulationCount))
+dsCensus199xCounty <- plyr::ddply(dsCensus199x, .variables=c("Fips", "Year", "CountyName"), plyr::summarize, FecundPopulationCount=sum(PopulationCount))
 
 ###################
 # Groom the Census data from the 2000s & Keep only the needed rows
@@ -78,7 +78,7 @@ dsCensus200x <- merge(x=dsCensus200x, y=dsFips, by="Fips", all.x=TRUE, all.y=FAL
 dsCensus200x <- dsCensus200x[dsCensus200x$GfrEligible & dsCensus200x$WatsUrban, ]
 
 #Sum across the remaining subgroups to get their total population.  Keep only 2000 (Remember 200x is wide, not long)
-dsCensus200xCounty <- plyr::ddply(dsCensus200x, .variables=c("Fips", "CountyName"), summarize, FecundPopulationCount=sum(POPESTIMATE2000))
+dsCensus200xCounty <- plyr::ddply(dsCensus200x, .variables=c("Fips", "CountyName"), plyr::summarize, FecundPopulationCount=sum(POPESTIMATE2000))
 
 dsCensus200xCounty$Year <- 2000L
 

@@ -1,14 +1,14 @@
 #This code checks the user's installed packages against the packages listed in `./UtilityScripts/PackageDependencyList.csv`.
-#   These are necessary for the repository's R code to be fully operational. 
+#   These are necessary for the repository's R code to be fully operational.
 #   CRAN packages are installed only if they're not already; then they're updated if available.
 #   GitHub packages are installed regardless if they're already installed.
 #If anyone encounters a package that should be on there, please add it to `./UtilityScripts/PackageDependencyList.csv`
 
 #####################################
 ## @knitr DeclareGlobals
-pathCsv <- './UtilityScripts/PackageDependencyList.csv'
+pathCsv <- 'utility/package-dependency-list.csv'
 
-if( !file.exists(pathCsv)) 
+if( !file.exists(pathCsv))
   base::stop("The path `", pathCsv, "` was not found.  Make sure the working directory is set to the root of the repository.")
 #####################################
 ## @knitr LoadDatasets
@@ -39,11 +39,11 @@ utils::update.packages(ask="graphics", checkBuilt=TRUE)
 ## @knitr InstallDevtools
 # Installing the devtools package is different than the rest of the packages.  On Windows,
 #   the dll can't be overwritten while in use.  This function avoids that issue.
-# This should follow the initial CRAN installation of `devtools`.  
+# This should follow the initial CRAN installation of `devtools`.
 #   Installing the newest GitHub devtools version isn't always necessary, but it usually helps.
 
 downloadLocation <- "./devtools.zip" #This is the default value.
-devtools::build_github_devtools(downloadLocation) 
+devtools::build_github_devtools(downloadLocation)
 
 base::unlink(downloadLocation, recursive=FALSE) #Remove the file from disk.
 base::rm(downloadLocation)
