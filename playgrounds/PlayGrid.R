@@ -100,10 +100,10 @@ c2 <- adjustcolor(c1, alpha.f=.5)
 
 # xOffset <- -.5 #So the points are plotted in the middle of the month.
 # For Okc
-graphCeiling <- 7
-graphFloor <- 5
+graph_ceiling <- 7
+graph_floor <- 5
 yAxisTicks <- c(5, 6, 7)
-graphHeight <- graphCeiling - graphFloor
+graphHeight <- graph_ceiling - graph_floor
 interpolationPointsPerCycle <- 12*100
 totalCycles <- max(ds$CycleID, na.rm=T) - min(ds$CycleID, na.rm=T) + 1
 interpolationPointsTotal <- interpolationPointsPerCycle*totalCycles
@@ -111,8 +111,8 @@ interpolationPointsTotal <- interpolationPointsPerCycle*totalCycles
 interpolatedLine <- approx(x=ds$AngleTotal, y=ds$Radius, n=interpolationPointsTotal)
 
 dsCart <- data.frame(X=rep(NA_real_, length(interpolatedLine$x)), Y=NA_real_)
-dsCart$X <- (interpolatedLine$y - graphFloor) * sin(interpolatedLine$x)
-dsCart$Y <- (interpolatedLine$y - graphFloor) * cos(interpolatedLine$x)
+dsCart$X <- (interpolatedLine$y - graph_floor) * sin(interpolatedLine$x)
+dsCart$Y <- (interpolatedLine$y - graph_floor) * cos(interpolatedLine$x)
 dsCart$StageID <- floor(approx(x=ds$StageID, n=interpolationPointsTotal)$y)
 
 dsCartBands <- data.frame(StageID=rep(stageIDs, each=interpolationPointsPerCycle), XLower=NA_real_, YLower=NA_real_, XUpper=NA_real_, YUpper=NA_real_)
@@ -120,12 +120,12 @@ for( stageID in stageIDs ) {
   dsStageBands <- dsBands[dsBands$StageID==stageID, ]
 
   interpolatedLowerBand <- approx(x=dsStageBands$Angle, y=dsStageBands$Lower, n=interpolationPointsPerCycle)
-  dsCartBands[dsCartBands$StageID==stageID, "XLower"] <- (interpolatedLowerBand$y - graphFloor) * sin(interpolatedLowerBand$x)
-  dsCartBands[dsCartBands$StageID==stageID, "YLower"] <- (interpolatedLowerBand$y - graphFloor) * cos(interpolatedLowerBand$x)
+  dsCartBands[dsCartBands$StageID==stageID, "XLower"] <- (interpolatedLowerBand$y - graph_floor) * sin(interpolatedLowerBand$x)
+  dsCartBands[dsCartBands$StageID==stageID, "YLower"] <- (interpolatedLowerBand$y - graph_floor) * cos(interpolatedLowerBand$x)
 
   interpolatedUpperBand <- approx(x=dsStageBands$Angle, y=dsStageBands$Upper, n=interpolationPointsPerCycle)
-  dsCartBands[dsCartBands$StageID==stageID, "XUpper"] <- (interpolatedUpperBand$y - graphFloor) * sin(interpolatedUpperBand$x)
-  dsCartBands[dsCartBands$StageID==stageID, "YUpper"] <- (interpolatedUpperBand$y - graphFloor) * cos(interpolatedUpperBand$x)
+  dsCartBands[dsCartBands$StageID==stageID, "XUpper"] <- (interpolatedUpperBand$y - graph_floor) * sin(interpolatedUpperBand$x)
+  dsCartBands[dsCartBands$StageID==stageID, "YUpper"] <- (interpolatedUpperBand$y - graph_floor) * cos(interpolatedUpperBand$x)
 }
 rm(dsStageBands)
 
@@ -263,13 +263,13 @@ upViewport(n=3)
 # yearCount <- monthCount / monthsPerYear
 #
 # gridColor <- gray(.9)
-# labelColor <- gray(.7)
+# label_color <- gray(.7)
 # polarGridLty <- 3
 # interpolationPoints <- 0
 # interpolatedCount <- (monthCount - 1) * interpolationPoints + monthCount
 # #For Okc
-# graphCeiling <- 7
-# graphFloor <- 5
+# graph_ceiling <- 7
+# graph_floor <- 5
 # yAxisTicks <- c(5, 6, 7)
 # xOffset <- -.5 #So the points are plotted in the middle of the month.
 #
@@ -281,22 +281,22 @@ upViewport(n=3)
 # # par(pty="m",  mar=c(.8, 4, 1, 1) + 0.1) #When it's plotted by itself
 # #par(pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars
 # par(pty="m",  mar=c(2, 4, 0, 1) + 0.1) #When it's plotted with the polars
-# plot(NA, xlim=c(0, monthCount), ylim=c(graphFloor, graphCeiling), type="n", xaxt="n", xaxs="i", yaxt="n", yaxs="i", bty="n",
+# plot(NA, xlim=c(0, monthCount), ylim=c(graph_floor, graph_ceiling), type="n", xaxt="n", xaxs="i", yaxt="n", yaxs="i", bty="n",
 #      #  ylab="General Fertility Rate", xlab="",#xlab="Time",
 #      ylab="", xlab="",#xlab="Time",
 # #      sub=paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"),
-#      col.sub=labelColor, cex.lab=1.2)
+#      col.sub=label_color, cex.lab=1.2)
 #
-# mtext(side=1, line=1, paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"), col=labelColor)
+# mtext(side=1, line=1, paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"), col=label_color)
 # axis(1, at=seq(from=0, to=changePoint-monthsPerYear, by=12)+6, labels=seq(from=firstYear, to=firstYear+5, by=1),
 #      col=gridColor, line=-1, tick=FALSE, col.axis=colorBefore, cex.axis=1.5)
 # axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
 #      col=gridColor, line=-1, tick=FALSE, col.axis=colorAfter, cex.axis=1.5)
-# axis(2, at=yAxisTicks, col=labelColor, col.axis=labelColor, line=-0, tick=T, cex.axis=1.5)
+# axis(2, at=yAxisTicks, col=label_color, col.axis=label_color, line=-0, tick=T, cex.axis=1.5)
 # mtext("General Fertility Rate", side=2,line=2.5, cex=1.25)
 #
 #
-# #  axis(1, at=seq(from=6, to=(monthCount), by=6), labels=rep(c("(Jun)", "(Dec)"), 5), col.axis=labelColor, line=0, tick=FALSE, lty=0, cex.axis=.7)
+# #  axis(1, at=seq(from=6, to=(monthCount), by=6), labels=rep(c("(Jun)", "(Dec)"), 5), col.axis=label_color, line=0, tick=FALSE, lty=0, cex.axis=.7)
 #
 #
 # linearVerticesXPre <- rep(NA,changePoint)
@@ -322,7 +322,7 @@ upViewport(n=3)
 #     ds[monthID, 'MonthIndex'] <- monthIndex
 #     degrees <- monthIndex * (360 / monthsPerYear)
 #     ds[monthID, 'Radians'] <- degrees / 180 * pi
-#     ds[monthID, 'BirthRate'] <- ds_linear$BirthRate[monthID] - graphFloor
+#     ds[monthID, 'BirthRate'] <- ds_linear$BirthRate[monthID] - graph_floor
 #   }
 # }
 # ds$X <- ds$BirthRate * sin(ds$Radians)
@@ -331,8 +331,8 @@ upViewport(n=3)
 # for( i in 2:monthCount ) {
 #   x1 <- ds[i-1, 'MonthID'] + xOffset
 #   x2 <- ds[i, 'MonthID'] + xOffset
-#   y1 <- ds[i-1, 'BirthRate'] + graphFloor
-#   y2 <- ds[i, 'BirthRate'] + graphFloor
+#   y1 <- ds[i-1, 'BirthRate'] + graph_floor
+#   y2 <- ds[i, 'BirthRate'] + graph_floor
 #   lines(x=c(x1, x2), y=c(y1, y2), col=lineColors[i], lwd=2)
 # }
 # abline(v=changePoint + xOffset, col=colorAfter)
@@ -425,10 +425,10 @@ upViewport(n=3)
 # linearVerticesXPre <- c(linearVerticesXPre, rev(linearVerticesXPre))
 # linearVerticesXPost <- c(linearVerticesXPost, rev(linearVerticesXPost))
 #
-# linearBeforeVerticesYPre <- c(linearBeforeLowerVerticesYPre, rev(linearBeforeUpperVerticesYPre))+graphFloor
-# linearAfterVerticesYPre <- c(linearAfterLowerVerticesYPre, rev(linearAfterUpperVerticesYPre))+graphFloor
-# linearBeforeVerticesYPost <- c(linearBeforeLowerVerticesYPost, rev(linearBeforeUpperVerticesYPost))+graphFloor
-# linearAfterVerticesYPost <- c(linearAfterLowerVerticesYPost, rev(linearAfterUpperVerticesYPost))+graphFloor
+# linearBeforeVerticesYPre <- c(linearBeforeLowerVerticesYPre, rev(linearBeforeUpperVerticesYPre))+graph_floor
+# linearAfterVerticesYPre <- c(linearAfterLowerVerticesYPre, rev(linearAfterUpperVerticesYPre))+graph_floor
+# linearBeforeVerticesYPost <- c(linearBeforeLowerVerticesYPost, rev(linearBeforeUpperVerticesYPost))+graph_floor
+# linearAfterVerticesYPost <- c(linearAfterLowerVerticesYPost, rev(linearAfterUpperVerticesYPost))+graph_floor
 #
 # polygon(x=linearVerticesXPre + xOffset, y=linearBeforeVerticesYPre, border=NA, col=bandColorBefore[1])
 # polygon(x=linearVerticesXPre + xOffset, y=linearAfterVerticesYPre, border=NA, col=bandColorAfter[1])

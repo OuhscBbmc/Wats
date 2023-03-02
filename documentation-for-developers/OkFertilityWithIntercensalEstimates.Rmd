@@ -180,10 +180,10 @@ Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 ```{r polar_periodic, fig.height=6.5*2/3}
 portfolioPolar <- Wats::polarize_cartesian(
   ds_linear = portfolioCartesian$ds_linear,
-  dsStageCycle = portfolioCartesian$dsStageCycle,
+  ds_stage_cycle = portfolioCartesian$ds_stage_cycle,
   y_name = "BirthRate",
   stage_id_name = "StageID",
-  plottedPointCountPerCycle = 7200
+  plotted_point_count_per_cycle = 7200
 )
 
 grid::grid.newpage()
@@ -200,10 +200,10 @@ grid::pushViewport(grid::viewport(
 grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=1))
 topLeftPanel <- Wats::polar_periodic(
   ds_linear = portfolioPolar$dsObservedPolar,
-  dsStageCyclePolar = portfolioPolar$dsStageCyclePolar,
+  ds_stage_cycle_polar = portfolioPolar$ds_stage_cycle_polar,
   y_name = "Radius",
   stage_id_name = "StageID",
-  cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
+  cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 grid::upViewport()
 
@@ -211,12 +211,12 @@ grid::upViewport()
 grid::pushViewport(grid::viewport(layout.pos.col=2, layout.pos.row=1))
 topRighttPanel <- Wats::polar_periodic(
   ds_linear = portfolioPolar$dsObservedPolar,
-  dsStageCyclePolar = portfolioPolar$dsStageCyclePolar,
+  ds_stage_cycle_polar = portfolioPolar$ds_stage_cycle_polar,
   y_name = "Radius",
   stage_id_name = "StageID",
-  drawObservedLine = FALSE,
-  cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1"),
-  originLabel = NULL
+  draw_observed_line = FALSE,
+  cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1"),
+  origin_label = NULL
 )
 grid::upViewport()
 

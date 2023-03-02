@@ -33,8 +33,8 @@ transparencyBackground <- .3
 bandColorBefore <- c(adjustcolor(colorBefore, transparencyFocus), adjustcolor(colorBefore, transparencyBackground))
 bandColorAfter <- c(adjustcolor(colorAfter, transparencyBackground), adjustcolor(colorAfter, transparencyFocus))
 
-graphCeiling <- 7
-graphFloor <- 5
+graph_ceiling <- 7
+graph_floor <- 5
 yAxisTicks <- c(5, 6, 7)
 
 lowerQuantile <- .25
@@ -98,7 +98,7 @@ dateLocations <- seq.Date(from=as.Date("1990-01-01"), to=as.Date("2000-01-01"), 
 dateColors <- c(rep(colorBefore, 6), rep(colorAfter, 5))
 dsLabelsX <- data.frame(
   X=seq.Date(from=as.Date("1990-07-01"), to=as.Date("1999-07-01"), by="year"),
-  Y=graphFloor,
+  Y=graph_floor,
   Color=c(rep(colorBefore, 6), rep(colorAfter, 4)),
   stringsAsFactors=FALSE
 )

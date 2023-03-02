@@ -6,22 +6,22 @@
 \usage{
 polarize_cartesian(
   ds_linear,
-  dsStageCycle,
+  ds_stage_cycle,
   y_name,
   stage_id_name,
   cycle_tally_name = "CycleTally",
   proportion_through_cycle_name = "ProportionThroughCycle",
   periodic_lower_name = "PositionLower",
-  periodicCenterName = "PositionCenter",
+  periodic_center_name = "PositionCenter",
   periodic_upper_name = "PositionUpper",
-  plottedPointCountPerCycle = 120,
-  graphFloor = min(base::pretty(x = ds_linear[[y_name]]))
+  plotted_point_count_per_cycle = 120,
+  graph_floor = min(base::pretty(x = ds_linear[[y_name]]))
 )
 }
 \arguments{
 \item{ds_linear}{The \link{data.frame} to containing the simple linear data.  There should be one record per observation.}
 
-\item{dsStageCycle}{The \link{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
+\item{ds_stage_cycle}{The \link{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
 
 \item{y_name}{The variable name containing the dependent/criterion variable.}
 
@@ -33,13 +33,13 @@ polarize_cartesian(
 
 \item{periodic_lower_name}{The variable name showing the lower bound of a stage's periodic estimate.}
 
-\item{periodicCenterName}{The variable name showing the center estimate of a stage's periodic estimate.}
+\item{periodic_center_name}{The variable name showing the center estimate of a stage's periodic estimate.}
 
 \item{periodic_upper_name}{The variable name showing the upper bound of a stage's periodic estimate.}
 
-\item{plottedPointCountPerCycle}{The number of points that are plotted per cycle.  If the polar graph has 'sharp corners', then increase this value.}
+\item{plotted_point_count_per_cycle}{The number of points that are plotted per cycle.  If the polar graph has 'sharp corners', then increase this value.}
 
-\item{graphFloor}{The value of the criterion/dependent variable at the center of the polar plot.}
+\item{graph_floor}{The value of the criterion/dependent variable at the center of the polar plot.}
 }
 \value{
 Returns a \link{data.frame}.
@@ -67,13 +67,13 @@ rm(ds_linear)
 
 polarized <- polarize_cartesian(
   ds_linear = portfolio$ds_linear,
-  dsStageCycle = portfolio$dsStageCycle,
+  ds_stage_cycle = portfolio$ds_stage_cycle,
   y_name = "BirthRate",
   stage_id_name = "StageID"
 )
 
 library(ggplot2)
-polarized$dsStageCyclePolar |>
+polarized$ds_stage_cycle_polar |>
   ggplot(aes(color=factor(StageID))) +
   geom_path(aes(x=PolarLowerX, y=PolarLowerY), linetype=2) +
   geom_path(aes(x=PolarCenterX, y=PolarCenterY), linewidth=2) +

@@ -34,7 +34,7 @@ GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spread_fu
   ds_linear <- county_month_birth_rate_2005_version[county_month_birth_rate_2005_version$CountyName==countyName, ]
   ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
   portfolioCartesian <- annotate_data(ds_linear, dv_name="BirthRate", center_function=median, spread_function=spread_function)
-  portfolioPolar <- polarize_cartesian(ds_linear=portfolioCartesian$ds_linear, dsStageCycle=portfolioCartesian$dsStageCycle, y_name="BirthRate", stage_id_name="StageID", plottedPointCountPerCycle=7200)
+  portfolioPolar <- polarize_cartesian(ds_linear=portfolioCartesian$ds_linear, ds_stage_cycle=portfolioCartesian$ds_stage_cycle, y_name="BirthRate", stage_id_name="StageID", plotted_point_count_per_cycle=7200)
   cartesian_periodic <- cartesian_periodic(portfolioCartesian$ds_linear, portfolioCartesian$ds_periodic, x_name="Date", y_name="BirthRate", stage_id_name="StageID", change_points=changeMonth, change_point_labels=""  )
 
   pushViewport(viewport(
@@ -48,7 +48,7 @@ GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spread_fu
 
   pushViewport(viewport(layout.pos.col=2))
 #   grid.rect()
-  polar_periodic <- polar_periodic(ds_linear=portfolioPolar$dsObservedPolar, dsStageCyclePolar=portfolioPolar$dsStageCyclePolar, drawObservedLine=FALSE, y_name="Radius", stage_id_name="StageID", originLabel=NULL)
+  polar_periodic <- polar_periodic(ds_linear=portfolioPolar$dsObservedPolar, ds_stage_cycle_polar=portfolioPolar$ds_stage_cycle_polar, draw_observed_line=FALSE, y_name="Radius", stage_id_name="StageID", origin_label=NULL)
   popViewport()
 
   pushViewport(viewport(layout.pos.col=3))

@@ -59,7 +59,7 @@ portfolio <- annotate_data(
   spread_function = hSpread
 )
 
-head(portfolio$dsStageCycle)
+head(portfolio$ds_stage_cycle)
 head(portfolio$ds_linear)
 head(portfolio$ds_periodic)
 }

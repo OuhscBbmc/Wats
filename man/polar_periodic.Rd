@@ -6,7 +6,7 @@
 \usage{
 polar_periodic(
   ds_linear,
-  dsStageCyclePolar,
+  ds_stage_cycle_polar,
   x_name,
   y_name,
   stage_id_name,
@@ -16,32 +16,32 @@ polar_periodic(
   palette_light = NULL,
   change_points = NULL,
   change_point_labels = NULL,
-  drawObservedLine = TRUE,
+  draw_observed_line = TRUE,
   draw_periodic_band = TRUE,
-  drawStageLabels = FALSE,
-  drawRadiusLabels = FALSE,
+  draw_stage_labels = FALSE,
+  draw_radius_labels = FALSE,
   jagged_point_size = 2,
   jagged_line_size = 1,
   band_alpha_dark = 0.4,
   band_alpha_light = 0.15,
-  colorLabels = "gray50",
-  colorGridlines = "gray80",
-  labelColor = "orange3",
+  color_labels = "gray50",
+  color_gridlines = "gray80",
+  label_color = "orange3",
   change_line_alpha = 0.5,
   change_line_size = 3,
-  tickLocations = base::pretty(x = ds_linear[[y_name]]),
-  graphFloor = min(tickLocations),
-  graphCeiling = max(tickLocations),
-  cardinalLabels = NULL,
-  originLabel = paste0("The origin represents ", graphFloor,
-    ";\\nthe perimeter represents ", graphCeiling, "."),
-  plotMargins = c(3.5, 2, 0.5, 2)
+  tick_locations = base::pretty(x = ds_linear[[y_name]]),
+  graph_floor = min(tick_locations),
+  graph_ceiling = max(tick_locations),
+  cardinal_labels = NULL,
+  origin_label = paste0("The origin represents ", graph_floor,
+    ";\\nthe perimeter represents ", graph_ceiling, "."),
+  plot_margins = c(3.5, 2, 0.5, 2)
 )
 }
 \arguments{
 \item{ds_linear}{The \link{data.frame} to containing the simple linear data.  There should be one record per observation.}
 
-\item{dsStageCyclePolar}{The \link{data.frame} to containing the bands for a single period.  There should be one record per theta per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
+\item{ds_stage_cycle_polar}{The \link{data.frame} to containing the bands for a single period.  There should be one record per theta per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
 
 \item{x_name}{The variable name containing the date.}
 
@@ -61,13 +61,13 @@ polar_periodic(
 
 \item{change_point_labels}{The text plotted above each interruption.}
 
-\item{drawObservedLine}{A boolean value indicating if the longitudinal observed line should be plotted (whose values are take from \code{ds_linear}).}
+\item{draw_observed_line}{A boolean value indicating if the longitudinal observed line should be plotted (whose values are take from \code{ds_linear}).}
 
 \item{draw_periodic_band}{A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodic_lower_name} and \code{periodic_upper_name} fields).}
 
-\item{drawStageLabels}{A boolean value indicating if the stage labels should be plotted (whose values are take from \code{ds_linear}).}
+\item{draw_stage_labels}{A boolean value indicating if the stage labels should be plotted (whose values are take from \code{ds_linear}).}
 
-\item{drawRadiusLabels}{A boolean value indicating if the gridline/radius labels should be plotted (whose values are take from \code{tickLocations}).}
+\item{draw_radius_labels}{A boolean value indicating if the gridline/radius labels should be plotted (whose values are take from \code{tick_locations}).}
 
 \item{jagged_point_size}{The size of the observed data points.}
 
@@ -77,27 +77,27 @@ polar_periodic(
 
 \item{band_alpha_light}{The amount of transparency of the band comparison stages for a given \emph{x} value.}
 
-\item{colorLabels}{The color for \code{cardinalLabels} and \code{originLabel}.}
+\item{color_labels}{The color for \code{cardinal_labels} and \code{origin_label}.}
 
-\item{colorGridlines}{The color for the gridlines.}
+\item{color_gridlines}{The color for the gridlines.}
 
-\item{labelColor}{The color of the text labels imposed on the line.}
+\item{label_color}{The color of the text labels imposed on the line.}
 
 \item{change_line_alpha}{The amount of transparency marking each interruption.}
 
 \item{change_line_size}{The width of a line marking an interruption.}
 
-\item{tickLocations}{The desired locations for ticks showing the value of the criterion/dependent variable.}
+\item{tick_locations}{The desired locations for ticks showing the value of the criterion/dependent variable.}
 
-\item{graphFloor}{The value of the criterion/dependent variable at the center of the polar plot.}
+\item{graph_floor}{The value of the criterion/dependent variable at the center of the polar plot.}
 
-\item{graphCeiling}{The value of the criterion/dependent variable at the outside of the polar plot.}
+\item{graph_ceiling}{The value of the criterion/dependent variable at the outside of the polar plot.}
 
-\item{cardinalLabels}{The four labels placed  where \verb{North', }East', \verb{South', and }West' typically are.}
+\item{cardinal_labels}{The four labels placed  where \verb{North', }East', \verb{South', and }West' typically are.}
 
-\item{originLabel}{Explains what the criterion variable's value is at the origin.  Use \code{NULL} if no explanation is desired.}
+\item{origin_label}{Explains what the criterion variable's value is at the origin.  Use \code{NULL} if no explanation is desired.}
 
-\item{plotMargins}{A vector of four \code{numeric} values, specifying the number of lines in the bottom, left, top and right margins.}
+\item{plot_margins}{A vector of four \code{numeric} values, specifying the number of lines in the bottom, left, top and right margins.}
 }
 \value{
 Returns a grid graphical object (ie, a \code{\link[grid:grid.grob]{grid::grob()}}.)
@@ -123,7 +123,7 @@ rm(ds_linear)
 
 polarized <- polarize_cartesian(
   portfolio$ds_linear,
-  portfolio$dsStageCycle,
+  portfolio$ds_stage_cycle,
   y_name = "BirthRate",
   stage_id_name = "StageID"
 )
@@ -131,16 +131,16 @@ polarized <- polarize_cartesian(
 grid.newpage()
 polar_periodic(
   ds_linear = polarized$dsObservedPolar,
-  dsStageCyclePolar = polarized$dsStageCyclePolar,
+  ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
   y_name = "Radius",
   stage_id_name = "StageID",
-  cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
+  cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 
 grid.newpage()
 polar_periodic(
   ds_linear = polarized$dsObservedPolar,
-  dsStageCyclePolar = polarized$dsStageCyclePolar,
+  ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
   y_name = "Radius",
   stage_id_name = "StageID",
   draw_periodic_band = FALSE
@@ -149,11 +149,11 @@ polar_periodic(
 grid.newpage()
 polar_periodic(
   ds_linear = polarized$dsObservedPolar,
-  dsStageCyclePolar = polarized$dsStageCyclePolar,
+  ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
   y_name = "Radius",
   stage_id_name = "StageID",
-  drawObservedLine = FALSE,
-  cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
+  draw_observed_line = FALSE,
+  cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 }
 \keyword{polar}

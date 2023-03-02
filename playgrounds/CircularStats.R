@@ -25,7 +25,7 @@ bootSpread <- function( scores, conf=.68 ) {
 #                                    spread_function=bootSpread)
 #                                    #spread_function=seSpread)
 #
-# portfolioPolar <- polarize_cartesian(portfolioCartesian$ds_linear, portfolioCartesian$dsStageCycle, y_name="BirthRate", stage_id_name="StageID", plottedPointCountPerCycle=7200)
+# portfolioPolar <- polarize_cartesian(portfolioCartesian$ds_linear, portfolioCartesian$ds_stage_cycle, y_name="BirthRate", stage_id_name="StageID", plotted_point_count_per_cycle=7200)
 
 
 tsData <- stats::ts(

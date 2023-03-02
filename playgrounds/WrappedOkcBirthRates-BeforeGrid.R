@@ -77,24 +77,24 @@ bandColorBefore <- c(FadeColor(colorBefore, transparencyFocus), FadeColor(colorB
 bandColorAfter <- c(FadeColor(colorAfter, transparencyBackground), FadeColor(colorAfter, transparencyFocus))
 
 gridColor <- gray(.9)
-labelColor <- gray(.7)
+label_color <- gray(.7)
 polarGridLty <- 3
 interpolationPoints <- 5
 interpolatedCount <- (monthCount - 1) * interpolationPoints + monthCount
 #For Okc
-graphCeiling <- 7
-graphFloor <- 5
+graph_ceiling <- 7
+graph_floor <- 5
 yAxisTicks <- c(5, 6, 7)
 ##For Rogers
-#graphCeiling <- 7.2
-#graphFloor <- 3.5
+#graph_ceiling <- 7.2
+#graph_floor <- 3.5
 #yAxisTicks <- c(4, 5, 6, 7)
 ##For Tulsa
-#graphCeiling <- 7
-#graphFloor <- 4.5
+#graph_ceiling <- 7
+#graph_floor <- 4.5
 #yAxisTicks <- c(5, 6, 7)
 
-graphHeight <- graphCeiling - graphFloor
+graphHeight <- graph_ceiling - graph_floor
 xOffset <- -.5 #So the points are plotted in the middle of the month.
 
 lowerQuantile <- .25
@@ -114,7 +114,7 @@ for( yearIndex in 1:yearCount ) {
     ds[monthID, 'MonthIndex'] <- monthIndex
     degrees <- monthIndex * (360 / monthsPerYear)
     ds[monthID, 'Radians'] <- degrees / 180 * pi
-    ds[monthID, 'BirthRate'] <- dsOkc$BirthRate[monthID] - graphFloor
+    ds[monthID, 'BirthRate'] <- dsOkc$BirthRate[monthID] - graph_floor
   }
 }
 ds$X <- ds$BirthRate * sin(ds$Radians)
@@ -193,10 +193,10 @@ PlotPolar <- function( drawLines ) {
 #    main=substitute(list(beta[Season]==slopeSeasonal, beta[Duration]==slopeDuration, paste(italic(e), "~", italic(N)(0, sigma))),
     #main=substitute(list(beta[Season]==over(1,slopeSeasonalInv), beta[Duration]==over(1,slopeDurationInv), paste(italic(e), "~", italic(N)(0, over(1,sigmaInv)))),
 #      list(slopeSeasonalInv=1/slopeSeasonal, slopeDurationInv=1/slopeDuration,sigmaInv=1/sigma))
-  if( drawLines ) mtext(paste("A point at the origin represents a GFR of", graphFloor), side=1, col=labelColor, cex=1.2)
+  if( drawLines ) mtext(paste("A point at the origin represents a GFR of", graph_floor), side=1, col=label_color, cex=1.2)
   abline(v=0, col=gridColor, lty=polarGridLty)
   abline(h=0, col=gridColor, lty=polarGridLty)
-  text(c("Dec","Mar","June","Sept"), x=c(0, graphHeight, 0, -graphHeight), y=c(graphHeight, 0, -graphHeight, 0), xpd=T, col=labelColor, cex=1.5)
+  text(c("Dec","Mar","June","Sept"), x=c(0, graphHeight, 0, -graphHeight), y=c(graphHeight, 0, -graphHeight, 0), xpd=T, col=label_color, cex=1.5)
   circle(radius=seq(from=0, to=graphHeight, by=graphHeight/3), color=gridColor)
 
   for( i in 2:interpolatedCount ) {
@@ -223,28 +223,28 @@ PlotPolar(drawLines=FALSE)
 
 # par(pty="m",  mar=c(.8, 4, 1, 1) + 0.1) #When it's plotted by itself
 par(pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars
-plot(NA, xlim=c(0, monthCount), ylim=c(graphFloor, graphCeiling), type="n", xaxt="n", xaxs="i", yaxt="n", yaxs="i", bty="n",
+plot(NA, xlim=c(0, monthCount), ylim=c(graph_floor, graph_ceiling), type="n", xaxt="n", xaxs="i", yaxt="n", yaxs="i", bty="n",
  #  ylab="General Fertility Rate", xlab="",#xlab="Time",
   ylab="", xlab="",#xlab="Time",
   sub=paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the before and after periods)"),
-  col.sub=labelColor, cex.lab=1.2)
+  col.sub=label_color, cex.lab=1.2)
 
   axis(1, at=seq(from=0, to=changePoint-monthsPerYear, by=12)+6, labels=seq(from=firstYear, to=firstYear+5, by=1),
     col=gridColor, line=-1, tick=FALSE, col.axis=colorBefore, cex.axis=1.5)
   axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
     col=gridColor, line=-1, tick=FALSE, col.axis=colorAfter, cex.axis=1.5)
-  axis(2, at=yAxisTicks, col=labelColor, col.axis=labelColor, line=-0, tick=T, cex.axis=1.5)
+  axis(2, at=yAxisTicks, col=label_color, col.axis=label_color, line=-0, tick=T, cex.axis=1.5)
   mtext("General Fertility Rate", side=2,line=2.5, cex=1.25)
 
 
-#  axis(1, at=seq(from=6, to=(monthCount), by=6), labels=rep(c("(Jun)", "(Dec)"), 5), col.axis=labelColor, line=0, tick=FALSE, lty=0, cex.axis=.7)
+#  axis(1, at=seq(from=6, to=(monthCount), by=6), labels=rep(c("(Jun)", "(Dec)"), 5), col.axis=label_color, line=0, tick=FALSE, lty=0, cex.axis=.7)
 
   abline(v=seq(from=monthsPerYear, to=monthCount, by=monthsPerYear), col=gridColor, lty=2)
   for( i in 2:monthCount ) {
     x1 <- ds[i-1, 'MonthID'] + xOffset
     x2 <- ds[i, 'MonthID'] + xOffset
-    y1 <- ds[i-1, 'BirthRate'] + graphFloor
-    y2 <- ds[i, 'BirthRate'] + graphFloor
+    y1 <- ds[i-1, 'BirthRate'] + graph_floor
+    y2 <- ds[i, 'BirthRate'] + graph_floor
     lines(x=c(x1, x2), y=c(y1, y2), col=lineColors[i], lwd=2)
   }
   abline(v=changePoint + xOffset, col=colorAfter)
@@ -286,10 +286,10 @@ for( monthID in (changePoint+1):monthCount ) {
 linearVerticesXPre <- c(linearVerticesXPre, rev(linearVerticesXPre))
 linearVerticesXPost <- c(linearVerticesXPost, rev(linearVerticesXPost))
 
-linearBeforeVerticesYPre <- c(linearBeforeLowerVerticesYPre, rev(linearBeforeUpperVerticesYPre))+graphFloor
-linearAfterVerticesYPre <- c(linearAfterLowerVerticesYPre, rev(linearAfterUpperVerticesYPre))+graphFloor
-linearBeforeVerticesYPost <- c(linearBeforeLowerVerticesYPost, rev(linearBeforeUpperVerticesYPost))+graphFloor
-linearAfterVerticesYPost <- c(linearAfterLowerVerticesYPost, rev(linearAfterUpperVerticesYPost))+graphFloor
+linearBeforeVerticesYPre <- c(linearBeforeLowerVerticesYPre, rev(linearBeforeUpperVerticesYPre))+graph_floor
+linearAfterVerticesYPre <- c(linearAfterLowerVerticesYPre, rev(linearAfterUpperVerticesYPre))+graph_floor
+linearBeforeVerticesYPost <- c(linearBeforeLowerVerticesYPost, rev(linearBeforeUpperVerticesYPost))+graph_floor
+linearAfterVerticesYPost <- c(linearAfterLowerVerticesYPost, rev(linearAfterUpperVerticesYPost))+graph_floor
 
 polygon(x=linearVerticesXPre + xOffset, y=linearBeforeVerticesYPre, border=NA, col=bandColorBefore[1])
 polygon(x=linearVerticesXPre + xOffset, y=linearAfterVerticesYPre, border=NA, col=bandColorAfter[1])
@@ -336,14 +336,14 @@ PlotLinear <- function( displayMovingAverage=TRUE, displayMovingAverageBands=TRU
   else
     subTitle <- ""
 
-  plot(c(0,0), xlim=c(0, monthCount), ylim=c(graphFloor, graphCeiling), type="n", xaxt="n", xaxs="i", yaxt="n", yaxs="i", bty="n",
-    ylab="", sub=subTitle, col.sub=labelColor, xlab="",#xlab="Time",
+  plot(c(0,0), xlim=c(0, monthCount), ylim=c(graph_floor, graph_ceiling), type="n", xaxt="n", xaxs="i", yaxt="n", yaxs="i", bty="n",
+    ylab="", sub=subTitle, col.sub=label_color, xlab="",#xlab="Time",
        cex.lab=2, cex.sub=1.5)
   axis(1, at=seq(from=0, to=changePoint-monthsPerYear, by=12)+6, labels=seq(from=firstYear, to=firstYear+5, by=1),
     col=gridColor, line=-1, tick=FALSE, col.axis=colorBefore, cex.axis=1.5)
   axis(1, at=seq(from=changePoint+1, to=monthCount, by=12)+(6-changePoint%%monthsPerYear), labels=seq(from=firstYear+6, to=firstYear+yearCount - 1, by=1),
     col=gridColor, line=-1, tick=FALSE, col.axis=colorAfter, cex.axis=1.5)
-  axis(2, at=yAxisTicks, col=labelColor, col.axis=labelColor, line=-0, tick=T, cex.axis=1.5)
+  axis(2, at=yAxisTicks, col=label_color, col.axis=label_color, line=-0, tick=T, cex.axis=1.5)
   mtext("General Fertility Rate", side=2,line=2.5, cex=1)
 
   abline(v=seq(from=monthsPerYear, to=monthCount, by=monthsPerYear), col=gridColor, lty=2)
@@ -351,8 +351,8 @@ PlotLinear <- function( displayMovingAverage=TRUE, displayMovingAverageBands=TRU
     for( i in 2:monthCount ) {
       x1 <- dsMoving[i-1, 'MonthID'] + xOffset
       x2 <- dsMoving[i, 'MonthID'] + xOffset
-      y1 <- dsMoving[i-1, 'BirthRate'] + graphFloor
-      y2 <- dsMoving[i, 'BirthRate'] + graphFloor
+      y1 <- dsMoving[i-1, 'BirthRate'] + graph_floor
+      y2 <- dsMoving[i, 'BirthRate'] + graph_floor
       lines(x=c(x1, x2), y=c(y1, y2), col=lineColors[i], lwd=2)
     }
   }
@@ -360,13 +360,13 @@ PlotLinear <- function( displayMovingAverage=TRUE, displayMovingAverageBands=TRU
     for( i in 2:monthCount ) {
       x1 <- ds[i-1, 'MonthID'] + xOffset
       x2 <- ds[i, 'MonthID'] + xOffset
-      y1 <- ds[i-1, 'BirthRate'] + graphFloor
-      y2 <- ds[i, 'BirthRate'] + graphFloor
+      y1 <- ds[i-1, 'BirthRate'] + graph_floor
+      y2 <- ds[i, 'BirthRate'] + graph_floor
       lines(x=c(x1, x2), y=c(y1, y2), col=lineColors[i], lwd=2)
     }
   }
 
-  points(x=ds$MonthID + xOffset, y=ds$BirthRate+ graphFloor, col=lineColors, cex=1, xpd=NA)
+  points(x=ds$MonthID + xOffset, y=ds$BirthRate+ graph_floor, col=lineColors, cex=1, xpd=NA)
   abline(v=changePoint + xOffset, col=colorAfter)
   mtext("Bombing Effect", side=3, at=changePoint + xOffset, col=colorAfter, cex=.8)
   if( displayMovingAverageBands ) {
@@ -391,8 +391,8 @@ PlotLinear <- function( displayMovingAverage=TRUE, displayMovingAverageBands=TRU
     linearVerticesXPre <- c(linearVerticesXPre, rev(linearVerticesXPre))
     linearVerticesXPost <- c(linearVerticesXPost, rev(linearVerticesXPost))
 
-    linearBeforeVerticesY <- c(linearBeforeLowerVerticesY, rev(linearBeforeUpperVerticesY))+graphFloor
-    linearAfterVerticesY <- c(linearAfterLowerVerticesY, rev(linearAfterUpperVerticesY))+graphFloor
+    linearBeforeVerticesY <- c(linearBeforeLowerVerticesY, rev(linearBeforeUpperVerticesY))+graph_floor
+    linearAfterVerticesY <- c(linearAfterLowerVerticesY, rev(linearAfterUpperVerticesY))+graph_floor
 
     polygon(x=linearVerticesXPre + xOffset, y=linearBeforeVerticesY, border=NA, col=bandColorBefore[1])
     polygon(x=linearVerticesXPost + xOffset, y=linearAfterVerticesY, border=NA, col=bandColorAfter[2])
@@ -401,8 +401,8 @@ PlotLinear <- function( displayMovingAverage=TRUE, displayMovingAverageBands=TRU
 #   colorTrendLine <- "springgreen3"
 #  colorTrendLine <- "purple"
 
-  lines(x=dsAnnualAverage$MonthID + xOffset, y=dsAnnualAverage$BirthRate+ graphFloor, col=colorTrendLine)
-  points(x=dsAnnualAverage$MonthID + xOffset, y=dsAnnualAverage$BirthRate+ graphFloor, col=colorTrendLine, pch=3)
+  lines(x=dsAnnualAverage$MonthID + xOffset, y=dsAnnualAverage$BirthRate+ graph_floor, col=colorTrendLine)
+  points(x=dsAnnualAverage$MonthID + xOffset, y=dsAnnualAverage$BirthRate+ graph_floor, col=colorTrendLine, pch=3)
 }
 # pdf(file=file.path(pathDirectoryOutput, "Figure2.pdf"), width=deviceWidth, height=height)
 # png(file=file.path(pathDirectoryOutput, "Figure2.png"), width=deviceWidth, height=height, units="in", res=1200)

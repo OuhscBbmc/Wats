@@ -13,7 +13,7 @@ test_that("AnnotateDataWithMonthResolution-Median", {
   }
   portfolio <- annotate_data(ds_linear, dv_name="BirthRate", center_function=median, spread_function=hSpread)
 
-  #   head(portfolio$dsStageCycle); dput(portfolio$dsStageCycle)
+  #   head(portfolio$ds_stage_cycle); dput(portfolio$ds_stage_cycle)
   #   head(portfolio$ds_linear); dput(head(portfolio$ds_linear))
   #   head(portfolio$ds_periodic); dput(head(portfolio$ds_periodic))
 
@@ -88,11 +88,11 @@ test_that("AnnotateDataWithMonthResolution-Median", {
     "PositionUpper"), row.names = c(1L, 2L, 21L, 22L, 43L, 44L), class = "data.frame"
   )
 
-  expect_equal(dim(portfolio$dsStageCycle), expected=c(24, 6), label="The dimensions of dsStageCycle should be correct.")
+  expect_equal(dim(portfolio$ds_stage_cycle), expected=c(24, 6), label="The dimensions of ds_stage_cycle should be correct.")
   expect_equal(dim(portfolio$ds_linear), expected=c(120, 21), label="The dimensions of ds_linear should be correct.")
   expect_equal(dim(portfolio$ds_periodic), expected=c(240, 9), label="The dimensions of ds_periodic should be correct.")
 
-  expect_equal(portfolio$dsStageCycle, expected=expectedStageCycle, ignore_attr = TRUE)
+  expect_equal(portfolio$ds_stage_cycle, expected=expectedStageCycle, ignore_attr = TRUE)
   expect_equal(head(portfolio$ds_linear), expected=expectedLinearHead, ignore_attr = TRUE)
   #expect_equal(head(portfolio$ds_periodic), expected=expectedPeriodicHead, ignore_attr = TRUE)
   portfolio$ds_periodic |>
@@ -113,7 +113,7 @@ test_that("AnnotateDataWithMonthResolution-Median", {
   }
   portfolio <- annotate_data(ds_linear, dv_name="BirthRate", center_function=mean, spread_function=hSpread)
 
-  #   head(portfolio$dsStageCycle); dput(portfolio$dsStageCycle)
+  #   head(portfolio$ds_stage_cycle); dput(portfolio$ds_stage_cycle)
   #   head(portfolio$ds_linear); dput(head(portfolio$ds_linear))
   #   head(portfolio$ds_periodic); dput(head(portfolio$ds_periodic))
 
@@ -189,11 +189,11 @@ test_that("AnnotateDataWithMonthResolution-Median", {
     "StageIDBand", "ProportionThroughCycle", "PositionLower", "PositionCenter",
     "PositionUpper"), row.names = c(1L, 2L, 21L, 22L, 43L, 44L), class = "data.frame"
   )
-  expect_equal(dim(portfolio$dsStageCycle), expected=c(24, 6), label="The dimensions of dsStageCycle should be correct.")
+  expect_equal(dim(portfolio$ds_stage_cycle), expected=c(24, 6), label="The dimensions of ds_stage_cycle should be correct.")
   expect_equal(dim(portfolio$ds_linear), expected=c(120, 21), label="The dimensions of ds_linear should be correct.")
   expect_equal(dim(portfolio$ds_periodic), expected=c(240, 9), label="The dimensions of ds_periodic should be correct.")
 
-  expect_equal(portfolio$dsStageCycle, expected=expectedStageCycle, ignore_attr = TRUE)
+  expect_equal(portfolio$ds_stage_cycle, expected=expectedStageCycle, ignore_attr = TRUE)
   expect_equal(head(portfolio$ds_linear), expected=expectedLinearHead, ignore_attr = TRUE)
   # expect_equal(head(portfolio$ds_periodic), expected=expectedPeriodicHead, ignore_attr = TRUE)
   portfolio$ds_periodic |>

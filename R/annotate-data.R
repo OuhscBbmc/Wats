@@ -30,7 +30,7 @@
 #'   spread_function = hSpread
 #' )
 #'
-#' head(portfolio$dsStageCycle)
+#' head(portfolio$ds_stage_cycle)
 #' head(portfolio$ds_linear)
 #' head(portfolio$ds_periodic)
 
@@ -69,9 +69,9 @@ annotate_data <- function( ds_linear,
   #     PositionUpper = positionBounds[2]
   #   )
   # }
-  # dsStageCycle2 <- plyr::ddply(ds_linear, .variables=c(stage_id_name, proportion_id_name), .fun=summarizeStageCycle)
+  # ds_stage_cycle2 <- plyr::ddply(ds_linear, .variables=c(stage_id_name, proportion_id_name), .fun=summarizeStageCycle)
 
-  dsStageCycle <-
+  ds_stage_cycle <-
     ds_linear |>
     dplyr::group_by(!! rlang::ensym(stage_id_name), !! rlang::ensym(proportion_id_name)) |>
     dplyr::summarize(
@@ -85,18 +85,18 @@ annotate_data <- function( ds_linear,
   dsLinearTemp <- ds_linear[, c("Date", stage_id_name, proportion_id_name, stage_progress_name)]
   colnames(dsLinearTemp)[colnames(dsLinearTemp)==stage_id_name] <- "StageIDTime" #Make sure `StageIDTime` matches the two calls below.
 
-  dsStageCycleTemp <- dsStageCycle
-  colnames(dsStageCycleTemp)[colnames(dsStageCycleTemp)==stage_id_name] <- "StageIDBand" #Make sure `StageIDBand` matches the calls below.
+  ds_stage_cycleTemp <- ds_stage_cycle
+  colnames(ds_stage_cycleTemp)[colnames(ds_stage_cycleTemp)==stage_id_name] <- "StageIDBand" #Make sure `StageIDBand` matches the calls below.
 
-  # dsPeriodic2 <- merge(x=dsLinearTemp, y=dsStageCycleTemp, by=c(proportion_id_name), all.x=TRUE, all.y=TRUE)
+  # dsPeriodic2 <- merge(x=dsLinearTemp, y=ds_stage_cycleTemp, by=c(proportion_id_name), all.x=TRUE, all.y=TRUE)
   ds_periodic <-
     dsLinearTemp |>
-    dplyr::left_join(dsStageCycleTemp, by=proportion_id_name, multiple = "all") |>
+    dplyr::left_join(ds_stage_cycleTemp, by=proportion_id_name, multiple = "all") |>
     dplyr::arrange(.data$Date, .data$StageIDTime, .data$StageIDBand)
 
   # ds_periodic <- ds_periodic[order(ds_periodic$Date, ds_periodic$StageIDTime, ds_periodic$StageIDBand), ]
 
-  return( list(ds_linear=ds_linear, dsStageCycle=dsStageCycle, ds_periodic=ds_periodic) )
+  return( list(ds_linear=ds_linear, ds_stage_cycle=ds_stage_cycle, ds_periodic=ds_periodic) )
 }
 
 # library(Wats)
@@ -107,12 +107,12 @@ annotate_data <- function( ds_linear,
 # hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 # portfolio <- annotate_data(ds_linear, dv_name="BirthRate", center_function=median, spread_function=hSpread)
 #
-# head(portfolio$dsStageCycle)
+# head(portfolio$ds_stage_cycle)
 # head(portfolio$ds_linear)
 # head(portfolio$ds_periodic)
 #
 # portfolio <- annotate_data(ds_linear, dv_name="BirthRate", center_function=mean, spread_function=hSpread)
 #
-# head(portfolio$dsStageCycle)
+# head(portfolio$ds_stage_cycle)
 # head(portfolio$ds_linear)
 # head(portfolio$ds_periodic)

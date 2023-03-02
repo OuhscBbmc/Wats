@@ -219,24 +219,24 @@ print(cartesian_periodic)
 Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
 ```{r Figure5, fig.height=3, fig.width=3, out.width="300px"}
-portfolioPolar <- Wats::polarize_cartesian(
+portfolioPolar <- polarize_cartesian(
   ds_linear = portfolioCartesian$ds_linear,
-  dsStageCycle = portfolioCartesian$dsStageCycle,
+  ds_stage_cycle = portfolioCartesian$ds_stage_cycle,
   y_name = "BirthRate",
   stage_id_name = "StageID",
-  plottedPointCountPerCycle = 7200
+  plotted_point_count_per_cycle = 7200
 )
 
 grid::grid.newpage()
-Wats::polar_periodic(
+polar_periodic(
   ds_linear = portfolioPolar$dsObservedPolar,
-  dsStageCycle = portfolioPolar$dsStageCyclePolar,
+  ds_stage_cycle = portfolioPolar$ds_stage_cycle_polar,
   y_name = "Radius",
   stage_id_name = "StageID",
   draw_periodic_band = FALSE,
-  drawStageLabels = TRUE,
-  drawRadiusLabels = TRUE,
-  cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
+  draw_stage_labels = TRUE,
+  draw_radius_labels = TRUE,
+  cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 ```
 
@@ -246,10 +246,10 @@ Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 ```{r Figure6, fig.height=6.5*2/3}
 portfolioPolar <- Wats::polarize_cartesian(
   ds_linear = portfolioCartesian$ds_linear,
-  dsStageCycle = portfolioCartesian$dsStageCycle,
+  ds_stage_cycle = portfolioCartesian$ds_stage_cycle,
   y_name = "BirthRate",
   stage_id_name = "StageID",
-  plottedPointCountPerCycle = 7200
+  plotted_point_count_per_cycle = 7200
 )
 
 grid::grid.newpage()
@@ -266,10 +266,10 @@ grid::pushViewport(grid::viewport(
 grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=1))
 topLeftPanel <- Wats::polar_periodic(
   ds_linear = portfolioPolar$dsObservedPolar,
-  dsStageCyclePolar = portfolioPolar$dsStageCyclePolar,
+  ds_stage_cycle_polar = portfolioPolar$ds_stage_cycle_polar,
   y_name = "Radius",
-  stage_id_name = "StageID", #graphCeiling=7,
-  cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
+  stage_id_name = "StageID", #graph_ceiling=7,
+  cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 grid::upViewport()
 
@@ -277,12 +277,12 @@ grid::upViewport()
 grid::pushViewport(grid::viewport(layout.pos.col=2, layout.pos.row=1))
 topRightPanel <- Wats::polar_periodic(
   ds_linear = portfolioPolar$dsObservedPolar,
-  dsStageCyclePolar = portfolioPolar$dsStageCyclePolar,
+  ds_stage_cycle_polar = portfolioPolar$ds_stage_cycle_polar,
   y_name = "Radius",
-  stage_id_name = "StageID", #graphCeiling=7,
-  drawObservedLine = FALSE,
-  cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1"),
-  originLabel = NULL
+  stage_id_name = "StageID", #graph_ceiling=7,
+  draw_observed_line = FALSE,
+  cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1"),
+  origin_label = NULL
 )
 grid::upViewport()
 
@@ -311,7 +311,7 @@ GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spread_funct
   ds_linear <- dsLinearAll[dsLinearAll$CountyName==countyName, ]
   ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
   portfolioCartesian <- Wats::annotate_data(ds_linear, dv_name="BirthRate", center_function=stats::median, spread_function=spread_function)
-  portfolioPolar <- Wats::polarize_cartesian(ds_linear=portfolioCartesian$ds_linear, dsStageCycle=portfolioCartesian$dsStageCycle, y_name="BirthRate", stage_id_name="StageID", plottedPointCountPerCycle=7200)
+  portfolioPolar <- Wats::polarize_cartesian(ds_linear=portfolioCartesian$ds_linear, ds_stage_cycle=portfolioCartesian$ds_stage_cycle, y_name="BirthRate", stage_id_name="StageID", plotted_point_count_per_cycle=7200)
   cartesian_periodic <- Wats::cartesian_periodic(portfolioCartesian$ds_linear, portfolioCartesian$ds_periodic, x_name="Date", y_name="BirthRate", stage_id_name="StageID", change_points=changeMonth, change_point_labels=""  )
 
   grid::pushViewport(grid::viewport(
@@ -327,12 +327,12 @@ GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spread_funct
   polar_periodic <-
     Wats::polar_periodic(
       ds_linear            = portfolioPolar$dsObservedPolar,
-      dsStageCyclePolar   = portfolioPolar$dsStageCyclePolar,
-      drawObservedLine    = FALSE,
+      ds_stage_cycle_polar   = portfolioPolar$ds_stage_cycle_polar,
+      draw_observed_line    = FALSE,
       y_name               = "Radius",
       stage_id_name         = "StageID",
-      originLabel         = NULL,
-      plotMargins         = c(0, 0, 0, 0)
+      origin_label         = NULL,
+      plot_margins         = c(0, 0, 0, 0)
     )
   grid::popViewport()
 
