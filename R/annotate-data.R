@@ -32,7 +32,7 @@
 #'
 #' head(portfolio$dsStageCycle)
 #' head(portfolio$ds_linear)
-#' head(portfolio$dsPeriodic)
+#' head(portfolio$ds_periodic)
 
 #' @importFrom rlang .data
 annotate_data <- function( ds_linear,
@@ -89,14 +89,14 @@ annotate_data <- function( ds_linear,
   colnames(dsStageCycleTemp)[colnames(dsStageCycleTemp)==stage_id_name] <- "StageIDBand" #Make sure `StageIDBand` matches the calls below.
 
   # dsPeriodic2 <- merge(x=dsLinearTemp, y=dsStageCycleTemp, by=c(proportion_id_name), all.x=TRUE, all.y=TRUE)
-  dsPeriodic <-
+  ds_periodic <-
     dsLinearTemp |>
     dplyr::left_join(dsStageCycleTemp, by=proportion_id_name, multiple = "all") |>
     dplyr::arrange(.data$Date, .data$StageIDTime, .data$StageIDBand)
 
-  # dsPeriodic <- dsPeriodic[order(dsPeriodic$Date, dsPeriodic$StageIDTime, dsPeriodic$StageIDBand), ]
+  # ds_periodic <- ds_periodic[order(ds_periodic$Date, ds_periodic$StageIDTime, ds_periodic$StageIDBand), ]
 
-  return( list(ds_linear=ds_linear, dsStageCycle=dsStageCycle, dsPeriodic=dsPeriodic) )
+  return( list(ds_linear=ds_linear, dsStageCycle=dsStageCycle, ds_periodic=ds_periodic) )
 }
 
 # library(Wats)
@@ -109,10 +109,10 @@ annotate_data <- function( ds_linear,
 #
 # head(portfolio$dsStageCycle)
 # head(portfolio$ds_linear)
-# head(portfolio$dsPeriodic)
+# head(portfolio$ds_periodic)
 #
 # portfolio <- annotate_data(ds_linear, dv_name="BirthRate", center_function=mean, spread_function=hSpread)
 #
 # head(portfolio$dsStageCycle)
 # head(portfolio$ds_linear)
-# head(portfolio$dsPeriodic)
+# head(portfolio$ds_periodic)

@@ -7,29 +7,29 @@
 polar_periodic(
   ds_linear,
   dsStageCyclePolar,
-  xName,
-  yName,
+  x_name,
+  y_name,
   stage_id_name,
-  periodicLowerName = "PositionLower",
-  periodicUpperName = "PositionUpper",
-  paletteDark = NULL,
-  paletteLight = NULL,
-  changePoints = NULL,
-  changePointLabels = NULL,
+  periodic_lower_name = "PositionLower",
+  periodic_upper_name = "PositionUpper",
+  palette_dark = NULL,
+  palette_light = NULL,
+  change_points = NULL,
+  change_point_labels = NULL,
   drawObservedLine = TRUE,
-  drawPeriodicBand = TRUE,
+  draw_periodic_band = TRUE,
   drawStageLabels = FALSE,
   drawRadiusLabels = FALSE,
-  jaggedPointSize = 2,
-  jaggedLineSize = 1,
-  bandAlphaDark = 0.4,
-  bandAlphaLight = 0.15,
+  jagged_point_size = 2,
+  jagged_line_size = 1,
+  band_alpha_dark = 0.4,
+  band_alpha_light = 0.15,
   colorLabels = "gray50",
   colorGridlines = "gray80",
   labelColor = "orange3",
-  changeLineAlpha = 0.5,
-  changeLineSize = 3,
-  tickLocations = base::pretty(x = ds_linear[[yName]]),
+  change_line_alpha = 0.5,
+  change_line_size = 3,
+  tickLocations = base::pretty(x = ds_linear[[y_name]]),
   graphFloor = min(tickLocations),
   graphCeiling = max(tickLocations),
   cardinalLabels = NULL,
@@ -43,39 +43,39 @@ polar_periodic(
 
 \item{dsStageCyclePolar}{The \link{data.frame} to containing the bands for a single period.  There should be one record per theta per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
 
-\item{xName}{The variable name containing the date.}
+\item{x_name}{The variable name containing the date.}
 
-\item{yName}{The variable name containing the dependent/criterion variable.}
+\item{y_name}{The variable name containing the dependent/criterion variable.}
 
 \item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.}
 
-\item{periodicLowerName}{The variable name showing the lower bound of a stage's periodic estimate.}
+\item{periodic_lower_name}{The variable name showing the lower bound of a stage's periodic estimate.}
 
-\item{periodicUpperName}{The variable name showing the upper bound of a stage's periodic estimate.}
+\item{periodic_upper_name}{The variable name showing the upper bound of a stage's periodic estimate.}
 
-\item{paletteDark}{A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{paletteLight}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_light}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{changePoints}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
+\item{change_points}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
 
-\item{changePointLabels}{The text plotted above each interruption.}
+\item{change_point_labels}{The text plotted above each interruption.}
 
 \item{drawObservedLine}{A boolean value indicating if the longitudinal observed line should be plotted (whose values are take from \code{ds_linear}).}
 
-\item{drawPeriodicBand}{A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodicLowerName} and \code{periodicUpperName} fields).}
+\item{draw_periodic_band}{A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodic_lower_name} and \code{periodic_upper_name} fields).}
 
 \item{drawStageLabels}{A boolean value indicating if the stage labels should be plotted (whose values are take from \code{ds_linear}).}
 
 \item{drawRadiusLabels}{A boolean value indicating if the gridline/radius labels should be plotted (whose values are take from \code{tickLocations}).}
 
-\item{jaggedPointSize}{The size of the observed data points.}
+\item{jagged_point_size}{The size of the observed data points.}
 
-\item{jaggedLineSize}{The size of the line connecting the observed data points.}
+\item{jagged_line_size}{The size of the line connecting the observed data points.}
 
-\item{bandAlphaDark}{The amount of transparency of the band appropriate for a stage's \emph{x} values.}
+\item{band_alpha_dark}{The amount of transparency of the band appropriate for a stage's \emph{x} values.}
 
-\item{bandAlphaLight}{The amount of transparency of the band comparison stages for a given \emph{x} value.}
+\item{band_alpha_light}{The amount of transparency of the band comparison stages for a given \emph{x} value.}
 
 \item{colorLabels}{The color for \code{cardinalLabels} and \code{originLabel}.}
 
@@ -83,9 +83,9 @@ polar_periodic(
 
 \item{labelColor}{The color of the text labels imposed on the line.}
 
-\item{changeLineAlpha}{The amount of transparency marking each interruption.}
+\item{change_line_alpha}{The amount of transparency marking each interruption.}
 
-\item{changeLineSize}{The width of a line marking an interruption.}
+\item{change_line_size}{The width of a line marking an interruption.}
 
 \item{tickLocations}{The desired locations for ticks showing the value of the criterion/dependent variable.}
 
@@ -124,7 +124,7 @@ rm(ds_linear)
 polarized <- polarize_cartesian(
   portfolio$ds_linear,
   portfolio$dsStageCycle,
-  yName = "BirthRate",
+  y_name = "BirthRate",
   stage_id_name = "StageID"
 )
 
@@ -132,7 +132,7 @@ grid.newpage()
 polar_periodic(
   ds_linear = polarized$dsObservedPolar,
   dsStageCyclePolar = polarized$dsStageCyclePolar,
-  yName = "Radius",
+  y_name = "Radius",
   stage_id_name = "StageID",
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
 )
@@ -141,16 +141,16 @@ grid.newpage()
 polar_periodic(
   ds_linear = polarized$dsObservedPolar,
   dsStageCyclePolar = polarized$dsStageCyclePolar,
-  yName = "Radius",
+  y_name = "Radius",
   stage_id_name = "StageID",
-  drawPeriodicBand = FALSE
+  draw_periodic_band = FALSE
 )
 
 grid.newpage()
 polar_periodic(
   ds_linear = polarized$dsObservedPolar,
   dsStageCyclePolar = polarized$dsStageCyclePolar,
-  yName = "Radius",
+  y_name = "Radius",
   stage_id_name = "StageID",
   drawObservedLine = FALSE,
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")

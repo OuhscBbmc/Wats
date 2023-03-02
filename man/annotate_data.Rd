@@ -61,5 +61,5 @@ portfolio <- annotate_data(
 
 head(portfolio$dsStageCycle)
 head(portfolio$ds_linear)
-head(portfolio$dsPeriodic)
+head(portfolio$ds_periodic)
 }

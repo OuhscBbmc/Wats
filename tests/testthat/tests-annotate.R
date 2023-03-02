@@ -15,7 +15,7 @@ test_that("AnnotateDataWithMonthResolution-Median", {
 
   #   head(portfolio$dsStageCycle); dput(portfolio$dsStageCycle)
   #   head(portfolio$ds_linear); dput(head(portfolio$ds_linear))
-  #   head(portfolio$dsPeriodic); dput(head(portfolio$dsPeriodic))
+  #   head(portfolio$ds_periodic); dput(head(portfolio$ds_periodic))
 
   expectedStageCycle <- structure(list(StageID = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
     1L, 1L, 1L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L),
@@ -90,12 +90,12 @@ test_that("AnnotateDataWithMonthResolution-Median", {
 
   expect_equal(dim(portfolio$dsStageCycle), expected=c(24, 6), label="The dimensions of dsStageCycle should be correct.")
   expect_equal(dim(portfolio$ds_linear), expected=c(120, 21), label="The dimensions of ds_linear should be correct.")
-  expect_equal(dim(portfolio$dsPeriodic), expected=c(240, 9), label="The dimensions of dsPeriodic should be correct.")
+  expect_equal(dim(portfolio$ds_periodic), expected=c(240, 9), label="The dimensions of ds_periodic should be correct.")
 
   expect_equal(portfolio$dsStageCycle, expected=expectedStageCycle, ignore_attr = TRUE)
   expect_equal(head(portfolio$ds_linear), expected=expectedLinearHead, ignore_attr = TRUE)
-  #expect_equal(head(portfolio$dsPeriodic), expected=expectedPeriodicHead, ignore_attr = TRUE)
-  portfolio$dsPeriodic |>
+  #expect_equal(head(portfolio$ds_periodic), expected=expectedPeriodicHead, ignore_attr = TRUE)
+  portfolio$ds_periodic |>
     head() |>
     dplyr::select(
       ProportionID, Date, StageIDTime, StageProgress, StageIDBand,
@@ -115,7 +115,7 @@ test_that("AnnotateDataWithMonthResolution-Median", {
 
   #   head(portfolio$dsStageCycle); dput(portfolio$dsStageCycle)
   #   head(portfolio$ds_linear); dput(head(portfolio$ds_linear))
-  #   head(portfolio$dsPeriodic); dput(head(portfolio$dsPeriodic))
+  #   head(portfolio$ds_periodic); dput(head(portfolio$ds_periodic))
 
   expectedStageCycle <- structure(list(StageID = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
     1L, 1L, 1L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L),
@@ -191,12 +191,12 @@ test_that("AnnotateDataWithMonthResolution-Median", {
   )
   expect_equal(dim(portfolio$dsStageCycle), expected=c(24, 6), label="The dimensions of dsStageCycle should be correct.")
   expect_equal(dim(portfolio$ds_linear), expected=c(120, 21), label="The dimensions of ds_linear should be correct.")
-  expect_equal(dim(portfolio$dsPeriodic), expected=c(240, 9), label="The dimensions of dsPeriodic should be correct.")
+  expect_equal(dim(portfolio$ds_periodic), expected=c(240, 9), label="The dimensions of ds_periodic should be correct.")
 
   expect_equal(portfolio$dsStageCycle, expected=expectedStageCycle, ignore_attr = TRUE)
   expect_equal(head(portfolio$ds_linear), expected=expectedLinearHead, ignore_attr = TRUE)
-  # expect_equal(head(portfolio$dsPeriodic), expected=expectedPeriodicHead, ignore_attr = TRUE)
-  portfolio$dsPeriodic |>
+  # expect_equal(head(portfolio$ds_periodic), expected=expectedPeriodicHead, ignore_attr = TRUE)
+  portfolio$ds_periodic |>
     head() |>
     dplyr::select(
       ProportionID, Date, StageIDTime, StageProgress, StageIDBand,

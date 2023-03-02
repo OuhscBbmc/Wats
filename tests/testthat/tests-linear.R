@@ -6,7 +6,7 @@
 # ds_linear$StageID <- ifelse(ds_linear$Date < changeMonth, 1L, 2L)
 #
 # test_that("Smoke Test", {
-# #   Wats::LinearPlot(dsPlot=ds_linear, xName="Date", yName="BirthRate", idName="StageID")
+# #   Wats::LinearPlot(dsPlot=ds_linear, x_name="Date", y_name="BirthRate", idName="StageID")
 #
 # #   expect_equal(returned_object$data, expected=data.frame(), label="An empty data.frame should be returned.")
 # #   expect_equal(returned_object$raw_csv, expected=raw(0))

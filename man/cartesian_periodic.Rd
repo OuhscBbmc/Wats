@@ -6,70 +6,70 @@
 \usage{
 cartesian_periodic(
   ds_linear,
-  dsPeriodic,
-  xName,
-  yName,
+  ds_periodic,
+  x_name,
+  y_name,
   stage_id_name,
-  periodicLowerName = "PositionLower",
-  periodicUpperName = "PositionUpper",
-  paletteDark = NULL,
-  paletteLight = NULL,
-  changePoints = NULL,
-  changePointLabels = NULL,
-  drawPeriodicBand = TRUE,
-  jaggedPointSize = 2,
-  jaggedLineSize = 0.5,
-  bandAlphaDark = 0.4,
-  bandAlphaLight = 0.15,
-  changeLineAlpha = 0.5,
-  changeLineSize = 3,
+  periodic_lower_name = "PositionLower",
+  periodic_upper_name = "PositionUpper",
+  palette_dark = NULL,
+  palette_light = NULL,
+  change_points = NULL,
+  change_point_labels = NULL,
+  draw_periodic_band = TRUE,
+  jagged_point_size = 2,
+  jagged_line_size = 0.5,
+  band_alpha_dark = 0.4,
+  band_alpha_light = 0.15,
+  change_line_alpha = 0.5,
+  change_line_size = 3,
   title = NULL,
-  xTitle = NULL,
-  yTitle = NULL
+  x_title = NULL,
+  y_title = NULL
 )
 }
 \arguments{
 \item{ds_linear}{The \link{data.frame} to containing the simple linear data.  There should be one record per observation.}
 
-\item{dsPeriodic}{The \link{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
+\item{ds_periodic}{The \link{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
 
-\item{xName}{The variable name containing the date.}
+\item{x_name}{The variable name containing the date.}
 
-\item{yName}{The variable name containing the dependent/criterion variable.}
+\item{y_name}{The variable name containing the dependent/criterion variable.}
 
 \item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.}
 
-\item{periodicLowerName}{The variable name showing the lower bound of a stage's periodic estimate.}
+\item{periodic_lower_name}{The variable name showing the lower bound of a stage's periodic estimate.}
 
-\item{periodicUpperName}{The variable name showing the upper bound of a stage's periodic estimate.}
+\item{periodic_upper_name}{The variable name showing the upper bound of a stage's periodic estimate.}
 
-\item{paletteDark}{A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{paletteLight}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_light}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{changePoints}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
+\item{change_points}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
 
-\item{changePointLabels}{The text plotted above each interruption.}
+\item{change_point_labels}{The text plotted above each interruption.}
 
-\item{drawPeriodicBand}{A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodicLowerName} and \code{periodicUpperName}.}
+\item{draw_periodic_band}{A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodic_lower_name} and \code{periodic_upper_name}.}
 
-\item{jaggedPointSize}{The size of the observed data points.}
+\item{jagged_point_size}{The size of the observed data points.}
 
-\item{jaggedLineSize}{The size of the line connecting the observed data points.}
+\item{jagged_line_size}{The size of the line connecting the observed data points.}
 
-\item{bandAlphaDark}{The amount of transparency of the band appropriate for a stage's \emph{x} values.}
+\item{band_alpha_dark}{The amount of transparency of the band appropriate for a stage's \emph{x} values.}
 
-\item{bandAlphaLight}{The amount of transparency of the band comparison stages for a given \emph{x} value.}
+\item{band_alpha_light}{The amount of transparency of the band comparison stages for a given \emph{x} value.}
 
-\item{changeLineAlpha}{The amount of transparency marking each interruption.}
+\item{change_line_alpha}{The amount of transparency marking each interruption.}
 
-\item{changeLineSize}{The width of a line marking an interruption.}
+\item{change_line_size}{The width of a line marking an interruption.}
 
 \item{title}{The string describing the plot.}
 
-\item{xTitle}{The string describing the \emph{x}-axis.}
+\item{x_title}{The string describing the \emph{x}-axis.}
 
-\item{yTitle}{The string describing the \emph{y}-axis.}
+\item{y_title}{The string describing the \emph{y}-axis.}
 }
 \value{
 Returns a ggplot2 graphing object
@@ -93,12 +93,12 @@ portfolio <- annotate_data(
 
 cartesian_periodic(
   portfolio$ds_linear,
-  portfolio$dsPeriodic,
-  xName = "Date",
-  yName = "BirthRate",
+  portfolio$ds_periodic,
+  x_name = "Date",
+  y_name = "BirthRate",
   stage_id_name = "StageID",
-  changePoints = changeMonth,
-  changePointLabels = "Bombing Effect"
+  change_points = changeMonth,
+  change_point_labels = "Bombing Effect"
 )
 }
 \keyword{Cartesian}

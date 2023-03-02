@@ -6,40 +6,40 @@
 \usage{
 cartesian_rolling(
   ds_linear,
-  xName,
-  yName,
+  x_name,
+  y_name,
   stage_id_name,
   rollingLowerName = "RollingLower",
   rollingCenterName = "RollingCenter",
   rollingUpperName = "RollingUpper",
-  paletteDark = NULL,
-  paletteLight = NULL,
+  palette_dark = NULL,
+  palette_light = NULL,
   colorSparse = grDevices::adjustcolor("tan1", 0.5),
-  changePoints = NULL,
-  changePointLabels = NULL,
+  change_points = NULL,
+  change_point_labels = NULL,
   drawJaggedLine = TRUE,
   drawRollingLine = TRUE,
   drawRollingBand = TRUE,
   drawSparseLineAndPoints = TRUE,
-  jaggedPointSize = 2,
-  jaggedLineSize = 0.5,
+  jagged_point_size = 2,
+  jagged_line_size = 0.5,
   rollingLineSize = 1,
   sparsePointSize = 4,
   sparseLineSize = 0.5,
   bandAlpha = 0.4,
-  changeLineAlpha = 0.5,
-  changeLineSize = 3,
+  change_line_alpha = 0.5,
+  change_line_size = 3,
   title = NULL,
-  xTitle = NULL,
-  yTitle = NULL
+  x_title = NULL,
+  y_title = NULL
 )
 }
 \arguments{
 \item{ds_linear}{The \link{data.frame} to containing the data.}
 
-\item{xName}{The variable name containing the date.}
+\item{x_name}{The variable name containing the date.}
 
-\item{yName}{The variable name containing the dependent/criterion variable.}
+\item{y_name}{The variable name containing the dependent/criterion variable.}
 
 \item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.}
 
@@ -49,15 +49,15 @@ cartesian_rolling(
 
 \item{rollingUpperName}{The variable name showing the upper bound of the rolling estimate.}
 
-\item{paletteDark}{A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{paletteLight}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_light}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
 
 \item{colorSparse}{The color of the `slowest' trend line, which plots only one value per cycle.}
 
-\item{changePoints}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
+\item{change_points}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
 
-\item{changePointLabels}{The text plotted above each interruption.}
+\item{change_point_labels}{The text plotted above each interruption.}
 
 \item{drawJaggedLine}{A boolean value indicating if a line should be plotted that connects the observed data points.}
 
@@ -67,9 +67,9 @@ cartesian_rolling(
 
 \item{drawSparseLineAndPoints}{A boolean value indicating if the sparse line and points should be plotted.}
 
-\item{jaggedPointSize}{The size of the observed data points.}
+\item{jagged_point_size}{The size of the observed data points.}
 
-\item{jaggedLineSize}{The size of the line connecting the observed data points.}
+\item{jagged_line_size}{The size of the line connecting the observed data points.}
 
 \item{rollingLineSize}{The size of the line connecting the rolling estimates.}
 
@@ -79,15 +79,15 @@ cartesian_rolling(
 
 \item{bandAlpha}{The amount of transparency of the rolling estimate band.}
 
-\item{changeLineAlpha}{The amount of transparency marking each interruption.}
+\item{change_line_alpha}{The amount of transparency marking each interruption.}
 
-\item{changeLineSize}{The width of a line marking an interruption.}
+\item{change_line_size}{The width of a line marking an interruption.}
 
 \item{title}{The string describing the plot.}
 
-\item{xTitle}{The string describing the \emph{x}-axis.}
+\item{x_title}{The string describing the \emph{x}-axis.}
 
-\item{yTitle}{The string describing the \emph{y}-axis.}
+\item{y_title}{The string describing the \emph{y}-axis.}
 }
 \value{
 Returns a ggplot2 graphing object
@@ -111,11 +111,11 @@ portfolio <- annotate_data(
 
 cartesian_rolling(
     portfolio$ds_linear,
-    xName = "Date",
-    yName = "BirthRate",
+    x_name = "Date",
+    y_name = "BirthRate",
     stage_id_name = "StageID",
-    changePoints = changeMonth,
-    changePointLabels = "Bombing Effect"
+    change_points = changeMonth,
+    change_point_labels = "Bombing Effect"
 )
 }
 \keyword{Cartesian}

@@ -7,15 +7,15 @@
 polarize_cartesian(
   ds_linear,
   dsStageCycle,
-  yName,
+  y_name,
   stage_id_name,
   cycle_tally_name = "CycleTally",
   proportion_through_cycle_name = "ProportionThroughCycle",
-  periodicLowerName = "PositionLower",
+  periodic_lower_name = "PositionLower",
   periodicCenterName = "PositionCenter",
-  periodicUpperName = "PositionUpper",
+  periodic_upper_name = "PositionUpper",
   plottedPointCountPerCycle = 120,
-  graphFloor = min(base::pretty(x = ds_linear[[yName]]))
+  graphFloor = min(base::pretty(x = ds_linear[[y_name]]))
 )
 }
 \arguments{
@@ -23,7 +23,7 @@ polarize_cartesian(
 
 \item{dsStageCycle}{The \link{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
 
-\item{yName}{The variable name containing the dependent/criterion variable.}
+\item{y_name}{The variable name containing the dependent/criterion variable.}
 
 \item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.}
 
@@ -31,11 +31,11 @@ polarize_cartesian(
 
 \item{proportion_through_cycle_name}{The variable name showing how far through a cycle the observation (or summarized observations) occurred.}
 
-\item{periodicLowerName}{The variable name showing the lower bound of a stage's periodic estimate.}
+\item{periodic_lower_name}{The variable name showing the lower bound of a stage's periodic estimate.}
 
 \item{periodicCenterName}{The variable name showing the center estimate of a stage's periodic estimate.}
 
-\item{periodicUpperName}{The variable name showing the upper bound of a stage's periodic estimate.}
+\item{periodic_upper_name}{The variable name showing the upper bound of a stage's periodic estimate.}
 
 \item{plottedPointCountPerCycle}{The number of points that are plotted per cycle.  If the polar graph has 'sharp corners', then increase this value.}
 
@@ -68,7 +68,7 @@ rm(ds_linear)
 polarized <- polarize_cartesian(
   ds_linear = portfolio$ds_linear,
   dsStageCycle = portfolio$dsStageCycle,
-  yName = "BirthRate",
+  y_name = "BirthRate",
   stage_id_name = "StageID"
 )
 

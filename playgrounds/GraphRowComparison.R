@@ -34,8 +34,8 @@ GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spread_fu
   ds_linear <- county_month_birth_rate_2005_version[county_month_birth_rate_2005_version$CountyName==countyName, ]
   ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
   portfolioCartesian <- annotate_data(ds_linear, dv_name="BirthRate", center_function=median, spread_function=spread_function)
-  portfolioPolar <- polarize_cartesian(ds_linear=portfolioCartesian$ds_linear, dsStageCycle=portfolioCartesian$dsStageCycle, yName="BirthRate", stage_id_name="StageID", plottedPointCountPerCycle=7200)
-  cartesian_periodic <- cartesian_periodic(portfolioCartesian$ds_linear, portfolioCartesian$dsPeriodic, xName="Date", yName="BirthRate", stage_id_name="StageID", changePoints=changeMonth, changePointLabels=""  )
+  portfolioPolar <- polarize_cartesian(ds_linear=portfolioCartesian$ds_linear, dsStageCycle=portfolioCartesian$dsStageCycle, y_name="BirthRate", stage_id_name="StageID", plottedPointCountPerCycle=7200)
+  cartesian_periodic <- cartesian_periodic(portfolioCartesian$ds_linear, portfolioCartesian$ds_periodic, x_name="Date", y_name="BirthRate", stage_id_name="StageID", change_points=changeMonth, change_point_labels=""  )
 
   pushViewport(viewport(
     layout=grid.layout(nrow=1, ncol=3, respect=FALSE, widths=unit(c(2,1,3), c("line", "null", "null"))),
@@ -48,7 +48,7 @@ GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spread_fu
 
   pushViewport(viewport(layout.pos.col=2))
 #   grid.rect()
-  polar_periodic <- polar_periodic(ds_linear=portfolioPolar$dsObservedPolar, dsStageCyclePolar=portfolioPolar$dsStageCyclePolar, drawObservedLine=FALSE, yName="Radius", stage_id_name="StageID", originLabel=NULL)
+  polar_periodic <- polar_periodic(ds_linear=portfolioPolar$dsObservedPolar, dsStageCyclePolar=portfolioPolar$dsStageCyclePolar, drawObservedLine=FALSE, y_name="Radius", stage_id_name="StageID", originLabel=NULL)
   popViewport()
 
   pushViewport(viewport(layout.pos.col=3))

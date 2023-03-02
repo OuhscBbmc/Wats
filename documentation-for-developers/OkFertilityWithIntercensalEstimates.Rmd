@@ -106,36 +106,36 @@ portfolioCartesian <- Wats::annotate_data(ds_linear, dv_name="BirthRate", center
 
 topPanel <- Wats::cartesian_rolling(
   ds_linear = portfolioCartesian$ds_linear,
-  xName = "Date",
-  yName = "BirthRate",
+  x_name = "Date",
+  y_name = "BirthRate",
   stage_id_name = "StageID",
-  changePoints = changeMonth,
-  yTitle = "General Fertility Rate",
-  changePointLabels = "Bombing Effect",
+  change_points = changeMonth,
+  y_title = "General Fertility Rate",
+  change_point_labels = "Bombing Effect",
   drawRollingBand = FALSE,
   drawRollingLine = FALSE
 )
 
 middlePanel <- cartesian_rolling(
   ds_linear = portfolioCartesian$ds_linear,
-  xName = "Date",
-  yName = "BirthRate",
+  x_name = "Date",
+  y_name = "BirthRate",
   stage_id_name = "StageID",
-  changePoints = changeMonth,
-  yTitle = "General Fertility Rate",
-  changePointLabels = "",
+  change_points = changeMonth,
+  y_title = "General Fertility Rate",
+  change_point_labels = "",
   drawRollingBand = FALSE,
   drawJaggedLine = FALSE
 )
 
 bottomPanel <- Wats::cartesian_rolling(
   ds_linear = portfolioCartesian$ds_linear,
-  xName = "Date",
-  yName = "BirthRate",
+  x_name = "Date",
+  y_name = "BirthRate",
   stage_id_name = "StageID",
-  changePoints = changeMonth,
-  yTitle = "General Fertility Rate",
-  changePointLabels = "",
+  change_points = changeMonth,
+  y_title = "General Fertility Rate",
+  change_point_labels = "",
   drawJaggedLine = FALSE
 )
 
@@ -159,14 +159,14 @@ Carteisan plot of the GFR time series data in Oklahoma County, with H-spread Ban
 ```{r cartesian_periodic}
 cartesian_periodic <- Wats::cartesian_periodic(
   portfolioCartesian$ds_linear,
-  portfolioCartesian$dsPeriodic,
-  xName = "Date",
-  yName = "BirthRate",
+  portfolioCartesian$ds_periodic,
+  x_name = "Date",
+  y_name = "BirthRate",
   stage_id_name = "StageID",
-  changePoints = changeMonth,
-  changePointLabels = "Bombing Effect",
-  yTitle = "General Fertility Rate",
-  drawPeriodicBand = TRUE #The only difference from the simple linear graph above
+  change_points = changeMonth,
+  change_point_labels = "Bombing Effect",
+  y_title = "General Fertility Rate",
+  draw_periodic_band = TRUE #The only difference from the simple linear graph above
 )
 cartesian_periodic <- cartesian_periodic + xScale + darkTheme
 print(cartesian_periodic)
@@ -181,7 +181,7 @@ Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 portfolioPolar <- Wats::polarize_cartesian(
   ds_linear = portfolioCartesian$ds_linear,
   dsStageCycle = portfolioCartesian$dsStageCycle,
-  yName = "BirthRate",
+  y_name = "BirthRate",
   stage_id_name = "StageID",
   plottedPointCountPerCycle = 7200
 )
@@ -201,7 +201,7 @@ grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=1))
 topLeftPanel <- Wats::polar_periodic(
   ds_linear = portfolioPolar$dsObservedPolar,
   dsStageCyclePolar = portfolioPolar$dsStageCyclePolar,
-  yName = "Radius",
+  y_name = "Radius",
   stage_id_name = "StageID",
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
 )
@@ -212,7 +212,7 @@ grid::pushViewport(grid::viewport(layout.pos.col=2, layout.pos.row=1))
 topRighttPanel <- Wats::polar_periodic(
   ds_linear = portfolioPolar$dsObservedPolar,
   dsStageCyclePolar = portfolioPolar$dsStageCyclePolar,
-  yName = "Radius",
+  y_name = "Radius",
   stage_id_name = "StageID",
   drawObservedLine = FALSE,
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1"),
