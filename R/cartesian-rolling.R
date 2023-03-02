@@ -8,26 +8,26 @@
 #' @param x_name The variable name containing the date.
 #' @param y_name The variable name containing the dependent/criterion variable.
 #' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `StageID` is `1`, and is `2` afterwards.
-#' @param rollingLowerName The variable name showing the lower bound of the rolling estimate.
-#' @param rollingCenterName The variable name showing the rolling estimate.
-#' @param rollingUpperName The variable name showing the upper bound of the rolling estimate.
+#' @param rolling_lower_name The variable name showing the lower bound of the rolling estimate.
+#' @param rolling_center_name The variable name showing the rolling estimate.
+#' @param rolling_upper_name The variable name showing the upper bound of the rolling estimate.
 #' @param palette_dark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each `StageID` value.  If no vector is specified, a default will be chosen, based on the number of stages.
 #' @param palette_light A vector of colors used for the light graphical elements.  The vector should have one color for each `StageID` value.  If no vector is specified, a default will be chosen, based on the number of stages.
-#' @param colorSparse The color of the `slowest' trend line, which plots only one value per cycle.
+#' @param color_sparse The color of the `slowest' trend line, which plots only one value per cycle.
 #' @param change_points A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.
 #' @param change_point_labels The text plotted above each interruption.
-#' @param drawJaggedLine A boolean value indicating if a line should be plotted that connects the observed data points.
-#' @param drawRollingLine A boolean value indicating if a line should be plotted that connects the rolling estimates specified by `rollingCenterName`.
-#' @param drawRollingBand A boolean value indicating if a band should be plotted that envelopes the rolling estimates (whose values are take from the `rollingLowerName` and `rollingUpperName`.
-#' @param drawSparseLineAndPoints A boolean value indicating if the sparse line and points should be plotted.
+#' @param draw_jagged_line A boolean value indicating if a line should be plotted that connects the observed data points.
+#' @param draw_rolling_line A boolean value indicating if a line should be plotted that connects the rolling estimates specified by `rolling_center_name`.
+#' @param draw_rolling_band A boolean value indicating if a band should be plotted that envelopes the rolling estimates (whose values are take from the `rolling_lower_name` and `rolling_upper_name`.
+#' @param draw_sparse_line_and_points A boolean value indicating if the sparse line and points should be plotted.
 #'
 #' @param jagged_point_size The size of the observed data points.
 #' @param jagged_line_size The size of the line connecting the observed data points.
-#' @param rollingLineSize The size of the line connecting the rolling estimates.
-#' @param sparsePointSize The size of the sparse estimates.
-#' @param sparseLineSize The size of the line connecting the sparse estimates.
+#' @param rolling_line_size The size of the line connecting the rolling estimates.
+#' @param sparse_point_size The size of the sparse estimates.
+#' @param sparse_line_size The size of the line connecting the sparse estimates.
 #'
-#' @param bandAlpha The amount of transparency of the rolling estimate band.
+#' @param band_alpha The amount of transparency of the rolling estimate band.
 #' @param change_line_alpha The amount of transparency marking each interruption.
 #' @param change_line_size The width of a line marking an interruption.
 #'
@@ -61,12 +61,12 @@
 #' )
 
 cartesian_rolling <- function(ds_linear, x_name, y_name, stage_id_name,
-                              rollingLowerName="RollingLower", rollingCenterName="RollingCenter", rollingUpperName="RollingUpper",
-                              palette_dark=NULL, palette_light=NULL, colorSparse=grDevices::adjustcolor("tan1", .5),
+                              rolling_lower_name="RollingLower", rolling_center_name="RollingCenter", rolling_upper_name="RollingUpper",
+                              palette_dark=NULL, palette_light=NULL, color_sparse=grDevices::adjustcolor("tan1", .5),
                               change_points=NULL, change_point_labels=NULL,
-                              drawJaggedLine=TRUE, drawRollingLine=TRUE, drawRollingBand=TRUE, drawSparseLineAndPoints=TRUE,
-                              jagged_point_size=2, jagged_line_size=.5, rollingLineSize=1, sparsePointSize=4, sparseLineSize=.5,
-                              bandAlpha=.4, change_line_alpha=.5, change_line_size=3,
+                              draw_jagged_line=TRUE, draw_rolling_line=TRUE, draw_rolling_band=TRUE, draw_sparse_line_and_points=TRUE,
+                              jagged_point_size=2, jagged_line_size=.5, rolling_line_size=1, sparse_point_size=4, sparse_line_size=.5,
+                              band_alpha=.4, change_line_alpha=.5, change_line_size=3,
                               title=NULL, x_title=NULL, y_title=NULL ) {
 
   stages <- base::sort(base::unique(ds_linear[[stage_id_name]]))
@@ -90,19 +90,19 @@ cartesian_rolling <- function(ds_linear, x_name, y_name, stage_id_name,
   for (stage in stages) {
     dsStage <- ds_linear[stage <= ds_linear$StageProgress & ds_linear$StageProgress <= (stage+1), ]
 
-    if (drawJaggedLine)
+    if (draw_jagged_line)
       p <- p + ggplot2::geom_line(size=jagged_line_size, color=palette_dark[stage], data=dsStage)
-    if (drawRollingLine)
-      p <- p + ggplot2::geom_line(ggplot2::aes_string(y=rollingCenterName), data=dsStage, size=rollingLineSize, color=palette_dark[stage], na.rm=TRUE)
-    if (drawRollingBand)
-      p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rollingLowerName, ymax=rollingUpperName), data=dsStage, fill=palette_dark[stage], color=NA, alpha=bandAlpha, na.rm=TRUE)
+    if (draw_rolling_line)
+      p <- p + ggplot2::geom_line(ggplot2::aes_string(y=rolling_center_name), data=dsStage, size=rolling_line_size, color=palette_dark[stage], na.rm=TRUE)
+    if (draw_rolling_band)
+      p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rolling_lower_name, ymax=rolling_upper_name), data=dsStage, fill=palette_dark[stage], color=NA, alpha=band_alpha, na.rm=TRUE)
 
     p <- p + ggplot2::geom_point(shape=1, color=palette_dark[stage], data=dsStage, size=jagged_point_size)
   }
 
-  if (drawSparseLineAndPoints) {
-    p <- p + ggplot2::geom_line(data=ds_linear[ds_linear$TerminalPointInCycle,], ggplot2::aes_string(y=rollingCenterName), size=sparseLineSize, color=colorSparse)
-    p <- p + ggplot2::geom_point(data=ds_linear[ds_linear$TerminalPointInCycle,], ggplot2::aes_string(y=rollingCenterName), size=sparsePointSize, shape=3, color=colorSparse)
+  if (draw_sparse_line_and_points) {
+    p <- p + ggplot2::geom_line(data=ds_linear[ds_linear$TerminalPointInCycle,], ggplot2::aes_string(y=rolling_center_name), size=sparse_line_size, color=color_sparse)
+    p <- p + ggplot2::geom_point(data=ds_linear[ds_linear$TerminalPointInCycle,], ggplot2::aes_string(y=rolling_center_name), size=sparse_point_size, shape=3, color=color_sparse)
   }
 
   if (!is.null(change_points)) {

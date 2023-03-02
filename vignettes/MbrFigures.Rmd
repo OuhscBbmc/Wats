@@ -153,8 +153,8 @@ topPanel <- Wats::cartesian_rolling(
   change_points = changeMonth,
   y_title = "General Fertility Rate",
   change_point_labels = "Bombing Effect",
-  drawRollingBand = FALSE,
-  drawRollingLine = FALSE
+  draw_rolling_band = FALSE,
+  draw_rolling_line = FALSE
 )
 
 middlePanel <- Wats::cartesian_rolling(
@@ -165,8 +165,8 @@ middlePanel <- Wats::cartesian_rolling(
   change_points = changeMonth,
   y_title = "General Fertility Rate",
   change_point_labels = "",
-  drawRollingBand = FALSE,
-  drawJaggedLine = FALSE
+  draw_rolling_band = FALSE,
+  draw_jagged_line = FALSE
 )
 
 bottomPanel <- Wats::cartesian_rolling(
@@ -177,8 +177,8 @@ bottomPanel <- Wats::cartesian_rolling(
   change_points = changeMonth,
   y_title = "General Fertility Rate",
   change_point_labels = "",
-#   drawRollingBand = FALSE,
-  drawJaggedLine = FALSE
+#   draw_rolling_band = FALSE,
+  draw_jagged_line = FALSE
 )
 
 topPanel <- topPanel + xScale + darkTheme

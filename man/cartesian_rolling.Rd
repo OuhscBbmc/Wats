@@ -9,24 +9,24 @@ cartesian_rolling(
   x_name,
   y_name,
   stage_id_name,
-  rollingLowerName = "RollingLower",
-  rollingCenterName = "RollingCenter",
-  rollingUpperName = "RollingUpper",
+  rolling_lower_name = "RollingLower",
+  rolling_center_name = "RollingCenter",
+  rolling_upper_name = "RollingUpper",
   palette_dark = NULL,
   palette_light = NULL,
-  colorSparse = grDevices::adjustcolor("tan1", 0.5),
+  color_sparse = grDevices::adjustcolor("tan1", 0.5),
   change_points = NULL,
   change_point_labels = NULL,
-  drawJaggedLine = TRUE,
-  drawRollingLine = TRUE,
-  drawRollingBand = TRUE,
-  drawSparseLineAndPoints = TRUE,
+  draw_jagged_line = TRUE,
+  draw_rolling_line = TRUE,
+  draw_rolling_band = TRUE,
+  draw_sparse_line_and_points = TRUE,
   jagged_point_size = 2,
   jagged_line_size = 0.5,
-  rollingLineSize = 1,
-  sparsePointSize = 4,
-  sparseLineSize = 0.5,
-  bandAlpha = 0.4,
+  rolling_line_size = 1,
+  sparse_point_size = 4,
+  sparse_line_size = 0.5,
+  band_alpha = 0.4,
   change_line_alpha = 0.5,
   change_line_size = 3,
   title = NULL,
@@ -43,41 +43,41 @@ cartesian_rolling(
 
 \item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.}
 
-\item{rollingLowerName}{The variable name showing the lower bound of the rolling estimate.}
+\item{rolling_lower_name}{The variable name showing the lower bound of the rolling estimate.}
 
-\item{rollingCenterName}{The variable name showing the rolling estimate.}
+\item{rolling_center_name}{The variable name showing the rolling estimate.}
 
-\item{rollingUpperName}{The variable name showing the upper bound of the rolling estimate.}
+\item{rolling_upper_name}{The variable name showing the upper bound of the rolling estimate.}
 
 \item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
 
 \item{palette_light}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{colorSparse}{The color of the `slowest' trend line, which plots only one value per cycle.}
+\item{color_sparse}{The color of the `slowest' trend line, which plots only one value per cycle.}
 
 \item{change_points}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
 
 \item{change_point_labels}{The text plotted above each interruption.}
 
-\item{drawJaggedLine}{A boolean value indicating if a line should be plotted that connects the observed data points.}
+\item{draw_jagged_line}{A boolean value indicating if a line should be plotted that connects the observed data points.}
 
-\item{drawRollingLine}{A boolean value indicating if a line should be plotted that connects the rolling estimates specified by \code{rollingCenterName}.}
+\item{draw_rolling_line}{A boolean value indicating if a line should be plotted that connects the rolling estimates specified by \code{rolling_center_name}.}
 
-\item{drawRollingBand}{A boolean value indicating if a band should be plotted that envelopes the rolling estimates (whose values are take from the \code{rollingLowerName} and \code{rollingUpperName}.}
+\item{draw_rolling_band}{A boolean value indicating if a band should be plotted that envelopes the rolling estimates (whose values are take from the \code{rolling_lower_name} and \code{rolling_upper_name}.}
 
-\item{drawSparseLineAndPoints}{A boolean value indicating if the sparse line and points should be plotted.}
+\item{draw_sparse_line_and_points}{A boolean value indicating if the sparse line and points should be plotted.}
 
 \item{jagged_point_size}{The size of the observed data points.}
 
 \item{jagged_line_size}{The size of the line connecting the observed data points.}
 
-\item{rollingLineSize}{The size of the line connecting the rolling estimates.}
+\item{rolling_line_size}{The size of the line connecting the rolling estimates.}
 
-\item{sparsePointSize}{The size of the sparse estimates.}
+\item{sparse_point_size}{The size of the sparse estimates.}
 
-\item{sparseLineSize}{The size of the line connecting the sparse estimates.}
+\item{sparse_line_size}{The size of the line connecting the sparse estimates.}
 
-\item{bandAlpha}{The amount of transparency of the rolling estimate band.}
+\item{band_alpha}{The amount of transparency of the rolling estimate band.}
 
 \item{change_line_alpha}{The amount of transparency marking each interruption.}
 
