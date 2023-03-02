@@ -5,38 +5,38 @@
 \title{Finds midpoints and bands for the within and between cycles.}
 \usage{
 annotate_data(
-  dsLinear,
-  dvName,
-  centerFunction,
-  spreadFunction,
-  cycleTallyName = "CycleTally",
-  stageIDName = "StageID",
-  stageProgressName = "StageProgress",
-  proportionThroughCycleName = "ProportionThroughCycle",
-  proportionIDName = "ProportionID",
-  terminalPointInCycleName = "TerminalPointInCycle"
+  ds_linear,
+  dv_name,
+  center_function,
+  spread_function,
+  cycle_tally_name = "CycleTally",
+  stage_id_name = "StageID",
+  stage_progress_name = "StageProgress",
+  proportion_through_cycle_name = "ProportionThroughCycle",
+  proportion_id_name = "ProportionID",
+  terminal_point_in_cycle_name = "TerminalPointInCycle"
 )
 }
 \arguments{
-\item{dsLinear}{The \link{data.frame} to containing the detailed data.}
+\item{ds_linear}{The \link{data.frame} to containing the detailed data.}
 
-\item{dvName}{The name of the dependent/criterion variable.}
+\item{dv_name}{The name of the dependent/criterion variable.}
 
-\item{centerFunction}{A function to calculate the center of a subsample.}
+\item{center_function}{A function to calculate the center of a subsample.}
 
-\item{spreadFunction}{A function to calculate the bands of a subsample.}
+\item{spread_function}{A function to calculate the bands of a subsample.}
 
-\item{cycleTallyName}{The variable name indicating how many cycles have been completed.}
+\item{cycle_tally_name}{The variable name indicating how many cycles have been completed.}
 
-\item{stageIDName}{The variable name indicating the stage. In a typical interrupted time series, these values are \code{1} before the interruption and \code{2} after.}
+\item{stage_id_name}{The variable name indicating the stage. In a typical interrupted time series, these values are \code{1} before the interruption and \code{2} after.}
 
-\item{stageProgressName}{The variable name indicating the stage in a decimal form.  This is mostly for internal uses.}
+\item{stage_progress_name}{The variable name indicating the stage in a decimal form.  This is mostly for internal uses.}
 
-\item{proportionThroughCycleName}{The variable name indicating how far the point is through a cycle.  For example, 0 degrees would be \code{0}, 180 degrees would be \code{0.5}, 359 degrees would be \code{0.9972}, and 360 degrees would be \code{0}.}
+\item{proportion_through_cycle_name}{The variable name indicating how far the point is through a cycle.  For example, 0 degrees would be \code{0}, 180 degrees would be \code{0.5}, 359 degrees would be \code{0.9972}, and 360 degrees would be \code{0}.}
 
-\item{proportionIDName}{The variable name indicating the ordinal position through a cycle.}
+\item{proportion_id_name}{The variable name indicating the ordinal position through a cycle.}
 
-\item{terminalPointInCycleName}{The variable name indicating the last point within a given cycle.}
+\item{terminal_point_in_cycle_name}{The variable name indicating the last point within a given cycle.}
 }
 \value{
 Returns a \code{data.frame} with additional variables <\if{html}{\out{<Say what they are>}}>.
@@ -47,19 +47,19 @@ that needs to be called to produce WATS Plots.  \code{AugmentZZZ} is the first.
 }
 \examples{
 library(Wats)
-dsLinear <- county_month_birth_rate_2005_version
-dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+ds_linear <- county_month_birth_rate_2005_version
+ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
+ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
 
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- annotate_data(
-  dsLinear = dsLinear,
-  dvName = "BirthRate",
-  centerFunction = median,
-  spreadFunction = hSpread
+  ds_linear = ds_linear,
+  dv_name = "BirthRate",
+  center_function = median,
+  spread_function = hSpread
 )
 
 head(portfolio$dsStageCycle)
-head(portfolio$dsLinear)
+head(portfolio$ds_linear)
 head(portfolio$dsPeriodic)
 }

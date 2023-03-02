@@ -4,11 +4,11 @@
 #'
 #' @description Shows the interrupted time series in Cartesian coordinates and its a periodic/cyclic components.
 #'
-#' @param dsLinear The [data.frame] to containing the simple linear data.  There should be one record per observation.
-#' @param dsPeriodic The [data.frame] to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this [data.frame] should have three times as many rows as `dsLinear`.
+#' @param ds_linear The [data.frame] to containing the simple linear data.  There should be one record per observation.
+#' @param dsPeriodic The [data.frame] to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this [data.frame] should have three times as many rows as `ds_linear`.
 #' @param xName The variable name containing the date.
 #' @param yName The variable name containing the dependent/criterion variable.
-#' @param stageIDName The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `StageID` is `1`, and is `2` afterwards.
+#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `StageID` is `1`, and is `2` afterwards.
 #' @param periodicLowerName The variable name showing the lower bound of a stage's periodic estimate.
 #' @param periodicUpperName The variable name showing the upper bound of a stage's periodic estimate.
 #' @param paletteDark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each `StageID` value.  If no vector is specified, a default will be chosen, based on the number of stages.
@@ -33,31 +33,31 @@
 #' @examples
 #' library(Wats) #Load the package
 #' changeMonth <- base::as.Date("1996-02-15")
-#' dsLinear <- county_month_birth_rate_2005_version
-#' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-#' dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+#' ds_linear <- county_month_birth_rate_2005_version
+#' ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
 #' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 #' portfolio <- annotate_data(
-#'     dsLinear,
-#'     dvName = "BirthRate",
-#'     centerFunction = median,
-#'     spreadFunction = hSpread
+#'     ds_linear,
+#'     dv_name = "BirthRate",
+#'     center_function = median,
+#'     spread_function = hSpread
 #' )
 #'
 #' cartesian_periodic(
-#'   portfolio$dsLinear,
+#'   portfolio$ds_linear,
 #'   portfolio$dsPeriodic,
 #'   xName = "Date",
 #'   yName = "BirthRate",
-#'   stageIDName = "StageID",
+#'   stage_id_name = "StageID",
 #'   changePoints = changeMonth,
 #'   changePointLabels = "Bombing Effect"
 #' )
 
 
 
-cartesian_periodic <- function(dsLinear, dsPeriodic,
-                              xName, yName, stageIDName,
+cartesian_periodic <- function(ds_linear, dsPeriodic,
+                              xName, yName, stage_id_name,
                               periodicLowerName="PositionLower", periodicUpperName="PositionUpper",
                               paletteDark=NULL, paletteLight=NULL,
                               changePoints=NULL, changePointLabels=NULL,
@@ -67,14 +67,14 @@ cartesian_periodic <- function(dsLinear, dsPeriodic,
                               changeLineAlpha=.5, changeLineSize=3,
                               title=NULL, xTitle=NULL, yTitle=NULL ) {
 
-  stages <- base::sort(base::unique(dsLinear[[stageIDName]]))
+  stages <- base::sort(base::unique(ds_linear[[stage_id_name]]))
   stageCount <- length(stages)
   testit::assert("The number of unique `StageID` values should be 1 greater than the number of `changePoints`.", stageCount==1+length(changePoints))
   if (!is.null(changePoints)) testit::assert("The number of `changePoints` should equal the number of `changeLabels`.", length(changePoints)==length(changePointLabels))
   if (!is.null(paletteDark))  testit::assert("The number of `paletteDark` colors should equal the number of unique `StageID` values.", stageCount==length(paletteDark))
   if (!is.null(paletteLight)) testit::assert("The number of `paletteLight` colors should equal the number of unique `StageID` values.", stageCount==length(paletteLight))
 
-  p <- ggplot2::ggplot(dsLinear, ggplot2::aes_string(x=xName, y=yName))
+  p <- ggplot2::ggplot(ds_linear, ggplot2::aes_string(x=xName, y=yName))
 
   if (is.null(paletteDark)) {
     if (length(stages) <= 4L) paletteDark <- RColorBrewer::brewer.pal(n=10, name="Paired")[c(2,4,6,8)] #There's not a risk of defining more colors than levels
@@ -86,7 +86,7 @@ cartesian_periodic <- function(dsLinear, dsPeriodic,
   }
 
   for (stage in stages) {
-    dsStageLinear <- dsLinear[stage <= dsLinear$StageProgress & dsLinear$StageProgress <= (stage+1), ]
+    dsStageLinear <- ds_linear[stage <= ds_linear$StageProgress & ds_linear$StageProgress <= (stage+1), ]
 
     if (drawPeriodicBand) {
       for (stageInner in stages) {
@@ -126,13 +126,13 @@ cartesian_periodic <- function(dsLinear, dsPeriodic,
   return( p )
 }
 
-# dsLinear <- county_month_birth_rate_2005_version
-# dsLinear[dsLinear$CountyName=="oklahoma", ]
-# dsLinear <- Wats::augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+# ds_linear <- county_month_birth_rate_2005_version
+# ds_linear[ds_linear$CountyName=="oklahoma", ]
+# ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
 #
 # hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- Wats::annotate_data(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+# portfolio <- Wats::annotate_data(ds_linear, dv_name="BirthRate", center_function=median, spread_function=hSpread)
 #
-# cartesian_periodic(portfolio$dsLinear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect",
+# cartesian_periodic(portfolio$ds_linear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stage_id_name="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect",
 #                    drawPeriodicBand=FALSE)
-# cartesian_periodic(portfolio$dsLinear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
+# cartesian_periodic(portfolio$ds_linear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stage_id_name="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")

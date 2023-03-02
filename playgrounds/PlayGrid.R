@@ -10,51 +10,51 @@ pathDirectoryOutput <- "./PublicationGraphs"
 
 #path <- "F:/Projects/RDev/WatsStaging/Datasets/BirthRatesRogers.csv"
 #path <- "F:/Projects/RDev/WatsStaging/Datasets/BirthRatesTulsa.csv"
-dsLinear <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
-dsLinear$Date <- as.Date(dsLinear$Date)
-dsLinear$MonthID <- NULL
-summary(dsLinear)
-sapply(dsLinear, class)
+ds_linear <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=F)
+ds_linear$Date <- as.Date(ds_linear$Date)
+ds_linear$MonthID <- NULL
+summary(ds_linear)
+sapply(ds_linear, class)
 ticksPerCycle <- 365
-sampleSize <- nrow(dsLinear)
-dsLinear$Date <- dsLinear$Date + 14 #Add fourteen days to the first of each month.
-# dsLinear$Date
-# as.POSIXlt(dsLinear$Date)$yday
+sampleSize <- nrow(ds_linear)
+ds_linear$Date <- ds_linear$Date + 14 #Add fourteen days to the first of each month.
+# ds_linear$Date
+# as.POSIXlt(ds_linear$Date)$yday
 startDate <- as.Date("1990-01-01")
 changeDate <- as.Date("1996-04-01")
 firstYear <- year(startDate)
 changePoint <- 74 #The 74th month is April 1996
 monthsPerYear <- 12
-monthCount <- nrow(dsLinear)
+monthCount <- nrow(ds_linear)
 #fullFebruaryCount <- 9 #The number of Februaries with a full preceeding 12 month period.
 
-#dsLinear$Tick <- as.POSIXlt(dsLinear$Date)$yday
-dsLinear$Tick <- lubridate::yday(dsLinear$Date)
+#ds_linear$Tick <- as.POSIXlt(ds_linear$Date)$yday
+ds_linear$Tick <- lubridate::yday(ds_linear$Date)
 
-# dsLinear$CycleID <- as.POSIXlt(dsLinear$Date)$year - startDate$year
-dsLinear$CycleID <- year(dsLinear$Date) - year(startDate)
-dsLinear$Angle <- (dsLinear$Tick / ticksPerCycle) * 2* pi
-dsLinear$AngleTotal <- (dsLinear$CycleID * 2* pi) + dsLinear$Angle
-#dsLinear$MonthIndex <- as.POSIXlt(dsLinear$Date)$mon
-dsLinear$MonthIndex <- month(dsLinear$Date)
-dsLinear$Horizontal <- dsLinear$CycleID + (dsLinear$MonthIndex-1)/12
+# ds_linear$CycleID <- as.POSIXlt(ds_linear$Date)$year - startDate$year
+ds_linear$CycleID <- year(ds_linear$Date) - year(startDate)
+ds_linear$Angle <- (ds_linear$Tick / ticksPerCycle) * 2* pi
+ds_linear$AngleTotal <- (ds_linear$CycleID * 2* pi) + ds_linear$Angle
+#ds_linear$MonthIndex <- as.POSIXlt(ds_linear$Date)$mon
+ds_linear$MonthIndex <- month(ds_linear$Date)
+ds_linear$Horizontal <- ds_linear$CycleID + (ds_linear$MonthIndex-1)/12
 
-#totalPositionCount <- range(dsLinear$Date)[2]-range(dsLinear$Date)[1]
+#totalPositionCount <- range(ds_linear$Date)[2]-range(ds_linear$Date)[1]
 #cycleCount <- monthCount / ticksPerCycle
 stageIDs <- 1:2
 stageCount <- length(stageIDs)
-stageBreaks <- as.POSIXct(c(startDate, changeDate, max(dsLinear$Date)+1))
-dsLinear$StageID <- as.numeric(cut.POSIXt(as.POSIXct(dsLinear$Date), breaks=stageBreaks, labels=c("Pre", "Post")))
+stageBreaks <- as.POSIXct(c(startDate, changeDate, max(ds_linear$Date)+1))
+ds_linear$StageID <- as.numeric(cut.POSIXt(as.POSIXct(ds_linear$Date), breaks=stageBreaks, labels=c("Pre", "Post")))
 ### Only manipulations specific the sample above this line;
 ###
 lowerQuantile <- .25
 upperQuantile <- .75
 
-ddply(.data=dsLinear, .variables=.(MonthIndex, StageID), .fun=nrow)
-ds <- dsLinear[ , c("CycleID", "StageID", "Angle", "AngleTotal")]
-ds$Radius <- dsLinear$BirthRate
-ds$AngleBin <- dsLinear$MonthIndex
-#rm(dsLinear)
+ddply(.data=ds_linear, .variables=.(MonthIndex, StageID), .fun=nrow)
+ds <- ds_linear[ , c("CycleID", "StageID", "Angle", "AngleTotal")]
+ds$Radius <- ds_linear$BirthRate
+ds$AngleBin <- ds_linear$MonthIndex
+#rm(ds_linear)
 
 Bands <- function( Radius, ...) {
   return( c(Lower=as.numeric(quantile(Radius, lowerQuantile)), Upper=as.numeric(quantile(Radius, upperQuantile))) )
@@ -244,13 +244,13 @@ upViewport(n=3)
 #
 #
 #
-# linearVPRangeX <- range(dsLinear$Horizontal)
-# linearVPRangeY <- range(dsLinear$BirthRate)
+# linearVPRangeX <- range(ds_linear$Horizontal)
+# linearVPRangeY <- range(ds_linear$BirthRate)
 # pushViewport(viewport(layout.pos.col=1:2, layout.pos.row=2))
 # pushViewport(plotViewport(c(0, 0, 0, 0)))
 # pushViewport(dataViewport(xscale=linearVPRangeX, yscale=linearVPRangeY, name="plotRegion"))
-# # grid.lines(dsLinear$Horizontal, dsLinear$BirthRate, default.units="native")
-# # grid.points(dsLinear$Horizontal, dsLinear$BirthRate, default.units="native")
+# # grid.lines(ds_linear$Horizontal, ds_linear$BirthRate, default.units="native")
+# # grid.points(ds_linear$Horizontal, ds_linear$BirthRate, default.units="native")
 # # upViewport(n=3)
 #
 # #opar <- par(no.readonly=TRUE, new=TRUE, pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars)
@@ -322,7 +322,7 @@ upViewport(n=3)
 #     ds[monthID, 'MonthIndex'] <- monthIndex
 #     degrees <- monthIndex * (360 / monthsPerYear)
 #     ds[monthID, 'Radians'] <- degrees / 180 * pi
-#     ds[monthID, 'BirthRate'] <- dsLinear$BirthRate[monthID] - graphFloor
+#     ds[monthID, 'BirthRate'] <- ds_linear$BirthRate[monthID] - graphFloor
 #   }
 # }
 # ds$X <- ds$BirthRate * sin(ds$Radians)

@@ -4,17 +4,17 @@ library(testthat)
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt") #This approach accounts for working on developmental box.
 
 test_that("AnnotateDataWithMonthResolution-Median", {
-  dsLinear <- county_month_birth_rate_2005_version
-  dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-  dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+  ds_linear <- county_month_birth_rate_2005_version
+  ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
+  ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
 
   hSpread <- function( scores ) {
     return( quantile(x=scores, probs=c(.25, .75)) )
   }
-  portfolio <- annotate_data(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+  portfolio <- annotate_data(ds_linear, dv_name="BirthRate", center_function=median, spread_function=hSpread)
 
   #   head(portfolio$dsStageCycle); dput(portfolio$dsStageCycle)
-  #   head(portfolio$dsLinear); dput(head(portfolio$dsLinear))
+  #   head(portfolio$ds_linear); dput(head(portfolio$ds_linear))
   #   head(portfolio$dsPeriodic); dput(head(portfolio$dsPeriodic))
 
   expectedStageCycle <- structure(list(StageID = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
@@ -89,11 +89,11 @@ test_that("AnnotateDataWithMonthResolution-Median", {
   )
 
   expect_equal(dim(portfolio$dsStageCycle), expected=c(24, 6), label="The dimensions of dsStageCycle should be correct.")
-  expect_equal(dim(portfolio$dsLinear), expected=c(120, 21), label="The dimensions of dsLinear should be correct.")
+  expect_equal(dim(portfolio$ds_linear), expected=c(120, 21), label="The dimensions of ds_linear should be correct.")
   expect_equal(dim(portfolio$dsPeriodic), expected=c(240, 9), label="The dimensions of dsPeriodic should be correct.")
 
   expect_equal(portfolio$dsStageCycle, expected=expectedStageCycle, ignore_attr = TRUE)
-  expect_equal(head(portfolio$dsLinear), expected=expectedLinearHead, ignore_attr = TRUE)
+  expect_equal(head(portfolio$ds_linear), expected=expectedLinearHead, ignore_attr = TRUE)
   #expect_equal(head(portfolio$dsPeriodic), expected=expectedPeriodicHead, ignore_attr = TRUE)
   portfolio$dsPeriodic |>
     head() |>
@@ -104,17 +104,17 @@ test_that("AnnotateDataWithMonthResolution-Median", {
     expect_equal(expected=expectedPeriodicHead, ignore_attr = TRUE)
 })
 test_that("AnnotateDataWithMonthResolution-Median", {
-  dsLinear <- county_month_birth_rate_2005_version
-  dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-  dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+  ds_linear <- county_month_birth_rate_2005_version
+  ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
+  ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
 
   hSpread <- function( scores ) {
     return( quantile(x=scores, probs=c(.25, .75)) )
   }
-  portfolio <- annotate_data(dsLinear, dvName="BirthRate", centerFunction=mean, spreadFunction=hSpread)
+  portfolio <- annotate_data(ds_linear, dv_name="BirthRate", center_function=mean, spread_function=hSpread)
 
   #   head(portfolio$dsStageCycle); dput(portfolio$dsStageCycle)
-  #   head(portfolio$dsLinear); dput(head(portfolio$dsLinear))
+  #   head(portfolio$ds_linear); dput(head(portfolio$ds_linear))
   #   head(portfolio$dsPeriodic); dput(head(portfolio$dsPeriodic))
 
   expectedStageCycle <- structure(list(StageID = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
@@ -190,11 +190,11 @@ test_that("AnnotateDataWithMonthResolution-Median", {
     "PositionUpper"), row.names = c(1L, 2L, 21L, 22L, 43L, 44L), class = "data.frame"
   )
   expect_equal(dim(portfolio$dsStageCycle), expected=c(24, 6), label="The dimensions of dsStageCycle should be correct.")
-  expect_equal(dim(portfolio$dsLinear), expected=c(120, 21), label="The dimensions of dsLinear should be correct.")
+  expect_equal(dim(portfolio$ds_linear), expected=c(120, 21), label="The dimensions of ds_linear should be correct.")
   expect_equal(dim(portfolio$dsPeriodic), expected=c(240, 9), label="The dimensions of dsPeriodic should be correct.")
 
   expect_equal(portfolio$dsStageCycle, expected=expectedStageCycle, ignore_attr = TRUE)
-  expect_equal(head(portfolio$dsLinear), expected=expectedLinearHead, ignore_attr = TRUE)
+  expect_equal(head(portfolio$ds_linear), expected=expectedLinearHead, ignore_attr = TRUE)
   # expect_equal(head(portfolio$dsPeriodic), expected=expectedPeriodicHead, ignore_attr = TRUE)
   portfolio$dsPeriodic |>
     head() |>

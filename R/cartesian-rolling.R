@@ -4,10 +4,10 @@
 #'
 #' @description Shows the interrupted time series in Cartesian coordinates without a periodic/cyclic components.
 #'
-#' @param dsLinear The [data.frame] to containing the data.
+#' @param ds_linear The [data.frame] to containing the data.
 #' @param xName The variable name containing the date.
 #' @param yName The variable name containing the dependent/criterion variable.
-#' @param stageIDName The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `StageID` is `1`, and is `2` afterwards.
+#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `StageID` is `1`, and is `2` afterwards.
 #' @param rollingLowerName The variable name showing the lower bound of the rolling estimate.
 #' @param rollingCenterName The variable name showing the rolling estimate.
 #' @param rollingUpperName The variable name showing the upper bound of the rolling estimate.
@@ -40,27 +40,27 @@
 #' @examples
 #' library(Wats) #Load the package
 #' changeMonth <- base::as.Date("1996-02-15")
-#' dsLinear <- county_month_birth_rate_2005_version
-#' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-#' dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+#' ds_linear <- county_month_birth_rate_2005_version
+#' ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
 #' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 #' portfolio <- annotate_data(
-#'     dsLinear,
-#'     dvName = "BirthRate",
-#'     centerFunction = median,
-#'     spreadFunction = hSpread
+#'     ds_linear,
+#'     dv_name = "BirthRate",
+#'     center_function = median,
+#'     spread_function = hSpread
 #' )
 #'
 #' cartesian_rolling(
-#'     portfolio$dsLinear,
+#'     portfolio$ds_linear,
 #'     xName = "Date",
 #'     yName = "BirthRate",
-#'     stageIDName = "StageID",
+#'     stage_id_name = "StageID",
 #'     changePoints = changeMonth,
 #'     changePointLabels = "Bombing Effect"
 #' )
 
-cartesian_rolling <- function(dsLinear, xName, yName, stageIDName,
+cartesian_rolling <- function(ds_linear, xName, yName, stage_id_name,
                               rollingLowerName="RollingLower", rollingCenterName="RollingCenter", rollingUpperName="RollingUpper",
                               paletteDark=NULL, paletteLight=NULL, colorSparse=grDevices::adjustcolor("tan1", .5),
                               changePoints=NULL, changePointLabels=NULL,
@@ -69,14 +69,14 @@ cartesian_rolling <- function(dsLinear, xName, yName, stageIDName,
                               bandAlpha=.4, changeLineAlpha=.5, changeLineSize=3,
                               title=NULL, xTitle=NULL, yTitle=NULL ) {
 
-  stages <- base::sort(base::unique(dsLinear[[stageIDName]]))
+  stages <- base::sort(base::unique(ds_linear[[stage_id_name]]))
   stageCount <- length(stages)
   testit::assert("The number of unique `StageID` values should be 1 greater than the number of `changePoints`.", stageCount==1+length(changePoints))
   if (!is.null(changePoints)) testit::assert("The number of `changePoints` should equal the number of `changeLabels`.", length(changePoints)==length(changePointLabels))
   if (!is.null(paletteDark))  testit::assert("The number of `paletteDark` colors should equal the number of unique `StageID` values.", stageCount==length(paletteDark))
   if (!is.null(paletteLight)) testit::assert("The number of `paletteLight` colors should equal the number of unique `StageID` values.", stageCount==length(paletteLight))
 
-  p <- ggplot2::ggplot(dsLinear, ggplot2::aes_string(x=xName, y=yName, color=stageIDName))
+  p <- ggplot2::ggplot(ds_linear, ggplot2::aes_string(x=xName, y=yName, color=stage_id_name))
 
   if (is.null(paletteDark)) {
     if (length(stages) <= 4L) paletteDark <- RColorBrewer::brewer.pal(n=10, name="Paired")[c(2,4,6,8)] #There's not a risk of defining more colors than levels
@@ -88,7 +88,7 @@ cartesian_rolling <- function(dsLinear, xName, yName, stageIDName,
   }
 
   for (stage in stages) {
-    dsStage <- dsLinear[stage <= dsLinear$StageProgress & dsLinear$StageProgress <= (stage+1), ]
+    dsStage <- ds_linear[stage <= ds_linear$StageProgress & ds_linear$StageProgress <= (stage+1), ]
 
     if (drawJaggedLine)
       p <- p + ggplot2::geom_line(size=jaggedLineSize, color=paletteDark[stage], data=dsStage)
@@ -101,8 +101,8 @@ cartesian_rolling <- function(dsLinear, xName, yName, stageIDName,
   }
 
   if (drawSparseLineAndPoints) {
-    p <- p + ggplot2::geom_line(data=dsLinear[dsLinear$TerminalPointInCycle,], ggplot2::aes_string(y=rollingCenterName), size=sparseLineSize, color=colorSparse)
-    p <- p + ggplot2::geom_point(data=dsLinear[dsLinear$TerminalPointInCycle,], ggplot2::aes_string(y=rollingCenterName), size=sparsePointSize, shape=3, color=colorSparse)
+    p <- p + ggplot2::geom_line(data=ds_linear[ds_linear$TerminalPointInCycle,], ggplot2::aes_string(y=rollingCenterName), size=sparseLineSize, color=colorSparse)
+    p <- p + ggplot2::geom_point(data=ds_linear[ds_linear$TerminalPointInCycle,], ggplot2::aes_string(y=rollingCenterName), size=sparsePointSize, shape=3, color=colorSparse)
   }
 
   if (!is.null(changePoints)) {

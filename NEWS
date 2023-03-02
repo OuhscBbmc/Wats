@@ -38,7 +38,7 @@ Changes:
 * Upgraded to ggplot2 1.0.0
 
 Bug Fixes
-* `annotate_data()` properly accepts the `centerFunction` parameter, and doesn't revert to `median`.  Thanks Mark Joseph Lachowicz (mark.j.lachowicz@vanderbilt.edu).  GitHub Issue #2.
+* `annotate_data()` properly accepts the `center_function` parameter, and doesn't revert to `median`.  Thanks Mark Joseph Lachowicz (mark.j.lachowicz@vanderbilt.edu).  GitHub Issue #2.
 * Removed unnecessary aes setting of y in cartesian_periodic.R
 
 Version 0.1 (Developed from 2010 through 2013-12-11)

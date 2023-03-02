@@ -5,114 +5,114 @@
 #' @description Finds midpoints and bands for the within and between cycles.  This the second of two functions
 #' that needs to be called to produce WATS Plots.  `AugmentZZZ` is the first.
 #'
-#' @param dsLinear The [data.frame] to containing the detailed data.
-#' @param dvName The name of the dependent/criterion variable.
-#' @param centerFunction A function to calculate the center of a subsample.
-#' @param spreadFunction A function to calculate the bands of a subsample.
-#' @param cycleTallyName The variable name indicating how many cycles have been completed.
-#' @param stageIDName The variable name indicating the stage. In a typical interrupted time series, these values are \code{1} before the interruption and \code{2} after.
-#' @param stageProgressName The variable name indicating the stage in a decimal form.  This is mostly for internal uses.
-#' @param proportionThroughCycleName The variable name indicating how far the point is through a cycle.  For example, 0 degrees would be \code{0}, 180 degrees would be \code{0.5}, 359 degrees would be \code{0.9972}, and 360 degrees would be \code{0}.
-#' @param proportionIDName The variable name indicating the ordinal position through a cycle.
-#' @param terminalPointInCycleName The variable name indicating the last point within a given cycle.
+#' @param ds_linear The [data.frame] to containing the detailed data.
+#' @param dv_name The name of the dependent/criterion variable.
+#' @param center_function A function to calculate the center of a subsample.
+#' @param spread_function A function to calculate the bands of a subsample.
+#' @param cycle_tally_name The variable name indicating how many cycles have been completed.
+#' @param stage_id_name The variable name indicating the stage. In a typical interrupted time series, these values are \code{1} before the interruption and \code{2} after.
+#' @param stage_progress_name The variable name indicating the stage in a decimal form.  This is mostly for internal uses.
+#' @param proportion_through_cycle_name The variable name indicating how far the point is through a cycle.  For example, 0 degrees would be \code{0}, 180 degrees would be \code{0.5}, 359 degrees would be \code{0.9972}, and 360 degrees would be \code{0}.
+#' @param proportion_id_name The variable name indicating the ordinal position through a cycle.
+#' @param terminal_point_in_cycle_name The variable name indicating the last point within a given cycle.
 #' @return Returns a `data.frame` with additional variables <<Say what they are>>.
 #' @examples
 #' library(Wats)
-#' dsLinear <- county_month_birth_rate_2005_version
-#' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-#' dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+#' ds_linear <- county_month_birth_rate_2005_version
+#' ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
 #'
 #' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 #' portfolio <- annotate_data(
-#'   dsLinear = dsLinear,
-#'   dvName = "BirthRate",
-#'   centerFunction = median,
-#'   spreadFunction = hSpread
+#'   ds_linear = ds_linear,
+#'   dv_name = "BirthRate",
+#'   center_function = median,
+#'   spread_function = hSpread
 #' )
 #'
 #' head(portfolio$dsStageCycle)
-#' head(portfolio$dsLinear)
+#' head(portfolio$ds_linear)
 #' head(portfolio$dsPeriodic)
 
 #' @importFrom rlang .data
-annotate_data <- function( dsLinear,
-                          dvName,
-                          centerFunction,
-                          spreadFunction,
-                          cycleTallyName="CycleTally",
-                          stageIDName="StageID",
-                          stageProgressName="StageProgress",
-                          proportionThroughCycleName="ProportionThroughCycle",
-                          proportionIDName="ProportionID",
-                          terminalPointInCycleName="TerminalPointInCycle" ) {
+annotate_data <- function( ds_linear,
+                          dv_name,
+                          center_function,
+                          spread_function,
+                          cycle_tally_name="CycleTally",
+                          stage_id_name="StageID",
+                          stage_progress_name="StageProgress",
+                          proportion_through_cycle_name="ProportionThroughCycle",
+                          proportion_id_name="ProportionID",
+                          terminal_point_in_cycle_name="TerminalPointInCycle" ) {
 
-  pointsInCycle <- max(dsLinear[[proportionIDName]])
+  pointsInCycle <- max(ds_linear[[proportion_id_name]])
   testit::assert("The should be at least one point in a cycle", max(pointsInCycle)>=1)
 
-  z <- zoo::zooreg(data=dsLinear[[dvName]], frequency=pointsInCycle)
-  rollingBounds <- zoo::rollapply(data=z, width=pointsInCycle, FUN=spreadFunction)
+  z <- zoo::zooreg(data=ds_linear[[dv_name]], frequency=pointsInCycle)
+  rollingBounds <- zoo::rollapply(data=z, width=pointsInCycle, FUN=spread_function)
 
-  dsLinear$RollingLower <- NA
-  dsLinear$RollingCenter <- NA
-  dsLinear$RollingUpper <- NA
-  dsLinear$RollingLower[-seq_len(pointsInCycle-1) ] <- rollingBounds[, 1]
-  dsLinear$RollingCenter[-seq_len(pointsInCycle-1) ] <- zoo::rollapply(data=z, width=pointsInCycle, FUN=centerFunction)
-  dsLinear$RollingUpper[-seq_len(pointsInCycle-1) ] <- rollingBounds[, 2]
+  ds_linear$RollingLower <- NA
+  ds_linear$RollingCenter <- NA
+  ds_linear$RollingUpper <- NA
+  ds_linear$RollingLower[-seq_len(pointsInCycle-1) ] <- rollingBounds[, 1]
+  ds_linear$RollingCenter[-seq_len(pointsInCycle-1) ] <- zoo::rollapply(data=z, width=pointsInCycle, FUN=center_function)
+  ds_linear$RollingUpper[-seq_len(pointsInCycle-1) ] <- rollingBounds[, 2]
 
   # summarizeStageCycle <- function( d ) {
-  #   positionBounds <- spreadFunction(d[[dvName]])
+  #   positionBounds <- spread_function(d[[dv_name]])
   #   #   print(positionBounds)
   #   data.frame(
   #     ProportionThroughCycle = mean(d$ProportionThroughCycle, na.rm=TRUE),
   #     PositionLower = positionBounds[1],
-  #     PositionCenter = centerFunction(d[[dvName]]),
+  #     PositionCenter = center_function(d[[dv_name]]),
   #     PositionUpper = positionBounds[2]
   #   )
   # }
-  # dsStageCycle2 <- plyr::ddply(dsLinear, .variables=c(stageIDName, proportionIDName), .fun=summarizeStageCycle)
+  # dsStageCycle2 <- plyr::ddply(ds_linear, .variables=c(stage_id_name, proportion_id_name), .fun=summarizeStageCycle)
 
   dsStageCycle <-
-    dsLinear |>
-    dplyr::group_by(!! rlang::ensym(stageIDName), !! rlang::ensym(proportionIDName)) |>
+    ds_linear |>
+    dplyr::group_by(!! rlang::ensym(stage_id_name), !! rlang::ensym(proportion_id_name)) |>
     dplyr::summarize(
       ProportionThroughCycle  = mean(.data$ProportionThroughCycle, na.rm = TRUE),
-      PositionLower           = spreadFunction(!! rlang::ensym(dvName))[1],
-      PositionCenter          = centerFunction(!! rlang::ensym(dvName)),
-      PositionUpper           = spreadFunction(!! rlang::ensym(dvName))[2],
+      PositionLower           = spread_function(!! rlang::ensym(dv_name))[1],
+      PositionCenter          = center_function(!! rlang::ensym(dv_name)),
+      PositionUpper           = spread_function(!! rlang::ensym(dv_name))[2],
     ) |>
     dplyr::ungroup()
 
-  dsLinearTemp <- dsLinear[, c("Date", stageIDName, proportionIDName, stageProgressName)]
-  colnames(dsLinearTemp)[colnames(dsLinearTemp)==stageIDName] <- "StageIDTime" #Make sure `StageIDTime` matches the two calls below.
+  dsLinearTemp <- ds_linear[, c("Date", stage_id_name, proportion_id_name, stage_progress_name)]
+  colnames(dsLinearTemp)[colnames(dsLinearTemp)==stage_id_name] <- "StageIDTime" #Make sure `StageIDTime` matches the two calls below.
 
   dsStageCycleTemp <- dsStageCycle
-  colnames(dsStageCycleTemp)[colnames(dsStageCycleTemp)==stageIDName] <- "StageIDBand" #Make sure `StageIDBand` matches the calls below.
+  colnames(dsStageCycleTemp)[colnames(dsStageCycleTemp)==stage_id_name] <- "StageIDBand" #Make sure `StageIDBand` matches the calls below.
 
-  # dsPeriodic2 <- merge(x=dsLinearTemp, y=dsStageCycleTemp, by=c(proportionIDName), all.x=TRUE, all.y=TRUE)
+  # dsPeriodic2 <- merge(x=dsLinearTemp, y=dsStageCycleTemp, by=c(proportion_id_name), all.x=TRUE, all.y=TRUE)
   dsPeriodic <-
     dsLinearTemp |>
-    dplyr::left_join(dsStageCycleTemp, by=proportionIDName, multiple = "all") |>
+    dplyr::left_join(dsStageCycleTemp, by=proportion_id_name, multiple = "all") |>
     dplyr::arrange(.data$Date, .data$StageIDTime, .data$StageIDBand)
 
   # dsPeriodic <- dsPeriodic[order(dsPeriodic$Date, dsPeriodic$StageIDTime, dsPeriodic$StageIDBand), ]
 
-  return( list(dsLinear=dsLinear, dsStageCycle=dsStageCycle, dsPeriodic=dsPeriodic) )
+  return( list(ds_linear=ds_linear, dsStageCycle=dsStageCycle, dsPeriodic=dsPeriodic) )
 }
 
 # library(Wats)
-# dsLinear <- county_month_birth_rate_2005_version
-# dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-# dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+# ds_linear <- county_month_birth_rate_2005_version
+# ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
+# ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
 #
 # hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- annotate_data(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+# portfolio <- annotate_data(ds_linear, dv_name="BirthRate", center_function=median, spread_function=hSpread)
 #
 # head(portfolio$dsStageCycle)
-# head(portfolio$dsLinear)
+# head(portfolio$ds_linear)
 # head(portfolio$dsPeriodic)
 #
-# portfolio <- annotate_data(dsLinear, dvName="BirthRate", centerFunction=mean, spreadFunction=hSpread)
+# portfolio <- annotate_data(ds_linear, dv_name="BirthRate", center_function=mean, spread_function=hSpread)
 #
 # head(portfolio$dsStageCycle)
-# head(portfolio$dsLinear)
+# head(portfolio$ds_linear)
 # head(portfolio$dsPeriodic)

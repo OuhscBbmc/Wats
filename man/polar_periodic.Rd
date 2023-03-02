@@ -5,11 +5,11 @@
 \title{Polar Plot with Periodic Elements}
 \usage{
 polar_periodic(
-  dsLinear,
+  ds_linear,
   dsStageCyclePolar,
   xName,
   yName,
-  stageIDName,
+  stage_id_name,
   periodicLowerName = "PositionLower",
   periodicUpperName = "PositionUpper",
   paletteDark = NULL,
@@ -29,7 +29,7 @@ polar_periodic(
   labelColor = "orange3",
   changeLineAlpha = 0.5,
   changeLineSize = 3,
-  tickLocations = base::pretty(x = dsLinear[[yName]]),
+  tickLocations = base::pretty(x = ds_linear[[yName]]),
   graphFloor = min(tickLocations),
   graphCeiling = max(tickLocations),
   cardinalLabels = NULL,
@@ -39,15 +39,15 @@ polar_periodic(
 )
 }
 \arguments{
-\item{dsLinear}{The \link{data.frame} to containing the simple linear data.  There should be one record per observation.}
+\item{ds_linear}{The \link{data.frame} to containing the simple linear data.  There should be one record per observation.}
 
-\item{dsStageCyclePolar}{The \link{data.frame} to containing the bands for a single period.  There should be one record per theta per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{dsLinear}.}
+\item{dsStageCyclePolar}{The \link{data.frame} to containing the bands for a single period.  There should be one record per theta per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
 
 \item{xName}{The variable name containing the date.}
 
 \item{yName}{The variable name containing the dependent/criterion variable.}
 
-\item{stageIDName}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.}
+\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.}
 
 \item{periodicLowerName}{The variable name showing the lower bound of a stage's periodic estimate.}
 
@@ -61,11 +61,11 @@ polar_periodic(
 
 \item{changePointLabels}{The text plotted above each interruption.}
 
-\item{drawObservedLine}{A boolean value indicating if the longitudinal observed line should be plotted (whose values are take from \code{dsLinear}).}
+\item{drawObservedLine}{A boolean value indicating if the longitudinal observed line should be plotted (whose values are take from \code{ds_linear}).}
 
 \item{drawPeriodicBand}{A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodicLowerName} and \code{periodicUpperName} fields).}
 
-\item{drawStageLabels}{A boolean value indicating if the stage labels should be plotted (whose values are take from \code{dsLinear}).}
+\item{drawStageLabels}{A boolean value indicating if the stage labels should be plotted (whose values are take from \code{ds_linear}).}
 
 \item{drawRadiusLabels}{A boolean value indicating if the gridline/radius labels should be plotted (whose values are take from \code{tickLocations}).}
 
@@ -108,50 +108,50 @@ Shows the interrupted time series in Cartesian coordinates and its a periodic/cy
 \examples{
 library(grid)
 library(Wats)
-dsLinear <- county_month_birth_rate_2005_version
-dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+ds_linear <- county_month_birth_rate_2005_version
+ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
+ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
 
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- annotate_data(
-  dsLinear = dsLinear,
-  dvName = "BirthRate",
-  centerFunction = median,
-  spreadFunction = hSpread
+  ds_linear = ds_linear,
+  dv_name = "BirthRate",
+  center_function = median,
+  spread_function = hSpread
 )
-rm(dsLinear)
+rm(ds_linear)
 
 polarized <- polarize_cartesian(
-  portfolio$dsLinear,
+  portfolio$ds_linear,
   portfolio$dsStageCycle,
   yName = "BirthRate",
-  stageIDName = "StageID"
+  stage_id_name = "StageID"
 )
 
 grid.newpage()
 polar_periodic(
-  dsLinear = polarized$dsObservedPolar,
+  ds_linear = polarized$dsObservedPolar,
   dsStageCyclePolar = polarized$dsStageCyclePolar,
   yName = "Radius",
-  stageIDName = "StageID",
+  stage_id_name = "StageID",
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 
 grid.newpage()
 polar_periodic(
-  dsLinear = polarized$dsObservedPolar,
+  ds_linear = polarized$dsObservedPolar,
   dsStageCyclePolar = polarized$dsStageCyclePolar,
   yName = "Radius",
-  stageIDName = "StageID",
+  stage_id_name = "StageID",
   drawPeriodicBand = FALSE
 )
 
 grid.newpage()
 polar_periodic(
-  dsLinear = polarized$dsObservedPolar,
+  ds_linear = polarized$dsObservedPolar,
   dsStageCyclePolar = polarized$dsStageCyclePolar,
   yName = "Radius",
-  stageIDName = "StageID",
+  stage_id_name = "StageID",
   drawObservedLine = FALSE,
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
 )

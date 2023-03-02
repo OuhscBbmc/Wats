@@ -5,31 +5,31 @@
 \title{Manipulate Cartesian data to use in the WATS polar plot}
 \usage{
 polarize_cartesian(
-  dsLinear,
+  ds_linear,
   dsStageCycle,
   yName,
-  stageIDName,
-  cycleTallyName = "CycleTally",
-  proportionThroughCycleName = "ProportionThroughCycle",
+  stage_id_name,
+  cycle_tally_name = "CycleTally",
+  proportion_through_cycle_name = "ProportionThroughCycle",
   periodicLowerName = "PositionLower",
   periodicCenterName = "PositionCenter",
   periodicUpperName = "PositionUpper",
   plottedPointCountPerCycle = 120,
-  graphFloor = min(base::pretty(x = dsLinear[[yName]]))
+  graphFloor = min(base::pretty(x = ds_linear[[yName]]))
 )
 }
 \arguments{
-\item{dsLinear}{The \link{data.frame} to containing the simple linear data.  There should be one record per observation.}
+\item{ds_linear}{The \link{data.frame} to containing the simple linear data.  There should be one record per observation.}
 
-\item{dsStageCycle}{The \link{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{dsLinear}.}
+\item{dsStageCycle}{The \link{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
 
 \item{yName}{The variable name containing the dependent/criterion variable.}
 
-\item{stageIDName}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.}
+\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.}
 
-\item{cycleTallyName}{The variable name indicating how many \emph{complete} cycles have occurred at that observation.}
+\item{cycle_tally_name}{The variable name indicating how many \emph{complete} cycles have occurred at that observation.}
 
-\item{proportionThroughCycleName}{The variable name showing how far through a cycle the observation (or summarized observations) occurred.}
+\item{proportion_through_cycle_name}{The variable name showing how far through a cycle the observation (or summarized observations) occurred.}
 
 \item{periodicLowerName}{The variable name showing the lower bound of a stage's periodic estimate.}
 
@@ -52,24 +52,24 @@ Third, the Cartesian points are converted to polar coordinates.
 }
 \examples{
 library(Wats)
-dsLinear <- county_month_birth_rate_2005_version
-dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+ds_linear <- county_month_birth_rate_2005_version
+ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
+ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
 
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- annotate_data(
-  dsLinear = dsLinear,
-  dvName = "BirthRate",
-  centerFunction = median,
-  spreadFunction = hSpread
+  ds_linear = ds_linear,
+  dv_name = "BirthRate",
+  center_function = median,
+  spread_function = hSpread
 )
-rm(dsLinear)
+rm(ds_linear)
 
 polarized <- polarize_cartesian(
-  dsLinear = portfolio$dsLinear,
+  ds_linear = portfolio$ds_linear,
   dsStageCycle = portfolio$dsStageCycle,
   yName = "BirthRate",
-  stageIDName = "StageID"
+  stage_id_name = "StageID"
 )
 
 library(ggplot2)

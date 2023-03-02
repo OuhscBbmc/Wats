@@ -91,24 +91,24 @@ This section corresponds to the MBR manuscript, but with the modified dataset.
 Smoothed monthly  birth rates (General Fertility Rates;  GFR's) for Oklahoma County, 1990-1999, plotted in a linear plot.  The top plot shows the connected raw data with a February smoother; the middle plot shows smoothing with a 12-month moving average, blue/green line, superimposed on a February smoother, red tan line); the bottom plot shows the smoothers and confidence bands, which are H-spreads (ie, the distance between the .25 and .75 quantiles) defined using the distribution of GFR's for the given month and 11 previous months.
 
 ```{r cartesian_rolling, fig.height=4.8}
-# dsLinear <- utils::read.csv("./Datasets/county_month_birth_rate_2014_version.csv", stringsAsFactors=FALSE)
-# dsLinear$Date <- base::as.Date(dsLinear$Date)
-# dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
+# ds_linear <- utils::read.csv("./Datasets/county_month_birth_rate_2014_version.csv", stringsAsFactors=FALSE)
+# ds_linear$Date <- base::as.Date(ds_linear$Date)
+# ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
 
 # Uncomment this line to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
 dsLinearAll <- county_month_birth_rate_2014_version
-dsLinear <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ]
+ds_linear <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ]
 
-dsLinear <- Wats::augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
 
-portfolioCartesian <- Wats::annotate_data(dsLinear, dvName="BirthRate", centerFunction=stats::median, spreadFunction=hSpread)
+portfolioCartesian <- Wats::annotate_data(ds_linear, dv_name="BirthRate", center_function=stats::median, spread_function=hSpread)
 
 topPanel <- Wats::cartesian_rolling(
-  dsLinear = portfolioCartesian$dsLinear,
+  ds_linear = portfolioCartesian$ds_linear,
   xName = "Date",
   yName = "BirthRate",
-  stageIDName = "StageID",
+  stage_id_name = "StageID",
   changePoints = changeMonth,
   yTitle = "General Fertility Rate",
   changePointLabels = "Bombing Effect",
@@ -117,10 +117,10 @@ topPanel <- Wats::cartesian_rolling(
 )
 
 middlePanel <- cartesian_rolling(
-  dsLinear = portfolioCartesian$dsLinear,
+  ds_linear = portfolioCartesian$ds_linear,
   xName = "Date",
   yName = "BirthRate",
-  stageIDName = "StageID",
+  stage_id_name = "StageID",
   changePoints = changeMonth,
   yTitle = "General Fertility Rate",
   changePointLabels = "",
@@ -129,10 +129,10 @@ middlePanel <- cartesian_rolling(
 )
 
 bottomPanel <- Wats::cartesian_rolling(
-  dsLinear = portfolioCartesian$dsLinear,
+  ds_linear = portfolioCartesian$ds_linear,
   xName = "Date",
   yName = "BirthRate",
-  stageIDName = "StageID",
+  stage_id_name = "StageID",
   changePoints = changeMonth,
   yTitle = "General Fertility Rate",
   changePointLabels = "",
@@ -158,11 +158,11 @@ Carteisan plot of the GFR time series data in Oklahoma County, with H-spread Ban
 
 ```{r cartesian_periodic}
 cartesian_periodic <- Wats::cartesian_periodic(
-  portfolioCartesian$dsLinear,
+  portfolioCartesian$ds_linear,
   portfolioCartesian$dsPeriodic,
   xName = "Date",
   yName = "BirthRate",
-  stageIDName = "StageID",
+  stage_id_name = "StageID",
   changePoints = changeMonth,
   changePointLabels = "Bombing Effect",
   yTitle = "General Fertility Rate",
@@ -179,10 +179,10 @@ Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
 ```{r polar_periodic, fig.height=6.5*2/3}
 portfolioPolar <- Wats::polarize_cartesian(
-  dsLinear = portfolioCartesian$dsLinear,
+  ds_linear = portfolioCartesian$ds_linear,
   dsStageCycle = portfolioCartesian$dsStageCycle,
   yName = "BirthRate",
-  stageIDName = "StageID",
+  stage_id_name = "StageID",
   plottedPointCountPerCycle = 7200
 )
 
@@ -199,10 +199,10 @@ grid::pushViewport(grid::viewport(
 ## Create top left panel
 grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=1))
 topLeftPanel <- Wats::polar_periodic(
-  dsLinear = portfolioPolar$dsObservedPolar,
+  ds_linear = portfolioPolar$dsObservedPolar,
   dsStageCyclePolar = portfolioPolar$dsStageCyclePolar,
   yName = "Radius",
-  stageIDName = "StageID",
+  stage_id_name = "StageID",
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 grid::upViewport()
@@ -210,10 +210,10 @@ grid::upViewport()
 ## Create top right panel
 grid::pushViewport(grid::viewport(layout.pos.col=2, layout.pos.row=1))
 topRighttPanel <- Wats::polar_periodic(
-  dsLinear = portfolioPolar$dsObservedPolar,
+  ds_linear = portfolioPolar$dsObservedPolar,
   dsStageCyclePolar = portfolioPolar$dsStageCyclePolar,
   yName = "Radius",
-  stageIDName = "StageID",
+  stage_id_name = "StageID",
   drawObservedLine = FALSE,
   cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1"),
   originLabel = NULL
@@ -232,12 +232,12 @@ The remaining two sections depart from the MBR manuscript analyses.  Its goal is
 This section uses an approach advocated by McLeod, Yu, & Mahdi (2011), which is consistent other articles, including Rodgers et al. (2005).  There are two trends that are de-seasonalized.  The first is the 'classic' approach which uses the observed trend line (see [`decompose()` on CRAN](http://stat.ethz.ch/R-manual/R-devel/library/stats/html/decompose.html)).  The second is a smoothed version, where a loess is passed through the observed data; this smoothed line is then de-seasonalized (see [`stl()` on CRAN](stat.ethz.ch/R-manual/R-devel/library/stats/html/stl.html)).  Both approaches lead to comparable conclusions.  The post-bombing fertility is significantly higher  than the pre-bombing fertility (ie, the `step` coefficient is significantly more positive).
 
 ```{r ConfirmatoryFrequentist, fig.height=6.5}
-dsLinear <- Wats::augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
 
 tsData <- stats::ts(
-  data = dsLinear$BirthRate,
-  start = as.integer(dsLinear[1, c("Year", "Month")]),
-  end = as.integer(dsLinear[nrow(dsLinear), c("Year", "Month")]),
+  data = ds_linear$BirthRate,
+  start = as.integer(ds_linear[1, c("Year", "Month")]),
+  end = as.integer(ds_linear[nrow(ds_linear), c("Year", "Month")]),
   frequency = 12L
 )
 
@@ -253,8 +253,8 @@ plot(seasonalLoess)
 lag1 <- 1L #Significant for many different values of lag, including 1
 y <- seasonalClassic$trend[(lag1+1):length(seasonalClassic$trend)]
 y1 <- seasonalClassic$trend[1:(length(seasonalClassic$trend)-lag1)]
-# step <- c(rep(0L, times=sum(dsLinear$StageID==1L)-lag1), rep(1L, times=sum(dsLinear$StageID==2L)))
-step <- dsLinear$StageID[(lag1+1):length(seasonalClassic$trend)] - 1L
+# step <- c(rep(0L, times=sum(ds_linear$StageID==1L)-lag1), rep(1L, times=sum(ds_linear$StageID==2L)))
+step <- ds_linear$StageID[(lag1+1):length(seasonalClassic$trend)] - 1L
 dsClassic <- data.frame(y=y, y1=y1, step=step)
 rm(lag1, y, y1, step)
 fitClassic <-  glm(y ~ 1 + step + y1, data=dsClassic)
@@ -265,8 +265,8 @@ lag1 <- 1L #Significant for many different values of lag, including 1
 trendLineLoess <- as.numeric(seasonalLoess$time.series[[2]])
 y <- trendLineLoess[(lag1+1):length(trendLineLoess)]
 y1 <- trendLineLoess[1:(length(trendLineLoess) - lag1)]
-# step <- c(rep(0L, times=sum(dsLinear$StageID==1L)-lag1), rep(1L, times=sum(dsLinear$StageID==2L)))
-step <- dsLinear$StageID[(lag1+1):length(trendLineLoess)] - 1L
+# step <- c(rep(0L, times=sum(ds_linear$StageID==1L)-lag1), rep(1L, times=sum(ds_linear$StageID==2L)))
+step <- ds_linear$StageID[(lag1+1):length(trendLineLoess)] - 1L
 dsLoess <- data.frame(y=y, y1=y1, step=step)
 rm(lag1, y, y1, step)
 fitLoess <-  glm(y ~ 1 + step + y1, data=dsLoess)
@@ -278,8 +278,8 @@ A similar set of Bayesian analyses support the claim that post-bombing fertility
 
 ```{r ConfirmatoryBayesFactors, fig.height=6.5}
 # Seasonality is accounted for without a smoother
-beforeClassic <- seasonalClassic$trend[dsLinear$StageID==1L]
-afterClassic <- seasonalClassic$trend[dsLinear$StageID==2L]
+beforeClassic <- seasonalClassic$trend[ds_linear$StageID==1L]
+afterClassic <- seasonalClassic$trend[ds_linear$StageID==2L]
 
 #Set the number of MCMC iterations
 mcmcRepCount <- 1000#000
@@ -292,8 +292,8 @@ showMcmcProgress <- FALSE
 # coda::gelman.diag(g$chains) #it needs multiple chains to asses.
 
 #Seasonality is accounted for after a loess is fit through it.
-beforeLoess <- seasonalLoess$time.series[dsLinear$StageID==1L, 2]
-afterLoess <- seasonalLoess$time.series[dsLinear$StageID==2L, 2]
+beforeLoess <- seasonalLoess$time.series[ds_linear$StageID==1L, 2]
+afterLoess <- seasonalLoess$time.series[ds_linear$StageID==2L, 2]
 BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=showMcmcProgress)
 BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=showMcmcProgress)
 

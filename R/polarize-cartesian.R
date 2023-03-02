@@ -7,12 +7,12 @@
 #' Second, multiple points are interpolated (still in a Cartesian coordinates) so that the polar graph doesn't have sharp edges.  These sharp edges would be artifacts of the conversion, and not reflect the observed data.
 #' Third, the Cartesian points are converted to polar coordinates.
 #'
-#' @param dsLinear The [data.frame] to containing the simple linear data.  There should be one record per observation.
-#' @param dsStageCycle The [data.frame] to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this [data.frame] should have three times as many rows as `dsLinear`.
+#' @param ds_linear The [data.frame] to containing the simple linear data.  There should be one record per observation.
+#' @param dsStageCycle The [data.frame] to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this [data.frame] should have three times as many rows as `ds_linear`.
 #' @param yName The variable name containing the dependent/criterion variable.
-#' @param stageIDName The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `StageID` is `1`, and is `2` afterwards.
-#' @param cycleTallyName The variable name indicating how many \emph{complete} cycles have occurred at that observation.
-#' @param proportionThroughCycleName The variable name showing how far through a cycle the observation (or summarized observations) occurred.
+#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `StageID` is `1`, and is `2` afterwards.
+#' @param cycle_tally_name The variable name indicating how many \emph{complete} cycles have occurred at that observation.
+#' @param proportion_through_cycle_name The variable name showing how far through a cycle the observation (or summarized observations) occurred.
 #' @param periodicLowerName The variable name showing the lower bound of a stage's periodic estimate.
 #' @param periodicCenterName The variable name showing the center estimate of a stage's periodic estimate.
 #' @param periodicUpperName The variable name showing the upper bound of a stage's periodic estimate.
@@ -22,24 +22,24 @@
 #' @keywords polar
 #' @examples
 #' library(Wats)
-#' dsLinear <- county_month_birth_rate_2005_version
-#' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-#' dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+#' ds_linear <- county_month_birth_rate_2005_version
+#' ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
 #'
 #' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 #' portfolio <- annotate_data(
-#'   dsLinear = dsLinear,
-#'   dvName = "BirthRate",
-#'   centerFunction = median,
-#'   spreadFunction = hSpread
+#'   ds_linear = ds_linear,
+#'   dv_name = "BirthRate",
+#'   center_function = median,
+#'   spread_function = hSpread
 #' )
-#' rm(dsLinear)
+#' rm(ds_linear)
 #'
 #' polarized <- polarize_cartesian(
-#'   dsLinear = portfolio$dsLinear,
+#'   ds_linear = portfolio$ds_linear,
 #'   dsStageCycle = portfolio$dsStageCycle,
 #'   yName = "BirthRate",
-#'   stageIDName = "StageID"
+#'   stage_id_name = "StageID"
 #' )
 #'
 #' library(ggplot2)
@@ -53,35 +53,35 @@
 #'   guides(color=NULL)
 
 #For a more polished graph, see polar_periodic().
-polarize_cartesian <- function(dsLinear, dsStageCycle,
-                      yName, stageIDName,
-                      cycleTallyName="CycleTally",
-                      proportionThroughCycleName="ProportionThroughCycle",
+polarize_cartesian <- function(ds_linear, dsStageCycle,
+                      yName, stage_id_name,
+                      cycle_tally_name="CycleTally",
+                      proportion_through_cycle_name="ProportionThroughCycle",
                       periodicLowerName="PositionLower", periodicCenterName="PositionCenter", periodicUpperName="PositionUpper",
                       plottedPointCountPerCycle=120,
-                      graphFloor=min(base::pretty(x=dsLinear[[yName]]))) {
+                      graphFloor=min(base::pretty(x=ds_linear[[yName]]))) {
   #TODO: allow counter-clockwise and arbitrary angle for theta=0
 #
   . <- NULL # avoid "Undefined global functions or variables"
-#   print(dsLinear[[cycleTallyName]])
-#   print(dsLinear[[proportionThroughCycleName]])
-#   print(dsLinear[[yName]])
+#   print(ds_linear[[cycle_tally_name]])
+#   print(ds_linear[[proportion_through_cycle_name]])
+#   print(ds_linear[[yName]])
 
   closeLoop <- function(d) {
     d[nrow(d) + 1, ] <- d[1, ] #Within each stage, repeat the first row at the end of the stage's data.frame.
-    d[nrow(d), proportionThroughCycleName] <- 1 + d[nrow(d), proportionThroughCycleName]
+    d[nrow(d), proportion_through_cycle_name] <- 1 + d[nrow(d), proportion_through_cycle_name]
     return( d )
   }
   interpolateObserved <- function(d, pointsPerCycleCount) {
     observed <-
       stats::approx(
-        x = d[[cycleTallyName]] + d[[proportionThroughCycleName]],
+        x = d[[cycle_tally_name]] + d[[proportion_through_cycle_name]],
         y = d[[yName]],
         n = pointsPerCycleCount
       )
     stageProgress <-
       stats::approx(
-        x = unique(d[[stageIDName]]) + 0:1,
+        x = unique(d[[stage_id_name]]) + 0:1,
         n = pointsPerCycleCount + 1
       )
     # browser()
@@ -92,9 +92,9 @@ polarize_cartesian <- function(dsLinear, dsStageCycle,
     )
   }
   interpolateBand <- function(d, pointsPerCycleCount) {
-    lower <- stats::approx(x=d[[proportionThroughCycleName]], y=d[[periodicLowerName]], n=pointsPerCycleCount)
-    center <- stats::approx(x=d[[proportionThroughCycleName]], y=d[[periodicCenterName]], n=pointsPerCycleCount)
-    upper <- stats::approx(x=d[[proportionThroughCycleName]], y=d[[periodicUpperName]], n=pointsPerCycleCount)
+    lower <- stats::approx(x=d[[proportion_through_cycle_name]], y=d[[periodicLowerName]], n=pointsPerCycleCount)
+    center <- stats::approx(x=d[[proportion_through_cycle_name]], y=d[[periodicCenterName]], n=pointsPerCycleCount)
+    upper <- stats::approx(x=d[[proportion_through_cycle_name]], y=d[[periodicUpperName]], n=pointsPerCycleCount)
 
     base::data.frame(
       LowerX = lower$x,
@@ -153,8 +153,8 @@ polarize_cartesian <- function(dsLinear, dsStageCycle,
   }
 
   dsObservedInterpolated <-
-    dsLinear |>
-    dplyr::group_by(!! rlang::ensym(stageIDName)) |>
+    ds_linear |>
+    dplyr::group_by(!! rlang::ensym(stage_id_name)) |>
     dplyr::do(
       interpolateObserved(., pointsPerCycleCount=plottedPointCountPerCycle)
     ) |>
@@ -162,7 +162,7 @@ polarize_cartesian <- function(dsLinear, dsStageCycle,
 
   dsObservedPolar <-
     dsObservedInterpolated |>
-    dplyr::group_by(!! rlang::ensym(stageIDName)) |>
+    dplyr::group_by(!! rlang::ensym(stage_id_name)) |>
     dplyr::do(
       polarizeObserved(., graphFloor=graphFloor)
     ) |>
@@ -170,7 +170,7 @@ polarize_cartesian <- function(dsLinear, dsStageCycle,
 
   dsStageCycleClosed <-
     dsStageCycle |>
-    dplyr::group_by(!! rlang::ensym(stageIDName)) |>
+    dplyr::group_by(!! rlang::ensym(stage_id_name)) |>
     dplyr::do(
       closeLoop(.)
     ) |>
@@ -178,7 +178,7 @@ polarize_cartesian <- function(dsLinear, dsStageCycle,
 
   dsStageCycleInterpolated <-
     dsStageCycleClosed |>
-    dplyr::group_by(!! rlang::ensym(stageIDName)) |>
+    dplyr::group_by(!! rlang::ensym(stage_id_name)) |>
     dplyr::do(
       interpolateBand(., pointsPerCycleCount = plottedPointCountPerCycle)
     ) |>
@@ -186,32 +186,32 @@ polarize_cartesian <- function(dsLinear, dsStageCycle,
 
   dsStageCyclePolar <-
     dsStageCycleInterpolated |>
-    dplyr::group_by(!! rlang::ensym(stageIDName)) |>
+    dplyr::group_by(!! rlang::ensym(stage_id_name)) |>
     dplyr::do(
       polarizeBand(., graphFloor = graphFloor)
     ) |>
     dplyr::ungroup()
 
-  # dsObservedInterpolated <- plyr::ddply(dsLinear, .variables=stageIDName, .fun=interpolateObserved, pointsPerCycleCount=plottedPointCountPerCycle)
-  # dsObservedPolar <- plyr::ddply(dsObservedInterpolated, .variables=stageIDName, .fun=polarizeObserved, graphFloor=graphFloor)
+  # dsObservedInterpolated <- plyr::ddply(ds_linear, .variables=stage_id_name, .fun=interpolateObserved, pointsPerCycleCount=plottedPointCountPerCycle)
+  # dsObservedPolar <- plyr::ddply(dsObservedInterpolated, .variables=stage_id_name, .fun=polarizeObserved, graphFloor=graphFloor)
   #
-  # dsStageCycleClosed <- plyr::ddply(dsStageCycle, .variables=stageIDName, .fun=closeLoop)
-  # dsStageCycleInterpolated <- plyr::ddply(dsStageCycleClosed, .variables=stageIDName, .fun=interpolateBand, pointsPerCycleCount=plottedPointCountPerCycle)
-  # dsStageCyclePolar <- plyr::ddply(dsStageCycleInterpolated, .variables=stageIDName, .fun=polarizeBand, graphFloor=graphFloor)
+  # dsStageCycleClosed <- plyr::ddply(dsStageCycle, .variables=stage_id_name, .fun=closeLoop)
+  # dsStageCycleInterpolated <- plyr::ddply(dsStageCycleClosed, .variables=stage_id_name, .fun=interpolateBand, pointsPerCycleCount=plottedPointCountPerCycle)
+  # dsStageCyclePolar <- plyr::ddply(dsStageCycleInterpolated, .variables=stage_id_name, .fun=polarizeBand, graphFloor=graphFloor)
 
   return( list(dsObservedPolar=dsObservedPolar, dsStageCyclePolar=dsStageCyclePolar, GraphFloor=graphFloor) )
 }
 
 # library(Wats)
-# dsLinear <- county_month_birth_rate_2005_version
-# dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-# dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+# ds_linear <- county_month_birth_rate_2005_version
+# ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
+# ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
 #
 # hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- annotate_data(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
-# rm(dsLinear)
+# portfolio <- annotate_data(ds_linear, dv_name="BirthRate", center_function=median, spread_function=hSpread)
+# rm(ds_linear)
 #
-# polarized <- polarize_cartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
+# polarized <- polarize_cartesian(portfolio$ds_linear, portfolio$dsStageCycle, yName="BirthRate", stage_id_name="StageID")
 #
 # library(ggplot2)
 # ggplot(polarized$dsStageCyclePolar, aes(color=factor(StageID))) +

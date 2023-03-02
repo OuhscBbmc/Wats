@@ -5,10 +5,10 @@
 \title{Linear Plot with Rolling Summaries}
 \usage{
 cartesian_rolling(
-  dsLinear,
+  ds_linear,
   xName,
   yName,
-  stageIDName,
+  stage_id_name,
   rollingLowerName = "RollingLower",
   rollingCenterName = "RollingCenter",
   rollingUpperName = "RollingUpper",
@@ -35,13 +35,13 @@ cartesian_rolling(
 )
 }
 \arguments{
-\item{dsLinear}{The \link{data.frame} to containing the data.}
+\item{ds_linear}{The \link{data.frame} to containing the data.}
 
 \item{xName}{The variable name containing the date.}
 
 \item{yName}{The variable name containing the dependent/criterion variable.}
 
-\item{stageIDName}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.}
+\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.}
 
 \item{rollingLowerName}{The variable name showing the lower bound of the rolling estimate.}
 
@@ -98,22 +98,22 @@ Shows the interrupted time series in Cartesian coordinates without a periodic/cy
 \examples{
 library(Wats) #Load the package
 changeMonth <- base::as.Date("1996-02-15")
-dsLinear <- county_month_birth_rate_2005_version
-dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+ds_linear <- county_month_birth_rate_2005_version
+ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
+ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, dateName="Date")
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- annotate_data(
-    dsLinear,
-    dvName = "BirthRate",
-    centerFunction = median,
-    spreadFunction = hSpread
+    ds_linear,
+    dv_name = "BirthRate",
+    center_function = median,
+    spread_function = hSpread
 )
 
 cartesian_rolling(
-    portfolio$dsLinear,
+    portfolio$ds_linear,
     xName = "Date",
     yName = "BirthRate",
-    stageIDName = "StageID",
+    stage_id_name = "StageID",
     changePoints = changeMonth,
     changePointLabels = "Bombing Effect"
 )
