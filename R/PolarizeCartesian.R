@@ -43,13 +43,14 @@
 #' )
 #'
 #' library(ggplot2)
-#' ggplot(polarized$dsStageCyclePolar, aes(color=factor(StageID))) +
+#' polarized$dsStageCyclePolar |>
+#'   ggplot(aes(color=factor(StageID))) +
 #'   geom_path(aes(x=PolarLowerX, y=PolarLowerY), linetype=2) +
-#'   geom_path(aes(x=PolarCenterX, y=PolarCenterY), size=2) +
+#'   geom_path(aes(x=PolarCenterX, y=PolarCenterY), linewidth=2) +
 #'   geom_path(aes(x=PolarUpperX, y=PolarUpperY), linetype=2) +
 #'   geom_path(aes(x=ObservedX, y=ObservedY), data=polarized$dsObservedPolar) +
 #'   coord_fixed(ratio=1) +
-#'   guides(color=FALSE)
+#'   guides(color=NULL)
 
 #For a more polished graph, see PolarPeriodic().
 PolarizeCartesian <- function(dsLinear, dsStageCycle,
