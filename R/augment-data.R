@@ -1,13 +1,13 @@
-#' @name AugmentCycleData
-#' @aliases AugmentYearDataWithMonthResolution AugmentYearDataWithSecondResolution
-#' @export AugmentYearDataWithMonthResolution AugmentYearDataWithSecondResolution
-#' @usage AugmentYearDataWithMonthResolution( dsLinear, dateName )
-#' AugmentYearDataWithSecondResolution( dsLinear, dateName )
+#' @name augment_cycle_data
+#' @aliases augment_year_data_with_month_resolution augment_year_data_with_second_resolution
+#' @export augment_year_data_with_month_resolution augment_year_data_with_second_resolution
+#' @usage augment_year_data_with_month_resolution( dsLinear, dateName )
+#' augment_year_data_with_second_resolution( dsLinear, dateName )
 #'
 #' @title Calculates variables necessary for WATS Plots
 #'
 #' @description Calculates variables necessary for WATS Plots.  This the first of two functions
-#' that needs to be called to produce WATS Plots.  [AnnotateData()] is the second.
+#' that needs to be called to produce WATS Plots.  [annotate_data()] is the second.
 #'
 #' @param dsLinear The [data.frame] to containing the detailed data.
 #' @param dateName The variable name in `dsLinear` containing the date or datetime value.
@@ -15,13 +15,13 @@
 #' @return Returns a [data.frame] with additional variables: `CycleTally`, `ProportionThroughCycle`, `ProportionID`, and `TerminalPointInCycle`.
 #' @examples
 #' library(Wats)
-#' dsLinear <- CountyMonthBirthRate2005Version
+#' dsLinear <- county_month_birth_rate_2005_version
 #' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-#' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+#' dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
 #' head(dsLinear)
 #'
 #' @importFrom rlang .data
-AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
+augment_year_data_with_month_resolution <- function( dsLinear, dateName ) {
   isMin <- NULL # avoid "Undefined global functions or variables"
 
   yearOfEvent <- lubridate::year(dsLinear[[dateName]])
@@ -57,7 +57,7 @@ AugmentYearDataWithMonthResolution <- function( dsLinear, dateName ) {
   # dsLinear$StageProgress <- base::unlist(plyr::dlply(dsLinear, "StageID", SummarizeWithinStage))
   # return( dsLinear )
 }
-AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
+augment_year_data_with_second_resolution <- function( dsLinear, dateName ) {
   isMin <- NULL # avoid "Undefined global functions or variables"
 
   yearOfEvent <- lubridate::year(dsLinear[[dateName]])
@@ -123,10 +123,10 @@ AugmentYearDataWithSecondResolution <- function( dsLinear, dateName ) {
 }
 
 # library(Wats)
-# dsLinear <- CountyMonthBirthRate2005Version
+# dsLinear <- county_month_birth_rate_2005_version
 # dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-# # dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+# # dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
 # dsLinear
 #
 # dsLinear$Date <- as.POSIXct(dsLinear$Date, tz="GMT")
-# dsLinear <- AugmentYearDataWithSecondResolution(dsLinear=dsLinear, dateName="Date")
+# dsLinear <- augment_year_data_with_second_resolution(dsLinear=dsLinear, dateName="Date")

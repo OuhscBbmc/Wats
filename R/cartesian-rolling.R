@@ -1,4 +1,4 @@
-#' @name CartesianRolling
+#' @name cartesian_rolling
 #' @export
 #' @title Linear Plot with Rolling Summaries
 #'
@@ -40,18 +40,18 @@
 #' @examples
 #' library(Wats) #Load the package
 #' changeMonth <- base::as.Date("1996-02-15")
-#' dsLinear <- CountyMonthBirthRate2005Version
+#' dsLinear <- county_month_birth_rate_2005_version
 #' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-#' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+#' dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
 #' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-#' portfolio <- AnnotateData(
+#' portfolio <- annotate_data(
 #'     dsLinear,
 #'     dvName = "BirthRate",
 #'     centerFunction = median,
 #'     spreadFunction = hSpread
 #' )
 #'
-#' CartesianRolling(
+#' cartesian_rolling(
 #'     portfolio$dsLinear,
 #'     xName = "Date",
 #'     yName = "BirthRate",
@@ -60,7 +60,7 @@
 #'     changePointLabels = "Bombing Effect"
 #' )
 
-CartesianRolling <- function(dsLinear, xName, yName, stageIDName,
+cartesian_rolling <- function(dsLinear, xName, yName, stageIDName,
                               rollingLowerName="RollingLower", rollingCenterName="RollingCenter", rollingUpperName="RollingUpper",
                               paletteDark=NULL, paletteLight=NULL, colorSparse=grDevices::adjustcolor("tan1", .5),
                               changePoints=NULL, changePointLabels=NULL,

@@ -1,5 +1,5 @@
-#' @name AnnotateData
-#' @export AnnotateData
+#' @name annotate_data
+#' @export annotate_data
 #' @title Finds midpoints and bands for the within and between cycles.
 #'
 #' @description Finds midpoints and bands for the within and between cycles.  This the second of two functions
@@ -18,12 +18,12 @@
 #' @return Returns a `data.frame` with additional variables <<Say what they are>>.
 #' @examples
 #' library(Wats)
-#' dsLinear <- CountyMonthBirthRate2005Version
+#' dsLinear <- county_month_birth_rate_2005_version
 #' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-#' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+#' dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
 #'
 #' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-#' portfolio <- AnnotateData(
+#' portfolio <- annotate_data(
 #'   dsLinear = dsLinear,
 #'   dvName = "BirthRate",
 #'   centerFunction = median,
@@ -35,7 +35,7 @@
 #' head(portfolio$dsPeriodic)
 
 #' @importFrom rlang .data
-AnnotateData <- function( dsLinear,
+annotate_data <- function( dsLinear,
                           dvName,
                           centerFunction,
                           spreadFunction,
@@ -100,18 +100,18 @@ AnnotateData <- function( dsLinear,
 }
 
 # library(Wats)
-# dsLinear <- CountyMonthBirthRate2005Version
+# dsLinear <- county_month_birth_rate_2005_version
 # dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-# dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+# dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
 #
 # hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+# portfolio <- annotate_data(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 #
 # head(portfolio$dsStageCycle)
 # head(portfolio$dsLinear)
 # head(portfolio$dsPeriodic)
 #
-# portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=mean, spreadFunction=hSpread)
+# portfolio <- annotate_data(dsLinear, dvName="BirthRate", centerFunction=mean, spreadFunction=hSpread)
 #
 # head(portfolio$dsStageCycle)
 # head(portfolio$dsLinear)

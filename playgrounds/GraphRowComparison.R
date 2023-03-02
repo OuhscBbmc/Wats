@@ -31,11 +31,11 @@ lightTheme <- ggplot2::theme(
 )
 
 GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spreadFunction=hSpread, changeMonth=as.Date("1996-02-15") ) {
-  dsLinear <- CountyMonthBirthRate2005Version[CountyMonthBirthRate2005Version$CountyName==countyName, ]
-  dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
-  portfolioCartesian <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=spreadFunction)
-  portfolioPolar <- PolarizeCartesian(dsLinear=portfolioCartesian$dsLinear, dsStageCycle=portfolioCartesian$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
-  cartesianPeriodic <- CartesianPeriodic(portfolioCartesian$dsLinear, portfolioCartesian$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels=""  )
+  dsLinear <- county_month_birth_rate_2005_version[county_month_birth_rate_2005_version$CountyName==countyName, ]
+  dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+  portfolioCartesian <- annotate_data(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=spreadFunction)
+  portfolioPolar <- polarize_cartesian(dsLinear=portfolioCartesian$dsLinear, dsStageCycle=portfolioCartesian$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
+  cartesian_periodic <- cartesian_periodic(portfolioCartesian$dsLinear, portfolioCartesian$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels=""  )
 
   pushViewport(viewport(
     layout=grid.layout(nrow=1, ncol=3, respect=FALSE, widths=unit(c(2,1,3), c("line", "null", "null"))),
@@ -48,11 +48,11 @@ GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spreadFun
 
   pushViewport(viewport(layout.pos.col=2))
 #   grid.rect()
-  polarPeriodic <- PolarPeriodic(dsLinear=portfolioPolar$dsObservedPolar, dsStageCyclePolar=portfolioPolar$dsStageCyclePolar, drawObservedLine=FALSE, yName="Radius", stageIDName="StageID", originLabel=NULL)
+  polar_periodic <- polar_periodic(dsLinear=portfolioPolar$dsObservedPolar, dsStageCyclePolar=portfolioPolar$dsStageCyclePolar, drawObservedLine=FALSE, yName="Radius", stageIDName="StageID", originLabel=NULL)
   popViewport()
 
   pushViewport(viewport(layout.pos.col=3))
-  print(cartesianPeriodic + lightTheme, vp=vpLayout(x=1, y=1))
+  print(cartesian_periodic + lightTheme, vp=vpLayout(x=1, y=1))
   popViewport()
   popViewport() #Finish the row
 }

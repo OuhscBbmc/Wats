@@ -20,7 +20,7 @@ pathInstallPackages <- "./UtilityScripts/InstallPackages.R"
 if( !file.exists(pathInstallPackages)) {
   base::stop("The file `", pathInstallPackages, "` was not found.  Make sure the working directory is set to the root of the repository.")
 }
-base::source(pathInstallPackages, local=new.env()) 
+base::source(pathInstallPackages, local=new.env())
 
 base::rm(pathInstallPackages)
 ###################################
@@ -41,8 +41,8 @@ pathCountyFips <- "./Datasets/CountyFipsCode.csv"
 # The derived/intermediate data files (which are produced by the repository's code files):
 pathCensusYearly <- "./Datasets/CensusIntercensal/CensusCountyYear.csv"
 pathCensusMonthly <- "./Datasets/CensusIntercensal/CensusCountyMonth.csv"
-pathDataForAnalaysis2005 <- "./Datasets/CountyMonthBirthRate2005Version.csv"
-pathDataForAnalaysis2014 <- "./Datasets/CountyMonthBirthRate2014Version.csv"
+pathDataForAnalaysis2005 <- "./Datasets/county_month_birth_rate_2005_version.csv"
+pathDataForAnalaysis2014 <- "./Datasets/county_month_birth_rate_2014_version.csv"
 
 # Code Files:
 pathManipulateCensus <- "./UtilityScripts/IsolateCensusPopsForGfr.R"

@@ -1,5 +1,5 @@
-#' @name CountyMonthBirthRate
-#' @aliases CountyMonthBirthRate2005Version CountyMonthBirthRate2014Version
+#' @name county_month_birth_rate
+#' @aliases county_month_birth_rate_2005_version county_month_birth_rate_2014_version
 #' @docType data
 #' @title Monthly Growth Fertility Rates (GFR) for 12 urban Oklahoma counties
 #' @description Monthly Growth Fertility Rates (GFR) for 12 urban counties in Oklahoma
@@ -65,7 +65,7 @@
 #' library(ggplot2)
 #'
 #' ##2005 Version (see description above)
-#' ds2005 <- CountyMonthBirthRate2005Version
+#' ds2005 <- county_month_birth_rate_2005_version
 #' ggplot(ds2005, aes(x=Date, y=BirthRate, color=factor(Fips))) +
 #' geom_line() +
 #' labs(title="County Fertility - Longitudinal")
@@ -75,7 +75,7 @@
 #' labs(title="Distributions of County Fertility")
 #'
 #' ##2014 Version (see description above)
-#' ds2014 <- CountyMonthBirthRate2014Version
+#' ds2014 <- county_month_birth_rate_2014_version
 #' ggplot(ds2014, aes(x=Date, y=BirthRate, color=factor(Fips))) +
 #' geom_line() +
 #' labs(title="County Fertility - Longitudinal")

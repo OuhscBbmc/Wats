@@ -4,14 +4,14 @@ library(testthat)
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt") #This approach accounts for working on developmental box.
 
 test_that("AnnotateDataWithMonthResolution-Median", {
-  dsLinear <- CountyMonthBirthRate2005Version
+  dsLinear <- county_month_birth_rate_2005_version
   dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-  dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+  dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
 
   hSpread <- function( scores ) {
     return( quantile(x=scores, probs=c(.25, .75)) )
   }
-  portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+  portfolio <- annotate_data(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 
   #   head(portfolio$dsStageCycle); dput(portfolio$dsStageCycle)
   #   head(portfolio$dsLinear); dput(head(portfolio$dsLinear))
@@ -104,14 +104,14 @@ test_that("AnnotateDataWithMonthResolution-Median", {
     expect_equal(expected=expectedPeriodicHead, ignore_attr = TRUE)
 })
 test_that("AnnotateDataWithMonthResolution-Median", {
-  dsLinear <- CountyMonthBirthRate2005Version
+  dsLinear <- county_month_birth_rate_2005_version
   dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-  dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+  dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
 
   hSpread <- function( scores ) {
     return( quantile(x=scores, probs=c(.25, .75)) )
   }
-  portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=mean, spreadFunction=hSpread)
+  portfolio <- annotate_data(dsLinear, dvName="BirthRate", centerFunction=mean, spreadFunction=hSpread)
 
   #   head(portfolio$dsStageCycle); dput(portfolio$dsStageCycle)
   #   head(portfolio$dsLinear); dput(head(portfolio$dsLinear))

@@ -90,21 +90,21 @@ This section corresponds to the MBR manuscript, but with the modified dataset.
 
 Smoothed monthly  birth rates (General Fertility Rates;  GFR's) for Oklahoma County, 1990-1999, plotted in a linear plot.  The top plot shows the connected raw data with a February smoother; the middle plot shows smoothing with a 12-month moving average, blue/green line, superimposed on a February smoother, red tan line); the bottom plot shows the smoothers and confidence bands, which are H-spreads (ie, the distance between the .25 and .75 quantiles) defined using the distribution of GFR's for the given month and 11 previous months.
 
-```{r CartesianRolling, fig.height=4.8}
-# dsLinear <- utils::read.csv("./Datasets/CountyMonthBirthRate2014Version.csv", stringsAsFactors=FALSE)
+```{r cartesian_rolling, fig.height=4.8}
+# dsLinear <- utils::read.csv("./Datasets/county_month_birth_rate_2014_version.csv", stringsAsFactors=FALSE)
 # dsLinear$Date <- base::as.Date(dsLinear$Date)
 # dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
 
 # Uncomment this line to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
-dsLinearAll <- CountyMonthBirthRate2014Version
+dsLinearAll <- county_month_birth_rate_2014_version
 dsLinear <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ]
 
-dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+dsLinear <- Wats::augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
 
-portfolioCartesian <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=stats::median, spreadFunction=hSpread)
+portfolioCartesian <- Wats::annotate_data(dsLinear, dvName="BirthRate", centerFunction=stats::median, spreadFunction=hSpread)
 
-topPanel <- Wats::CartesianRolling(
+topPanel <- Wats::cartesian_rolling(
   dsLinear = portfolioCartesian$dsLinear,
   xName = "Date",
   yName = "BirthRate",
@@ -116,7 +116,7 @@ topPanel <- Wats::CartesianRolling(
   drawRollingLine = FALSE
 )
 
-middlePanel <- CartesianRolling(
+middlePanel <- cartesian_rolling(
   dsLinear = portfolioCartesian$dsLinear,
   xName = "Date",
   yName = "BirthRate",
@@ -128,7 +128,7 @@ middlePanel <- CartesianRolling(
   drawJaggedLine = FALSE
 )
 
-bottomPanel <- Wats::CartesianRolling(
+bottomPanel <- Wats::cartesian_rolling(
   dsLinear = portfolioCartesian$dsLinear,
   xName = "Date",
   yName = "BirthRate",
@@ -156,8 +156,8 @@ This section corresponds to the MBR manuscript, but with the modified dataset.
 
 Carteisan plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
 
-```{r CartesianPeriodic}
-cartesianPeriodic <- Wats::CartesianPeriodic(
+```{r cartesian_periodic}
+cartesian_periodic <- Wats::cartesian_periodic(
   portfolioCartesian$dsLinear,
   portfolioCartesian$dsPeriodic,
   xName = "Date",
@@ -168,8 +168,8 @@ cartesianPeriodic <- Wats::CartesianPeriodic(
   yTitle = "General Fertility Rate",
   drawPeriodicBand = TRUE #The only difference from the simple linear graph above
 )
-cartesianPeriodic <- cartesianPeriodic + xScale + darkTheme
-print(cartesianPeriodic)
+cartesian_periodic <- cartesian_periodic + xScale + darkTheme
+print(cartesian_periodic)
 ```
 
 ## Section 3: Polar Periodic
@@ -177,8 +177,8 @@ This section corresponds to the MBR manuscript, but with the modified dataset.
 
 Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
-```{r PolarPeriodic, fig.height=6.5*2/3}
-portfolioPolar <- Wats::PolarizeCartesian(
+```{r polar_periodic, fig.height=6.5*2/3}
+portfolioPolar <- Wats::polarize_cartesian(
   dsLinear = portfolioCartesian$dsLinear,
   dsStageCycle = portfolioCartesian$dsStageCycle,
   yName = "BirthRate",
@@ -198,7 +198,7 @@ grid::pushViewport(grid::viewport(
 
 ## Create top left panel
 grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=1))
-topLeftPanel <- Wats::PolarPeriodic(
+topLeftPanel <- Wats::polar_periodic(
   dsLinear = portfolioPolar$dsObservedPolar,
   dsStageCyclePolar = portfolioPolar$dsStageCyclePolar,
   yName = "Radius",
@@ -209,7 +209,7 @@ grid::upViewport()
 
 ## Create top right panel
 grid::pushViewport(grid::viewport(layout.pos.col=2, layout.pos.row=1))
-topRighttPanel <- Wats::PolarPeriodic(
+topRighttPanel <- Wats::polar_periodic(
   dsLinear = portfolioPolar$dsObservedPolar,
   dsStageCyclePolar = portfolioPolar$dsStageCyclePolar,
   yName = "Radius",
@@ -222,7 +222,7 @@ grid::upViewport()
 
 ## Create bottom panel
 grid::pushViewport(grid::viewport(layout.pos.col=1:2, layout.pos.row=2, gp=grid::gpar(cex=1)))
-print(cartesianPeriodic, vp=vpLayout(x=1:2, y=2)) #Print across both columns of the bottom row.
+print(cartesian_periodic, vp=vpLayout(x=1:2, y=2)) #Print across both columns of the bottom row.
 upViewport()
 ```
 
@@ -232,7 +232,7 @@ The remaining two sections depart from the MBR manuscript analyses.  Its goal is
 This section uses an approach advocated by McLeod, Yu, & Mahdi (2011), which is consistent other articles, including Rodgers et al. (2005).  There are two trends that are de-seasonalized.  The first is the 'classic' approach which uses the observed trend line (see [`decompose()` on CRAN](http://stat.ethz.ch/R-manual/R-devel/library/stats/html/decompose.html)).  The second is a smoothed version, where a loess is passed through the observed data; this smoothed line is then de-seasonalized (see [`stl()` on CRAN](stat.ethz.ch/R-manual/R-devel/library/stats/html/stl.html)).  Both approaches lead to comparable conclusions.  The post-bombing fertility is significantly higher  than the pre-bombing fertility (ie, the `step` coefficient is significantly more positive).
 
 ```{r ConfirmatoryFrequentist, fig.height=6.5}
-dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+dsLinear <- Wats::augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
 
 tsData <- stats::ts(
   data = dsLinear$BirthRate,

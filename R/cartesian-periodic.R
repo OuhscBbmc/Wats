@@ -1,4 +1,4 @@
-#' @name CartesianPeriodic
+#' @name cartesian_periodic
 #' @export
 #' @title Linear Plot with Periodic Elements
 #'
@@ -33,18 +33,18 @@
 #' @examples
 #' library(Wats) #Load the package
 #' changeMonth <- base::as.Date("1996-02-15")
-#' dsLinear <- CountyMonthBirthRate2005Version
+#' dsLinear <- county_month_birth_rate_2005_version
 #' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-#' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+#' dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
 #' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-#' portfolio <- AnnotateData(
+#' portfolio <- annotate_data(
 #'     dsLinear,
 #'     dvName = "BirthRate",
 #'     centerFunction = median,
 #'     spreadFunction = hSpread
 #' )
 #'
-#' CartesianPeriodic(
+#' cartesian_periodic(
 #'   portfolio$dsLinear,
 #'   portfolio$dsPeriodic,
 #'   xName = "Date",
@@ -56,7 +56,7 @@
 
 
 
-CartesianPeriodic <- function(dsLinear, dsPeriodic,
+cartesian_periodic <- function(dsLinear, dsPeriodic,
                               xName, yName, stageIDName,
                               periodicLowerName="PositionLower", periodicUpperName="PositionUpper",
                               paletteDark=NULL, paletteLight=NULL,
@@ -126,13 +126,13 @@ CartesianPeriodic <- function(dsLinear, dsPeriodic,
   return( p )
 }
 
-# dsLinear <- CountyMonthBirthRate2005Version
+# dsLinear <- county_month_birth_rate_2005_version
 # dsLinear[dsLinear$CountyName=="oklahoma", ]
-# dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+# dsLinear <- Wats::augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
 #
 # hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+# portfolio <- Wats::annotate_data(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 #
-# CartesianPeriodic(portfolio$dsLinear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect",
+# cartesian_periodic(portfolio$dsLinear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect",
 #                    drawPeriodicBand=FALSE)
-# CartesianPeriodic(portfolio$dsLinear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")
+# cartesian_periodic(portfolio$dsLinear, portfolio$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels="Bombing Effect")

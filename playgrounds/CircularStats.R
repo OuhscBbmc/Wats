@@ -5,9 +5,9 @@ library(ggplot2)
 library(boot)
 library(circular)
 
-dsLinear <- CountyMonthBirthRate2014Version[CountyMonthBirthRate2014Version$CountyName=="oklahoma", ]
+dsLinear <- county_month_birth_rate_2014_version[county_month_birth_rate_2014_version$CountyName=="oklahoma", ]
 
-dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
 # base::pretty(x=dsLinear$BirthRate)
 
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
@@ -21,11 +21,11 @@ bootSpread <- function( scores, conf=.68 ) {
 }
 # b <- bootSpread(dsLinear$BirthRate)
 
-# portfolioCartesian <- AnnotateData(dsLinear, dvName="BirthRate",centerFunction=median,
+# portfolioCartesian <- annotate_data(dsLinear, dvName="BirthRate",centerFunction=median,
 #                                    spreadFunction=bootSpread)
 #                                    #spreadFunction=seSpread)
 #
-# portfolioPolar <- PolarizeCartesian(portfolioCartesian$dsLinear, portfolioCartesian$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
+# portfolioPolar <- polarize_cartesian(portfolioCartesian$dsLinear, portfolioCartesian$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
 
 
 tsData <- stats::ts(

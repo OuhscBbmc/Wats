@@ -1,6 +1,6 @@
 rm(list=ls(all=TRUE))
 library(Wats)
-dsLinear <- CountyMonthBirthRate2014Version[CountyMonthBirthRate2014Version$CountyName=="oklahoma", ]
+dsLinear <- county_month_birth_rate_2014_version[county_month_birth_rate_2014_version$CountyName=="oklahoma", ]
 
 tsData <- stats::ts(
   data = dsLinear$BirthRate,

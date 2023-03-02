@@ -1,4 +1,4 @@
-#' @name PolarizeCartesian
+#' @name polarize_cartesian
 #' @export
 #' @title Manipulate Cartesian data to use in the WATS polar plot
 #'
@@ -22,12 +22,12 @@
 #' @keywords polar
 #' @examples
 #' library(Wats)
-#' dsLinear <- CountyMonthBirthRate2005Version
+#' dsLinear <- county_month_birth_rate_2005_version
 #' dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-#' dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+#' dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
 #'
 #' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-#' portfolio <- AnnotateData(
+#' portfolio <- annotate_data(
 #'   dsLinear = dsLinear,
 #'   dvName = "BirthRate",
 #'   centerFunction = median,
@@ -35,7 +35,7 @@
 #' )
 #' rm(dsLinear)
 #'
-#' polarized <- PolarizeCartesian(
+#' polarized <- polarize_cartesian(
 #'   dsLinear = portfolio$dsLinear,
 #'   dsStageCycle = portfolio$dsStageCycle,
 #'   yName = "BirthRate",
@@ -52,8 +52,8 @@
 #'   coord_fixed(ratio=1) +
 #'   guides(color=NULL)
 
-#For a more polished graph, see PolarPeriodic().
-PolarizeCartesian <- function(dsLinear, dsStageCycle,
+#For a more polished graph, see polar_periodic().
+polarize_cartesian <- function(dsLinear, dsStageCycle,
                       yName, stageIDName,
                       cycleTallyName="CycleTally",
                       proportionThroughCycleName="ProportionThroughCycle",
@@ -203,15 +203,15 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
 }
 
 # library(Wats)
-# dsLinear <- CountyMonthBirthRate2005Version
+# dsLinear <- county_month_birth_rate_2005_version
 # dsLinear <- dsLinear[dsLinear$CountyName=="oklahoma", ]
-# dsLinear <- AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
+# dsLinear <- augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
 #
 # hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- AnnotateData(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
+# portfolio <- annotate_data(dsLinear, dvName="BirthRate", centerFunction=median, spreadFunction=hSpread)
 # rm(dsLinear)
 #
-# polarized <- PolarizeCartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
+# polarized <- polarize_cartesian(portfolio$dsLinear, portfolio$dsStageCycle, yName="BirthRate", stageIDName="StageID")
 #
 # library(ggplot2)
 # ggplot(polarized$dsStageCyclePolar, aes(color=factor(StageID))) +
@@ -222,4 +222,4 @@ PolarizeCartesian <- function(dsLinear, dsStageCycle,
 #   coord_fixed(ratio=1) +
 #   guides(color=FALSE)
 #
-# #For a more polished graph, see PolarPeriodic().
+# #For a more polished graph, see polar_periodic().

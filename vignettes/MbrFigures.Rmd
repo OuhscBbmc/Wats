@@ -111,7 +111,7 @@ xScaleBlank  <- ggplot2::scale_x_date(breaks=dateSequence, labels=NULL) #This ke
 Here is the basic linear rolling graph.  It doesn't require much specification, and will work with a wide range of appropriate datasets.  This first (unpublished) graph displays all components.
 
 ```{r Figure2IndividualBasic}
-# dsLinearAll <- utils::read.csv("./Datasets/CountyMonthBirthRate2005Version.csv", stringsAsFactors=FALSE)
+# dsLinearAll <- utils::read.csv("./Datasets/county_month_birth_rate_2005_version.csv", stringsAsFactors=FALSE)
 # dsLinearAll$Date <- base::as.Date(dsLinearAll$Date)
 # dsLinearOkc <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ]
 
@@ -119,20 +119,20 @@ Here is the basic linear rolling graph.  It doesn't require much specification, 
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
 
 dsLinearAll <-
-  CountyMonthBirthRate2005Version |>
+  county_month_birth_rate_2005_version |>
   tibble::as_tibble()
-# dsLinearAll <- CountyMonthBirthRate2005Version
+# dsLinearAll <- county_month_birth_rate_2005_version
 dsLinearOkc <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ]
 
 # dsLinearOkc <-
 #   dsLinearAll |>
 #   dplyr::filter(CountyName == "oklahoma")
 
-dsLinearOkc <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinearOkc, dateName="Date")
+dsLinearOkc <- Wats::augment_year_data_with_month_resolution(dsLinear=dsLinearOkc, dateName="Date")
 
-portfolioCartesian <- Wats::AnnotateData(dsLinearOkc, dvName="BirthRate", centerFunction=stats::median, spreadFunction=hSpread)
+portfolioCartesian <- Wats::annotate_data(dsLinearOkc, dvName="BirthRate", centerFunction=stats::median, spreadFunction=hSpread)
 
-Wats::CartesianRolling(
+Wats::cartesian_rolling(
   dsLinear = portfolioCartesian$dsLinear,
   xName = "Date",
   yName = "BirthRate",
@@ -145,7 +145,7 @@ Wats::CartesianRolling(
 The version for the manuscript was tweaked to take advantage of certain features of the dataset.  This is what it looks like when all three stylized panels are combined.
 
 ```{r Figure2Stylized, fig.height=4.8}
-topPanel <- Wats::CartesianRolling(
+topPanel <- Wats::cartesian_rolling(
   dsLinear = portfolioCartesian$dsLinear,
   xName = "Date",
   yName = "BirthRate",
@@ -157,7 +157,7 @@ topPanel <- Wats::CartesianRolling(
   drawRollingLine = FALSE
 )
 
-middlePanel <- Wats::CartesianRolling(
+middlePanel <- Wats::cartesian_rolling(
   dsLinear = portfolioCartesian$dsLinear,
   xName = "Date",
   yName = "BirthRate",
@@ -169,7 +169,7 @@ middlePanel <- Wats::CartesianRolling(
   drawJaggedLine = FALSE
 )
 
-bottomPanel <- Wats::CartesianRolling(
+bottomPanel <- Wats::cartesian_rolling(
   dsLinear = portfolioCartesian$dsLinear,
   xName = "Date",
   yName = "BirthRate",
@@ -197,7 +197,7 @@ grid::popViewport()
 Carteisan plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
 
 ```{r Figure4Basic}
-cartesianPeriodic <- Wats::CartesianPeriodic(
+cartesian_periodic <- Wats::cartesian_periodic(
   portfolioCartesian$dsLinear,
   portfolioCartesian$dsPeriodic,
   xName = "Date",
@@ -208,18 +208,18 @@ cartesianPeriodic <- Wats::CartesianPeriodic(
   yTitle = "General Fertility Rate",
   drawPeriodicBand = TRUE #The only difference from the simple linear graph above
 )
-print(cartesianPeriodic)
+print(cartesian_periodic)
 ```
 ```{r Figure4Stylized}
-cartesianPeriodic <- cartesianPeriodic + xScale + darkTheme
-print(cartesianPeriodic)
+cartesian_periodic <- cartesian_periodic + xScale + darkTheme
+print(cartesian_periodic)
 ```
 
 ## Figure 5: Polar Periodic
 Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
 ```{r Figure5, fig.height=3, fig.width=3, out.width="300px"}
-portfolioPolar <- Wats::PolarizeCartesian(
+portfolioPolar <- Wats::polarize_cartesian(
   dsLinear = portfolioCartesian$dsLinear,
   dsStageCycle = portfolioCartesian$dsStageCycle,
   yName = "BirthRate",
@@ -228,7 +228,7 @@ portfolioPolar <- Wats::PolarizeCartesian(
 )
 
 grid::grid.newpage()
-Wats::PolarPeriodic(
+Wats::polar_periodic(
   dsLinear = portfolioPolar$dsObservedPolar,
   dsStageCycle = portfolioPolar$dsStageCyclePolar,
   yName = "Radius",
@@ -244,7 +244,7 @@ Wats::PolarPeriodic(
 Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
 ```{r Figure6, fig.height=6.5*2/3}
-portfolioPolar <- Wats::PolarizeCartesian(
+portfolioPolar <- Wats::polarize_cartesian(
   dsLinear = portfolioCartesian$dsLinear,
   dsStageCycle = portfolioCartesian$dsStageCycle,
   yName = "BirthRate",
@@ -264,7 +264,7 @@ grid::pushViewport(grid::viewport(
 
 ## Create top left panel
 grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=1))
-topLeftPanel <- Wats::PolarPeriodic(
+topLeftPanel <- Wats::polar_periodic(
   dsLinear = portfolioPolar$dsObservedPolar,
   dsStageCyclePolar = portfolioPolar$dsStageCyclePolar,
   yName = "Radius",
@@ -275,7 +275,7 @@ grid::upViewport()
 
 ## Create top right panel
 grid::pushViewport(grid::viewport(layout.pos.col=2, layout.pos.row=1))
-topRightPanel <- Wats::PolarPeriodic(
+topRightPanel <- Wats::polar_periodic(
   dsLinear = portfolioPolar$dsObservedPolar,
   dsStageCyclePolar = portfolioPolar$dsStageCyclePolar,
   yName = "Radius",
@@ -288,7 +288,7 @@ grid::upViewport()
 
 ## Create bottom panel
 grid::pushViewport(grid::viewport(layout.pos.col=1:2, layout.pos.row=2, gp=grid::gpar(cex=1)))
-print(cartesianPeriodic, vp=vpLayout(x=1:2, y=2)) #Print across both columns of the bottom row.
+print(cartesian_periodic, vp=vpLayout(x=1:2, y=2)) #Print across both columns of the bottom row.
 grid::upViewport()
 ```
 
@@ -296,7 +296,7 @@ grid::upViewport()
 This figure compares Oklahoma County against the (other) largest urban counties.
 
 ```{r Figure7, fig.height=6.5}
-# dsLinearAll <- Wats::AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2005Version, dateName="Date")
+# dsLinearAll <- Wats::augment_year_data_with_month_resolution(dsLinear=county_month_birth_rate_2005_version, dateName="Date")
 
 #Identify the average size of the fecund population
 # plyr::ddply(dsLinearAll, "CountyName", plyr::summarize, Mean=base::mean(FecundPopulation))
@@ -309,10 +309,10 @@ dsLinearAll |>
 
 GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spreadFunction=hSpread, changeMonth=as.Date("1996-02-15") ) {
   dsLinear <- dsLinearAll[dsLinearAll$CountyName==countyName, ]
-  dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
-  portfolioCartesian <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=stats::median, spreadFunction=spreadFunction)
-  portfolioPolar <- Wats::PolarizeCartesian(dsLinear=portfolioCartesian$dsLinear, dsStageCycle=portfolioCartesian$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
-  cartesianPeriodic <- Wats::CartesianPeriodic(portfolioCartesian$dsLinear, portfolioCartesian$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels=""  )
+  dsLinear <- Wats::augment_year_data_with_month_resolution(dsLinear=dsLinear, dateName="Date")
+  portfolioCartesian <- Wats::annotate_data(dsLinear, dvName="BirthRate", centerFunction=stats::median, spreadFunction=spreadFunction)
+  portfolioPolar <- Wats::polarize_cartesian(dsLinear=portfolioCartesian$dsLinear, dsStageCycle=portfolioCartesian$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
+  cartesian_periodic <- Wats::cartesian_periodic(portfolioCartesian$dsLinear, portfolioCartesian$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels=""  )
 
   grid::pushViewport(grid::viewport(
     layout=grid::grid.layout(nrow=1, ncol=3, respect=FALSE, widths=grid::unit(c(1.5,1,3), c("line", "null", "null"))),
@@ -324,8 +324,8 @@ GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spreadFuncti
   grid::popViewport()
 
   grid::pushViewport(grid::viewport(layout.pos.col=2))
-  polarPeriodic <-
-    Wats::PolarPeriodic(
+  polar_periodic <-
+    Wats::polar_periodic(
       dsLinear            = portfolioPolar$dsObservedPolar,
       dsStageCyclePolar   = portfolioPolar$dsStageCyclePolar,
       drawObservedLine    = FALSE,
@@ -337,7 +337,7 @@ GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spreadFuncti
   grid::popViewport()
 
   grid::pushViewport(grid::viewport(layout.pos.col=3))
-  print(cartesianPeriodic + xScale + lightTheme, vp=vpLayout(x=1, y=1))
+  print(cartesian_periodic + xScale + lightTheme, vp=vpLayout(x=1, y=1))
   grid::popViewport()
   grid::popViewport() #Finish the row
 }

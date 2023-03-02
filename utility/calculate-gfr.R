@@ -7,10 +7,10 @@ requireNamespace("testit")
 
 inputPathCensusCountyMonth              <- "datasets/CensusIntercensal/CensusCountyMonth.csv"
 inputPathBirthCountCountyMonth          <- "datasets/BirthCountState.csv"
-outputPathBirthCountCountyMonthCsv2014  <- "datasets/CountyMonthBirthRate2014Version.csv"
-outputPathBirthCountCountyMonthCsv2005  <- "datasets/CountyMonthBirthRate2005Version.csv"
-outputPathBirthCountCountyMonthRda2014  <- "data/CountyMonthBirthRate2014Version.rda"
-outputPathBirthCountCountyMonthRda2005  <- "data/CountyMonthBirthRate2005Version.rda"
+outputPathBirthCountCountyMonthCsv2014  <- "datasets/county_month_birth_rate_2014_version.csv"
+outputPathBirthCountCountyMonthCsv2005  <- "datasets/county_month_birth_rate_2005_version.csv"
+outputPathBirthCountCountyMonthRda2014  <- "data/county_month_birth_rate_2014_version.rda"
+outputPathBirthCountCountyMonthRda2005  <- "data/county_month_birth_rate_2005_version.rda"
 changeMonth                             <- as.Date("1996-02-15")
 
 ###################
@@ -104,10 +104,10 @@ dsCountyMonth2005$BirthRate <- dsCountyMonth2005$BirthRateMonthly * dsCountyMont
 ###################
 # Write to disk
 ###################
-CountyMonthBirthRate2014Version <- dsCountyMonth2014
-CountyMonthBirthRate2005Version <- dsCountyMonth2005
+county_month_birth_rate_2014_version <- dsCountyMonth2014
+county_month_birth_rate_2005_version <- dsCountyMonth2005
 
-write.csv(CountyMonthBirthRate2014Version, file=outputPathBirthCountCountyMonthCsv2014, row.names=FALSE)
-write.csv(CountyMonthBirthRate2005Version, file=outputPathBirthCountCountyMonthCsv2005, row.names=FALSE)
-save(CountyMonthBirthRate2014Version, file=outputPathBirthCountCountyMonthRda2014, compress="xz")
-save(CountyMonthBirthRate2005Version, file=outputPathBirthCountCountyMonthRda2005, compress="xz")
+write.csv(county_month_birth_rate_2014_version, file=outputPathBirthCountCountyMonthCsv2014, row.names=FALSE)
+write.csv(county_month_birth_rate_2005_version, file=outputPathBirthCountCountyMonthCsv2005, row.names=FALSE)
+save(county_month_birth_rate_2014_version, file=outputPathBirthCountCountyMonthRda2014, compress="xz")
+save(county_month_birth_rate_2005_version, file=outputPathBirthCountCountyMonthRda2005, compress="xz")
