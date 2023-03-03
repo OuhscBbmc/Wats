@@ -164,7 +164,7 @@ ds_county_month_2005 <-
 county_month_birth_rate_2014_version <- ds_county_month_2014
 county_month_birth_rate_2005_version <- ds_county_month_2005
 
-write.csv(county_month_birth_rate_2014_version, file=outputPathBirthCountCountyMonthCsv2014, row.names=FALSE)
-write.csv(county_month_birth_rate_2005_version, file=outputPathBirthCountCountyMonthCsv2005, row.names=FALSE)
+readr::write_csv(county_month_birth_rate_2014_version, outputPathBirthCountCountyMonthCsv2014)
+readr::write_csv(county_month_birth_rate_2005_version, outputPathBirthCountCountyMonthCsv2005)
 save(county_month_birth_rate_2014_version, file=outputPathBirthCountCountyMonthRda2014, compress="xz")
 save(county_month_birth_rate_2005_version, file=outputPathBirthCountCountyMonthRda2005, compress="xz")
