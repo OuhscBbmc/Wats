@@ -18,8 +18,8 @@ requireNamespace("checkmate"    ) # For asserting conditions meet expected patte
 # requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
-inputPathCensusCountyMonth              <- "datasets/derived/census-county-month.csv"
 inputPathBirthCountCountyMonth          <- "datasets/raw/birth-count-county.csv"
+inputPathCensusCountyMonth              <- "datasets/derived/census-county-month.csv"
 outputPathBirthCountCountyMonthCsv2014  <- "datasets/derived/county-month-birth-rate-2014-version.csv"
 outputPathBirthCountCountyMonthCsv2005  <- "datasets/derived/county-month-birth-rate-2005-version.csv"
 outputPathBirthCountCountyMonthRda2014  <- "data/county_month_birth_rate_2014_version.rda"
@@ -39,10 +39,10 @@ col_types_census <-
 # OuhscMunge::readr_spec_aligned(inputPathBirthCountCountyMonth)
 
 col_types_birth_count <- readr::cols_only(
-  `CountyName`    = readr::col_character(),
-  `Year`          = readr::col_integer(),
-  `Month`         = readr::col_integer(),
-  `BirthCount`    = readr::col_integer()
+  `county_name`   = readr::col_character(),
+  `year`          = readr::col_integer(),
+  `month`         = readr::col_integer(),
+  `birth_count`   = readr::col_integer()
 )
 # ---- load-data ---------------------------------------------------------------
 ds_census       <- readr::read_csv(inputPathCensusCountyMonth, col_types = col_types_census)
@@ -65,10 +65,10 @@ ds_census <-
 ds_birth_count <-
   ds_birth_count |>
   dplyr::select(    # `dplyr::select()` drops columns not included.
-    county_name               = `CountyName`,
-    year                      = `Year`,
-    month                     = `Month`,
-    birth_count               = `BirthCount`,
+    county_name,
+    year,
+    month,
+    birth_count,
   ) |>
   dplyr::mutate(
     dummy       = TRUE,
