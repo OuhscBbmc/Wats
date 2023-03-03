@@ -1,4 +1,18 @@
-Versions 0.10.3 (Developed 2015-11-10)
+Upcoming Version
+------------------------------------------------------------------------------
+
+A modernization of the package.  See Issue #9 for low-level details
+
+Breaking Changes:
+
+* snake_case variable names (#16)
+
+New Features:
+
+* pkgdown website for documentation (#9)
+* Transition to GitHub Actions, from Travis & AppVeyor (#9)
+
+Version 0.10.3 (Developed 2015-11-10)
 ------------------------------------------------------------------------------
 Changes:
 * This submission is fixes a small incompatibility with the upcoming version of ggplot2.  ggplot2's more stringent checking caught a mistake; when calling `ggplot2::geom_vline`, Wats used the parameter `x`, instead of the correct `xintercept`.
@@ -24,14 +38,14 @@ Changes:
 * Upgraded to ggplot2 1.0.0
 
 Bug Fixes
-* `AnnotateData()` properly accepts the `centerFunction` parameter, and doesn't revert to `median`.  Thanks Mark Joseph Lachowicz (mark.j.lachowicz@vanderbilt.edu).  GitHub Issue #2.
-* Removed unnecessary aes setting of y in CartesianPeriodic.R
+* `annotate_data()` properly accepts the `center_function` parameter, and doesn't revert to `median`.  Thanks Mark Joseph Lachowicz (mark.j.lachowicz@vanderbilt.edu).  GitHub Issue #2.
+* Removed unnecessary aes setting of y in cartesian_periodic.R
 
 Version 0.1 (Developed from 2010 through 2013-12-11)
 ------------------------------------------------------------------------------
 New Features:
-* `AugmentZZZ()` and `AnnotateData()` functions.
-* `CartesianRolling()`, `CartesianPeriodic()`, and `PolarPeriodic()` functions.
+* `AugmentZZZ()` and `annotate_data()` functions.
+* `cartesian_rolling()`, `cartesian_periodic()`, and `polar_periodic()` functions.
 * Vignette to reproduce figures in MBR manuscript.
 
 GitHub Commits & Releases

@@ -33,37 +33,37 @@ transparencyBackground <- .3
 bandColorBefore <- c(adjustcolor(colorBefore, transparencyFocus), adjustcolor(colorBefore, transparencyBackground))
 bandColorAfter <- c(adjustcolor(colorAfter, transparencyBackground), adjustcolor(colorAfter, transparencyFocus))
 
-graphCeiling <- 7
-graphFloor <- 5
+graph_ceiling <- 7
+graph_floor <- 5
 yAxisTicks <- c(5, 6, 7)
 
 lowerQuantile <- .25
 upperQuantile <- .75
 
 ds$MonthIndex <- ds$MonthID %% monthsPerYear
-ds$StageID <- ifelse(ds$MonthID<=changePoint, 1, 2)
+ds$stage_id <- ifelse(ds$MonthID<=changePoint, 1, 2)
 # ds$Radians <- ds$MonthIndex * (2 * pi / monthsPerYear)
-# ds$X <- ds$BirthRate * sin(ds$Radians)
-# ds$Y <- ds$BirthRate * cos(ds$Radians)
-#maxRate <- max(ds$BirthRate)
+# ds$X <- ds$birth_rate * sin(ds$Radians)
+# ds$Y <- ds$birth_rate * cos(ds$Radians)
+#maxRate <- max(ds$birth_rate)
 # tail(ds)
 
 Summarize <- function( d ) {
   data.frame(
-    Lower=quantile(d$BirthRate, probs=lowerQuantile),
-    Upper=quantile(d$BirthRate, probs=upperQuantile)
+    Lower=quantile(d$birth_rate, probs=lowerQuantile),
+    Upper=quantile(d$birth_rate, probs=upperQuantile)
 )}
 CalculateLowerBand <- function( x ) { return( quantile(x, probs=lowerQuantile) ) }
 CalculateUpperBand <- function( x ) { return( quantile(x, probs=upperQuantile) ) }
 
-dsBand <- ddply(ds, .variables=c("MonthIndex", "StageID"), Summarize)
-dsBand <- rename(dsBand, replace=c("StageID"="StageIDBand"))
+dsBand <- ddply(ds, .variables=c("MonthIndex", "stage_id"), Summarize)
+dsBand <- rename(dsBand, replace=c("stage_id"="StageIDBand"))
 dsBands <- join(x=ds, y=dsBand, by="MonthIndex")
-dsBands$InPhase <- (dsBands$StageID == dsBands$StageIDBand)
+dsBands$InPhase <- (dsBands$stage_id == dsBands$StageIDBand)
 
-ds$Rolling <- rollapply(ds$BirthRate, 12, mean, align="right", fill=NA)
-ds$RollingLower <- rollapply(ds$BirthRate, 12, CalculateLowerBand, align="right", fill=NA)
-ds$RollingUpper <- rollapply(ds$BirthRate, 12, CalculateUpperBand, align="right", fill=NA)
+ds$Rolling <- rollapply(ds$birth_rate, 12, mean, align="right", fill=NA)
+ds$RollingLower <- rollapply(ds$birth_rate, 12, CalculateLowerBand, align="right", fill=NA)
+ds$RollingUpper <- rollapply(ds$birth_rate, 12, CalculateUpperBand, align="right", fill=NA)
 
 dsFebruary <- ds[ds$MonthIndex==2 & !is.na(ds$Rolling), ]
 dsStage1 <- ds[!is.na(ds$Rolling) & ds$MonthID<=changePoint, ]
@@ -72,7 +72,7 @@ dsStage2 <- ds[!is.na(ds$Rolling) & ds$MonthID>=changePoint, ]
 #################
 ### This is a quick graph that should be easy to understand & generalize to other datasets.
 #################
-p <- ggplot(ds, aes(x=Date, y=BirthRate, color=StageID))
+p <- ggplot(ds, aes(x=Date, y=birth_rate, color=stage_id))
 p <- p + geom_line(data=dsFebruary, aes(y=Rolling), size=1, color=smoothedLinear)
 p <- p + geom_point(data=dsFebruary, aes(y=Rolling), size=4, shape=3, color=smoothedLinear)
 
@@ -83,7 +83,7 @@ p <- p + geom_line(size=1)
 p <- p + geom_line(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling), size=2)
 p <- p + scale_color_continuous(low=colorBefore, high=colorAfter, guide=FALSE)
 p <- p + geom_vline(xintercept=as.integer(changeMonth), color=colorAfter)
-p <- p + annotate("text", x=changeMonth, y=max(ds$BirthRate), color=colorAfter, label="Bombing Effect")
+p <- p + annotate("text", x=changeMonth, y=max(ds$birth_rate), color=colorAfter, label="Bombing Effect")
 p <- p + theme_minimal()
 p <- p + labs(x="", y="General Fertility Rate")
 p
@@ -98,7 +98,7 @@ dateLocations <- seq.Date(from=as.Date("1990-01-01"), to=as.Date("2000-01-01"), 
 dateColors <- c(rep(colorBefore, 6), rep(colorAfter, 5))
 dsLabelsX <- data.frame(
   X=seq.Date(from=as.Date("1990-07-01"), to=as.Date("1999-07-01"), by="year"),
-  Y=graphFloor,
+  Y=graph_floor,
   Color=c(rep(colorBefore, 6), rep(colorAfter, 4)),
   stringsAsFactors=FALSE
 )
@@ -107,7 +107,7 @@ dsLabelsX$Label <- lubridate::year(dsLabelsX$X)
 dsBreak <- data.frame(X=changeMonth, XEnd=changeMonth, Y=5, YEnd=6.8, Label="Bombing Effect")
 
 LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showYears=TRUE, labelBreak=TRUE ) {
-  g <- ggplot(ds, aes(x=Date, y=BirthRate, color=StageID))#
+  g <- ggplot(ds, aes(x=Date, y=birth_rate, color=stage_id))#
   g <- g + geom_segment(data=dsBreak, aes(x=X, xend=XEnd, y=Y, yend=YEnd), color=colorAfter, size=3, alpha=.3)
 
   if( labelBreak ) g <- g + geom_text(data=dsBreak, aes(x=X, y=YEnd, label=Label), color=colorAfter, vjust=-.5, alpha=.5, size=4)#6

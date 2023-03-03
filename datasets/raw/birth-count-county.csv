@@ -1,4 +1,4 @@
-CountyName,Year,Month,BirthCount
+county_name,year,month,birth_count
 canadian,85,1,95
 canadian,85,2,90
 canadian,85,3,108

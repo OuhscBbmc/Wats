@@ -111,74 +111,74 @@ xScaleBlank  <- ggplot2::scale_x_date(breaks=dateSequence, labels=NULL) #This ke
 Here is the basic linear rolling graph.  It doesn't require much specification, and will work with a wide range of appropriate datasets.  This first (unpublished) graph displays all components.
 
 ```{r Figure2IndividualBasic}
-# dsLinearAll <- utils::read.csv("./Datasets/CountyMonthBirthRate2005Version.csv", stringsAsFactors=FALSE)
-# dsLinearAll$Date <- base::as.Date(dsLinearAll$Date)
-# dsLinearOkc <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ]
+# dsLinearAll <- utils::read.csv("./Datasets/county_month_birth_rate_2005_version.csv", stringsAsFactors=FALSE)
+# dsLinearAll$date <- base::as.Date(dsLinearAll$date)
+# dsLinearOkc <- dsLinearAll[dsLinearAll$county_name=="oklahoma", ]
 
 # Uncomment the next two lines to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
 
 dsLinearAll <-
-  CountyMonthBirthRate2005Version |>
+  county_month_birth_rate_2005_version |>
   tibble::as_tibble()
-# dsLinearAll <- CountyMonthBirthRate2005Version
-dsLinearOkc <- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ]
+# dsLinearAll <- county_month_birth_rate_2005_version
+dsLinearOkc <- dsLinearAll[dsLinearAll$county_name=="oklahoma", ]
 
 # dsLinearOkc <-
 #   dsLinearAll |>
-#   dplyr::filter(CountyName == "oklahoma")
+#   dplyr::filter(county_name == "oklahoma")
 
-dsLinearOkc <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinearOkc, dateName="Date")
+dsLinearOkc <- augment_year_data_with_month_resolution(ds_linear=dsLinearOkc, date_name="date")
 
-portfolioCartesian <- Wats::AnnotateData(dsLinearOkc, dvName="BirthRate", centerFunction=stats::median, spreadFunction=hSpread)
+portfolioCartesian <- annotate_data(dsLinearOkc, dv_name="birth_rate", center_function=stats::median, spread_function=hSpread)
 
-Wats::CartesianRolling(
-  dsLinear = portfolioCartesian$dsLinear,
-  xName = "Date",
-  yName = "BirthRate",
-  stageIDName = "StageID",
-  changePoints = changeMonth,
-  changePointLabels = "Bombing Effect"
+cartesian_rolling(
+  ds_linear = portfolioCartesian$ds_linear,
+  x_name = "date",
+  y_name = "birth_rate",
+  stage_id_name = "stage_id",
+  change_points = changeMonth,
+  change_point_labels = "Bombing Effect"
 )
 ```
 
 The version for the manuscript was tweaked to take advantage of certain features of the dataset.  This is what it looks like when all three stylized panels are combined.
 
 ```{r Figure2Stylized, fig.height=4.8}
-topPanel <- Wats::CartesianRolling(
-  dsLinear = portfolioCartesian$dsLinear,
-  xName = "Date",
-  yName = "BirthRate",
-  stageIDName = "StageID",
-  changePoints = changeMonth,
-  yTitle = "General Fertility Rate",
-  changePointLabels = "Bombing Effect",
-  drawRollingBand = FALSE,
-  drawRollingLine = FALSE
+topPanel <- Wats::cartesian_rolling(
+  ds_linear = portfolioCartesian$ds_linear,
+  x_name = "date",
+  y_name = "birth_rate",
+  stage_id_name = "stage_id",
+  change_points = changeMonth,
+  y_title = "General Fertility Rate",
+  change_point_labels = "Bombing Effect",
+  draw_rolling_band = FALSE,
+  draw_rolling_line = FALSE
 )
 
-middlePanel <- Wats::CartesianRolling(
-  dsLinear = portfolioCartesian$dsLinear,
-  xName = "Date",
-  yName = "BirthRate",
-  stageIDName = "StageID",
-  changePoints = changeMonth,
-  yTitle = "General Fertility Rate",
-  changePointLabels = "",
-  drawRollingBand = FALSE,
-  drawJaggedLine = FALSE
+middlePanel <- Wats::cartesian_rolling(
+  ds_linear = portfolioCartesian$ds_linear,
+  x_name = "date",
+  y_name = "birth_rate",
+  stage_id_name = "stage_id",
+  change_points = changeMonth,
+  y_title = "General Fertility Rate",
+  change_point_labels = "",
+  draw_rolling_band = FALSE,
+  draw_jagged_line = FALSE
 )
 
-bottomPanel <- Wats::CartesianRolling(
-  dsLinear = portfolioCartesian$dsLinear,
-  xName = "Date",
-  yName = "BirthRate",
-  stageIDName = "StageID",
-  changePoints = changeMonth,
-  yTitle = "General Fertility Rate",
-  changePointLabels = "",
-#   drawRollingBand = FALSE,
-  drawJaggedLine = FALSE
+bottomPanel <- Wats::cartesian_rolling(
+  ds_linear = portfolioCartesian$ds_linear,
+  x_name = "date",
+  y_name = "birth_rate",
+  stage_id_name = "stage_id",
+  change_points = changeMonth,
+  y_title = "General Fertility Rate",
+  change_point_labels = "",
+#   draw_rolling_band = FALSE,
+  draw_jagged_line = FALSE
 )
 
 topPanel <- topPanel + xScale + darkTheme
@@ -197,59 +197,59 @@ grid::popViewport()
 Carteisan plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
 
 ```{r Figure4Basic}
-cartesianPeriodic <- Wats::CartesianPeriodic(
-  portfolioCartesian$dsLinear,
-  portfolioCartesian$dsPeriodic,
-  xName = "Date",
-  yName = "BirthRate",
-  stageIDName = "StageID",
-  changePoints = changeMonth,
-  changePointLabels = "Bombing Effect",
-  yTitle = "General Fertility Rate",
-  drawPeriodicBand = TRUE #The only difference from the simple linear graph above
+cartesian_periodic <- Wats::cartesian_periodic(
+  portfolioCartesian$ds_linear,
+  portfolioCartesian$ds_periodic,
+  x_name = "date",
+  y_name = "birth_rate",
+  stage_id_name = "stage_id",
+  change_points = changeMonth,
+  change_point_labels = "Bombing Effect",
+  y_title = "General Fertility Rate",
+  draw_periodic_band = TRUE #The only difference from the simple linear graph above
 )
-print(cartesianPeriodic)
+print(cartesian_periodic)
 ```
 ```{r Figure4Stylized}
-cartesianPeriodic <- cartesianPeriodic + xScale + darkTheme
-print(cartesianPeriodic)
+cartesian_periodic <- cartesian_periodic + xScale + darkTheme
+print(cartesian_periodic)
 ```
 
 ## Figure 5: Polar Periodic
 Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
 ```{r Figure5, fig.height=3, fig.width=3, out.width="300px"}
-portfolioPolar <- Wats::PolarizeCartesian(
-  dsLinear = portfolioCartesian$dsLinear,
-  dsStageCycle = portfolioCartesian$dsStageCycle,
-  yName = "BirthRate",
-  stageIDName = "StageID",
-  plottedPointCountPerCycle = 7200
+portfolioPolar <- polarize_cartesian(
+  ds_linear = portfolioCartesian$ds_linear,
+  ds_stage_cycle = portfolioCartesian$ds_stage_cycle,
+  y_name = "birth_rate",
+  stage_id_name = "stage_id",
+  plotted_point_count_per_cycle = 7200
 )
 
 grid::grid.newpage()
-Wats::PolarPeriodic(
-  dsLinear = portfolioPolar$dsObservedPolar,
-  dsStageCycle = portfolioPolar$dsStageCyclePolar,
-  yName = "Radius",
-  stageIDName = "StageID",
-  drawPeriodicBand = FALSE,
-  drawStageLabels = TRUE,
-  drawRadiusLabels = TRUE,
-  cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
+polar_periodic(
+  ds_linear = portfolioPolar$dsObservedPolar,
+  ds_stage_cycle = portfolioPolar$ds_stage_cycle_polar,
+  y_name = "Radius",
+  stage_id_name = "stage_id",
+  draw_periodic_band = FALSE,
+  draw_stage_labels = TRUE,
+  draw_radius_labels = TRUE,
+  cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
 )
-
 ```
+
 ## Figure 6: WATS and Cartesian
 Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
 ```{r Figure6, fig.height=6.5*2/3}
-portfolioPolar <- Wats::PolarizeCartesian(
-  dsLinear = portfolioCartesian$dsLinear,
-  dsStageCycle = portfolioCartesian$dsStageCycle,
-  yName = "BirthRate",
-  stageIDName = "StageID",
-  plottedPointCountPerCycle = 7200
+portfolioPolar <- Wats::polarize_cartesian(
+  ds_linear = portfolioCartesian$ds_linear,
+  ds_stage_cycle = portfolioCartesian$ds_stage_cycle,
+  y_name = "birth_rate",
+  stage_id_name = "stage_id",
+  plotted_point_count_per_cycle = 7200
 )
 
 grid::grid.newpage()
@@ -264,31 +264,31 @@ grid::pushViewport(grid::viewport(
 
 ## Create top left panel
 grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=1))
-topLeftPanel <- Wats::PolarPeriodic(
-  dsLinear = portfolioPolar$dsObservedPolar,
-  dsStageCyclePolar = portfolioPolar$dsStageCyclePolar,
-  yName = "Radius",
-  stageIDName = "StageID", #graphCeiling=7,
-  cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1")
+topLeftPanel <- Wats::polar_periodic(
+  ds_linear = portfolioPolar$dsObservedPolar,
+  ds_stage_cycle_polar = portfolioPolar$ds_stage_cycle_polar,
+  y_name = "Radius",
+  stage_id_name = "stage_id", #graph_ceiling=7,
+  cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 grid::upViewport()
 
 ## Create top right panel
 grid::pushViewport(grid::viewport(layout.pos.col=2, layout.pos.row=1))
-topRightPanel <- Wats::PolarPeriodic(
-  dsLinear = portfolioPolar$dsObservedPolar,
-  dsStageCyclePolar = portfolioPolar$dsStageCyclePolar,
-  yName = "Radius",
-  stageIDName = "StageID", #graphCeiling=7,
-  drawObservedLine = FALSE,
-  cardinalLabels = c("Jan1", "Apr1", "July1", "Oct1"),
-  originLabel = NULL
+topRightPanel <- Wats::polar_periodic(
+  ds_linear = portfolioPolar$dsObservedPolar,
+  ds_stage_cycle_polar = portfolioPolar$ds_stage_cycle_polar,
+  y_name = "Radius",
+  stage_id_name = "stage_id", #graph_ceiling=7,
+  draw_observed_line = FALSE,
+  cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1"),
+  origin_label = NULL
 )
 grid::upViewport()
 
 ## Create bottom panel
 grid::pushViewport(grid::viewport(layout.pos.col=1:2, layout.pos.row=2, gp=grid::gpar(cex=1)))
-print(cartesianPeriodic, vp=vpLayout(x=1:2, y=2)) #Print across both columns of the bottom row.
+print(cartesian_periodic, vp=vpLayout(x=1:2, y=2)) #Print across both columns of the bottom row.
 grid::upViewport()
 ```
 
@@ -296,23 +296,23 @@ grid::upViewport()
 This figure compares Oklahoma County against the (other) largest urban counties.
 
 ```{r Figure7, fig.height=6.5}
-# dsLinearAll <- Wats::AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2005Version, dateName="Date")
+# dsLinearAll <- Wats::augment_year_data_with_month_resolution(ds_linear=county_month_birth_rate_2005_version, date_name="date")
 
 #Identify the average size of the fecund population
-# plyr::ddply(dsLinearAll, "CountyName", plyr::summarize, Mean=base::mean(FecundPopulation))
+# plyr::ddply(dsLinearAll, "county_name", plyr::summarize, Mean=base::mean(fecund_population))
 dsLinearAll |>
-  dplyr::group_by(CountyName) |>
+  dplyr::group_by(county_name) |>
   dplyr::summarize(
-    Mean = base::mean(FecundPopulation)
+    Mean = base::mean(fecund_population)
   ) |>
   dplyr::ungroup()
 
-GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spreadFunction=hSpread, changeMonth=as.Date("1996-02-15") ) {
-  dsLinear <- dsLinearAll[dsLinearAll$CountyName==countyName, ]
-  dsLinear <- Wats::AugmentYearDataWithMonthResolution(dsLinear=dsLinear, dateName="Date")
-  portfolioCartesian <- Wats::AnnotateData(dsLinear, dvName="BirthRate", centerFunction=stats::median, spreadFunction=spreadFunction)
-  portfolioPolar <- Wats::PolarizeCartesian(dsLinear=portfolioCartesian$dsLinear, dsStageCycle=portfolioCartesian$dsStageCycle, yName="BirthRate", stageIDName="StageID", plottedPointCountPerCycle=7200)
-  cartesianPeriodic <- Wats::CartesianPeriodic(portfolioCartesian$dsLinear, portfolioCartesian$dsPeriodic, xName="Date", yName="BirthRate", stageIDName="StageID", changePoints=changeMonth, changePointLabels=""  )
+GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spread_function=hSpread, changeMonth=as.Date("1996-02-15") ) {
+  ds_linear <- dsLinearAll[dsLinearAll$county_name==countyName, ]
+  ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
+  portfolioCartesian <- Wats::annotate_data(ds_linear, dv_name="birth_rate", center_function=stats::median, spread_function=spread_function)
+  portfolioPolar <- Wats::polarize_cartesian(ds_linear=portfolioCartesian$ds_linear, ds_stage_cycle=portfolioCartesian$ds_stage_cycle, y_name="birth_rate", stage_id_name="stage_id", plotted_point_count_per_cycle=7200)
+  cartesian_periodic <- Wats::cartesian_periodic(portfolioCartesian$ds_linear, portfolioCartesian$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points=changeMonth, change_point_labels=""  )
 
   grid::pushViewport(grid::viewport(
     layout=grid::grid.layout(nrow=1, ncol=3, respect=FALSE, widths=grid::unit(c(1.5,1,3), c("line", "null", "null"))),
@@ -324,20 +324,20 @@ GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spreadFuncti
   grid::popViewport()
 
   grid::pushViewport(grid::viewport(layout.pos.col=2))
-  polarPeriodic <-
-    Wats::PolarPeriodic(
-      dsLinear            = portfolioPolar$dsObservedPolar,
-      dsStageCyclePolar   = portfolioPolar$dsStageCyclePolar,
-      drawObservedLine    = FALSE,
-      yName               = "Radius",
-      stageIDName         = "StageID",
-      originLabel         = NULL,
-      plotMargins         = c(0, 0, 0, 0)
-    )
+  # polar_periodic <-
+  Wats::polar_periodic(
+    ds_linear               = portfolioPolar$dsObservedPolar,
+    ds_stage_cycle_polar    = portfolioPolar$ds_stage_cycle_polar,
+    draw_observed_line      = FALSE,
+    y_name                  = "Radius",
+    stage_id_name           = "stage_id",
+    origin_label            = NULL,
+    plot_margins            = c(0, 0, 0, 0)
+  )
   grid::popViewport()
 
   grid::pushViewport(grid::viewport(layout.pos.col=3))
-  print(cartesianPeriodic + xScale + lightTheme, vp=vpLayout(x=1, y=1))
+  print(cartesian_periodic + xScale + lightTheme, vp=vpLayout(x=1, y=1))
   grid::popViewport()
   grid::popViewport() #Finish the row
 }
@@ -358,7 +358,7 @@ grid::popViewport()
 Here are all 12 counties that Ronnie collected birth records for.  This extended graph is not in the manuscript.
 
 ```{r Figure7AllCounties, fig.height=6.5 * 12/5}
-counties <- base::sort(base::unique(dsLinearAll$CountyName))
+counties <- base::sort(base::unique(dsLinearAll$county_name))
 countyNames <- c("Canadian", "Cleveland", "Comanche", "Creek", "Logan", "McClain", "Oklahoma", "Osage", "Pottawatomie", "Rogers", "Tulsa", "Wagoner")
 
 grid::grid.newpage()
@@ -381,7 +381,7 @@ grid::grid.newpage()
 grid::pushViewport(grid::viewport(layout=grid::grid.layout(nrow=base::length(spreads), ncol=1), gp=grid::gpar(cex=1, fill=NA)))
 for (i in base::seq_along(spreads)) {
   grid::pushViewport(grid::viewport(layout.pos.row=i))
-  GraphRowComparison(spreadFunction=base::get(spreads[i]), rowLabel=spreadNames[i])
+  GraphRowComparison(spread_function=base::get(spreads[i]), rowLabel=spreadNames[i])
   grid::upViewport()
 }
 grid::upViewport()

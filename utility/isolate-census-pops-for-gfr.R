@@ -1,130 +1,269 @@
-rm(list=ls(all=TRUE))
-requireNamespace("testit")
-inputPathsCensus199x        <- paste0("./datasets/CensusIntercensal/STCH-icen199", 0:9, ".txt")
-inputPathCensus200x         <- "./datasets/CensusIntercensal/CO-EST00INT-AGESEX-5YR.csv"
-inputPathFips               <- "./datasets/CountyFipsCode.csv"
-ouputPathCensusCountyYear   <- "./datasets/CensusIntercensal/CensusCountyYear.csv"
-ouputPathCensusCountyMonth  <- "./datasets/CensusIntercensal/CensusCountyMonth.csv"
+rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 
-###################
-# Read in the datasets
-###################
-#For 199x, create a list of data.frames; each one is a year's data.  Then bind to create a single dataset
-lstDatasets199x <- lapply(inputPathsCensus199x, function(path) dsCensus199x <- read.table(path, header=FALSE, stringsAsFactors=FALSE)) #A list, where each element is a data.frame.
-dsCensus199x <- data.frame(do.call(plyr::rbind.fill, lstDatasets199x), stringsAsFactors=FALSE) #Vertically stack all the data.frames into a single data.frame
+# ---- load-sources ------------------------------------------------------------
+# Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
+
+# ---- load-packages -----------------------------------------------------------
+# Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
+
+# Import only certain functions of a package into the search path.
+# import::from("magrittr", "%>%")
+
+# Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
+requireNamespace("readr"        )
+# requireNamespace("tidyr"        )
+requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("testit"       )
+requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
+# requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
+
+# ---- declare-globals ---------------------------------------------------------
+input_dir_census_199x           <- "datasets/raw/census-199x"
+input_path_census200x           <- "datasets/raw/census-200x/CO-EST00INT-AGESEX-5YR.csv"
+input_path_fips                 <- "datasets/raw/county-fips.csv"
+ouput_path_census_county_year   <- "datasets/derived/census-county-year.csv"
+ouput_path_census_county_month  <- "datasets/derived/census-county-month.csv"
+
+age_group_labels <-
+  c(
+    "0"   = "00",
+    "1"   = "01-04",
+    "2"   = "05-09",
+    "3"   = "10-14",
+    "4"   = "15-19",
+    "5"   = "20-24",
+    "6"   = "25-29",
+    "7"   = "30-34",
+    "8"   = "35-39",
+    "9"   = "40-44",
+    "10"  = "45-49",
+    "11"  = "50-54",
+    "12"  = "55-59",
+    "13"  = "60-64",
+    "14"  = "65-69",
+    "15"  = "70-74",
+    "16"  = "75-79",
+    "17"  = "80-84",
+    "18"  = "85+"
+  )
+ds_lu_race_gender <-  # Just for 199x.
+  tibble::tribble(
+    ~race_gender_id, ~female, ~race,
+    1L             ,  FALSE , "White male",
+    2L             ,  TRUE  , "White female",
+    3L             ,  FALSE , "Black male",
+    4L             ,  TRUE  , "Black female",
+    5L             ,  FALSE , "American Indian or Alaska Native male",
+    6L             ,  TRUE  , "American Indian or Alaska Native female",
+    7L             ,  FALSE , "Asian or Pacific Islander male",
+    8L             ,  TRUE  , "Asian or Pacific Islander female"
+  )
+
+# #Identify and isolate the levels need to calculate GFR (ie, females between 15 & 44)
+eligible_age_labels <- c("15-19", "20-24", "25-29", "30-34", "35-39", "40-44")
+
+cols_positions_199x <-
+  readr::fwf_cols(
+    year                = c( 1,  2),
+    fips                = c( 5,  9),
+    age_group_id        = c(11, 13),
+    race_gender_id      = c(14, 15),
+    latino              = c(16, 16),
+    population_count    = c(18, 24)
+  )
+
+cols_types_199x <-
+  readr::cols_only(
+    year                = readr::col_integer(),
+    fips                = readr::col_character(),
+    age_group_id        = readr::col_integer(),
+    race_gender_id      = readr::col_integer(),
+    latino              = readr::col_integer(),
+    population_count    = readr::col_integer()
+  )
+
+cols_types_200x <- readr::cols_only(
+  # `SUMLEV`              = readr::col_character(),
+  # `STATE`               = readr::col_integer(),
+  `COUNTY`              = readr::col_character(),
+  # `STNAME`              = readr::col_character(),
+  # `CTYNAME`             = readr::col_character(),
+  `SEX`                 = readr::col_integer(),
+  `AGEGRP`              = readr::col_integer(),
+  # `ESTIMATESBASE2000`   = readr::col_integer(),
+  `POPESTIMATE2000`     = readr::col_integer(),
+  # `POPESTIMATE2001`     = readr::col_integer(),
+  # `POPESTIMATE2002`     = readr::col_integer(),
+  # `POPESTIMATE2003`     = readr::col_integer(),
+  # `POPESTIMATE2004`     = readr::col_integer(),
+  # `POPESTIMATE2005`     = readr::col_integer(),
+  # `POPESTIMATE2006`     = readr::col_integer(),
+  # `POPESTIMATE2007`     = readr::col_integer(),
+  # `POPESTIMATE2008`     = readr::col_integer(),
+  # `POPESTIMATE2009`     = readr::col_integer(),
+  # `CENSUS2010POP`       = readr::col_integer(),
+  # `POPESTIMATE2010`     = readr::col_integer()
+)
+
+# OuhscMunge::readr_spec_aligned(input_path_fips)
+col_types_fips <- readr::cols_only(
+  `county_name`   = readr::col_character(),
+  `fips`          = readr::col_character(),
+  `wats_urban`    = readr::col_logical()
+)
+
+# ---- load-data ---------------------------------------------------------------
+# For 199x, create a list of data.frames; each one is a year's data.  Then bind to create a single dataset
+ds_census_199x <-
+  input_dir_census_199x |>
+  fs::dir_ls(regexp = "/STCH-icen199\\d\\.txt$") |>
+  readr::read_fwf(
+    col_positions = cols_positions_199x,
+    col_types     = cols_types_199x
+    # id            = "file_path"
+  )
+# table(fs::path_file(ds_census_199x$file_path), ds_census_199x$age_group)
 
 #For 200x, the schema is different, and everything comes in one data file.  Each year is a distinct column.
-dsCensus200x <- read.csv(inputPathCensus200x, stringsAsFactors=FALSE)
+# OuhscMunge::readr_spec_aligned(input_path_census200x)
+ds_census_200x <-
+  input_path_census200x |>
+  readr::read_csv(col_types = cols_types_200x)
 
 #In the FIPS dataset, there is one record for each county.
-dsFips <- read.csv(inputPathFips, stringsAsFactors=FALSE)
+ds_fips <-
+  input_path_fips |>
+  readr::read_csv(col_types = col_types_fips)
 
-#For 199x: See the codebook at ./Datasets/CensusIntercensal/STCH-Intercensal_layout.txt.  The State FIPS is missing for some reason
+rm(cols_positions_199x)
+rm(cols_types_199x, cols_types_200x, col_types_fips)
+rm(input_dir_census_199x, input_path_census200x, input_path_fips)
+
+# ---- tweak-data --------------------------------------------------------------
+#For 199x: See the codebook at datasets/census-intercensal/STCH-Intercensal_layout.txt.  The State FIPS is missing for some reason
 #For 200x: See the codebook at ./Datasets/CensusIntercensal/CO-EST00INT-AGESEX-5YR.pdf.
-colnames(dsCensus199x) <- c("Year", "Fips", "AgeGroup", "RaceGender", "Latino", "PopulationCount")
-ageGroupLabels <- c("0", "1-4", "5-9", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49","50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84", "85+")
-raceGenderLabels <- c("White male", "White female", "Black male", "Black female", "American Indian or Alaska Native male", "American Indian or Alaska Native female", "Asian or Pacific Islander male", "Asian or Pacific Islander female") #Just for 199x.
-genderLabels <- c("Total", "Male", "Female") #Just for 200x.
+# colnames(dsCensus199x) <- c("year", "fips", "AgeGroup", "RaceGender", "Latino", "PopulationCount")
 
-#Identify and isolate the levels need to calculate GFR (ie, females between 15 & 44)
-eligibleRaceGenderLabels <- c("White female","Black female", "American Indian or Alaska Native female", "Asian or Pacific Islander female")
-eligibleAgeLabels <- c("15-19", "20-24", "25-29", "30-34", "35-39", "40-44")
-
-###################
-# Groom the Census data from the 1990s & Keep only the needed rows
-###################
-
-#Groom the variables and assign the appropriate factor levels
-dsCensus199x$Year <- as.integer(dsCensus199x$Year + 1900L) #Convert to a four digit year
-# dsCensus199x$CountyFips #FIPS looks good as it is.  Be careful if you live in a state with a leading zero in the FIPS
-dsCensus199x$AgeGroup <- factor(x=dsCensus199x$AgeGroup, levels=0:18, labels=ageGroupLabels, ordered=TRUE)
-dsCensus199x$RaceGender <- factor(x=dsCensus199x$RaceGender, levels=1:8, labels=raceGenderLabels)
-dsCensus199x$Latino <- as.logical(factor(dsCensus199x$Latino, levels=1:2, labels=c(TRUE, FALSE)))
+# ---- groom-199x --------------------------------------------------------------
+# OuhscMunge::column_rename_headstart(ds_census_199x) # Help write `dplyr::select()` call.
+ds_county_year_199x <-
+  ds_census_199x |>
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    year,
+    fips,
+    age_group_id,
+    race_gender_id,
+    # latino,
+    population_count,
+  ) |>
+  dplyr::left_join(ds_lu_race_gender, "race_gender_id") |>
+  dplyr::left_join(ds_fips, by = "fips") |> # Merge the counties by the FIPS to get their county name and urban/rural status.
+  dplyr::mutate(
+    year          = year + 1900L,
+    age_group     = dplyr::recode_factor(age_group_id, !!!age_group_labels),
+    # latino        = dplyr::recode(latino, "1" = TRUE, "2" = FALSE),
+    gfr_eligible  = (female & age_group %in% eligible_age_labels),
+  ) |>
+  dplyr::filter(gfr_eligible & wats_urban) |>
+  dplyr::group_by(fips, year, county_name) |>
+  dplyr::summarize(
+    fecund_population_count = sum(population_count)
+  ) |>
+  dplyr::ungroup()
 
 #Assert the values aren't too funky.
-testit::assert("All years in dsCensus199x should be in the 1990s", all(1990L <= dsCensus199x$Year & dsCensus199x$Year <=1999L))
-testit::assert("All County FIPS should start with 40 (ie, be in Oklahoma).", all(grepl(pattern="^40\\d{3}$", x=dsCensus199x$CountyFips, perl=TRUE)))
-testit::assert("The mean of the Latino values should be 0.5.", mean(dsCensus199x$Latino)==0.5)
-sapply(dsCensus199x, class)
+testit::assert("All years in dsCensus199x should be in the 1990s", all(1990L <= ds_county_year_199x$year & ds_county_year_199x$year <=1999L))
+testit::assert("All County FIPS should start with 40 (ie, be in Oklahoma).", all(grepl(pattern="^40\\d{3}$", x=ds_county_year_199x$fips, perl=TRUE)))
+# testit::assert("The mean of the Latino values should be 0.5.", mean(ds_census_199x$latino)==0.5)
+# testit::assert("The proportion of GFR eligible rows should be correct.", mean(ds_census_199x$gfr_eligible) == (6/19 * 1/2))
+rm(ds_census_199x)
 
-#Identify Mark the subgroups eligible to be included in the GFR denominator.
-dsCensus199x$GfrEligible <- (dsCensus199x$AgeGroup %in% eligibleAgeLabels & dsCensus199x$RaceGender %in% eligibleRaceGenderLabels)
-testit::assert("The proportion of GFR eligible rows should be correct.", mean(dsCensus199x$GfrEligible) == (6/19 * 1/2))
-
-#Merge the counties by the FIPS to get their county name and urban/rural status.
-dsCensus199x <- merge(x=dsCensus199x, y=dsFips, by="Fips", all.x=TRUE, all.y=FALSE)
-
-#Keep only the eligble groups
-dsCensus199x <- dsCensus199x[dsCensus199x$GfrEligible & dsCensus199x$WatsUrban, ]
-
-#Sum across the remaining subgroups to get their total population.
-dsCensus199xCounty <- plyr::ddply(dsCensus199x, .variables=c("Fips", "Year", "CountyName"), summarize, FecundPopulationCount=sum(PopulationCount))
-
-###################
+# ---- groom-2000 --------------------------------------------------------------
 # Groom the Census data from the 2000s & Keep only the needed rows
-###################
-dsCensus200x$Fips <- 40000L + dsCensus200x$COUNTY
-dsCensus200x$AgeGroup <- factor(x=dsCensus200x$AGEGRP, levels=0:18, labels=ageGroupLabels, ordered=TRUE)
-dsCensus200x$Gender <- factor(dsCensus200x$SEX, levels=0:2, labels=genderLabels)
 
-#Identify Mark the subgroups eligible to be included in the GFR denominator.
-dsCensus200x$GfrEligible <- (dsCensus200x$AgeGroup %in% eligibleAgeLabels & dsCensus200x$Gender %in% "Female")
-testit::assert("The proportion of GFR eligible rows should be correct.", mean(dsCensus200x$GfrEligible) == (6/19 * 1/3))
+# OuhscMunge::column_rename_headstart(ds_census_200x) # Help write `dplyr::select()` call.
+ds_county_year_2000 <-
+  ds_census_200x |>
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    county                         = `COUNTY`,
+    sex                            = `SEX`,
+    age_group_id                   = `AGEGRP`,
+    population_count               = `POPESTIMATE2000`,
+  ) |>
+  dplyr::mutate(
+    year          = 2000L,
+    fips          = sprintf("40%s", county),
+    # sex           = dplyr::recode_factor(sex, "0" = "total", "1" = "male", "2" = "female"),
+    female        = dplyr::recode(as.character(sex), "0" = NA, "1" = FALSE, "2" = TRUE),
+    # female        = dplyr::case_match(sex, 0L ~ NA, 1L ~ FALSE, 2L ~ TRUE),
 
-#Merge the counties by the FIPS to get their county name and urban/rural status.
-dsCensus200x <- merge(x=dsCensus200x, y=dsFips, by="Fips", all.x=TRUE, all.y=FALSE)
+    age_group     = dplyr::recode_factor(age_group_id, !!!age_group_labels),
+    gfr_eligible  = (female & age_group %in% eligible_age_labels),
+  ) |>
+  dplyr::left_join(ds_fips, by = "fips") |> # Merge the counties by the FIPS to get their county name and urban/rural status.
+  tidyr::drop_na(female) |>
+  dplyr::filter(gfr_eligible & wats_urban)  |>
+  dplyr::group_by(fips, year, county_name) |>
+  dplyr::summarize(
+    fecund_population_count  = sum(population_count),
+  ) |>
+  dplyr::ungroup()
 
-#Keep only the eligble groups
-dsCensus200x <- dsCensus200x[dsCensus200x$GfrEligible & dsCensus200x$WatsUrban, ]
+# testit::assert("The proportion of GFR eligible rows should be correct.", mean(ds_census_200x$gfr_eligible, na.rm = T) == (6/19 * 1/2))
+rm(ds_census_200x)
+rm(ds_fips)
+rm(ds_lu_race_gender)
+rm(age_group_labels)
+rm(eligible_age_labels)
 
-#Sum across the remaining subgroups to get their total population.  Keep only 2000 (Remember 200x is wide, not long)
-dsCensus200xCounty <- plyr::ddply(dsCensus200x, .variables=c("Fips", "CountyName"), summarize, FecundPopulationCount=sum(POPESTIMATE2000))
+# ---- stack -------------------------------------------------------------------
+ds_county_year <-
+  ds_county_year_199x |>
+  dplyr::select(!!!colnames(ds_county_year_2000)) |>
+  dplyr::union_all(ds_county_year_2000) |>
+  dplyr::mutate(
+    county_name   = tolower(county_name),
+    # county_name   = paste0('"', county_name, '"'),
+  ) |>
+  dplyr::arrange(fips, year)
 
-dsCensus200xCounty$Year <- 2000L
+rm(ds_county_year_199x, ds_county_year_2000)
 
-###################
-# Merge the two datasets (ie, for 199x and 200x)
-###################
-dsCensusCountyYear <- plyr::rbind.fill(dsCensus199xCounty, dsCensus200xCounty)
-dsCensusCountyYear <- dsCensusCountyYear[order(dsCensusCountyYear$Fips, dsCensusCountyYear$Year), ]
-dsCensusCountyYear$CountyName<- tolower(dsCensusCountyYear$CountyName)
-
-CreateNextYearPopCount <- function( d ) {
-  ceilingYear <- max(d$Year)
-  nextYear <- d$Year + 1L
-  nextPopCount <- d[match(nextYear, d$Year), "FecundPopulationCount"]
+# ---- interpotate-within-year -------------------------------------------------
+create_next_year_pop_count <- function( d ) {
+  ceilingYear <- max(d$year)
+  nextYear <- d$year + 1L
+  nextPopCount <- d[match(nextYear, d$year), "fecund_population_count"]
   dsOut <- data.frame(
-    Year = d$Year,
-    YearNext = nextYear,
-    FecundPopulationCount = d$FecundPopulationCount,
+    year = d$year,
+    year_next = nextYear,
+    fecund_population_count = d$fecund_population_count,
     FecundPopulationCountNext = nextPopCount
   )
-  dsOut[dsOut$Year < ceilingYear, ]
+  dsOut[dsOut$year < ceilingYear, ]
 }
-dsNext <- plyr::ddply(dsCensusCountyYear, .variables=c("Fips", "CountyName"), .fun=CreateNextYearPopCount)
+ds_next <- plyr::ddply(ds_county_year, .variables=c("fips", "county_name"), .fun=create_next_year_pop_count)
 
-InterpolateMonths <- function( d ) {
+interpolate_months <- function( d ) {
   monthsPerYear <- 12L
   months <- seq_len(monthsPerYear)
-  popInterpolated <- approx(x=c(d$Year, d$YearNext), y=c(d$FecundPopulationCount, d$FecundPopulationCountNext), n=monthsPerYear+1)
+  popInterpolated <- approx(x=c(d$year, d$year_next), y=c(d$fecund_population_count, d$FecundPopulationCountNext), n=monthsPerYear+1)
   data.frame(
-    Month = months,
-    FecundPopulation = popInterpolated$y[months]#,
+    month = months,
+    fecund_population = as.integer(popInterpolated$y[months])#,
 #     PopulationCount = d$PopulationCount,
 #     PopulationCountNext = d$PopulationCountNext
   )
 }
-dsCensusCountyMonth <- plyr::ddply(dsNext, .variables=c("Fips", "CountyName", "Year"), .fun=InterpolateMonths)
-# dsCensusCountyMonth$Date <- as.Date(ISOdate(dsCensusCountyMonth$Year, dsCensusCountyMonth$Month, 15L))
+ds_county_month <- plyr::ddply(ds_next, .variables=c("fips", "county_name", "year"), .fun=interpolate_months)
+# dsCensusCountyMonth$date <- as.Date(ISOdate(dsCensusCountyMonth$year, dsCensusCountyMonth$month, 15L))
 
 # library(ggplot2)
-# ggplot(dsInterpolated[dsCensusCountyMonth$Fips==40027L, ], aes(x=Date, y=Population, color=factor(Fips))) +
+# ggplot(dsInterpolated[dsCensusCountyMonth$fips==40027L, ], aes(x=date, y=Population, color=factor(fips))) +
 #   geom_line() +
 #   geom_line(aes(y=PopulationCount, ymin=0)) +
 #   geom_line(aes(y=PopulationCountNext))
 
-###################
-# Write to disk
-###################
-write.csv(dsCensusCountyYear, file=ouputPathCensusCountyYear, row.names=FALSE)
-write.csv(dsCensusCountyMonth, file=ouputPathCensusCountyMonth, row.names=FALSE)
+# ---- save-to-disk ------------------------------------------------------------
+readr::write_csv(ds_county_year , ouput_path_census_county_year )
+readr::write_csv(ds_county_month, ouput_path_census_county_month)
