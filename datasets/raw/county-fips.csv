@@ -1,4 +1,4 @@
-CountyName,Fips,WatsUrban
+county_name,fips,wats_urban
 ADAIR,40001,FALSE
 ALFALFA,40003,FALSE
 ATOKA,40005,FALSE
