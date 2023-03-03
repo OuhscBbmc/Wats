@@ -42,8 +42,8 @@ utils::update.packages(ask="graphics", checkBuilt=TRUE)
 # This should follow the initial CRAN installation of `devtools`.
 #   Installing the newest GitHub devtools version isn't always necessary, but it usually helps.
 
-downloadLocation <- "./devtools.zip" #This is the default value.
-devtools::build_github_devtools(downloadLocation)
+# downloadLocation <- "./devtools.zip" #This is the default value.
+# devtools::build_github_devtools(downloadLocation)
 
 base::unlink(downloadLocation, recursive=FALSE) #Remove the file from disk.
 base::rm(downloadLocation)

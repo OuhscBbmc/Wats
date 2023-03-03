@@ -4,7 +4,7 @@ WATS Plots: Wrap Around Time Series
 ## Figure 1: Cartesian Rolling - 2005 Version
 Raw monthly birth rates (General Fertility Rates;  GFR's) for Oklahoma County, 1990-1999, plotted in a linear plot;  the "bombing effect" is located ten months after the Oklahoma City bombing.
 
-<img src="./../vignettes/figure-static/fig1-2005-cartesian-rolling.png.png" alt="fig1-2005-cartesian-rolling.png" style="width: 600px;"/>
+<img src="./../vignettes/figure-static/fig-1-2005-cartesian-rolling.png" alt="fig-1-2005-cartesian-rolling.png" style="width: 600px;"/>
 
 ## Figure 2: Cartesian Rolling - 2014 Version
 Smoothed monthly birth rates (General Fertility Rates; GFRs) for Oklahoma County, 1990-1999, plotted in a linear plot.  The top plot shows the connected raw data with a February smoother; the middle plot shows smoothing with a 12-month moving average, blue/green line, superimposed on a February smoother, red line); the bottom plot shows the smoothers and confidence bands, which are H-spreads defined using the distribution of GFR's for the given month and 11 previous months.
