@@ -23,7 +23,7 @@
 #' @param proportion_id_name The variable name indicating the ordinal position through a cycle.
 #' @param terminal_point_in_cycle_name The variable name indicating the last point
 #' within a given cycle.
-#' @return Returns a `data.frame` with additional variables <<Say what they are>>.
+#' @return Returns a `data.frame` with additional variables.  TODO: say what the variables are.
 #' @examples
 #' library(Wats)
 #' ds_linear <- county_month_birth_rate_2005_version
