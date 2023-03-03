@@ -157,74 +157,74 @@ are defined.</p>
 specification, and will work with a wide range of appropriate datasets.
 This first (unpublished) graph displays all components.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># dsLinearAll &lt;- utils::read.csv("./Datasets/CountyMonthBirthRate2005Version.csv", stringsAsFactors=FALSE)</span></span>
-<span><span class="co"># dsLinearAll$Date &lt;- base::as.Date(dsLinearAll$Date)</span></span>
-<span><span class="co"># dsLinearOkc &lt;- dsLinearAll[dsLinearAll$CountyName=="oklahoma", ]</span></span>
+<code class="sourceCode R"><span><span class="co"># dsLinearAll &lt;- utils::read.csv("./Datasets/county_month_birth_rate_2005_version.csv", stringsAsFactors=FALSE)</span></span>
+<span><span class="co"># dsLinearAll$date &lt;- base::as.Date(dsLinearAll$date)</span></span>
+<span><span class="co"># dsLinearOkc &lt;- dsLinearAll[dsLinearAll$county_name=="oklahoma", ]</span></span>
 <span></span>
 <span><span class="co"># Uncomment the next two lines to use the version built into the package.  By default, it uses the</span></span>
 <span><span class="co"># CSV to promote reproducible research, since the CSV format is more open and accessible to more software.</span></span>
 <span></span>
 <span><span class="va">dsLinearAll</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">CountyMonthBirthRate2005Version</span> <span class="op">|&gt;</span></span>
+<span>  <span class="va">county_month_birth_rate_2005_version</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co"># dsLinearAll &lt;- CountyMonthBirthRate2005Version</span></span>
-<span><span class="va">dsLinearOkc</span> <span class="op">&lt;-</span> <span class="va">dsLinearAll</span><span class="op">[</span><span class="va">dsLinearAll</span><span class="op">$</span><span class="va">CountyName</span><span class="op">==</span><span class="st">"oklahoma"</span>, <span class="op">]</span></span>
+<span><span class="co"># dsLinearAll &lt;- county_month_birth_rate_2005_version</span></span>
+<span><span class="va">dsLinearOkc</span> <span class="op">&lt;-</span> <span class="va">dsLinearAll</span><span class="op">[</span><span class="va">dsLinearAll</span><span class="op">$</span><span class="va">county_name</span><span class="op">==</span><span class="st">"oklahoma"</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="co"># dsLinearOkc &lt;-</span></span>
 <span><span class="co">#   dsLinearAll |&gt;</span></span>
-<span><span class="co">#   dplyr::filter(CountyName == "oklahoma")</span></span>
+<span><span class="co">#   dplyr::filter(county_name == "oklahoma")</span></span>
 <span></span>
-<span><span class="va">dsLinearOkc</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/AugmentCycleData.html">AugmentYearDataWithMonthResolution</a></span><span class="op">(</span>dsLinear<span class="op">=</span><span class="va">dsLinearOkc</span>, dateName<span class="op">=</span><span class="st">"Date"</span><span class="op">)</span></span>
+<span><span class="va">dsLinearOkc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/augment_cycle_data.html">augment_year_data_with_month_resolution</a></span><span class="op">(</span>ds_linear<span class="op">=</span><span class="va">dsLinearOkc</span>, date_name<span class="op">=</span><span class="st">"date"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">portfolioCartesian</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/AnnotateData.html">AnnotateData</a></span><span class="op">(</span><span class="va">dsLinearOkc</span>, dvName<span class="op">=</span><span class="st">"BirthRate"</span>, centerFunction<span class="op">=</span><span class="fu">stats</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span>, spreadFunction<span class="op">=</span><span class="va">hSpread</span><span class="op">)</span></span>
+<span><span class="va">portfolioCartesian</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/annotate_data.html">annotate_data</a></span><span class="op">(</span><span class="va">dsLinearOkc</span>, dv_name<span class="op">=</span><span class="st">"birth_rate"</span>, center_function<span class="op">=</span><span class="fu">stats</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span>, spread_function<span class="op">=</span><span class="va">hSpread</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/CartesianRolling.html">CartesianRolling</a></span><span class="op">(</span></span>
-<span>  dsLinear <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsLinear</span>,</span>
-<span>  xName <span class="op">=</span> <span class="st">"Date"</span>,</span>
-<span>  yName <span class="op">=</span> <span class="st">"BirthRate"</span>,</span>
-<span>  stageIDName <span class="op">=</span> <span class="st">"StageID"</span>,</span>
-<span>  changePoints <span class="op">=</span> <span class="va">changeMonth</span>,</span>
-<span>  changePointLabels <span class="op">=</span> <span class="st">"Bombing Effect"</span></span>
+<span><span class="fu"><a href="../reference/cartesian_rolling.html">cartesian_rolling</a></span><span class="op">(</span></span>
+<span>  ds_linear <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">ds_linear</span>,</span>
+<span>  x_name <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  y_name <span class="op">=</span> <span class="st">"birth_rate"</span>,</span>
+<span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>,</span>
+<span>  change_points <span class="op">=</span> <span class="va">changeMonth</span>,</span>
+<span>  change_point_labels <span class="op">=</span> <span class="st">"Bombing Effect"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="figure-mbr-rmd/Figure2IndividualBasic-1.png" width="600px"></p>
 <p>The version for the manuscript was tweaked to take advantage of
 certain features of the dataset. This is what it looks like when all
 three stylized panels are combined.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">topPanel</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/CartesianRolling.html">CartesianRolling</a></span><span class="op">(</span></span>
-<span>  dsLinear <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsLinear</span>,</span>
-<span>  xName <span class="op">=</span> <span class="st">"Date"</span>,</span>
-<span>  yName <span class="op">=</span> <span class="st">"BirthRate"</span>,</span>
-<span>  stageIDName <span class="op">=</span> <span class="st">"StageID"</span>,</span>
-<span>  changePoints <span class="op">=</span> <span class="va">changeMonth</span>,</span>
-<span>  yTitle <span class="op">=</span> <span class="st">"General Fertility Rate"</span>,</span>
-<span>  changePointLabels <span class="op">=</span> <span class="st">"Bombing Effect"</span>,</span>
-<span>  drawRollingBand <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  drawRollingLine <span class="op">=</span> <span class="cn">FALSE</span></span>
+<code class="sourceCode R"><span><span class="va">topPanel</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/cartesian_rolling.html">cartesian_rolling</a></span><span class="op">(</span></span>
+<span>  ds_linear <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">ds_linear</span>,</span>
+<span>  x_name <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  y_name <span class="op">=</span> <span class="st">"birth_rate"</span>,</span>
+<span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>,</span>
+<span>  change_points <span class="op">=</span> <span class="va">changeMonth</span>,</span>
+<span>  y_title <span class="op">=</span> <span class="st">"General Fertility Rate"</span>,</span>
+<span>  change_point_labels <span class="op">=</span> <span class="st">"Bombing Effect"</span>,</span>
+<span>  draw_rolling_band <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  draw_rolling_line <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">middlePanel</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/CartesianRolling.html">CartesianRolling</a></span><span class="op">(</span></span>
-<span>  dsLinear <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsLinear</span>,</span>
-<span>  xName <span class="op">=</span> <span class="st">"Date"</span>,</span>
-<span>  yName <span class="op">=</span> <span class="st">"BirthRate"</span>,</span>
-<span>  stageIDName <span class="op">=</span> <span class="st">"StageID"</span>,</span>
-<span>  changePoints <span class="op">=</span> <span class="va">changeMonth</span>,</span>
-<span>  yTitle <span class="op">=</span> <span class="st">"General Fertility Rate"</span>,</span>
-<span>  changePointLabels <span class="op">=</span> <span class="st">""</span>,</span>
-<span>  drawRollingBand <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  drawJaggedLine <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="va">middlePanel</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/cartesian_rolling.html">cartesian_rolling</a></span><span class="op">(</span></span>
+<span>  ds_linear <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">ds_linear</span>,</span>
+<span>  x_name <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  y_name <span class="op">=</span> <span class="st">"birth_rate"</span>,</span>
+<span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>,</span>
+<span>  change_points <span class="op">=</span> <span class="va">changeMonth</span>,</span>
+<span>  y_title <span class="op">=</span> <span class="st">"General Fertility Rate"</span>,</span>
+<span>  change_point_labels <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  draw_rolling_band <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  draw_jagged_line <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">bottomPanel</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/CartesianRolling.html">CartesianRolling</a></span><span class="op">(</span></span>
-<span>  dsLinear <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsLinear</span>,</span>
-<span>  xName <span class="op">=</span> <span class="st">"Date"</span>,</span>
-<span>  yName <span class="op">=</span> <span class="st">"BirthRate"</span>,</span>
-<span>  stageIDName <span class="op">=</span> <span class="st">"StageID"</span>,</span>
-<span>  changePoints <span class="op">=</span> <span class="va">changeMonth</span>,</span>
-<span>  yTitle <span class="op">=</span> <span class="st">"General Fertility Rate"</span>,</span>
-<span>  changePointLabels <span class="op">=</span> <span class="st">""</span>,</span>
-<span><span class="co">#   drawRollingBand = FALSE,</span></span>
-<span>  drawJaggedLine <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="va">bottomPanel</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/cartesian_rolling.html">cartesian_rolling</a></span><span class="op">(</span></span>
+<span>  ds_linear <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">ds_linear</span>,</span>
+<span>  x_name <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  y_name <span class="op">=</span> <span class="st">"birth_rate"</span>,</span>
+<span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>,</span>
+<span>  change_points <span class="op">=</span> <span class="va">changeMonth</span>,</span>
+<span>  y_title <span class="op">=</span> <span class="st">"General Fertility Rate"</span>,</span>
+<span>  change_point_labels <span class="op">=</span> <span class="st">""</span>,</span>
+<span><span class="co">#   draw_rolling_band = FALSE,</span></span>
+<span>  draw_jagged_line <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">topPanel</span> <span class="op">&lt;-</span> <span class="va">topPanel</span> <span class="op">+</span> <span class="va">xScale</span> <span class="op">+</span> <span class="va">darkTheme</span></span>
@@ -246,22 +246,22 @@ three stylized panels are combined.</p>
 <p>Carteisan plot of the GFR time series data in Oklahoma County, with
 H-spread Bands superimposed.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cartesianPeriodic</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/CartesianPeriodic.html">CartesianPeriodic</a></span><span class="op">(</span></span>
-<span>  <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsLinear</span>,</span>
-<span>  <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsPeriodic</span>,</span>
-<span>  xName <span class="op">=</span> <span class="st">"Date"</span>,</span>
-<span>  yName <span class="op">=</span> <span class="st">"BirthRate"</span>,</span>
-<span>  stageIDName <span class="op">=</span> <span class="st">"StageID"</span>,</span>
-<span>  changePoints <span class="op">=</span> <span class="va">changeMonth</span>,</span>
-<span>  changePointLabels <span class="op">=</span> <span class="st">"Bombing Effect"</span>,</span>
-<span>  yTitle <span class="op">=</span> <span class="st">"General Fertility Rate"</span>,</span>
-<span>  drawPeriodicBand <span class="op">=</span> <span class="cn">TRUE</span> <span class="co">#The only difference from the simple linear graph above</span></span>
+<code class="sourceCode R"><span><span class="va">cartesian_periodic</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/cartesian_periodic.html">cartesian_periodic</a></span><span class="op">(</span></span>
+<span>  <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">ds_linear</span>,</span>
+<span>  <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">ds_periodic</span>,</span>
+<span>  x_name <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  y_name <span class="op">=</span> <span class="st">"birth_rate"</span>,</span>
+<span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>,</span>
+<span>  change_points <span class="op">=</span> <span class="va">changeMonth</span>,</span>
+<span>  change_point_labels <span class="op">=</span> <span class="st">"Bombing Effect"</span>,</span>
+<span>  y_title <span class="op">=</span> <span class="st">"General Fertility Rate"</span>,</span>
+<span>  draw_periodic_band <span class="op">=</span> <span class="cn">TRUE</span> <span class="co">#The only difference from the simple linear graph above</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cartesianPeriodic</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cartesian_periodic</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figure-mbr-rmd/Figure4Basic-1.png" width="600px"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cartesianPeriodic</span> <span class="op">&lt;-</span> <span class="va">cartesianPeriodic</span> <span class="op">+</span> <span class="va">xScale</span> <span class="op">+</span> <span class="va">darkTheme</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cartesianPeriodic</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cartesian_periodic</span> <span class="op">&lt;-</span> <span class="va">cartesian_periodic</span> <span class="op">+</span> <span class="va">xScale</span> <span class="op">+</span> <span class="va">darkTheme</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cartesian_periodic</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figure-mbr-rmd/Figure4Stylized-1.png" width="600px"></p>
 </div>
 <div class="section level2">
@@ -270,35 +270,39 @@ H-spread Bands superimposed.</p>
 <p>Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data,
 1990-1999</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">portfolioPolar</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/PolarizeCartesian.html">PolarizeCartesian</a></span><span class="op">(</span></span>
-<span>  dsLinear <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsLinear</span>,</span>
-<span>  dsStageCycle <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsStageCycle</span>,</span>
-<span>  yName <span class="op">=</span> <span class="st">"BirthRate"</span>,</span>
-<span>  stageIDName <span class="op">=</span> <span class="st">"StageID"</span>,</span>
-<span>  plottedPointCountPerCycle <span class="op">=</span> <span class="fl">7200</span></span>
+<code class="sourceCode R"><span><span class="va">portfolioPolar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/polarize_cartesian.html">polarize_cartesian</a></span><span class="op">(</span></span>
+<span>  ds_linear <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">ds_linear</span>,</span>
+<span>  ds_stage_cycle <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">ds_stage_cycle</span>,</span>
+<span>  y_name <span class="op">=</span> <span class="st">"birth_rate"</span>,</span>
+<span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>,</span>
+<span>  plotted_point_count_per_cycle <span class="op">=</span> <span class="fl">7200</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/PolarPeriodic.html">PolarPeriodic</a></span><span class="op">(</span></span>
-<span>  dsLinear <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">dsObservedPolar</span>,</span>
-<span>  dsStageCycle <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">dsStageCyclePolar</span>,</span>
-<span>  yName <span class="op">=</span> <span class="st">"Radius"</span>,</span>
-<span>  stageIDName <span class="op">=</span> <span class="st">"StageID"</span>,</span>
-<span>  drawPeriodicBand <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  drawStageLabels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  drawRadiusLabels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  cardinalLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/polar_periodic.html">polar_periodic</a></span><span class="op">(</span></span>
+<span>  ds_linear <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">dsObservedPolar</span>,</span>
+<span>  ds_stage_cycle <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">ds_stage_cycle_polar</span>,</span>
+<span>  y_name <span class="op">=</span> <span class="st">"Radius"</span>,</span>
+<span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>,</span>
+<span>  draw_periodic_band <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  draw_stage_labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  draw_radius_labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  cardinal_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure-mbr-rmd/Figure5-1.png" width="300px"> ## Figure 6:
-WATS and Cartesian Wrap Around Time Series (WATS Plot) of the Oklahoma
-City GFR data, 1990-1999</p>
+<p><img src="figure-mbr-rmd/Figure5-1.png" width="300px"></p>
+</div>
+<div class="section level2">
+<h2 id="figure-6-wats-and-cartesian">Figure 6: WATS and Cartesian<a class="anchor" aria-label="anchor" href="#figure-6-wats-and-cartesian"></a>
+</h2>
+<p>Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data,
+1990-1999</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">portfolioPolar</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/PolarizeCartesian.html">PolarizeCartesian</a></span><span class="op">(</span></span>
-<span>  dsLinear <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsLinear</span>,</span>
-<span>  dsStageCycle <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsStageCycle</span>,</span>
-<span>  yName <span class="op">=</span> <span class="st">"BirthRate"</span>,</span>
-<span>  stageIDName <span class="op">=</span> <span class="st">"StageID"</span>,</span>
-<span>  plottedPointCountPerCycle <span class="op">=</span> <span class="fl">7200</span></span>
+<code class="sourceCode R"><span><span class="va">portfolioPolar</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/polarize_cartesian.html">polarize_cartesian</a></span><span class="op">(</span></span>
+<span>  ds_linear <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">ds_linear</span>,</span>
+<span>  ds_stage_cycle <span class="op">=</span> <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">ds_stage_cycle</span>,</span>
+<span>  y_name <span class="op">=</span> <span class="st">"birth_rate"</span>,</span>
+<span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>,</span>
+<span>  plotted_point_count_per_cycle <span class="op">=</span> <span class="fl">7200</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -313,31 +317,31 @@ City GFR data, 1990-1999</p>
 <span></span>
 <span><span class="co">## Create top left panel</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">pushViewport</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span>layout.pos.col<span class="op">=</span><span class="fl">1</span>, layout.pos.row<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">topLeftPanel</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/PolarPeriodic.html">PolarPeriodic</a></span><span class="op">(</span></span>
-<span>  dsLinear <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">dsObservedPolar</span>,</span>
-<span>  dsStageCyclePolar <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">dsStageCyclePolar</span>,</span>
-<span>  yName <span class="op">=</span> <span class="st">"Radius"</span>,</span>
-<span>  stageIDName <span class="op">=</span> <span class="st">"StageID"</span>, <span class="co">#graphCeiling=7,</span></span>
-<span>  cardinalLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span></span>
+<span><span class="va">topLeftPanel</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/polar_periodic.html">polar_periodic</a></span><span class="op">(</span></span>
+<span>  ds_linear <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">dsObservedPolar</span>,</span>
+<span>  ds_stage_cycle_polar <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">ds_stage_cycle_polar</span>,</span>
+<span>  y_name <span class="op">=</span> <span class="st">"Radius"</span>,</span>
+<span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>, <span class="co">#graph_ceiling=7,</span></span>
+<span>  cardinal_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">upViewport</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## Create top right panel</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">pushViewport</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span>layout.pos.col<span class="op">=</span><span class="fl">2</span>, layout.pos.row<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">topRightPanel</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/PolarPeriodic.html">PolarPeriodic</a></span><span class="op">(</span></span>
-<span>  dsLinear <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">dsObservedPolar</span>,</span>
-<span>  dsStageCyclePolar <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">dsStageCyclePolar</span>,</span>
-<span>  yName <span class="op">=</span> <span class="st">"Radius"</span>,</span>
-<span>  stageIDName <span class="op">=</span> <span class="st">"StageID"</span>, <span class="co">#graphCeiling=7,</span></span>
-<span>  drawObservedLine <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  cardinalLabels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span>,</span>
-<span>  originLabel <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="va">topRightPanel</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/polar_periodic.html">polar_periodic</a></span><span class="op">(</span></span>
+<span>  ds_linear <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">dsObservedPolar</span>,</span>
+<span>  ds_stage_cycle_polar <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">ds_stage_cycle_polar</span>,</span>
+<span>  y_name <span class="op">=</span> <span class="st">"Radius"</span>,</span>
+<span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>, <span class="co">#graph_ceiling=7,</span></span>
+<span>  draw_observed_line <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  cardinal_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span>,</span>
+<span>  origin_label <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">upViewport</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## Create bottom panel</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">pushViewport</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span>layout.pos.col<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, layout.pos.row<span class="op">=</span><span class="fl">2</span>, gp<span class="op">=</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>cex<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cartesianPeriodic</span>, vp<span class="op">=</span><span class="fu">vpLayout</span><span class="op">(</span>x<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co">#Print across both columns of the bottom row.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cartesian_periodic</span>, vp<span class="op">=</span><span class="fu">vpLayout</span><span class="op">(</span>x<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co">#Print across both columns of the bottom row.</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">upViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="figure-mbr-rmd/Figure6-1.png" width="600px"></p>
 </div>
@@ -347,38 +351,38 @@ City GFR data, 1990-1999</p>
 <p>This figure compares Oklahoma County against the (other) largest
 urban counties.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># dsLinearAll &lt;- Wats::AugmentYearDataWithMonthResolution(dsLinear=CountyMonthBirthRate2005Version, dateName="Date")</span></span>
+<code class="sourceCode R"><span><span class="co"># dsLinearAll &lt;- Wats::augment_year_data_with_month_resolution(ds_linear=county_month_birth_rate_2005_version, date_name="date")</span></span>
 <span></span>
 <span><span class="co">#Identify the average size of the fecund population</span></span>
-<span><span class="co"># plyr::ddply(dsLinearAll, "CountyName", plyr::summarize, Mean=base::mean(FecundPopulation))</span></span>
+<span><span class="co"># plyr::ddply(dsLinearAll, "county_name", plyr::summarize, Mean=base::mean(fecund_population))</span></span>
 <span><span class="va">dsLinearAll</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">CountyName</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">county_name</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
-<span>    Mean <span class="op">=</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">FecundPopulation</span><span class="op">)</span></span>
+<span>    Mean <span class="op">=</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">fecund_population</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code> [38;5;246m# A tibble: 12 × 2 [39m
-   CountyName      Mean
+   county_name     Mean
     [3m [38;5;246m&lt;chr&gt; [39m [23m           [3m [38;5;246m&lt;dbl&gt; [39m [23m
- [38;5;250m 1 [39m canadian       [4m1 [24m [4m8 [24m333.
+ [38;5;250m 1 [39m canadian       [4m1 [24m [4m8 [24m332.
  [38;5;250m 2 [39m cleveland      [4m4 [24m [4m8 [24m865.
  [38;5;250m 3 [39m comanche       [4m2 [24m [4m6 [24m268.
  [38;5;250m 4 [39m creek          [4m1 [24m [4m3 [24m402.
- [38;5;250m 5 [39m logan           [4m7 [24m066.
- [38;5;250m 6 [39m mcclain         [4m5 [24m435.
- [38;5;250m 7 [39m oklahoma      [4m1 [24m [4m4 [24m [4m6 [24m883.
- [38;5;250m 8 [39m osage           [4m8 [24m530.
+ [38;5;250m 5 [39m logan           [4m7 [24m065.
+ [38;5;250m 6 [39m mcclain         [4m5 [24m434.
+ [38;5;250m 7 [39m oklahoma      [4m1 [24m [4m4 [24m [4m6 [24m882.
+ [38;5;250m 8 [39m osage           [4m8 [24m529.
  [38;5;250m 9 [39m pottawatomie   [4m1 [24m [4m3 [24m604.
  [38;5;250m10 [39m rogers         [4m1 [24m [4m3 [24m383.
  [38;5;250m11 [39m tulsa         [4m1 [24m [4m2 [24m [4m3 [24m783.
  [38;5;250m12 [39m wagoner        [4m1 [24m [4m1 [24m580.</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">GraphRowComparison</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span> <span class="va">rowLabel</span><span class="op">=</span><span class="st">""</span>, <span class="va">countyName</span><span class="op">=</span><span class="st">"oklahoma"</span>, <span class="va">spreadFunction</span><span class="op">=</span><span class="va">hSpread</span>, <span class="va">changeMonth</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1996-02-15"</span><span class="op">)</span> <span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">dsLinear</span> <span class="op">&lt;-</span> <span class="va">dsLinearAll</span><span class="op">[</span><span class="va">dsLinearAll</span><span class="op">$</span><span class="va">CountyName</span><span class="op">==</span><span class="va">countyName</span>, <span class="op">]</span></span>
-<span>  <span class="va">dsLinear</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/AugmentCycleData.html">AugmentYearDataWithMonthResolution</a></span><span class="op">(</span>dsLinear<span class="op">=</span><span class="va">dsLinear</span>, dateName<span class="op">=</span><span class="st">"Date"</span><span class="op">)</span></span>
-<span>  <span class="va">portfolioCartesian</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/AnnotateData.html">AnnotateData</a></span><span class="op">(</span><span class="va">dsLinear</span>, dvName<span class="op">=</span><span class="st">"BirthRate"</span>, centerFunction<span class="op">=</span><span class="fu">stats</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span>, spreadFunction<span class="op">=</span><span class="va">spreadFunction</span><span class="op">)</span></span>
-<span>  <span class="va">portfolioPolar</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/PolarizeCartesian.html">PolarizeCartesian</a></span><span class="op">(</span>dsLinear<span class="op">=</span><span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsLinear</span>, dsStageCycle<span class="op">=</span><span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsStageCycle</span>, yName<span class="op">=</span><span class="st">"BirthRate"</span>, stageIDName<span class="op">=</span><span class="st">"StageID"</span>, plottedPointCountPerCycle<span class="op">=</span><span class="fl">7200</span><span class="op">)</span></span>
-<span>  <span class="va">cartesianPeriodic</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/CartesianPeriodic.html">CartesianPeriodic</a></span><span class="op">(</span><span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsLinear</span>, <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">dsPeriodic</span>, xName<span class="op">=</span><span class="st">"Date"</span>, yName<span class="op">=</span><span class="st">"BirthRate"</span>, stageIDName<span class="op">=</span><span class="st">"StageID"</span>, changePoints<span class="op">=</span><span class="va">changeMonth</span>, changePointLabels<span class="op">=</span><span class="st">""</span>  <span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">GraphRowComparison</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span> <span class="va">rowLabel</span><span class="op">=</span><span class="st">""</span>, <span class="va">countyName</span><span class="op">=</span><span class="st">"oklahoma"</span>, <span class="va">spread_function</span><span class="op">=</span><span class="va">hSpread</span>, <span class="va">changeMonth</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1996-02-15"</span><span class="op">)</span> <span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">ds_linear</span> <span class="op">&lt;-</span> <span class="va">dsLinearAll</span><span class="op">[</span><span class="va">dsLinearAll</span><span class="op">$</span><span class="va">county_name</span><span class="op">==</span><span class="va">countyName</span>, <span class="op">]</span></span>
+<span>  <span class="va">ds_linear</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/augment_cycle_data.html">augment_year_data_with_month_resolution</a></span><span class="op">(</span>ds_linear<span class="op">=</span><span class="va">ds_linear</span>, date_name<span class="op">=</span><span class="st">"date"</span><span class="op">)</span></span>
+<span>  <span class="va">portfolioCartesian</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/annotate_data.html">annotate_data</a></span><span class="op">(</span><span class="va">ds_linear</span>, dv_name<span class="op">=</span><span class="st">"birth_rate"</span>, center_function<span class="op">=</span><span class="fu">stats</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span>, spread_function<span class="op">=</span><span class="va">spread_function</span><span class="op">)</span></span>
+<span>  <span class="va">portfolioPolar</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/polarize_cartesian.html">polarize_cartesian</a></span><span class="op">(</span>ds_linear<span class="op">=</span><span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">ds_linear</span>, ds_stage_cycle<span class="op">=</span><span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">ds_stage_cycle</span>, y_name<span class="op">=</span><span class="st">"birth_rate"</span>, stage_id_name<span class="op">=</span><span class="st">"stage_id"</span>, plotted_point_count_per_cycle<span class="op">=</span><span class="fl">7200</span><span class="op">)</span></span>
+<span>  <span class="va">cartesian_periodic</span> <span class="op">&lt;-</span> <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/cartesian_periodic.html">cartesian_periodic</a></span><span class="op">(</span><span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">ds_linear</span>, <span class="va">portfolioCartesian</span><span class="op">$</span><span class="va">ds_periodic</span>, x_name<span class="op">=</span><span class="st">"date"</span>, y_name<span class="op">=</span><span class="st">"birth_rate"</span>, stage_id_name<span class="op">=</span><span class="st">"stage_id"</span>, change_points<span class="op">=</span><span class="va">changeMonth</span>, change_point_labels<span class="op">=</span><span class="st">""</span>  <span class="op">)</span></span>
 <span></span>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">pushViewport</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span></span>
 <span>    layout<span class="op">=</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.layout.html" class="external-link">grid.layout</a></span><span class="op">(</span>nrow<span class="op">=</span><span class="fl">1</span>, ncol<span class="op">=</span><span class="fl">3</span>, respect<span class="op">=</span><span class="cn">FALSE</span>, widths<span class="op">=</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1.5</span>,<span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"line"</span>, <span class="st">"null"</span>, <span class="st">"null"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -390,20 +394,20 @@ urban counties.</p>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">pushViewport</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span>layout.pos.col<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="va">polarPeriodic</span> <span class="op">&lt;-</span></span>
-<span>    <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/PolarPeriodic.html">PolarPeriodic</a></span><span class="op">(</span></span>
-<span>      dsLinear            <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">dsObservedPolar</span>,</span>
-<span>      dsStageCyclePolar   <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">dsStageCyclePolar</span>,</span>
-<span>      drawObservedLine    <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>      yName               <span class="op">=</span> <span class="st">"Radius"</span>,</span>
-<span>      stageIDName         <span class="op">=</span> <span class="st">"StageID"</span>,</span>
-<span>      originLabel         <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>      plotMargins         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
+<span>  <span class="co"># polar_periodic &lt;-</span></span>
+<span>  <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/polar_periodic.html">polar_periodic</a></span><span class="op">(</span></span>
+<span>    ds_linear               <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">dsObservedPolar</span>,</span>
+<span>    ds_stage_cycle_polar    <span class="op">=</span> <span class="va">portfolioPolar</span><span class="op">$</span><span class="va">ds_stage_cycle_polar</span>,</span>
+<span>    draw_observed_line      <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    y_name                  <span class="op">=</span> <span class="st">"Radius"</span>,</span>
+<span>    stage_id_name           <span class="op">=</span> <span class="st">"stage_id"</span>,</span>
+<span>    origin_label            <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    plot_margins            <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">pushViewport</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span>layout.pos.col<span class="op">=</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cartesianPeriodic</span> <span class="op">+</span> <span class="va">xScale</span> <span class="op">+</span> <span class="va">lightTheme</span>, vp<span class="op">=</span><span class="fu">vpLayout</span><span class="op">(</span>x<span class="op">=</span><span class="fl">1</span>, y<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cartesian_periodic</span> <span class="op">+</span> <span class="va">xScale</span> <span class="op">+</span> <span class="va">lightTheme</span>, vp<span class="op">=</span><span class="fu">vpLayout</span><span class="op">(</span>x<span class="op">=</span><span class="fl">1</span>, y<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span> <span class="co">#Finish the row</span></span>
 <span><span class="op">}</span></span>
@@ -423,7 +427,7 @@ urban counties.</p>
 <p>Here are all 12 counties that Ronnie collected birth records for.
 This extended graph is not in the manuscript.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">counties</span> <span class="op">&lt;-</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dsLinearAll</span><span class="op">$</span><span class="va">CountyName</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">counties</span> <span class="op">&lt;-</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dsLinearAll</span><span class="op">$</span><span class="va">county_name</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">countyNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Canadian"</span>, <span class="st">"Cleveland"</span>, <span class="st">"Comanche"</span>, <span class="st">"Creek"</span>, <span class="st">"Logan"</span>, <span class="st">"McClain"</span>, <span class="st">"Oklahoma"</span>, <span class="st">"Osage"</span>, <span class="st">"Pottawatomie"</span>, <span class="st">"Rogers"</span>, <span class="st">"Tulsa"</span>, <span class="st">"Wagoner"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -448,7 +452,7 @@ bands.</p>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">pushViewport</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span>layout<span class="op">=</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.layout.html" class="external-link">grid.layout</a></span><span class="op">(</span>nrow<span class="op">=</span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">spreads</span><span class="op">)</span>, ncol<span class="op">=</span><span class="fl">1</span><span class="op">)</span>, gp<span class="op">=</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>cex<span class="op">=</span><span class="fl">1</span>, fill<span class="op">=</span><span class="cn">NA</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_along</a></span><span class="op">(</span><span class="va">spreads</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">pushViewport</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span>layout.pos.row<span class="op">=</span><span class="va">i</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">GraphRowComparison</span><span class="op">(</span>spreadFunction<span class="op">=</span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">spreads</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>, rowLabel<span class="op">=</span><span class="va">spreadNames</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="fu">GraphRowComparison</span><span class="op">(</span>spread_function<span class="op">=</span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">spreads</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>, rowLabel<span class="op">=</span><span class="va">spreadNames</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">upViewport</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">upViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -459,7 +463,7 @@ bands.</p>
 </h2>
 <p>The current vignette was build on a system using the following
 software.</p>
-<pre><code>Report created by runner at Wed Mar  1 06:19:33 2023, +0000</code></pre>
+<pre><code>Report created by runner at Fri Mar  3 07:31:48 2023, +0000</code></pre>
 <pre><code>R version 4.2.2 (2022-10-31)
 Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: Ubuntu 22.04.2 LTS
@@ -480,16 +484,15 @@ other attached packages:
 [1] Wats_0.11.1.9000 boot_1.3-28      ggplot2_3.4.1    scales_1.2.1    
 
 loaded via a namespace (and not attached):
- [1] zoo_1.8-11         tidyselect_1.2.0   xfun_0.37          bslib_0.4.2        purrr_1.0.1        lattice_0.20-45   
- [7] colorspace_2.1-0   vctrs_0.5.2        generics_0.1.3     htmltools_0.5.4    yaml_2.3.7         utf8_1.2.3        
-[13] rlang_1.0.6        pkgdown_2.0.7      jquerylib_0.1.4    pillar_1.8.1       glue_1.6.2         withr_2.5.0       
-[19] RColorBrewer_1.1-3 lifecycle_1.0.3    plyr_1.8.8         stringr_1.5.0      munsell_0.5.0      gtable_0.3.1      
-[25] ragg_1.2.5         memoise_2.0.1      evaluate_0.20      labeling_0.4.2     knitr_1.42         fastmap_1.1.1     
-[31] fansi_1.0.4        highr_0.10         Rcpp_1.0.10        cachem_1.0.7       desc_1.4.2         jsonlite_1.8.4    
-[37] farver_2.1.1       systemfonts_1.0.4  fs_1.6.1           textshaping_0.3.6  testit_0.13        digest_0.6.31     
-[43] stringi_1.7.12     dplyr_1.1.0        rprojroot_2.0.3    cli_3.6.0          tools_4.2.2        magrittr_2.0.3    
-[49] sass_0.4.5         tibble_3.1.8       pkgconfig_2.0.3    lubridate_1.9.2    timechange_0.2.0   rmarkdown_2.20    
-[55] R6_2.5.1           compiler_4.2.2    </code></pre>
+ [1] highr_0.10         RColorBrewer_1.1-3 bslib_0.4.2        compiler_4.2.2     pillar_1.8.1       jquerylib_0.1.4   
+ [7] tools_4.2.2        digest_0.6.31      lattice_0.20-45    timechange_0.2.0   lubridate_1.9.2    jsonlite_1.8.4    
+[13] evaluate_0.20      memoise_2.0.1      lifecycle_1.0.3    tibble_3.1.8       gtable_0.3.1       pkgconfig_2.0.3   
+[19] rlang_1.0.6        cli_3.6.0          yaml_2.3.7         pkgdown_2.0.7      xfun_0.37          fastmap_1.1.1     
+[25] withr_2.5.0        dplyr_1.1.0        stringr_1.5.0      knitr_1.42         generics_0.1.3     desc_1.4.2        
+[31] fs_1.6.1           vctrs_0.5.2        sass_0.4.5         systemfonts_1.0.4  tidyselect_1.2.0   rprojroot_2.0.3   
+[37] glue_1.6.2         R6_2.5.1           textshaping_0.3.6  fansi_1.0.4        rmarkdown_2.20     farver_2.1.1      
+[43] purrr_1.0.1        magrittr_2.0.3     htmltools_0.5.4    testit_0.13        colorspace_2.1-0   labeling_0.4.2    
+[49] ragg_1.2.5         utf8_1.2.3         stringi_1.7.12     munsell_0.5.0      cachem_1.0.7       zoo_1.8-11        </code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

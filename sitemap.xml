@@ -19,30 +19,30 @@
     <loc>https://ouhscbbmc.github.io/Wats/index.html</loc>
   </url>
   <url>
-    <loc>https://ouhscbbmc.github.io/Wats/reference/AnnotateData.html</loc>
-  </url>
-  <url>
-    <loc>https://ouhscbbmc.github.io/Wats/reference/AugmentCycleData.html</loc>
-  </url>
-  <url>
-    <loc>https://ouhscbbmc.github.io/Wats/reference/CartesianPeriodic.html</loc>
-  </url>
-  <url>
-    <loc>https://ouhscbbmc.github.io/Wats/reference/CartesianRolling.html</loc>
-  </url>
-  <url>
-    <loc>https://ouhscbbmc.github.io/Wats/reference/CountyMonthBirthRate.html</loc>
-  </url>
-  <url>
-    <loc>https://ouhscbbmc.github.io/Wats/reference/PolarPeriodic.html</loc>
-  </url>
-  <url>
-    <loc>https://ouhscbbmc.github.io/Wats/reference/PolarizeCartesian.html</loc>
-  </url>
-  <url>
     <loc>https://ouhscbbmc.github.io/Wats/reference/Wats-package.html</loc>
   </url>
   <url>
+    <loc>https://ouhscbbmc.github.io/Wats/reference/annotate_data.html</loc>
+  </url>
+  <url>
+    <loc>https://ouhscbbmc.github.io/Wats/reference/augment_cycle_data.html</loc>
+  </url>
+  <url>
+    <loc>https://ouhscbbmc.github.io/Wats/reference/cartesian_periodic.html</loc>
+  </url>
+  <url>
+    <loc>https://ouhscbbmc.github.io/Wats/reference/cartesian_rolling.html</loc>
+  </url>
+  <url>
+    <loc>https://ouhscbbmc.github.io/Wats/reference/county_month_birth_rate.html</loc>
+  </url>
+  <url>
     <loc>https://ouhscbbmc.github.io/Wats/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ouhscbbmc.github.io/Wats/reference/polar_periodic.html</loc>
+  </url>
+  <url>
+    <loc>https://ouhscbbmc.github.io/Wats/reference/polarize_cartesian.html</loc>
   </url>
 </urlset>
