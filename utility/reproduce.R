@@ -16,13 +16,13 @@ if( base::basename(base::getwd()) != "Wats" ) {
 }
 ###################################
 # Install the necessary packages.
-# pathInstallPackages <- "utility/install-packages.R"
-# if( !file.exists(pathInstallPackages)) {
-#   base::stop("The file `", pathInstallPackages, "` was not found.  Make sure the working directory is set to the root of the repository.")
-# }
+pathInstallPackages <- "utility/install-packages.R"
+if( !file.exists(pathInstallPackages)) {
+  base::stop("The file `", pathInstallPackages, "` was not found.  Make sure the working directory is set to the root of the repository.")
+}
 # base::source(pathInstallPackages, local=new.env())
 
-# base::rm(pathInstallPackages)
+base::rm(pathInstallPackages)
 ###################################
 # Load the necessary packages.
 base::library(base)
