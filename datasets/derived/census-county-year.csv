@@ -1,4 +1,4 @@
-"Fips","Year","CountyName","FecundPopulationCount"
+fips,year,county_name,fecund_population_count
 40017,1990,"canadian",17609
 40017,1991,"canadian",17782
 40017,1992,"canadian",17804

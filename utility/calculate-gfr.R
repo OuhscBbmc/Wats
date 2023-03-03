@@ -1,10 +1,23 @@
-###################
-# Clear memory, load packages, and define global variables
-###################
-rm(list=ls(all=TRUE))
-requireNamespace("dplyr")
-requireNamespace("testit")
+rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous run. This is not called by knitr, because it's above the first chunk.
 
+# ---- load-sources ------------------------------------------------------------
+# Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
+
+# ---- load-packages -----------------------------------------------------------
+# Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
+
+# Import only certain functions of a package into the search path.
+# import::from("magrittr", "%>%")
+
+# Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
+requireNamespace("readr"        )
+# requireNamespace("tidyr"        )
+requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("testit"       )
+requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
+# requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
+
+# ---- declare-globals ---------------------------------------------------------
 inputPathCensusCountyMonth              <- "datasets/CensusIntercensal/CensusCountyMonth.csv"
 inputPathBirthCountCountyMonth          <- "datasets/BirthCountState.csv"
 outputPathBirthCountCountyMonthCsv2014  <- "datasets/county_month_birth_rate_2014_version.csv"
@@ -13,6 +26,7 @@ outputPathBirthCountCountyMonthRda2014  <- "data/county_month_birth_rate_2014_ve
 outputPathBirthCountCountyMonthRda2005  <- "data/county_month_birth_rate_2005_version.rda"
 changeMonth                             <- as.Date("1996-02-15")
 
+# ---- load-data ---------------------------------------------------------------
 ###################
 # Read in the datasets, lightly groom, & merge.
 ###################
@@ -21,6 +35,8 @@ dsBirthCount <- utils::read.csv(inputPathBirthCountCountyMonth)
 # sapply(dsCensus, class)
 # sapply(dsBirthCount, class)
 
+# ---- tweak-data --------------------------------------------------------------
+# OuhscMunge::column_rename_headstart(ds) # Help write `dplyr::select()` call.
 dsBirthCount <-
   dsBirthCount |>
   dplyr::mutate(
