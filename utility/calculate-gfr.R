@@ -19,7 +19,7 @@ requireNamespace("checkmate"    ) # For asserting conditions meet expected patte
 
 # ---- declare-globals ---------------------------------------------------------
 inputPathCensusCountyMonth              <- "datasets/derived/census-county-month.csv"
-inputPathBirthCountCountyMonth          <- "datasets/BirthCountState.csv"
+inputPathBirthCountCountyMonth          <- "datasets/raw/birth-count-county.csv"
 outputPathBirthCountCountyMonthCsv2014  <- "datasets/derived/county-month-birth-rate-2014-version.csv"
 outputPathBirthCountCountyMonthCsv2005  <- "datasets/derived/county-month-birth-rate-2005-version.csv"
 outputPathBirthCountCountyMonthRda2014  <- "data/county_month_birth_rate_2014_version.rda"
