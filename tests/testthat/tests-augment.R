@@ -4,14 +4,14 @@ library(testthat)
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt") #This approach accounts for working on developmental box.
 
 test_that("augment_year_data_with_month_resolution", {
-  dsBirthRate <- county_month_birth_rate_2005_version[county_month_birth_rate_2005_version$CountyName=="oklahoma", ]
-#   dsBirthRate$Date <- as.Date(dsBirthRate$Date)
+  dsBirthRate <- county_month_birth_rate_2005_version[county_month_birth_rate_2005_version$county_name=="oklahoma", ]
+#   dsBirthRate$date <- as.Date(dsBirthRate$date)
 #   changeMonth <- as.Date("1996-02-15") # as.Date(dateBombing + weeks(40))
-#   dsBirthRate$StageID <- ifelse(dsBirthRate$Date < changeMonth, 1L, 2L)
+#   dsBirthRate$stage_id <- ifelse(dsBirthRate$date < changeMonth, 1L, 2L)
 
   expectedColumnNames <- c(colnames(dsBirthRate), "CycleTally", "ProportionThroughCycle", "ProportionID"
                            , "StartingPointInCycle", "TerminalPointInCycle", "StageProgress")
-  actual <- Wats::augment_year_data_with_month_resolution(ds=dsBirthRate, date_name="Date")
+  actual <- Wats::augment_year_data_with_month_resolution(ds=dsBirthRate, date_name="date")
 
   expect_equal(mean(actual$ProportionThroughCycle), expected=0.5, label="The mean of the proportion should be 0.5.")
   expect_equal(actual$ProportionID, expected=rep(1:12, times=10), label="The `ProportionID` should be correct.")
@@ -23,12 +23,12 @@ test_that("augment_year_data_with_month_resolution", {
 
 test_that("augment_year_data_with_second_resolution", {
   dsBirthRate <- county_month_birth_rate_2005_version
-  dsBirthRate <- dsBirthRate[dsBirthRate$CountyName=="oklahoma", ]
-  dsBirthRate$Date <- as.POSIXct(dsBirthRate$Date, tz="GMT")
+  dsBirthRate <- dsBirthRate[dsBirthRate$county_name=="oklahoma", ]
+  dsBirthRate$date <- as.POSIXct(dsBirthRate$date, tz="GMT")
 
   expectedColumnNames <- c(colnames(dsBirthRate), "CycleTally", "ProportionThroughCycle", "ProportionID"
                            , "StartingPointInCycle", "TerminalPointInCycle", "StageProgress")
-  actual <- Wats::augment_year_data_with_second_resolution(ds=dsBirthRate, date_name="Date")
+  actual <- Wats::augment_year_data_with_second_resolution(ds=dsBirthRate, date_name="date")
 
   expect_equal(mean(actual$ProportionThroughCycle), expected=0.4933366, tolerance=1e-7, label="The mean of the proportion should be a little less than 0.5 (ie, ~.4933366) because the calender's first months are shorter than its last.")
   expect_equal(actual$ProportionID, expected=rep(1:12, times=10), label="The `ProportionID` should be correct.")

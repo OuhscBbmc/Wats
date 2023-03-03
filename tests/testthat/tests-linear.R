@@ -1,12 +1,12 @@
 # library(testthat)
 #
 # ds_linear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=FALSE)
-# ds_linear$Date <- as.Date(ds_linear$Date)
+# ds_linear$date <- as.Date(ds_linear$date)
 # changeMonth <- as.Date("1996-02-15") # as.Date(dateBombing + weeks(40))
-# ds_linear$StageID <- ifelse(ds_linear$Date < changeMonth, 1L, 2L)
+# ds_linear$stage_id <- ifelse(ds_linear$date < changeMonth, 1L, 2L)
 #
 # test_that("Smoke Test", {
-# #   Wats::LinearPlot(dsPlot=ds_linear, x_name="Date", y_name="BirthRate", idName="StageID")
+# #   Wats::LinearPlot(dsPlot=ds_linear, x_name="date", y_name="birth_rate", idName="stage_id")
 #
 # #   expect_equal(returned_object$data, expected=data.frame(), label="An empty data.frame should be returned.")
 # #   expect_equal(returned_object$raw_csv, expected=raw(0))

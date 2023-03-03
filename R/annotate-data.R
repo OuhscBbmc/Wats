@@ -19,13 +19,13 @@
 #' @examples
 #' library(Wats)
 #' ds_linear <- county_month_birth_rate_2005_version
-#' ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
+#' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 #'
 #' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 #' portfolio <- annotate_data(
 #'   ds_linear = ds_linear,
-#'   dv_name = "BirthRate",
+#'   dv_name = "birth_rate",
 #'   center_function = median,
 #'   spread_function = hSpread
 #' )
@@ -40,7 +40,7 @@ annotate_data <- function( ds_linear,
                           center_function,
                           spread_function,
                           cycle_tally_name="CycleTally",
-                          stage_id_name="StageID",
+                          stage_id_name="stage_id",
                           stage_progress_name="StageProgress",
                           proportion_through_cycle_name="ProportionThroughCycle",
                           proportion_id_name="ProportionID",
@@ -82,7 +82,7 @@ annotate_data <- function( ds_linear,
     ) |>
     dplyr::ungroup()
 
-  dsLinearTemp <- ds_linear[, c("Date", stage_id_name, proportion_id_name, stage_progress_name)]
+  dsLinearTemp <- ds_linear[, c("date", stage_id_name, proportion_id_name, stage_progress_name)]
   colnames(dsLinearTemp)[colnames(dsLinearTemp)==stage_id_name] <- "StageIDTime" #Make sure `StageIDTime` matches the two calls below.
 
   ds_stage_cycleTemp <- ds_stage_cycle
@@ -92,26 +92,26 @@ annotate_data <- function( ds_linear,
   ds_periodic <-
     dsLinearTemp |>
     dplyr::left_join(ds_stage_cycleTemp, by=proportion_id_name, multiple = "all") |>
-    dplyr::arrange(.data$Date, .data$StageIDTime, .data$StageIDBand)
+    dplyr::arrange(.data$date, .data$StageIDTime, .data$StageIDBand)
 
-  # ds_periodic <- ds_periodic[order(ds_periodic$Date, ds_periodic$StageIDTime, ds_periodic$StageIDBand), ]
+  # ds_periodic <- ds_periodic[order(ds_periodic$date, ds_periodic$StageIDTime, ds_periodic$StageIDBand), ]
 
   return( list(ds_linear=ds_linear, ds_stage_cycle=ds_stage_cycle, ds_periodic=ds_periodic) )
 }
 
 # library(Wats)
 # ds_linear <- county_month_birth_rate_2005_version
-# ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-# ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
+# ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
+# ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 #
 # hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- annotate_data(ds_linear, dv_name="BirthRate", center_function=median, spread_function=hSpread)
+# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=hSpread)
 #
 # head(portfolio$ds_stage_cycle)
 # head(portfolio$ds_linear)
 # head(portfolio$ds_periodic)
 #
-# portfolio <- annotate_data(ds_linear, dv_name="BirthRate", center_function=mean, spread_function=hSpread)
+# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function=mean, spread_function=hSpread)
 #
 # head(portfolio$ds_stage_cycle)
 # head(portfolio$ds_linear)

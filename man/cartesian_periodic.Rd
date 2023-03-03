@@ -37,15 +37,15 @@ cartesian_periodic(
 
 \item{y_name}{The variable name containing the dependent/criterion variable.}
 
-\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.}
+\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{stage_id} is \code{1}, and is \code{2} afterwards.}
 
 \item{periodic_lower_name}{The variable name showing the lower bound of a stage's periodic estimate.}
 
 \item{periodic_upper_name}{The variable name showing the upper bound of a stage's periodic estimate.}
 
-\item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{stage_id} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{palette_light}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_light}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{stage_id} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
 
 \item{change_points}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
 
@@ -81,12 +81,12 @@ Shows the interrupted time series in Cartesian coordinates and its a periodic/cy
 library(Wats) #Load the package
 changeMonth <- base::as.Date("1996-02-15")
 ds_linear <- county_month_birth_rate_2005_version
-ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
+ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
+ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- annotate_data(
     ds_linear,
-    dv_name = "BirthRate",
+    dv_name = "birth_rate",
     center_function = median,
     spread_function = hSpread
 )
@@ -94,9 +94,9 @@ portfolio <- annotate_data(
 cartesian_periodic(
   portfolio$ds_linear,
   portfolio$ds_periodic,
-  x_name = "Date",
-  y_name = "BirthRate",
-  stage_id_name = "StageID",
+  x_name = "date",
+  y_name = "birth_rate",
+  stage_id_name = "stage_id",
   change_points = changeMonth,
   change_point_labels = "Bombing Effect"
 )

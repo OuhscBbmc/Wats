@@ -25,7 +25,7 @@ polarize_cartesian(
 
 \item{y_name}{The variable name containing the dependent/criterion variable.}
 
-\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.}
+\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{stage_id} is \code{1}, and is \code{2} afterwards.}
 
 \item{cycle_tally_name}{The variable name indicating how many \emph{complete} cycles have occurred at that observation.}
 
@@ -53,13 +53,13 @@ Third, the Cartesian points are converted to polar coordinates.
 \examples{
 library(Wats)
 ds_linear <- county_month_birth_rate_2005_version
-ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
+ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
+ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- annotate_data(
   ds_linear = ds_linear,
-  dv_name = "BirthRate",
+  dv_name = "birth_rate",
   center_function = median,
   spread_function = hSpread
 )
@@ -68,13 +68,13 @@ rm(ds_linear)
 polarized <- polarize_cartesian(
   ds_linear = portfolio$ds_linear,
   ds_stage_cycle = portfolio$ds_stage_cycle,
-  y_name = "BirthRate",
-  stage_id_name = "StageID"
+  y_name = "birth_rate",
+  stage_id_name = "stage_id"
 )
 
 library(ggplot2)
 polarized$ds_stage_cycle_polar |>
-  ggplot(aes(color=factor(StageID))) +
+  ggplot(aes(color=factor(stage_id))) +
   geom_path(aes(x=PolarLowerX, y=PolarLowerY), linetype=2) +
   geom_path(aes(x=PolarCenterX, y=PolarCenterY), linewidth=2) +
   geom_path(aes(x=PolarUpperX, y=PolarUpperY), linetype=2) +

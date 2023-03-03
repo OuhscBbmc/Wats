@@ -44,22 +44,22 @@ ds_linear$Horizontal <- ds_linear$CycleID + (ds_linear$MonthIndex-1)/12
 stageIDs <- 1:2
 stageCount <- length(stageIDs)
 stageBreaks <- as.POSIXct(c(startDate, changeDate, max(ds_linear$Date)+1))
-ds_linear$StageID <- as.numeric(cut.POSIXt(as.POSIXct(ds_linear$Date), breaks=stageBreaks, labels=c("Pre", "Post")))
+ds_linear$stage_id <- as.numeric(cut.POSIXt(as.POSIXct(ds_linear$Date), breaks=stageBreaks, labels=c("Pre", "Post")))
 ### Only manipulations specific the sample above this line;
 ###
 lowerQuantile <- .25
 upperQuantile <- .75
 
-ddply(.data=ds_linear, .variables=.(MonthIndex, StageID), .fun=nrow)
-ds <- ds_linear[ , c("CycleID", "StageID", "Angle", "AngleTotal")]
-ds$Radius <- ds_linear$BirthRate
+ddply(.data=ds_linear, .variables=.(MonthIndex, stage_id), .fun=nrow)
+ds <- ds_linear[ , c("CycleID", "stage_id", "Angle", "AngleTotal")]
+ds$Radius <- ds_linear$birth_rate
 ds$AngleBin <- ds_linear$MonthIndex
 #rm(ds_linear)
 
 Bands <- function( Radius, ...) {
   return( c(Lower=as.numeric(quantile(Radius, lowerQuantile)), Upper=as.numeric(quantile(Radius, upperQuantile))) )
 }
-dsBands <- ddply(.data=ds[, c("AngleBin", "StageID", "Radius")], .variables=.(AngleBin, StageID), .fun=splat(Bands))
+dsBands <- ddply(.data=ds[, c("AngleBin", "stage_id", "Radius")], .variables=.(AngleBin, stage_id), .fun=splat(Bands))
 dsBands$Angle <- NA
 for( binIndex in sort(unique(dsBands$AngleBin)) ) {
   meanAngle <- mean(ds[ds$AngleBin==binIndex, "Angle"], na.rm=T)
@@ -113,19 +113,19 @@ interpolatedLine <- approx(x=ds$AngleTotal, y=ds$Radius, n=interpolationPointsTo
 dsCart <- data.frame(X=rep(NA_real_, length(interpolatedLine$x)), Y=NA_real_)
 dsCart$X <- (interpolatedLine$y - graph_floor) * sin(interpolatedLine$x)
 dsCart$Y <- (interpolatedLine$y - graph_floor) * cos(interpolatedLine$x)
-dsCart$StageID <- floor(approx(x=ds$StageID, n=interpolationPointsTotal)$y)
+dsCart$stage_id <- floor(approx(x=ds$stage_id, n=interpolationPointsTotal)$y)
 
-dsCartBands <- data.frame(StageID=rep(stageIDs, each=interpolationPointsPerCycle), XLower=NA_real_, YLower=NA_real_, XUpper=NA_real_, YUpper=NA_real_)
+dsCartBands <- data.frame(stage_id=rep(stageIDs, each=interpolationPointsPerCycle), XLower=NA_real_, YLower=NA_real_, XUpper=NA_real_, YUpper=NA_real_)
 for( stageID in stageIDs ) {
-  dsStageBands <- dsBands[dsBands$StageID==stageID, ]
+  dsStageBands <- dsBands[dsBands$stage_id==stageID, ]
 
   interpolatedLowerBand <- approx(x=dsStageBands$Angle, y=dsStageBands$Lower, n=interpolationPointsPerCycle)
-  dsCartBands[dsCartBands$StageID==stageID, "XLower"] <- (interpolatedLowerBand$y - graph_floor) * sin(interpolatedLowerBand$x)
-  dsCartBands[dsCartBands$StageID==stageID, "YLower"] <- (interpolatedLowerBand$y - graph_floor) * cos(interpolatedLowerBand$x)
+  dsCartBands[dsCartBands$stage_id==stageID, "XLower"] <- (interpolatedLowerBand$y - graph_floor) * sin(interpolatedLowerBand$x)
+  dsCartBands[dsCartBands$stage_id==stageID, "YLower"] <- (interpolatedLowerBand$y - graph_floor) * cos(interpolatedLowerBand$x)
 
   interpolatedUpperBand <- approx(x=dsStageBands$Angle, y=dsStageBands$Upper, n=interpolationPointsPerCycle)
-  dsCartBands[dsCartBands$StageID==stageID, "XUpper"] <- (interpolatedUpperBand$y - graph_floor) * sin(interpolatedUpperBand$x)
-  dsCartBands[dsCartBands$StageID==stageID, "YUpper"] <- (interpolatedUpperBand$y - graph_floor) * cos(interpolatedUpperBand$x)
+  dsCartBands[dsCartBands$stage_id==stageID, "XUpper"] <- (interpolatedUpperBand$y - graph_floor) * sin(interpolatedUpperBand$x)
+  dsCartBands[dsCartBands$stage_id==stageID, "YUpper"] <- (interpolatedUpperBand$y - graph_floor) * cos(interpolatedUpperBand$x)
 }
 rm(dsStageBands)
 
@@ -192,21 +192,21 @@ grid.text(c("A point at the origin represents a GFR of 5"), x=c(0), y=c(-2.2), g
 # grid.points(x=dsCart$X[c(1, 75, 76, nrow(dsCart))], y=dsCart$Y[c(1, 75, 76, nrow(dsCart))]) #Works when there's no interpolation
 
 for( stageID in stageIDs ) {
-  lowerX <- dsCartBands[dsCartBands$StageID==stageID, "XLower"]
-  lowerY <- dsCartBands[dsCartBands$StageID==stageID, "YLower"]
-  upperX <- dsCartBands[dsCartBands$StageID==stageID, "XUpper"]
-  upperY <- dsCartBands[dsCartBands$StageID==stageID, "YUpper"]
+  lowerX <- dsCartBands[dsCartBands$stage_id==stageID, "XLower"]
+  lowerY <- dsCartBands[dsCartBands$stage_id==stageID, "YLower"]
+  upperX <- dsCartBands[dsCartBands$stage_id==stageID, "XUpper"]
+  upperY <- dsCartBands[dsCartBands$stage_id==stageID, "YUpper"]
 
   x <- c(lowerX, rev(upperX))
   y <- c(lowerY, rev(upperY))
 #   grid.polygon(x=x, y=y, default.units="native", gp=gpar(fill=c2[stageID], col="transparent"))
 }
 
-# for( stageID in sort(unique(ds$StageID)) ) { #for( stageID in 2 ) {
-#   grid.lines(x=dsCart[dsCart$StageID==stageID, "X"], y=dsCart[dsCart$StageID==stageID, "Y"], gp=gpar(col=c1[stageID], lwd=.2), default.units="native", name="l") #summary(lg) #lg$gp
+# for( stageID in sort(unique(ds$stage_id)) ) { #for( stageID in 2 ) {
+#   grid.lines(x=dsCart[dsCart$stage_id==stageID, "X"], y=dsCart[dsCart$stage_id==stageID, "Y"], gp=gpar(col=c1[stageID], lwd=.2), default.units="native", name="l") #summary(lg) #lg$gp
 # }
-#lg <- polylineGrob(x=dsCart$X, y=dsCart$Y, id=dsCart$StageID, gp=gpar(col=c1, lwd=.2), default.units="native", name="l") #summary(lg) #lg$gp
-lg <- polylineGrob(x=dsCart$X, y=dsCart$Y, id=dsCart$StageID, gp=gpar(col=c1, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
+#lg <- polylineGrob(x=dsCart$X, y=dsCart$Y, id=dsCart$stage_id, gp=gpar(col=c1, lwd=.2), default.units="native", name="l") #summary(lg) #lg$gp
+lg <- polylineGrob(x=dsCart$X, y=dsCart$Y, id=dsCart$stage_id, gp=gpar(col=c1, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
 grid.draw(lg)
 
 upViewport(n=3)
@@ -223,10 +223,10 @@ grid.lines(x=c(0,0), y=c(-2,2), gp=gpar(col="gray80"), default.units="native")
 grid.circle(x=0, y=0, r=0:2, default.units="native", gp=gpar(col="gray80"))
 
 for( stageID in stageIDs ) {
-  lowerX <- dsCartBands[dsCartBands$StageID==stageID, "XLower"]
-  lowerY <- dsCartBands[dsCartBands$StageID==stageID, "YLower"]
-  upperX <- dsCartBands[dsCartBands$StageID==stageID, "XUpper"]
-  upperY <- dsCartBands[dsCartBands$StageID==stageID, "YUpper"]
+  lowerX <- dsCartBands[dsCartBands$stage_id==stageID, "XLower"]
+  lowerY <- dsCartBands[dsCartBands$stage_id==stageID, "YLower"]
+  upperX <- dsCartBands[dsCartBands$stage_id==stageID, "XUpper"]
+  upperY <- dsCartBands[dsCartBands$stage_id==stageID, "YUpper"]
 
   x <- c(lowerX, rev(upperX))
   y <- c(lowerY, rev(upperY))
@@ -245,12 +245,12 @@ upViewport(n=3)
 #
 #
 # linearVPRangeX <- range(ds_linear$Horizontal)
-# linearVPRangeY <- range(ds_linear$BirthRate)
+# linearVPRangeY <- range(ds_linear$birth_rate)
 # pushViewport(viewport(layout.pos.col=1:2, layout.pos.row=2))
 # pushViewport(plotViewport(c(0, 0, 0, 0)))
 # pushViewport(dataViewport(xscale=linearVPRangeX, yscale=linearVPRangeY, name="plotRegion"))
-# # grid.lines(ds_linear$Horizontal, ds_linear$BirthRate, default.units="native")
-# # grid.points(ds_linear$Horizontal, ds_linear$BirthRate, default.units="native")
+# # grid.lines(ds_linear$Horizontal, ds_linear$birth_rate, default.units="native")
+# # grid.points(ds_linear$Horizontal, ds_linear$birth_rate, default.units="native")
 # # upViewport(n=3)
 #
 # #opar <- par(no.readonly=TRUE, new=TRUE, pty="m",  mar=c(5, 4, 0, 1) + 0.1) #When it's plotted with the polars)
@@ -312,7 +312,7 @@ upViewport(n=3)
 # monthOffset <- rep(0:(yearCount-1), each=monthsPerYear) * monthsPerYear
 #
 # ds <- data.frame(matrix(NA, nrow=monthCount, ncol=6))
-# colnames(ds) <- c("MonthID", "MonthIndex", "Radians", "BirthRate", "X", "Y")
+# colnames(ds) <- c("MonthID", "MonthIndex", "Radians", "birth_rate", "X", "Y")
 #
 # for( yearIndex in 1:yearCount ) {
 #   for( monthIndex in 1:monthsPerYear ) {
@@ -322,34 +322,34 @@ upViewport(n=3)
 #     ds[monthID, 'MonthIndex'] <- monthIndex
 #     degrees <- monthIndex * (360 / monthsPerYear)
 #     ds[monthID, 'Radians'] <- degrees / 180 * pi
-#     ds[monthID, 'BirthRate'] <- ds_linear$BirthRate[monthID] - graph_floor
+#     ds[monthID, 'birth_rate'] <- ds_linear$birth_rate[monthID] - graph_floor
 #   }
 # }
-# ds$X <- ds$BirthRate * sin(ds$Radians)
-# ds$Y <- ds$BirthRate * cos(ds$Radians)
+# ds$X <- ds$birth_rate * sin(ds$Radians)
+# ds$Y <- ds$birth_rate * cos(ds$Radians)
 # abline(v=seq(from=monthsPerYear, to=monthCount, by=monthsPerYear), col=gridColor, lty=2)
 # for( i in 2:monthCount ) {
 #   x1 <- ds[i-1, 'MonthID'] + xOffset
 #   x2 <- ds[i, 'MonthID'] + xOffset
-#   y1 <- ds[i-1, 'BirthRate'] + graph_floor
-#   y2 <- ds[i, 'BirthRate'] + graph_floor
+#   y1 <- ds[i-1, 'birth_rate'] + graph_floor
+#   y2 <- ds[i, 'birth_rate'] + graph_floor
 #   lines(x=c(x1, x2), y=c(y1, y2), col=lineColors[i], lwd=2)
 # }
 # abline(v=changePoint + xOffset, col=colorAfter)
 # mtext("Bombing Effect", side=3, at=changePoint + xOffset, col=colorAfter, cex=.8)
 #
-# #maxRate <- max(ds$BirthRate)
+# #maxRate <- max(ds$birth_rate)
 # tail(ds)
 #
 # dsInterpolated <-data.frame(matrix(NA, nrow=interpolatedCount, ncol=6))
-# colnames(dsInterpolated) <- c("DurationID", "CycleID", "Radians", "BirthRate", "X", "Y")
+# colnames(dsInterpolated) <- c("DurationID", "CycleID", "Radians", "birth_rate", "X", "Y")
 # dsInterpolated[1, ] <- ds[1, ]
 # rowTally <- 1
 # for( pointIndex in 2:monthCount ) {
 #   monthStart <- ds[pointIndex - 1, 'MonthIndex']
 #   monthStop <- ds[pointIndex, 'MonthIndex']
-#   birthStart <- ds[pointIndex - 1, 'BirthRate']
-#   birthStop <- ds[pointIndex, 'BirthRate']
+#   birthStart <- ds[pointIndex - 1, 'birth_rate']
+#   birthStop <- ds[pointIndex, 'birth_rate']
 #
 #   for( interpolationIndex in 1:(interpolationPoints+1) ) {
 #     if( monthStop < monthStart ) monthStart <- 0
@@ -362,11 +362,11 @@ upViewport(n=3)
 #     dsInterpolated[rowTally, 'DurationID'] <- rowTally
 #     dsInterpolated[rowTally, 'CycleID'] <- monthEst
 #     dsInterpolated[rowTally, 'Radians'] <- radians
-#     dsInterpolated[rowTally, 'BirthRate'] <- birthRateEst
+#     dsInterpolated[rowTally, 'birth_rate'] <- birthRateEst
 #   }
 # }
-# dsInterpolated$X <- dsInterpolated$BirthRate * sin(dsInterpolated$Radians)
-# dsInterpolated$Y <- dsInterpolated$BirthRate * cos(dsInterpolated$Radians)
+# dsInterpolated$X <- dsInterpolated$birth_rate * sin(dsInterpolated$Radians)
+# dsInterpolated$Y <- dsInterpolated$birth_rate * cos(dsInterpolated$Radians)
 #
 # dsBands <- data.frame(matrix(NA, nrow=length(unique(dsInterpolated$CycleID)), ncol=14))
 # colnames(dsBands) <- c("CycleID", "Radians", "LowerBefore", "UpperBefore", "LowerAfter", "UpperAfter",
@@ -379,14 +379,14 @@ upViewport(n=3)
 #
 #   dsBands[rowTally, 'CycleID'] <- cycleID
 #   dsBands[rowTally, 'Radians'] <- dsSliceBefore$Radians[1] #They should all have the same radians
-#   #   dsBands[rowTally, 'LowerBefore'] <- quantile(dsSliceBefore$BirthRate, prob=lowerQuantile)
-#   #   dsBands[rowTally, 'UpperBefore'] <- quantile(dsSliceBefore$BirthRate, prob=upperQuantile)
-#   #   dsBands[rowTally, 'LowerAfter'] <- quantile(dsSliceAfter$BirthRate, prob=lowerQuantile)
-#   #   dsBands[rowTally, 'UpperAfter'] <- quantile(dsSliceAfter$BirthRate, prob=upperQuantile)
-#   dsBands[rowTally, 'LowerBefore'] <- as.numeric(quantile(dsSliceBefore$BirthRate, prob=lowerQuantile))
-#   dsBands[rowTally, 'UpperBefore'] <- as.numeric(quantile(dsSliceBefore$BirthRate, prob=upperQuantile))
-#   dsBands[rowTally, 'LowerAfter'] <- as.numeric(quantile(dsSliceAfter$BirthRate, prob=lowerQuantile))
-#   dsBands[rowTally, 'UpperAfter'] <- as.numeric(quantile(dsSliceAfter$BirthRate, prob=upperQuantile))
+#   #   dsBands[rowTally, 'LowerBefore'] <- quantile(dsSliceBefore$birth_rate, prob=lowerQuantile)
+#   #   dsBands[rowTally, 'UpperBefore'] <- quantile(dsSliceBefore$birth_rate, prob=upperQuantile)
+#   #   dsBands[rowTally, 'LowerAfter'] <- quantile(dsSliceAfter$birth_rate, prob=lowerQuantile)
+#   #   dsBands[rowTally, 'UpperAfter'] <- quantile(dsSliceAfter$birth_rate, prob=upperQuantile)
+#   dsBands[rowTally, 'LowerBefore'] <- as.numeric(quantile(dsSliceBefore$birth_rate, prob=lowerQuantile))
+#   dsBands[rowTally, 'UpperBefore'] <- as.numeric(quantile(dsSliceBefore$birth_rate, prob=upperQuantile))
+#   dsBands[rowTally, 'LowerAfter'] <- as.numeric(quantile(dsSliceAfter$birth_rate, prob=lowerQuantile))
+#   dsBands[rowTally, 'UpperAfter'] <- as.numeric(quantile(dsSliceAfter$birth_rate, prob=upperQuantile))
 #
 #   rowTally <- rowTally + 1
 # }

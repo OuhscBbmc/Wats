@@ -142,7 +142,7 @@ rm(input_dir_census_199x, input_path_census200x, input_path_fips)
 # ---- tweak-data --------------------------------------------------------------
 #For 199x: See the codebook at datasets/census-intercensal/STCH-Intercensal_layout.txt.  The State FIPS is missing for some reason
 #For 200x: See the codebook at ./Datasets/CensusIntercensal/CO-EST00INT-AGESEX-5YR.pdf.
-# colnames(dsCensus199x) <- c("Year", "Fips", "AgeGroup", "RaceGender", "Latino", "PopulationCount")
+# colnames(dsCensus199x) <- c("year", "fips", "AgeGroup", "RaceGender", "Latino", "PopulationCount")
 
 # ---- groom-199x --------------------------------------------------------------
 # OuhscMunge::column_rename_headstart(ds_census_199x) # Help write `dplyr::select()` call.
@@ -256,10 +256,10 @@ interpolate_months <- function( d ) {
   )
 }
 ds_county_month <- plyr::ddply(ds_next, .variables=c("fips", "county_name", "year"), .fun=interpolate_months)
-# dsCensusCountyMonth$Date <- as.Date(ISOdate(dsCensusCountyMonth$year, dsCensusCountyMonth$Month, 15L))
+# dsCensusCountyMonth$date <- as.Date(ISOdate(dsCensusCountyMonth$year, dsCensusCountyMonth$month, 15L))
 
 # library(ggplot2)
-# ggplot(dsInterpolated[dsCensusCountyMonth$Fips==40027L, ], aes(x=Date, y=Population, color=factor(Fips))) +
+# ggplot(dsInterpolated[dsCensusCountyMonth$fips==40027L, ], aes(x=date, y=Population, color=factor(fips))) +
 #   geom_line() +
 #   geom_line(aes(y=PopulationCount, ymin=0)) +
 #   geom_line(aes(y=PopulationCountNext))

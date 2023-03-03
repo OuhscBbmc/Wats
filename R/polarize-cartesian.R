@@ -10,7 +10,7 @@
 #' @param ds_linear The [data.frame] to containing the simple linear data.  There should be one record per observation.
 #' @param ds_stage_cycle The [data.frame] to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this [data.frame] should have three times as many rows as `ds_linear`.
 #' @param y_name The variable name containing the dependent/criterion variable.
-#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `StageID` is `1`, and is `2` afterwards.
+#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `stage_id` is `1`, and is `2` afterwards.
 #' @param cycle_tally_name The variable name indicating how many \emph{complete} cycles have occurred at that observation.
 #' @param proportion_through_cycle_name The variable name showing how far through a cycle the observation (or summarized observations) occurred.
 #' @param periodic_lower_name The variable name showing the lower bound of a stage's periodic estimate.
@@ -23,13 +23,13 @@
 #' @examples
 #' library(Wats)
 #' ds_linear <- county_month_birth_rate_2005_version
-#' ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
+#' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 #'
 #' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 #' portfolio <- annotate_data(
 #'   ds_linear = ds_linear,
-#'   dv_name = "BirthRate",
+#'   dv_name = "birth_rate",
 #'   center_function = median,
 #'   spread_function = hSpread
 #' )
@@ -38,13 +38,13 @@
 #' polarized <- polarize_cartesian(
 #'   ds_linear = portfolio$ds_linear,
 #'   ds_stage_cycle = portfolio$ds_stage_cycle,
-#'   y_name = "BirthRate",
-#'   stage_id_name = "StageID"
+#'   y_name = "birth_rate",
+#'   stage_id_name = "stage_id"
 #' )
 #'
 #' library(ggplot2)
 #' polarized$ds_stage_cycle_polar |>
-#'   ggplot(aes(color=factor(StageID))) +
+#'   ggplot(aes(color=factor(stage_id))) +
 #'   geom_path(aes(x=PolarLowerX, y=PolarLowerY), linetype=2) +
 #'   geom_path(aes(x=PolarCenterX, y=PolarCenterY), linewidth=2) +
 #'   geom_path(aes(x=PolarUpperX, y=PolarUpperY), linetype=2) +
@@ -122,8 +122,8 @@ polarize_cartesian <- function(ds_linear, ds_stage_cycle,
       StageProgress = d$StageProgress,
       StageStart = stageStart,
       StageEnd = stageEnd,
-      LabelStageStart = ifelse(stageStart, paste0(d$StageID, "S"), ""),
-      LabelStageEnd = ifelse(stageEnd, paste0(d$StageID, "E"), ""),
+      LabelStageStart = ifelse(stageStart, paste0(d$stage_id, "S"), ""),
+      LabelStageEnd = ifelse(stageEnd, paste0(d$stage_id, "E"), ""),
       stringsAsFactors = FALSE
     )
   }
@@ -146,8 +146,8 @@ polarize_cartesian <- function(ds_linear, ds_stage_cycle,
 #       StageProgress = d$StageProgress,
       StageStart = stageStart,
       StageEnd = stageEnd,
-      LabelStageStart = ifelse(stageStart, paste0(d$StageID, "S"), ""),
-      LabelStageEnd = ifelse(stageEnd, paste0(d$StageID, "E"), ""),
+      LabelStageStart = ifelse(stageStart, paste0(d$stage_id, "S"), ""),
+      LabelStageEnd = ifelse(stageEnd, paste0(d$stage_id, "E"), ""),
       stringsAsFactors = FALSE
     )
   }
@@ -204,17 +204,17 @@ polarize_cartesian <- function(ds_linear, ds_stage_cycle,
 
 # library(Wats)
 # ds_linear <- county_month_birth_rate_2005_version
-# ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-# ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
+# ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
+# ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 #
 # hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- annotate_data(ds_linear, dv_name="BirthRate", center_function=median, spread_function=hSpread)
+# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=hSpread)
 # rm(ds_linear)
 #
-# polarized <- polarize_cartesian(portfolio$ds_linear, portfolio$ds_stage_cycle, y_name="BirthRate", stage_id_name="StageID")
+# polarized <- polarize_cartesian(portfolio$ds_linear, portfolio$ds_stage_cycle, y_name="birth_rate", stage_id_name="stage_id")
 #
 # library(ggplot2)
-# ggplot(polarized$ds_stage_cycle_polar, aes(color=factor(StageID))) +
+# ggplot(polarized$ds_stage_cycle_polar, aes(color=factor(stage_id))) +
 #   geom_path(aes(x=PolarLowerX, y=PolarLowerY), linetype=2) +
 #   geom_path(aes(x=PolarCenterX, y=PolarCenterY), size=2) +
 #   geom_path(aes(x=PolarUpperX, y=PolarUpperY), linetype=2) +

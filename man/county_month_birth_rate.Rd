@@ -9,18 +9,18 @@
 \format{
 A data frame with 1,440 observations on the following 11 variables.
 \describe{
-\item{Fips}{The county's 5-digit value according to the \emph{F}ederal \emph{I}nformation \emph{P}rocessing \emph{S}tandards.  \code{integer}}
-\item{CountyName}{The lower case name of the county. \code{character}}
-\item{Year}{The year of the record, ranging from 1990 to 1999. \code{integer}}
-\item{Month}{The month of the record, ranging from 1 to 12. \code{integer}}
-\item{FecundPopulation}{The number of females in the county, ages of
+\item{fips}{The county's 5-digit value according to the \emph{F}ederal \emph{I}nformation \emph{P}rocessing \emph{S}tandards.  \code{integer}}
+\item{county_name}{The lower case name of the county. \code{character}}
+\item{year}{The year of the record, ranging from 1990 to 1999. \code{integer}}
+\item{month}{The month of the record, ranging from 1 to 12. \code{integer}}
+\item{fecund_population}{The number of females in the county, ages of
 15 to 44. \code{numeric}}
-\item{BirthCount}{The number of births in a county for the given month.
+\item{birth_count}{The number of births in a county for the given month.
 \code{integer}}
-\item{Date}{The year and month of the record, with a date of the 15th. Centering the date within the month makes the value a little more representative and the graphs a little easier. \code{date}}
-\item{DaysInMonth}{The number of days in the specific month. \code{integer}}
-\item{DaysInYear}{The number of days in the specific years \code{integer}}
-\item{StageID}{The \verb{Stage' of the month.  The pre-bombing records are }1' (accounting for 9 months of gestation); the post-bombing months are \verb{2'. }integer\verb{\} \\item\{BirthRate\}\{The Growth Fertility Rate (GFR). }numeric`}
+\item{date}{The year and month of the record, with a date of the 15th. Centering the date within the month makes the value a little more representative and the graphs a little easier. \code{date}}
+\item{days_in_month}{The number of days in the specific month. \code{integer}}
+\item{days_in_year}{The number of days in the specific years \code{integer}}
+\item{stage_id}{The \verb{Stage' of the month.  The pre-bombing records are }1' (accounting for 9 months of gestation); the post-bombing months are \verb{2'. }integer\verb{\} \\item\{birth_rate\}\{The Growth Fertility Rate (GFR). }numeric`}
 }
 }
 \description{
@@ -44,34 +44,34 @@ summer of 2001 from state vital statistics records.  It was collected
 for \href{https://pubmed.ncbi.nlm.nih.gov/16463916/}{Rodgers, St. John, & Coleman (2005)}.
 
 The US Census' intercensal estimates are used for the January values of
-\code{FecundPopluation}.  Values for February-December are interpolated using
+\code{fecund_popluation}.  Values for February-December are interpolated using
 \code{\link[=approx]{approx()}}.
 
 The datasets were manipulated to produce this data frame by the two R files
-\href{https://github.com/OuhscBbmc/Wats/blob/main/utility/isolate-census-pops-for-gfr.R}{IsolateCensusPopsForGfr.R}
-and \href{https://github.com/OuhscBbmc/Wats/blob/main/utility/calculate-gfr.R}{CalculateGfr.R}.
+\href{https://github.com/OuhscBbmc/Wats/blob/main/utility/isolate-census-pops-for-gfr.R}{isolate-census-pops-for-gfr.R}
+and \href{https://github.com/OuhscBbmc/Wats/blob/main/utility/calculate-gfr.R}{calculate-gfr.R}.
 }
 \examples{
 library(ggplot2)
 
 ##2005 Version (see description above)
 ds2005 <- county_month_birth_rate_2005_version
-ggplot(ds2005, aes(x=Date, y=BirthRate, color=factor(Fips))) +
+ggplot(ds2005, aes(x=date, y=birth_rate, color=factor(fips))) +
 geom_line() +
 labs(title="County Fertility - Longitudinal")
 
-ggplot(ds2005, aes(x=BirthRate, color=factor(Fips))) +
+ggplot(ds2005, aes(x=birth_rate, color=factor(fips))) +
 geom_density() +
 labs(title="Distributions of County Fertility")
 
 ##2014 Version (see description above)
 ds2014 <- county_month_birth_rate_2014_version
-ggplot(ds2014, aes(x=Date, y=BirthRate, color=factor(Fips))) +
+ggplot(ds2014, aes(x=date, y=birth_rate, color=factor(fips))) +
 geom_line() +
 labs(title="County Fertility - Longitudinal")
 
 
-ggplot(ds2014, aes(x=BirthRate, color=factor(Fips))) +
+ggplot(ds2014, aes(x=birth_rate, color=factor(fips))) +
 geom_density() +
 labs(title="Distributions of County Fertility")
 }

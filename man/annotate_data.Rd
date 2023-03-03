@@ -10,7 +10,7 @@ annotate_data(
   center_function,
   spread_function,
   cycle_tally_name = "CycleTally",
-  stage_id_name = "StageID",
+  stage_id_name = "stage_id",
   stage_progress_name = "StageProgress",
   proportion_through_cycle_name = "ProportionThroughCycle",
   proportion_id_name = "ProportionID",
@@ -48,13 +48,13 @@ that needs to be called to produce WATS Plots.  \code{AugmentZZZ} is the first.
 \examples{
 library(Wats)
 ds_linear <- county_month_birth_rate_2005_version
-ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
+ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
+ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- annotate_data(
   ds_linear = ds_linear,
-  dv_name = "BirthRate",
+  dv_name = "birth_rate",
   center_function = median,
   spread_function = hSpread
 )

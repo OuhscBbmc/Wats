@@ -7,12 +7,12 @@
 #' @param ds_linear The [data.frame] to containing the data.
 #' @param x_name The variable name containing the date.
 #' @param y_name The variable name containing the dependent/criterion variable.
-#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `StageID` is `1`, and is `2` afterwards.
+#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `stage_id` is `1`, and is `2` afterwards.
 #' @param rolling_lower_name The variable name showing the lower bound of the rolling estimate.
 #' @param rolling_center_name The variable name showing the rolling estimate.
 #' @param rolling_upper_name The variable name showing the upper bound of the rolling estimate.
-#' @param palette_dark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each `StageID` value.  If no vector is specified, a default will be chosen, based on the number of stages.
-#' @param palette_light A vector of colors used for the light graphical elements.  The vector should have one color for each `StageID` value.  If no vector is specified, a default will be chosen, based on the number of stages.
+#' @param palette_dark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each `stage_id` value.  If no vector is specified, a default will be chosen, based on the number of stages.
+#' @param palette_light A vector of colors used for the light graphical elements.  The vector should have one color for each `stage_id` value.  If no vector is specified, a default will be chosen, based on the number of stages.
 #' @param color_sparse The color of the `slowest' trend line, which plots only one value per cycle.
 #' @param change_points A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.
 #' @param change_point_labels The text plotted above each interruption.
@@ -41,21 +41,21 @@
 #' library(Wats) #Load the package
 #' changeMonth <- base::as.Date("1996-02-15")
 #' ds_linear <- county_month_birth_rate_2005_version
-#' ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
+#' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 #' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 #' portfolio <- annotate_data(
 #'     ds_linear,
-#'     dv_name = "BirthRate",
+#'     dv_name = "birth_rate",
 #'     center_function = median,
 #'     spread_function = hSpread
 #' )
 #'
 #' cartesian_rolling(
 #'     portfolio$ds_linear,
-#'     x_name = "Date",
-#'     y_name = "BirthRate",
-#'     stage_id_name = "StageID",
+#'     x_name = "date",
+#'     y_name = "birth_rate",
+#'     stage_id_name = "stage_id",
 #'     change_points = changeMonth,
 #'     change_point_labels = "Bombing Effect"
 #' )
@@ -71,10 +71,10 @@ cartesian_rolling <- function(ds_linear, x_name, y_name, stage_id_name,
 
   stages <- base::sort(base::unique(ds_linear[[stage_id_name]]))
   stageCount <- length(stages)
-  testit::assert("The number of unique `StageID` values should be 1 greater than the number of `change_points`.", stageCount==1+length(change_points))
+  testit::assert("The number of unique `stage_id` values should be 1 greater than the number of `change_points`.", stageCount==1+length(change_points))
   if (!is.null(change_points)) testit::assert("The number of `change_points` should equal the number of `changeLabels`.", length(change_points)==length(change_point_labels))
-  if (!is.null(palette_dark))  testit::assert("The number of `palette_dark` colors should equal the number of unique `StageID` values.", stageCount==length(palette_dark))
-  if (!is.null(palette_light)) testit::assert("The number of `palette_light` colors should equal the number of unique `StageID` values.", stageCount==length(palette_light))
+  if (!is.null(palette_dark))  testit::assert("The number of `palette_dark` colors should equal the number of unique `stage_id` values.", stageCount==length(palette_dark))
+  if (!is.null(palette_light)) testit::assert("The number of `palette_light` colors should equal the number of unique `stage_id` values.", stageCount==length(palette_light))
 
   p <- ggplot2::ggplot(ds_linear, ggplot2::aes_string(x=x_name, y=y_name, color=stage_id_name))
 

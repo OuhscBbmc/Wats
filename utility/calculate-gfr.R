@@ -146,17 +146,17 @@ ds_county_month_2005 <-
   )
 
 # library(ggplot2)
-# ggplot(ds_county_month, aes(x=Date, y=BirthRate, color=factor(Fips))) + geom_line() + labs(title="Distributions of County Fertility")
-# ggplot(ds_county_month, aes(x=BirthRate, color=factor(Fips))) + geom_density()
+# ggplot(ds_county_month, aes(x=date, y=birth_rate, color=factor(fips))) + geom_line() + labs(title="Distributions of County Fertility")
+# ggplot(ds_county_month, aes(x=birth_rate, color=factor(fips))) + geom_density()
 
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
 # dsOld <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=FALSE)
-# dsOld$Date <- as.Date(dsOld$Date) + days(15)
+# dsOld$date <- as.Date(dsOld$date) + days(15)
 #
-# ggplot(ds_county_month[ds_county_month$Fips==40109, ], aes(x=Date, color=factor(Fips))) +
-#   geom_line(aes(y=BirthRate), color="tomato") +
+# ggplot(ds_county_month[ds_county_month$fips==40109, ], aes(x=date, color=factor(fips))) +
+#   geom_line(aes(y=birth_rate), color="tomato") +
 #   geom_line(aes(y=BirthRateUnadjustedFrom1990), color="blue") +
-#   geom_line(mapping=aes(y=BirthRate), data=dsOld, color="green")
+#   geom_line(mapping=aes(y=birth_rate), data=dsOld, color="green")
 
 ###################
 # Write to disk

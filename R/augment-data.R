@@ -16,8 +16,8 @@
 #' @examples
 #' library(Wats)
 #' ds_linear <- county_month_birth_rate_2005_version
-#' ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
+#' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 #' head(ds_linear)
 #'
 #' @importFrom rlang .data
@@ -37,24 +37,24 @@ augment_year_data_with_month_resolution <- function( ds_linear, date_name ) {
 
   # SummarizeWithinStage <- function( d ) {
   #   isMin <- (base::min(d[[date_name]]) < d[[date_name]])
-  #   return( d$StageID + isMin*0.5 )
+  #   return( d$stage_id + isMin*0.5 )
   # }
   #
   ds_linear |>
     tibble::as_tibble() |>
-    dplyr::group_by(.data$StageID) |>
+    dplyr::group_by(.data$stage_id) |>
     dplyr::mutate(
       isMin = (base::min(!! rlang::ensym(date_name)) < !! rlang::ensym(date_name)),
     ) |>
     dplyr::ungroup() |>
     dplyr::mutate(
-      StageProgress = .data$StageID + .data$isMin*0.5,
+      StageProgress = .data$stage_id + .data$isMin*0.5,
     ) |>
     dplyr::select(
       -isMin,
     )
 
-  # ds_linear$StageProgress <- base::unlist(plyr::dlply(ds_linear, "StageID", SummarizeWithinStage))
+  # ds_linear$StageProgress <- base::unlist(plyr::dlply(ds_linear, "stage_id", SummarizeWithinStage))
   # return( ds_linear )
 }
 augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
@@ -99,13 +99,13 @@ augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
 #                     TerminalPointInCycle=(rank(ProportionThroughCycle)==max(rank(ProportionThroughCycle))))
   ds_linear |>
     tibble::as_tibble() |>
-    dplyr::group_by(.data$StageID) |>
+    dplyr::group_by(.data$stage_id) |>
     dplyr::mutate(
       isMin = (base::min(!! rlang::ensym(date_name)) < !! rlang::ensym(date_name)),
     ) |>
     dplyr::ungroup() |>
     dplyr::mutate(
-      StageProgress = .data$StageID + .data$isMin*0.5,
+      StageProgress = .data$stage_id + .data$isMin*0.5,
     ) |>
     dplyr::select(
       -isMin,
@@ -115,18 +115,18 @@ augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
   #     #     maxValue <- max(d[[date_name]])
   #     #     isBetween <- ( (min(d[[date_name]]) < d[[date_name]]) & (d[[date_name]] < max(d[[date_name]])))
   #     isMin <-  (base::min(d[[date_name]]) < d[[date_name]])
-  #     return( d$StageID + isMin*0.5 )
+  #     return( d$stage_id + isMin*0.5 )
   #   }
-  #   ds_linear$StageProgress <- base::unlist(plyr::dlply(ds_linear, "StageID", SummarizeWithinStage))
-  # #   ds_linear$StageProgress <- plyr::daply(ds_linear, "StageID", SummarizeWithinStage)
+  #   ds_linear$StageProgress <- base::unlist(plyr::dlply(ds_linear, "stage_id", SummarizeWithinStage))
+  # #   ds_linear$StageProgress <- plyr::daply(ds_linear, "stage_id", SummarizeWithinStage)
   #   return( ds_linear )
 }
 
 # library(Wats)
 # ds_linear <- county_month_birth_rate_2005_version
-# ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-# # ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
+# ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
+# # ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 # ds_linear
 #
-# ds_linear$Date <- as.POSIXct(ds_linear$Date, tz="GMT")
-# ds_linear <- augment_year_data_with_second_resolution(ds_linear=ds_linear, date_name="Date")
+# ds_linear$date <- as.POSIXct(ds_linear$date, tz="GMT")
+# ds_linear <- augment_year_data_with_second_resolution(ds_linear=ds_linear, date_name="date")

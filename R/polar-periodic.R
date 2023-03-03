@@ -8,12 +8,12 @@
 #' @param ds_stage_cycle_polar The [data.frame] to containing the bands for a single period.  There should be one record per theta per stage.  If there are three stages, this [data.frame] should have three times as many rows as `ds_linear`.
 #' @param x_name The variable name containing the date.
 #' @param y_name The variable name containing the dependent/criterion variable.
-#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `StageID` is `1`, and is `2` afterwards.
+#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `stage_id` is `1`, and is `2` afterwards.
 
 #' @param periodic_lower_name The variable name showing the lower bound of a stage's periodic estimate.
 #' @param periodic_upper_name The variable name showing the upper bound of a stage's periodic estimate.
-#' @param palette_dark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each `StageID` value.  If no vector is specified, a default will be chosen, based on the number of stages.
-#' @param palette_light A vector of colors used for the light graphical elements.  The vector should have one color for each `StageID` value.  If no vector is specified, a default will be chosen, based on the number of stages.
+#' @param palette_dark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each `stage_id` value.  If no vector is specified, a default will be chosen, based on the number of stages.
+#' @param palette_light A vector of colors used for the light graphical elements.  The vector should have one color for each `stage_id` value.  If no vector is specified, a default will be chosen, based on the number of stages.
 #' @param change_points A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.
 #' @param change_point_labels The text plotted above each interruption.
 #' @param draw_observed_line A boolean value indicating if the longitudinal observed line should be plotted (whose values are take from `ds_linear`).
@@ -44,13 +44,13 @@
 #' library(grid)
 #' library(Wats)
 #' ds_linear <- county_month_birth_rate_2005_version
-#' ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
+#' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 #'
 #' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 #' portfolio <- annotate_data(
 #'   ds_linear = ds_linear,
-#'   dv_name = "BirthRate",
+#'   dv_name = "birth_rate",
 #'   center_function = median,
 #'   spread_function = hSpread
 #' )
@@ -59,8 +59,8 @@
 #' polarized <- polarize_cartesian(
 #'   portfolio$ds_linear,
 #'   portfolio$ds_stage_cycle,
-#'   y_name = "BirthRate",
-#'   stage_id_name = "StageID"
+#'   y_name = "birth_rate",
+#'   stage_id_name = "stage_id"
 #' )
 #'
 #' grid.newpage()
@@ -68,7 +68,7 @@
 #'   ds_linear = polarized$dsObservedPolar,
 #'   ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
 #'   y_name = "Radius",
-#'   stage_id_name = "StageID",
+#'   stage_id_name = "stage_id",
 #'   cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
 #' )
 #'
@@ -77,7 +77,7 @@
 #'   ds_linear = polarized$dsObservedPolar,
 #'   ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
 #'   y_name = "Radius",
-#'   stage_id_name = "StageID",
+#'   stage_id_name = "stage_id",
 #'   draw_periodic_band = FALSE
 #' )
 #'
@@ -86,7 +86,7 @@
 #'   ds_linear = polarized$dsObservedPolar,
 #'   ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
 #'   y_name = "Radius",
-#'   stage_id_name = "StageID",
+#'   stage_id_name = "stage_id",
 #'   draw_observed_line = FALSE,
 #'   cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
 #' )
@@ -120,10 +120,10 @@ polar_periodic <- function(ds_linear, ds_stage_cycle_polar,
   vpRange <- c(-graphRadius, graphRadius) * 1.02
   stages <- base::sort(base::unique(ds_linear[[stage_id_name]]))
   stageCount <- length(stages)
-  #     testit::assert("The number of unique `StageID` values should be 1 greater than the number of `change_points`.", stageCount==1+length(change_points))
+  #     testit::assert("The number of unique `stage_id` values should be 1 greater than the number of `change_points`.", stageCount==1+length(change_points))
   if (!is.null(change_points )) testit::assert("The number of `change_points` should equal the number of `changeLabels`.", length(change_points)==length(change_point_labels))
-  if (!is.null(palette_dark  )) testit::assert("The number of `palette_dark` colors should equal the number of unique `StageID` values.", stageCount==length(palette_dark))
-  if (!is.null(palette_light )) testit::assert("The number of `palette_light` colors should equal the number of unique `StageID` values.", stageCount==length(palette_light))
+  if (!is.null(palette_dark  )) testit::assert("The number of `palette_dark` colors should equal the number of unique `stage_id` values.", stageCount==length(palette_dark))
+  if (!is.null(palette_light )) testit::assert("The number of `palette_light` colors should equal the number of unique `stage_id` values.", stageCount==length(palette_light))
 
   if (is.null(palette_dark)) {
     if (length(stages) <= 4L) palette_dark <- RColorBrewer::brewer.pal(n=10L, name="Paired")[c(2L,4L,6L,8L)] #There's not a risk of defining more colors than levels
@@ -155,19 +155,19 @@ polar_periodic <- function(ds_linear, ds_stage_cycle_polar,
   }
   grid::grid.text(cardinal_labels, x=c(0, graphRadius, 0, -graphRadius), y=c(graphRadius, 0, -graphRadius, 0), gp=grid::gpar(cex=2, col=color_labels), default.units="native")
 
-#   lg <- grid::polylineGrob(x=ds_stage_cycle_polar$PolarLowerX, y=ds_stage_cycle_polar$PolarLowerY, id=ds_stage_cycle_polar$StageID, gp=grid::gpar(col=palette_dark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
+#   lg <- grid::polylineGrob(x=ds_stage_cycle_polar$PolarLowerX, y=ds_stage_cycle_polar$PolarLowerY, id=ds_stage_cycle_polar$stage_id, gp=grid::gpar(col=palette_dark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
 #   grid::grid.draw(lg)
-#   cg <- grid::polylineGrob(x=ds_stage_cycle_polar$PolarCenterX, y=ds_stage_cycle_polar$PolarCenterY, id=ds_stage_cycle_polar$StageID, gp=grid::gpar(col=palette_dark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
+#   cg <- grid::polylineGrob(x=ds_stage_cycle_polar$PolarCenterX, y=ds_stage_cycle_polar$PolarCenterY, id=ds_stage_cycle_polar$stage_id, gp=grid::gpar(col=palette_dark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
 #   grid::grid.draw(cg)
-#   ug <- grid::polylineGrob(x=ds_stage_cycle_polar$PolarUpperX, y=ds_stage_cycle_polar$PolarUpperY, id=ds_stage_cycle_polar$StageID, gp=grid::gpar(col=palette_dark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
+#   ug <- grid::polylineGrob(x=ds_stage_cycle_polar$PolarUpperX, y=ds_stage_cycle_polar$PolarUpperY, id=ds_stage_cycle_polar$stage_id, gp=grid::gpar(col=palette_dark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
 #   grid::grid.draw(ug)
 
   if (draw_periodic_band) {
     for (stageID in stages) {
-      lowerX <- ds_stage_cycle_polar$PolarLowerX[ds_stage_cycle_polar$StageID == stageID]
-      lowerY <- ds_stage_cycle_polar$PolarLowerY[ds_stage_cycle_polar$StageID == stageID]
-      upperX <- ds_stage_cycle_polar$PolarUpperX[ds_stage_cycle_polar$StageID == stageID]
-      upperY <- ds_stage_cycle_polar$PolarUpperY[ds_stage_cycle_polar$StageID == stageID]
+      lowerX <- ds_stage_cycle_polar$PolarLowerX[ds_stage_cycle_polar$stage_id == stageID]
+      lowerY <- ds_stage_cycle_polar$PolarLowerY[ds_stage_cycle_polar$stage_id == stageID]
+      upperX <- ds_stage_cycle_polar$PolarUpperX[ds_stage_cycle_polar$stage_id == stageID]
+      upperY <- ds_stage_cycle_polar$PolarUpperY[ds_stage_cycle_polar$stage_id == stageID]
 
       x <- c(lowerX, rev(upperX))
       y <- c(lowerY, rev(upperY))
@@ -176,7 +176,7 @@ polar_periodic <- function(ds_linear, ds_stage_cycle_polar,
   }
 
   if (draw_observed_line) {
-#     gObserved <- grid::polylineGrob(x=ds_linear$ObservedX, y=ds_linear$ObservedY, id=ds_linear$StageID,
+#     gObserved <- grid::polylineGrob(x=ds_linear$ObservedX, y=ds_linear$ObservedY, id=ds_linear$stage_id,
 #                                     gp=grid::gpar(col=palette_dark, lwd=jagged_line_size),
 #                                     default.units="native", name="l")
 #     grid::grid.draw(gObserved)
@@ -207,24 +207,24 @@ polar_periodic <- function(ds_linear, ds_stage_cycle_polar,
 # library(grid)
 # library(Wats)
 # ds_linear <- county_month_birth_rate_2005_version
-# ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-# ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
+# ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
+# ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 #
 # hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- annotate_data(ds_linear, dv_name="BirthRate", center_function=median, spread_function=hSpread)
+# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=hSpread)
 # rm(ds_linear)
 #
-# polarized <- polarize_cartesian(portfolio$ds_linear, portfolio$ds_stage_cycle, y_name="BirthRate", stage_id_name="StageID", plotted_point_count_per_cycle=3600)
+# polarized <- polarize_cartesian(portfolio$ds_linear, portfolio$ds_stage_cycle, y_name="birth_rate", stage_id_name="stage_id", plotted_point_count_per_cycle=3600)
 #
 # grid.newpage()
-# polar_periodic(ds_linear=polarized$dsObservedPolar, polarized$ds_stage_cycle_polar, draw_radius_labels=TRUE, draw_stage_labels=TRUE, y_name="Radius", stage_id_name="StageID", draw_periodic_band=FALSE)
+# polar_periodic(ds_linear=polarized$dsObservedPolar, polarized$ds_stage_cycle_polar, draw_radius_labels=TRUE, draw_stage_labels=TRUE, y_name="Radius", stage_id_name="stage_id", draw_periodic_band=FALSE)
 
 # grid.newpage()
-# polar_periodic(ds_linear=polarized$dsObservedPolar, polarized$ds_stage_cycle_polar, y_name="Radius", stage_id_name="StageID", draw_periodic_band=FALSE)
+# polar_periodic(ds_linear=polarized$dsObservedPolar, polarized$ds_stage_cycle_polar, y_name="Radius", stage_id_name="stage_id", draw_periodic_band=FALSE)
 
 # grid.newpage()
-# polar_periodic(ds_linear=polarized$dsObservedPolar, polarized$ds_stage_cycle_polar, y_name="Radius", stage_id_name="StageID", cardinal_labels=c("Jan1", "Apr1", "July1", "Oct1"))
+# polar_periodic(ds_linear=polarized$dsObservedPolar, polarized$ds_stage_cycle_polar, y_name="Radius", stage_id_name="stage_id", cardinal_labels=c("Jan1", "Apr1", "July1", "Oct1"))
 
 # #
 # grid.newpage()
-# polar_periodic(ds_linear=polarized$dsObservedPolar, polarized$ds_stage_cycle_polar, y_name="Radius", stage_id_name="StageID", draw_observed_line=FALSE, cardinal_labels=c("Jan1", "Apr1", "July1", "Oct1"))
+# polar_periodic(ds_linear=polarized$dsObservedPolar, polarized$ds_stage_cycle_polar, y_name="Radius", stage_id_name="stage_id", draw_observed_line=FALSE, cardinal_labels=c("Jan1", "Apr1", "July1", "Oct1"))

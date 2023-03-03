@@ -23,28 +23,28 @@ ds <- data.frame(TimeIndex=timeIndex, PeriodID=periodID, Theta=theta, Residual=r
 #breakPointsInside <- c(200, 400)
 breakPointsInside <- as.numeric(quantile(ds$TimeIndex, breakQuantiles))
 breakPoints <- c(min(ds$TimeIndex), breakPointsInside, max(ds$TimeIndex))
-ds$StageID <- factor(as.numeric(cut(ds$TimeIndex, breaks=breakPoints, include.lowest=T)))
-ds$R <- ds$Residual + stageDifference[ds$StageID] + periodDifference[ds$PeriodID]
+ds$stage_id <- factor(as.numeric(cut(ds$TimeIndex, breaks=breakPoints, include.lowest=T)))
+ds$R <- ds$Residual + stageDifference[ds$stage_id] + periodDifference[ds$PeriodID]
 ds$X <- ds$R * sin(ds$Theta)
 ds$Y <- ds$R * cos(ds$Theta)
 
 # plot(ds$X, ds$Y)
 # lines(ds$X, ds$Y)
 
-# dsFull <- data.frame(TimeIndex=rep(ds$TimeIndex, stageCount), StageID=rep(ds$StageID, each=nrow(ds)), X=rep(ds$X, stageCount),PeriodID=rep(ds$PeriodID, stageCount), Theta=rep(ds$Theta, stageCount))
+# dsFull <- data.frame(TimeIndex=rep(ds$TimeIndex, stageCount), stage_id=rep(ds$stage_id, each=nrow(ds)), X=rep(ds$X, stageCount),PeriodID=rep(ds$PeriodID, stageCount), Theta=rep(ds$Theta, stageCount))
 # dsFull$Y <- 1000
 
-for( stageID in as.numeric(sort(unique(ds$StageID))) ){
-  dsStage <- ds[ds$StageID==stageID, ]
+for( stageID in as.numeric(sort(unique(ds$stage_id))) ){
+  dsStage <- ds[ds$stage_id==stageID, ]
   for( periodID in unique(dsStage$PeriodID)) {
     sliceY <- dsStage[dsStage$PeriodID == periodID, "Y"]
     bandRange <- quantile(sliceY, c(.25, .75))
-    #ds[ds$StageID==stageID & ds$PeriodID==periodID, c("LowerY", "UpperY")] <- t(as.numeric(bandRange))
-    ds[ds$StageID==stageID & ds$PeriodID==periodID, c("LowerY")] <- as.numeric(bandRange[1])
-    ds[ds$StageID==stageID & ds$PeriodID==periodID, c("UpperY")] <- as.numeric(bandRange[2])
+    #ds[ds$stage_id==stageID & ds$PeriodID==periodID, c("LowerY", "UpperY")] <- t(as.numeric(bandRange))
+    ds[ds$stage_id==stageID & ds$PeriodID==periodID, c("LowerY")] <- as.numeric(bandRange[1])
+    ds[ds$stage_id==stageID & ds$PeriodID==periodID, c("UpperY")] <- as.numeric(bandRange[2])
 
-#     dsFull[dsFull$StageID==stageID & dsFull$PeriodID==periodID, c("LowerY")] <- as.numeric(bandRange[1])
-#     dsFull[dsFull$StageID==stageID & dsFull$PeriodID==periodID, c("UpperY")] <- as.numeric(bandRange[2])
+#     dsFull[dsFull$stage_id==stageID & dsFull$PeriodID==periodID, c("LowerY")] <- as.numeric(bandRange[1])
+#     dsFull[dsFull$stage_id==stageID & dsFull$PeriodID==periodID, c("UpperY")] <- as.numeric(bandRange[2])
   }
 }
 

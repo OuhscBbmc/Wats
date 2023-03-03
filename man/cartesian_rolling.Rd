@@ -41,7 +41,7 @@ cartesian_rolling(
 
 \item{y_name}{The variable name containing the dependent/criterion variable.}
 
-\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{StageID} is \code{1}, and is \code{2} afterwards.}
+\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{stage_id} is \code{1}, and is \code{2} afterwards.}
 
 \item{rolling_lower_name}{The variable name showing the lower bound of the rolling estimate.}
 
@@ -49,9 +49,9 @@ cartesian_rolling(
 
 \item{rolling_upper_name}{The variable name showing the upper bound of the rolling estimate.}
 
-\item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{stage_id} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{palette_light}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{StageID} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_light}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{stage_id} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
 
 \item{color_sparse}{The color of the `slowest' trend line, which plots only one value per cycle.}
 
@@ -99,21 +99,21 @@ Shows the interrupted time series in Cartesian coordinates without a periodic/cy
 library(Wats) #Load the package
 changeMonth <- base::as.Date("1996-02-15")
 ds_linear <- county_month_birth_rate_2005_version
-ds_linear <- ds_linear[ds_linear$CountyName=="oklahoma", ]
-ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
+ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
+ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- annotate_data(
     ds_linear,
-    dv_name = "BirthRate",
+    dv_name = "birth_rate",
     center_function = median,
     spread_function = hSpread
 )
 
 cartesian_rolling(
     portfolio$ds_linear,
-    x_name = "Date",
-    y_name = "BirthRate",
-    stage_id_name = "StageID",
+    x_name = "date",
+    y_name = "birth_rate",
+    stage_id_name = "stage_id",
     change_points = changeMonth,
     change_point_labels = "Bombing Effect"
 )

@@ -34,23 +34,23 @@ ds <- data.frame(X=x, PeriodID=periodID, Theta=theta, Residual=residual, LowerY=
 #breakPointsInside <- c(200, 400)
 breakPointsInside <- as.numeric(quantile(ds$X, breakQuantiles))
 breakPoints <- c(min(ds$X), breakPointsInside, max(ds$X))
-ds$StageID <- factor(as.numeric(cut(ds$X, breaks=breakPoints, include.lowest=T)))
-ds$Y <- ds$Residual + stageDifference[ds$StageID] + periodDifference[ds$PeriodID]
+ds$stage_id <- factor(as.numeric(cut(ds$X, breaks=breakPoints, include.lowest=T)))
+ds$Y <- ds$Residual + stageDifference[ds$stage_id] + periodDifference[ds$PeriodID]
 
-dsFull <- data.frame(X=rep(ds$X, stageCount), StageID=rep(ds$StageID, each=nrow(ds)), X=rep(ds$X, stageCount),PeriodID=rep(ds$PeriodID, stageCount), Theta=rep(ds$Theta, stageCount))
+dsFull <- data.frame(X=rep(ds$X, stageCount), stage_id=rep(ds$stage_id, each=nrow(ds)), X=rep(ds$X, stageCount),PeriodID=rep(ds$PeriodID, stageCount), Theta=rep(ds$Theta, stageCount))
 dsFull$Y <- 1000
 
-for( stageID in as.numeric(sort(unique(ds$StageID))) ) {
-  dsStage <- ds[ds$StageID==stageID, ]
+for( stageID in as.numeric(sort(unique(ds$stage_id))) ) {
+  dsStage <- ds[ds$stage_id==stageID, ]
   for( periodID in unique(dsStage$PeriodID)) {
     sliceY <- dsStage[dsStage$PeriodID == periodID, "Y"]
     bandRange <- quantile(sliceY, c(.25, .75))
-    #ds[ds$StageID==stageID & ds$PeriodID==periodID, c("LowerY", "UpperY")] <- t(as.numeric(bandRange))
-    ds[ds$StageID==stageID & ds$PeriodID==periodID, c("LowerY")] <- as.numeric(bandRange[1])
-    ds[ds$StageID==stageID & ds$PeriodID==periodID, c("UpperY")] <- as.numeric(bandRange[2])
+    #ds[ds$stage_id==stageID & ds$PeriodID==periodID, c("LowerY", "UpperY")] <- t(as.numeric(bandRange))
+    ds[ds$stage_id==stageID & ds$PeriodID==periodID, c("LowerY")] <- as.numeric(bandRange[1])
+    ds[ds$stage_id==stageID & ds$PeriodID==periodID, c("UpperY")] <- as.numeric(bandRange[2])
 
-    dsFull[dsFull$StageID==stageID & dsFull$PeriodID==periodID, c("LowerY")] <- as.numeric(bandRange[1])
-    dsFull[dsFull$StageID==stageID & dsFull$PeriodID==periodID, c("UpperY")] <- as.numeric(bandRange[2])
+    dsFull[dsFull$stage_id==stageID & dsFull$PeriodID==periodID, c("LowerY")] <- as.numeric(bandRange[1])
+    dsFull[dsFull$stage_id==stageID & dsFull$PeriodID==periodID, c("UpperY")] <- as.numeric(bandRange[2])
   }
 }
 
@@ -60,16 +60,16 @@ for( stageID in as.numeric(sort(unique(ds$StageID))) ) {
 ###
 
 
-#p <- ggplot(data=ds, mapping=aes(x=X, ymin=LowerY, ymax=UpperY, color=StageID, fill=StageID))
-#p <- ggplot(data=ds, mapping=aes(x=X, y=Y, ymin=LowerY, ymax=UpperY, color=StageID, fill=StageID)) + scale_x_continuous(limits=c(0, 6))
+#p <- ggplot(data=ds, mapping=aes(x=X, ymin=LowerY, ymax=UpperY, color=stage_id, fill=stage_id))
+#p <- ggplot(data=ds, mapping=aes(x=X, y=Y, ymin=LowerY, ymax=UpperY, color=stage_id, fill=stage_id)) + scale_x_continuous(limits=c(0, 6))
 p <- ggplot(data=ds, mapping=aes(x=Theta, y=Y, ymin=LowerY, ymax=UpperY)) + scale_x_continuous(limits=c(0, 60))
-#p <- ggplot(data=ds, mapping=aes(x=Theta, y=Y, ymin=LowerY, ymax=UpperY, color=StageID, fill=StageID))
+#p <- ggplot(data=ds, mapping=aes(x=Theta, y=Y, ymin=LowerY, ymax=UpperY, color=stage_id, fill=stage_id))
 
 p <- p + scale_y_continuous(limits=range(ds$Y))
 p <- p + scale_color_manual(values=groupColors)
 #p <- p +layer(geom="point", geom_params=list(size=1), stat="identity", stat_params=list()) #+scale_alpha_discrete(range = c(0, 1))
-#p <- p +layer(geom="ribbon", geom_params=list(color=NA, alpha=alphaLevel), stat="identity", stat_params=list(), data=dsFull, aes(x=X, ymin=LowerY, ymax=UpperY, color=StageID, fill=StageID)) + scale_fill_manual(values=groupColors)
-#p <- p +layer(geom="ribbon", geom_params=list(color=NA, alpha=alphaLevel), stat="identity", stat_params=list(), data=dsFull, aes(x=Theta, ymin=LowerY, ymax=UpperY, color=StageID, fill=StageID)) + scale_fill_manual(values=groupColors)
+#p <- p +layer(geom="ribbon", geom_params=list(color=NA, alpha=alphaLevel), stat="identity", stat_params=list(), data=dsFull, aes(x=X, ymin=LowerY, ymax=UpperY, color=stage_id, fill=stage_id)) + scale_fill_manual(values=groupColors)
+#p <- p +layer(geom="ribbon", geom_params=list(color=NA, alpha=alphaLevel), stat="identity", stat_params=list(), data=dsFull, aes(x=Theta, ymin=LowerY, ymax=UpperY, color=stage_id, fill=stage_id)) + scale_fill_manual(values=groupColors)
 #p <- p +layer(geom="line", geom_params=list(size=.5), stat="identity", stat_params=list(), mapping=aes(x=X, y=Y))
 
 #p <- p +layer(geom="path", geom_params=list(size=.5), stat="identity", stat_params=list(), mapping=aes(x=Theta, y=Y))
