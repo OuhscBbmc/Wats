@@ -223,13 +223,13 @@ ds_county_year <-
   dplyr::union_all(ds_county_year_2000) |>
   dplyr::mutate(
     county_name   = tolower(county_name),
-    county_name   = paste0('"', county_name, '"'),
+    # county_name   = paste0('"', county_name, '"'),
   ) |>
   dplyr::arrange(fips, year)
 
 rm(ds_county_year_199x, ds_county_year_2000)
-# ---- interpotate-within-year -------------------------------------------------
 
+# ---- interpotate-within-year -------------------------------------------------
 create_next_year_pop_count <- function( d ) {
   ceilingYear <- max(d$year)
   nextYear <- d$year + 1L
@@ -249,8 +249,8 @@ interpolate_months <- function( d ) {
   months <- seq_len(monthsPerYear)
   popInterpolated <- approx(x=c(d$year, d$year_next), y=c(d$fecund_population_count, d$FecundPopulationCountNext), n=monthsPerYear+1)
   data.frame(
-    Month = months,
-    FecundPopulation = popInterpolated$y[months]#,
+    month = months,
+    fecund_population = as.integer(popInterpolated$y[months])#,
 #     PopulationCount = d$PopulationCount,
 #     PopulationCountNext = d$PopulationCountNext
   )
@@ -265,5 +265,5 @@ ds_county_month <- plyr::ddply(ds_next, .variables=c("fips", "county_name", "yea
 #   geom_line(aes(y=PopulationCountNext))
 
 # ---- save-to-disk ------------------------------------------------------------
-readr::write_csv(ds_county_year , ouput_path_census_county_year , quote = "none")
-readr::write_csv(ds_county_month, ouput_path_census_county_month, quote = "none")
+readr::write_csv(ds_county_year , ouput_path_census_county_year )
+readr::write_csv(ds_county_month, ouput_path_census_county_month)
