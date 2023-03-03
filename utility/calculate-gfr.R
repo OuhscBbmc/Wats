@@ -122,9 +122,13 @@ ds_county_month_2005 <-  ds_county_month #This is better for 2014 article, and r
 ds_county_month_2014 <-
   ds_county_month_2014 |>
   dplyr::mutate(
+    # Adjust for months of unequal days.  Each monthly record is multiplied by about 12.
     birth_rate_monthly = birth_count / fecund_population * 1000L,
     birth_rate         = birth_rate_monthly * days_in_year / days_in_month,
-    # Adjust for months of unequal days.  Each monthly record is multiplied by about 12.
+  ) |>
+  dplyr::mutate(
+    birth_rate_monthly = round(birth_rate_monthly  , 2),
+    birth_rate         = round(birth_rate          , 2),
   )
 
 # To recreate the 2005 paper, use only the 1990 estimate.
@@ -135,7 +139,11 @@ ds_county_month_2005 <-
     birth_rate_monthly = (birth_count / fecund_population[1] * 1000L),
     birth_rate         = birth_rate_monthly * days_in_year / days_in_month,
   ) |>
-  dplyr::ungroup()
+  dplyr::ungroup() |>
+  dplyr::mutate(
+    birth_rate_monthly = round(birth_rate_monthly  , 2),
+    birth_rate         = round(birth_rate          , 2),
+  )
 
 # library(ggplot2)
 # ggplot(ds_county_month, aes(x=Date, y=BirthRate, color=factor(Fips))) + geom_line() + labs(title="Distributions of County Fertility")
