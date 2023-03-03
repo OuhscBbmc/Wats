@@ -17,7 +17,7 @@
 #'
 #' @format A data frame with 1,440 observations on the following 11 variables.
 #' \describe{
-#'    \item{fips}{The county's 5-digit value according to the *F*ederal *I*nformation *P*rocessing *S*tandards.  `integer`}
+#'    \item{fips}{The county's 5-digit value according to the Federal Information Processing Standards.  `integer`}
 #'    \item{county_name}{The lower case name of the county. `character`}
 #'    \item{year}{The year of the record, ranging from 1990 to 1999. `integer`}
 #'    \item{month}{The month of the record, ranging from 1 to 12. `integer`}
@@ -38,7 +38,7 @@
 #' for [Rodgers, St. John, & Coleman (2005)](https://pubmed.ncbi.nlm.nih.gov/16463916/).
 #'
 #' The US Census' intercensal estimates are used for the January values of
-#' `fecund_popluation`.  Values for February-December are interpolated using
+#' `fecund_population`.  Values for February-December are interpolated using
 #' [approx()].
 #'
 #' The datasets were manipulated to produce this data frame by the two R files
@@ -57,7 +57,7 @@
 #'
 #'
 #' * [US Census Intercensal Estimates](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html)
-#' for [199x]()
+#' for [199x](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/1990-2000-intercensal.html)
 #' and [200x](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/2000-2010-intercensal.html).
 #'
 #' @keywords datasets
