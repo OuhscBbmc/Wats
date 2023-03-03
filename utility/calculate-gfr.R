@@ -18,34 +18,65 @@ requireNamespace("checkmate"    ) # For asserting conditions meet expected patte
 # requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
-inputPathCensusCountyMonth              <- "datasets/CensusIntercensal/CensusCountyMonth.csv"
+inputPathCensusCountyMonth              <- "datasets/derived/census-county-month.csv"
 inputPathBirthCountCountyMonth          <- "datasets/BirthCountState.csv"
 outputPathBirthCountCountyMonthCsv2014  <- "datasets/county_month_birth_rate_2014_version.csv"
 outputPathBirthCountCountyMonthCsv2005  <- "datasets/county_month_birth_rate_2005_version.csv"
 outputPathBirthCountCountyMonthRda2014  <- "data/county_month_birth_rate_2014_version.rda"
 outputPathBirthCountCountyMonthRda2005  <- "data/county_month_birth_rate_2005_version.rda"
-changeMonth                             <- as.Date("1996-02-15")
+change_month                            <- as.Date("1996-02-15")
 
+# OuhscMunge::readr_spec_aligned(inputPathCensusCountyMonth)
+col_types_census <-
+  readr::cols_only(
+    `fips`                = readr::col_character(),
+    `county_name`         = readr::col_character(),
+    `year`                = readr::col_integer(),
+    `month`               = readr::col_integer(),
+    `fecund_population`   = readr::col_integer()
+  )
+
+# OuhscMunge::readr_spec_aligned(inputPathBirthCountCountyMonth)
+
+col_types_birth_count <- readr::cols_only(
+  `CountyName`    = readr::col_character(),
+  `Year`          = readr::col_integer(),
+  `Month`         = readr::col_integer(),
+  `BirthCount`    = readr::col_integer()
+)
 # ---- load-data ---------------------------------------------------------------
-###################
-# Read in the datasets, lightly groom, & merge.
-###################
-dsCensus <- utils::read.csv(inputPathCensusCountyMonth)
-dsBirthCount <- utils::read.csv(inputPathBirthCountCountyMonth)
-# sapply(dsCensus, class)
-# sapply(dsBirthCount, class)
+ds_census       <- readr::read_csv(inputPathCensusCountyMonth, col_types = col_types_census)
+ds_birth_count  <- readr::read_csv(inputPathBirthCountCountyMonth, col_types = col_types_birth_count)
 
 # ---- tweak-data --------------------------------------------------------------
-# OuhscMunge::column_rename_headstart(ds) # Help write `dplyr::select()` call.
-dsBirthCount <-
-  dsBirthCount |>
-  dplyr::mutate(
-    Dummy       = TRUE,
-    Year        = 1900L + Year,
+# OuhscMunge::column_rename_headstart(ds_census) # Help write `dplyr::select()` call.
+ds_census <-
+  ds_census |>
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    fips,
+    county_name,
+    year,
+    month,
+    fecund_population,
+  )
 
-    CountyName  =
+# ---- groom-birth-count -------------------------------------------------------
+# OuhscMunge::column_rename_headstart(ds_birth_count) # Help write `dplyr::select()` call.
+ds_birth_count <-
+  ds_birth_count |>
+  dplyr::select(    # `dplyr::select()` drops columns not included.
+    county_name               = `CountyName`,
+    year                      = `Year`,
+    month                     = `Month`,
+    birth_count               = `BirthCount`,
+  ) |>
+  dplyr::mutate(
+    dummy       = TRUE,
+    year        = 1900L + year,
+
+    county_name  =
       dplyr::case_match(
-        CountyName,
+        county_name,
         "canadian"  ~ "canadian",
         "clevelan"  ~ "cleveland",
         "comanche"  ~ "comanche",
@@ -61,58 +92,60 @@ dsBirthCount <-
       ),
   )
 
-
-dsCountyMonth <-
-  dsCensus |>
+# ---- join --------------------------------------------------------------------
+ds_county_month <-
+  ds_census |>
   dplyr::left_join(
-    dsBirthCount,
-    by = c("CountyName", "Year", "Month")
+    ds_birth_count,
+    by = c("county_name", "year", "month")
   ) |>
   dplyr::mutate(
-    Date        = as.Date(ISOdate(Year, Month, 15L)),
-    DaysInMonth = lubridate::days_in_month(Date),
-    DaysInYear  = as.integer(365L + lubridate::leap_year(Date)),
+    date        = as.Date(ISOdate(year, month, 15L)),
+    days_in_month = lubridate::days_in_month(date),
+    days_in_year  = as.integer(365L + lubridate::leap_year(date)),
 
-    StageID     = dplyr::if_else(Date < changeMonth, 1L, 2L), # Define pre/post bombing stages (+9 months)
+    stage_id      = dplyr::if_else(date < change_month, 1L, 2L), # Define pre/post bombing stages (+9 months)
   )
 
-testit::assert("All left records should find a right record", all(dsCountyMonth$Dummy))
-dsCountyMonth$Dummy <- NULL
+testit::assert("All left records should find a right record", all(ds_county_month$dummy))
+ds_county_month$dummy <- NULL
 
-rm(dsCensus, dsBirthCount, inputPathCensusCountyMonth, inputPathBirthCountCountyMonth)
+rm(ds_census, ds_birth_count, inputPathCensusCountyMonth, inputPathBirthCountCountyMonth)
 
 
-###################
+# ---- calculate-gfr -----------------------------------------------------------
 # Calculate GFR for the 2005 and the 2014 Versions
-###################
-dsCountyMonth2014 <-  dsCountyMonth #This is what fertility researchers should use.
-dsCountyMonth2005 <-  dsCountyMonth #This is better for 2014 article, and recreates the 2005 article.
+ds_county_month_2014 <-  ds_county_month #This is what fertility researchers should use.
+ds_county_month_2005 <-  ds_county_month #This is better for 2014 article, and recreates the 2005 article.
 
 #The 2014 version uses the interpolated
-dsCountyMonth2014$BirthRateMonthly <- dsCountyMonth2014$BirthCount / dsCountyMonth2014$FecundPopulation * 1000L
+ds_county_month_2014 <-
+  ds_county_month_2014 |>
+  dplyr::mutate(
+    birth_rate_monthly = birth_count / fecund_population * 1000L,
+    birth_rate         = birth_rate_monthly * days_in_year / days_in_month,
+    # Adjust for months of unequal days.  Each monthly record is multiplied by about 12.
+  )
 
 # To recreate the 2005 paper, use only the 1990 estimate.
-dsCountyMonth2005 <-
-  dsCountyMonth2005 |>
-  dplyr::group_by(Fips) |>
+ds_county_month_2005 <-
+  ds_county_month_2005 |>
+  dplyr::group_by(fips) |>
   dplyr::mutate(
-    BirthRateMonthly = (BirthCount / FecundPopulation[1] * 1000L)
+    birth_rate_monthly = (birth_count / fecund_population[1] * 1000L),
+    birth_rate         = birth_rate_monthly * days_in_year / days_in_month,
   ) |>
   dplyr::ungroup()
 
-#Adjust for months of unequal days.  Each monthly record is multiplied by abou 12.
-dsCountyMonth2014$BirthRate <- dsCountyMonth2014$BirthRateMonthly * dsCountyMonth2014$DaysInYear / dsCountyMonth2014$DaysInMonth
-dsCountyMonth2005$BirthRate <- dsCountyMonth2005$BirthRateMonthly * dsCountyMonth2005$DaysInYear / dsCountyMonth2005$DaysInMonth
-
 # library(ggplot2)
-# ggplot(dsCountyMonth, aes(x=Date, y=BirthRate, color=factor(Fips))) + geom_line() + labs(title="Distributions of County Fertility")
-# ggplot(dsCountyMonth, aes(x=BirthRate, color=factor(Fips))) + geom_density()
+# ggplot(ds_county_month, aes(x=Date, y=BirthRate, color=factor(Fips))) + geom_line() + labs(title="Distributions of County Fertility")
+# ggplot(ds_county_month, aes(x=BirthRate, color=factor(Fips))) + geom_density()
 
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt")
 # dsOld <- read.table(file=filePathOutcomes, header=TRUE, sep="\t", stringsAsFactors=FALSE)
 # dsOld$Date <- as.Date(dsOld$Date) + days(15)
 #
-# ggplot(dsCountyMonth[dsCountyMonth$Fips==40109, ], aes(x=Date, color=factor(Fips))) +
+# ggplot(ds_county_month[ds_county_month$Fips==40109, ], aes(x=Date, color=factor(Fips))) +
 #   geom_line(aes(y=BirthRate), color="tomato") +
 #   geom_line(aes(y=BirthRateUnadjustedFrom1990), color="blue") +
 #   geom_line(mapping=aes(y=BirthRate), data=dsOld, color="green")
@@ -120,8 +153,8 @@ dsCountyMonth2005$BirthRate <- dsCountyMonth2005$BirthRateMonthly * dsCountyMont
 ###################
 # Write to disk
 ###################
-county_month_birth_rate_2014_version <- dsCountyMonth2014
-county_month_birth_rate_2005_version <- dsCountyMonth2005
+county_month_birth_rate_2014_version <- ds_county_month_2014
+county_month_birth_rate_2005_version <- ds_county_month_2005
 
 write.csv(county_month_birth_rate_2014_version, file=outputPathBirthCountCountyMonthCsv2014, row.names=FALSE)
 write.csv(county_month_birth_rate_2005_version, file=outputPathBirthCountCountyMonthCsv2005, row.names=FALSE)
