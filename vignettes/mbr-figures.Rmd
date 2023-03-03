@@ -47,7 +47,7 @@ set.seed(444) # Avoid bootstrap from triggering diffs
 ## Figure 1: Cartesian Rolling - 2005 Version
 Figure 1:  Raw monthly birth rates (General Fertility Rates;  GFR's) for Oklahoma County, 1990-1999, plotted in a linear plot;  the "bombing effect" is located ten months after the Oklahoma City bombing.
 
-<img src="./figure-static/Fig1_2005CartesianRolling.png" alt="Fig1_2005CartesianRolling" style="width: 600px;"/>
+<img src="./figure-static/fig-1-2005-cartesian-rolling.png" alt="fig1-2005-cartesian-rolling.png" style="width: 600px;"/>
 
 ## Figure 2: Cartesian Rolling - 2014 Version
 Smoothed monthly birth rates (General Fertility Rates; GFRs) for Oklahoma County, 1990-1999, plotted in a linear plot.  The top plot shows the connected raw data with a February smoother; the middle plot shows smoothing with a 12-month moving average, blue/green line, superimposed on a February smoother, red line); the bottom plot shows the smoothers and confidence bands, which are H-spreads defined using the distribution of GFR's for the given month and 11 previous months.
@@ -110,7 +110,7 @@ xScaleBlank  <- ggplot2::scale_x_date(breaks=dateSequence, labels=NULL) #This ke
 ### Individual Components
 Here is the basic linear rolling graph.  It doesn't require much specification, and will work with a wide range of appropriate datasets.  This first (unpublished) graph displays all components.
 
-```{r Figure2IndividualBasic}
+```{r fig-2-individual-basic}
 # dsLinearAll <- utils::read.csv("./Datasets/county_month_birth_rate_2005_version.csv", stringsAsFactors=FALSE)
 # dsLinearAll$date <- base::as.Date(dsLinearAll$date)
 # dsLinearOkc <- dsLinearAll[dsLinearAll$county_name=="oklahoma", ]
@@ -144,7 +144,7 @@ cartesian_rolling(
 
 The version for the manuscript was tweaked to take advantage of certain features of the dataset.  This is what it looks like when all three stylized panels are combined.
 
-```{r Figure2Stylized, fig.height=4.8}
+```{r fig-2-stylized, fig.height=4.8}
 topPanel <- Wats::cartesian_rolling(
   ds_linear = portfolioCartesian$ds_linear,
   x_name = "date",
@@ -196,7 +196,7 @@ grid::popViewport()
 ## Figure 4: Carteisan Periodic
 Carteisan plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
 
-```{r Figure4Basic}
+```{r fig-4-basic}
 cartesian_periodic <- Wats::cartesian_periodic(
   portfolioCartesian$ds_linear,
   portfolioCartesian$ds_periodic,
@@ -210,7 +210,7 @@ cartesian_periodic <- Wats::cartesian_periodic(
 )
 print(cartesian_periodic)
 ```
-```{r Figure4Stylized}
+```{r fig-4-stylized}
 cartesian_periodic <- cartesian_periodic + xScale + darkTheme
 print(cartesian_periodic)
 ```
@@ -218,7 +218,7 @@ print(cartesian_periodic)
 ## Figure 5: Polar Periodic
 Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
-```{r Figure5, fig.height=3, fig.width=3, out.width="300px"}
+```{r fig-5, fig.height=3, fig.width=3, out.width="300px"}
 portfolioPolar <- polarize_cartesian(
   ds_linear = portfolioCartesian$ds_linear,
   ds_stage_cycle = portfolioCartesian$ds_stage_cycle,
@@ -243,7 +243,7 @@ polar_periodic(
 ## Figure 6: WATS and Cartesian
 Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
-```{r Figure6, fig.height=6.5*2/3}
+```{r fig-6, fig.height=6.5*2/3}
 portfolioPolar <- Wats::polarize_cartesian(
   ds_linear = portfolioCartesian$ds_linear,
   ds_stage_cycle = portfolioCartesian$ds_stage_cycle,
@@ -295,7 +295,7 @@ grid::upViewport()
 ## Figure 7: County Comparison
 This figure compares Oklahoma County against the (other) largest urban counties.
 
-```{r Figure7, fig.height=6.5}
+```{r fig-7, fig.height=6.5}
 # dsLinearAll <- Wats::augment_year_data_with_month_resolution(ds_linear=county_month_birth_rate_2005_version, date_name="date")
 
 #Identify the average size of the fecund population
@@ -357,7 +357,7 @@ grid::popViewport()
 
 Here are all 12 counties that Ronnie collected birth records for.  This extended graph is not in the manuscript.
 
-```{r Figure7AllCounties, fig.height=6.5 * 12/5}
+```{r fig-7-all-counties, fig.height=6.5 * 12/5}
 counties <- base::sort(base::unique(dsLinearAll$county_name))
 countyNames <- c("Canadian", "Cleveland", "Comanche", "Creek", "Logan", "McClain", "Oklahoma", "Osage", "Pottawatomie", "Rogers", "Tulsa", "Wagoner")
 
@@ -374,7 +374,7 @@ grid::popViewport()
 ## Figure 8: Error Band Comparison
 This figure demonstrates that WATS accommodates many types of error bands.
 
-```{r Figure8, fig.height=6.5 * 4/5}
+```{r fig-8, fig.height=6.5 * 4/5}
 spreads <- c("hSpread", "fullSpread", "seSpread", "bootSpread")
 spreadNames <- c("H-Spread", "Range", "+/-1 SE", "Bootstrap")
 grid::grid.newpage()
