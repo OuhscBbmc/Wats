@@ -60,7 +60,7 @@ test_that("AnnotateDataWithMonthResolution-Median", {
     May = 67.59, Jun = 70.86), cycle_tally = c(0, 0, 0, 0, 0, 0),
     proportion_through_cycle = c(0.0416666666666667, 0.125, 0.208333333333333,
     0.291666666666667, 0.375, 0.458333333333333), proportion_id = c(1,
-    2, 3, 4, 5, 6), StartingPointInCycle = c(TRUE, FALSE, FALSE,
+    2, 3, 4, 5, 6), starting_point_in_cycle = c(TRUE, FALSE, FALSE,
     FALSE, FALSE, FALSE), terminal_point_in_cycle = c(FALSE, FALSE,
     FALSE, FALSE, FALSE, FALSE), stage_progress = c(1, 1.5, 1.5,
     1.5, 1.5, 1.5), rolling_lower = c(NA_real_, NA_real_, NA_real_,
