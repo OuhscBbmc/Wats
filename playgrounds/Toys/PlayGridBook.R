@@ -5,14 +5,14 @@ library(grid)
 # setwd("F:/Projects/RDev/WatsStaging/Images/")
 set.seed(33)
 periodLength <- 60
-stageCount <- 2
-stageDifference <- (c(0, 5, -2, 2, -3)/1)[seq_len(stageCount)]
-breakQuantiles <- c(.3, .5, .6, .8)[seq_len(stageCount-1)]
+stage_count <- 2
+stageDifference <- (c(0, 5, -2, 2, -3)/1)[seq_len(stage_count)]
+breakQuantiles <- c(.3, .5, .6, .8)[seq_len(stage_count-1)]
 periodDifference <- runif(periodLength)*2
 
 
 pointsPerStage <- periodLength * 2
-totalPeriods <- 10 #stageCount*pointsPerStage
+totalPeriods <- 10 #stage_count*pointsPerStage
 totalPoints <- periodLength * totalPeriods
 timeIndex <- seq_len(totalPoints)
 periodID <- rep(seq_len(periodLength), totalPeriods)
@@ -31,7 +31,7 @@ ds$Y <- ds$R * cos(ds$Theta)
 # plot(ds$X, ds$Y)
 # lines(ds$X, ds$Y)
 
-# dsFull <- data.frame(TimeIndex=rep(ds$TimeIndex, stageCount), stage_id=rep(ds$stage_id, each=nrow(ds)), X=rep(ds$X, stageCount),PeriodID=rep(ds$PeriodID, stageCount), Theta=rep(ds$Theta, stageCount))
+# dsFull <- data.frame(TimeIndex=rep(ds$TimeIndex, stage_count), stage_id=rep(ds$stage_id, each=nrow(ds)), X=rep(ds$X, stage_count),PeriodID=rep(ds$PeriodID, stage_count), Theta=rep(ds$Theta, stage_count))
 # dsFull$Y <- 1000
 
 for( stageID in as.numeric(sort(unique(ds$stage_id))) ){
@@ -56,7 +56,7 @@ for( stageID in as.numeric(sort(unique(ds$stage_id))) ){
 ### No graphics above this line; no manipulation below this line.
 ###
 alphaLevel <- .2
-groupColors <- rev(rainbow_hcl(n=stageCount))
+groupColors <- rev(rainbow_hcl(n=stage_count))
 
 
 # if( names(dev.cur()) != "null device" ) dev.off()

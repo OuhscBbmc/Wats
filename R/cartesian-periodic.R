@@ -58,7 +58,7 @@
 
 cartesian_periodic <- function(ds_linear, ds_periodic,
                               x_name, y_name, stage_id_name,
-                              periodic_lower_name="PositionLower", periodic_upper_name="PositionUpper",
+                              periodic_lower_name="position_lower", periodic_upper_name="position_upper",
                               palette_dark=NULL, palette_light=NULL,
                               change_points=NULL, change_point_labels=NULL,
                               draw_periodic_band=TRUE,
@@ -68,11 +68,11 @@ cartesian_periodic <- function(ds_linear, ds_periodic,
                               title=NULL, x_title=NULL, y_title=NULL ) {
 
   stages <- base::sort(base::unique(ds_linear[[stage_id_name]]))
-  stageCount <- length(stages)
-  testit::assert("The number of unique `stage_id` values should be 1 greater than the number of `change_points`.", stageCount==1+length(change_points))
+  stage_count <- length(stages)
+  testit::assert("The number of unique `stage_id` values should be 1 greater than the number of `change_points`.", stage_count==1+length(change_points))
   if (!is.null(change_points)) testit::assert("The number of `change_points` should equal the number of `changeLabels`.", length(change_points)==length(change_point_labels))
-  if (!is.null(palette_dark))  testit::assert("The number of `palette_dark` colors should equal the number of unique `stage_id` values.", stageCount==length(palette_dark))
-  if (!is.null(palette_light)) testit::assert("The number of `palette_light` colors should equal the number of unique `stage_id` values.", stageCount==length(palette_light))
+  if (!is.null(palette_dark))  testit::assert("The number of `palette_dark` colors should equal the number of unique `stage_id` values.", stage_count==length(palette_dark))
+  if (!is.null(palette_light)) testit::assert("The number of `palette_light` colors should equal the number of unique `stage_id` values.", stage_count==length(palette_light))
 
   p <- ggplot2::ggplot(ds_linear, ggplot2::aes_string(x=x_name, y=y_name))
 
@@ -86,30 +86,30 @@ cartesian_periodic <- function(ds_linear, ds_periodic,
   }
 
   for (stage in stages) {
-    dsStageLinear <- ds_linear[stage <= ds_linear$stage_progress & ds_linear$stage_progress <= (stage+1), ]
+    ds_stage_linear <- ds_linear[stage <= ds_linear$stage_progress & ds_linear$stage_progress <= (stage+1), ]
 
     if (draw_periodic_band) {
-      for (stageInner in stages) {
-        dsStagePeriodic <- ds_periodic[(stage <= ds_periodic$stage_progress) & (ds_periodic$stage_progress <= (stage+1)) & (ds_periodic$stage_id_band == stageInner), ]
-        ribbonAlpha <- ifelse(stage==stageInner, band_alpha_dark, band_alpha_light)
-        #p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=periodic_lower_name, ymax=periodic_upper_name, y=NULL), data=dsStagePeriodic,
-        #                     fill=palette_dark[stageInner], color=NA, alpha=ribbonAlpha, na.rm=TRUE)
+      for (stage_inner in stages) {
+        ds_stage_periodic <- ds_periodic[(stage <= ds_periodic$stage_progress) & (ds_periodic$stage_progress <= (stage+1)) & (ds_periodic$stage_id_band == stage_inner), ]
+        ribbon_alpha <- ifelse(stage==stage_inner, band_alpha_dark, band_alpha_light)
+        #p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=periodic_lower_name, ymax=periodic_upper_name, y=NULL), data=ds_stage_periodic,
+        #                     fill=palette_dark[stage_inner], color=NA, alpha=ribbon_alpha, na.rm=TRUE)
 
         p <-
           p +
           ggplot2::geom_ribbon(
             ggplot2::aes_string(y=NULL, ymin=periodic_lower_name, ymax=periodic_upper_name),
-            data  = dsStagePeriodic,
-            fill  = palette_dark[stageInner],
+            data  = ds_stage_periodic,
+            fill  = palette_dark[stage_inner],
             color = NA,
-            alpha = ribbonAlpha,
+            alpha = ribbon_alpha,
             na.rm = TRUE
           )
       }
     }
 
-    p <- p + ggplot2::geom_line(size=jagged_line_size, color=palette_dark[stage], data=dsStageLinear)
-    p <- p + ggplot2::geom_point(shape=1, color=palette_light[stage], data=dsStageLinear, size=jagged_point_size)
+    p <- p + ggplot2::geom_line(size=jagged_line_size, color=palette_dark[stage], data=ds_stage_linear)
+    p <- p + ggplot2::geom_point(shape=1, color=palette_light[stage], data=ds_stage_linear, size=jagged_point_size)
   }
 
   if (!is.null(change_points)) {

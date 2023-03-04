@@ -57,7 +57,7 @@ polarize_cartesian <- function(ds_linear, ds_stage_cycle,
                       y_name, stage_id_name,
                       cycle_tally_name="cycle_tally",
                       proportion_through_cycle_name="proportion_through_cycle",
-                      periodic_lower_name="PositionLower", periodic_center_name="PositionCenter", periodic_upper_name="PositionUpper",
+                      periodic_lower_name="position_lower", periodic_center_name="PositionCenter", periodic_upper_name="position_upper",
                       plotted_point_count_per_cycle=120,
                       graph_floor=min(base::pretty(x=ds_linear[[y_name]]))) {
   #TODO: allow counter-clockwise and arbitrary angle for theta=0

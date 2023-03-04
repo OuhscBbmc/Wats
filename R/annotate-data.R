@@ -72,9 +72,9 @@ annotate_data <- function( ds_linear,
   #   #   print(positionBounds)
   #   data.frame(
   #     proportion_through_cycle = mean(d$proportion_through_cycle, na.rm=TRUE),
-  #     PositionLower = positionBounds[1],
+  #     position_lower = positionBounds[1],
   #     PositionCenter = center_function(d[[dv_name]]),
-  #     PositionUpper = positionBounds[2]
+  #     position_upper = positionBounds[2]
   #   )
   # }
   # ds_stage_cycle2 <- plyr::ddply(ds_linear, .variables=c(stage_id_name, proportion_id_name), .fun=summarizeStageCycle)
@@ -84,9 +84,9 @@ annotate_data <- function( ds_linear,
     dplyr::group_by(!! rlang::ensym(stage_id_name), !! rlang::ensym(proportion_id_name)) |>
     dplyr::summarize(
       proportion_through_cycle  = mean(.data$proportion_through_cycle, na.rm = TRUE),
-      PositionLower           = spread_function(!! rlang::ensym(dv_name))[1],
+      position_lower           = spread_function(!! rlang::ensym(dv_name))[1],
       PositionCenter          = center_function(!! rlang::ensym(dv_name)),
-      PositionUpper           = spread_function(!! rlang::ensym(dv_name))[2],
+      position_upper           = spread_function(!! rlang::ensym(dv_name))[2],
     ) |>
     dplyr::ungroup()
 

@@ -4,14 +4,14 @@ library(colorspace)
 # setwd("F:/Projects/RDev/WatsStaging/Images/")
 set.seed(33)
 periodLength <- 6
-stageCount <- 2
-stageDifference <- (c(0, 5, -2, 2, -3)/1)[seq_len(stageCount)]
-breakQuantiles <- c(.3, .5, .6, .8)[seq_len(stageCount-1)]
+stage_count <- 2
+stageDifference <- (c(0, 5, -2, 2, -3)/1)[seq_len(stage_count)]
+breakQuantiles <- c(.3, .5, .6, .8)[seq_len(stage_count-1)]
 periodDifference <- runif(periodLength)*2
 
 
 pointsPerStage <- periodLength * 2
-totalPeriods <- 10 #stageCount*pointsPerStage
+totalPeriods <- 10 #stage_count*pointsPerStage
 totalPoints <- periodLength * totalPeriods
 x <- seq_len(totalPoints)
 periodID <- rep(seq_len(periodLength), totalPeriods)
@@ -22,7 +22,7 @@ alphaLevel <- .2
 #groupColors <- c(rgb(1, .5, .5, alphaLevel), rgb(.5, 1, .5, alphaLevel), rgb(.5, .5, 1, alphaLevel))
 #groupColors <- adjustcolor(col=c("blue", "tomato", "orange"), alpha=alphaLevel)
 #groupColors <- c("blue", "tomato", "orange")
-groupColors <- rev(rainbow_hcl(n=stageCount))
+groupColors <- rev(rainbow_hcl(n=stage_count))
 
 
 # if( names(dev.cur()) != "null device" ) dev.off()
@@ -37,7 +37,7 @@ breakPoints <- c(min(ds$X), breakPointsInside, max(ds$X))
 ds$stage_id <- factor(as.numeric(cut(ds$X, breaks=breakPoints, include.lowest=T)))
 ds$Y <- ds$Residual + stageDifference[ds$stage_id] + periodDifference[ds$PeriodID]
 
-dsFull <- data.frame(X=rep(ds$X, stageCount), stage_id=rep(ds$stage_id, each=nrow(ds)), X=rep(ds$X, stageCount),PeriodID=rep(ds$PeriodID, stageCount), Theta=rep(ds$Theta, stageCount))
+dsFull <- data.frame(X=rep(ds$X, stage_count), stage_id=rep(ds$stage_id, each=nrow(ds)), X=rep(ds$X, stage_count),PeriodID=rep(ds$PeriodID, stage_count), Theta=rep(ds$Theta, stage_count))
 dsFull$Y <- 1000
 
 for( stageID in as.numeric(sort(unique(ds$stage_id))) ) {

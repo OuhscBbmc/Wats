@@ -70,11 +70,11 @@ cartesian_rolling <- function(ds_linear, x_name, y_name, stage_id_name,
                               title=NULL, x_title=NULL, y_title=NULL ) {
 
   stages <- base::sort(base::unique(ds_linear[[stage_id_name]]))
-  stageCount <- length(stages)
-  testit::assert("The number of unique `stage_id` values should be 1 greater than the number of `change_points`.", stageCount==1+length(change_points))
+  stage_count <- length(stages)
+  testit::assert("The number of unique `stage_id` values should be 1 greater than the number of `change_points`.", stage_count==1+length(change_points))
   if (!is.null(change_points)) testit::assert("The number of `change_points` should equal the number of `changeLabels`.", length(change_points)==length(change_point_labels))
-  if (!is.null(palette_dark))  testit::assert("The number of `palette_dark` colors should equal the number of unique `stage_id` values.", stageCount==length(palette_dark))
-  if (!is.null(palette_light)) testit::assert("The number of `palette_light` colors should equal the number of unique `stage_id` values.", stageCount==length(palette_light))
+  if (!is.null(palette_dark))  testit::assert("The number of `palette_dark` colors should equal the number of unique `stage_id` values.", stage_count==length(palette_dark))
+  if (!is.null(palette_light)) testit::assert("The number of `palette_light` colors should equal the number of unique `stage_id` values.", stage_count==length(palette_light))
 
   p <- ggplot2::ggplot(ds_linear, ggplot2::aes_string(x=x_name, y=y_name, color=stage_id_name))
 

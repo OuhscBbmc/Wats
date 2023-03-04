@@ -42,7 +42,7 @@ ds_linear$Horizontal <- ds_linear$CycleID + (ds_linear$MonthIndex-1)/12
 #totalPositionCount <- range(ds_linear$Date)[2]-range(ds_linear$Date)[1]
 #cycleCount <- monthCount / ticksPerCycle
 stageIDs <- 1:2
-stageCount <- length(stageIDs)
+stage_count <- length(stageIDs)
 stageBreaks <- as.POSIXct(c(startDate, changeDate, max(ds_linear$Date)+1))
 ds_linear$stage_id <- as.numeric(cut.POSIXt(as.POSIXct(ds_linear$Date), breaks=stageBreaks, labels=c("Pre", "Post")))
 ### Only manipulations specific the sample above this line;
@@ -68,11 +68,11 @@ for( binIndex in sort(unique(dsBands$AngleBin)) ) {
 dsExtra <- dsBands[1:2, ]
 #dsExtra$AngleBin <- max(dsBands$AngleBin)+1
 dsExtra$AngleBin <- max(dsBands$AngleBin)
-dsExtra$Angle <- dsBands[1:stageCount, "Angle"] + 2*pi
+dsExtra$Angle <- dsBands[1:stage_count, "Angle"] + 2*pi
 dsBands <- rbind(dsBands, dsExtra)
 
-# dsBands[1:stageCount, "AngleBin"] <- max(dsBands$AngleBin)+1
-# dsBands[1:stageCount, "Angle"] <- dsBands[1:stageCount, "Angle"] + 2*pi
+# dsBands[1:stage_count, "AngleBin"] <- max(dsBands$AngleBin)+1
+# dsBands[1:stage_count, "Angle"] <- dsBands[1:stage_count, "Angle"] + 2*pi
 # dsBands[25:26, "AngleBin"] <- 12
 # dsBands[25:26, "Angle"] <- dsBands[1:2, "Angle"] + 2*pi
 
