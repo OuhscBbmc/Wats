@@ -35,9 +35,9 @@ ds$Y <- ds$R * cos(ds$Theta)
 # dsFull$Y <- 1000
 
 for( stageID in as.numeric(sort(unique(ds$stage_id))) ){
-  dsStage <- ds[ds$stage_id==stageID, ]
-  for( periodID in unique(dsStage$PeriodID)) {
-    sliceY <- dsStage[dsStage$PeriodID == periodID, "Y"]
+  ds_stage <- ds[ds$stage_id==stageID, ]
+  for( periodID in unique(ds_stage$PeriodID)) {
+    sliceY <- ds_stage[ds_stage$PeriodID == periodID, "Y"]
     bandRange <- quantile(sliceY, c(.25, .75))
     #ds[ds$stage_id==stageID & ds$PeriodID==periodID, c("LowerY", "UpperY")] <- t(as.numeric(bandRange))
     ds[ds$stage_id==stageID & ds$PeriodID==periodID, c("LowerY")] <- as.numeric(bandRange[1])

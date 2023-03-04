@@ -88,16 +88,16 @@ cartesian_rolling <- function(ds_linear, x_name, y_name, stage_id_name,
   }
 
   for (stage in stages) {
-    dsStage <- ds_linear[stage <= ds_linear$stage_progress & ds_linear$stage_progress <= (stage+1), ]
+    ds_stage <- ds_linear[stage <= ds_linear$stage_progress & ds_linear$stage_progress <= (stage+1), ]
 
     if (draw_jagged_line)
-      p <- p + ggplot2::geom_line(size=jagged_line_size, color=palette_dark[stage], data=dsStage)
+      p <- p + ggplot2::geom_line(size=jagged_line_size, color=palette_dark[stage], data=ds_stage)
     if (draw_rolling_line)
-      p <- p + ggplot2::geom_line(ggplot2::aes_string(y=rolling_center_name), data=dsStage, size=rolling_line_size, color=palette_dark[stage], na.rm=TRUE)
+      p <- p + ggplot2::geom_line(ggplot2::aes_string(y=rolling_center_name), data=ds_stage, size=rolling_line_size, color=palette_dark[stage], na.rm=TRUE)
     if (draw_rolling_band)
-      p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rolling_lower_name, ymax=rolling_upper_name), data=dsStage, fill=palette_dark[stage], color=NA, alpha=band_alpha, na.rm=TRUE)
+      p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rolling_lower_name, ymax=rolling_upper_name), data=ds_stage, fill=palette_dark[stage], color=NA, alpha=band_alpha, na.rm=TRUE)
 
-    p <- p + ggplot2::geom_point(shape=1, color=palette_dark[stage], data=dsStage, size=jagged_point_size)
+    p <- p + ggplot2::geom_point(shape=1, color=palette_dark[stage], data=ds_stage, size=jagged_point_size)
   }
 
   if (draw_sparse_line_and_points) {

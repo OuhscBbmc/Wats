@@ -181,9 +181,9 @@ polar_periodic <- function(ds_linear, ds_stage_cycle_polar,
 #                                     default.units="native", name="l")
 #     grid::grid.draw(gObserved)
     for (stage in stages) {
-      dsStage <- ds_linear[stage <= ds_linear$stage_progress & ds_linear$stage_progress <= (stage+1), ]
+      ds_stage <- ds_linear[stage <= ds_linear$stage_progress & ds_linear$stage_progress <= (stage+1), ]
 
-      gObserved <- grid::polylineGrob(x=dsStage$ObservedX, y=dsStage$ObservedY,
+      gObserved <- grid::polylineGrob(x=ds_stage$ObservedX, y=ds_stage$ObservedY,
                                       gp=grid::gpar(col=palette_dark[stage], lwd=jagged_line_size),
                                       default.units="native", name="l")
       grid::grid.draw(gObserved)

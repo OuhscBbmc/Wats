@@ -66,8 +66,8 @@ ds$rolling_lower <- rollapply(ds$birth_rate, 12, CalculateLowerBand, align="righ
 ds$rolling_upper <- rollapply(ds$birth_rate, 12, CalculateUpperBand, align="right", fill=NA)
 
 dsFebruary <- ds[ds$MonthIndex==2 & !is.na(ds$Rolling), ]
-dsStage1 <- ds[!is.na(ds$Rolling) & ds$MonthID<=changePoint, ]
-dsStage2 <- ds[!is.na(ds$Rolling) & ds$MonthID>=changePoint, ]
+ds_stage1 <- ds[!is.na(ds$Rolling) & ds$MonthID<=changePoint, ]
+ds_stage2 <- ds[!is.na(ds$Rolling) & ds$MonthID>=changePoint, ]
 
 #################
 ### This is a quick graph that should be easy to understand & generalize to other datasets.
@@ -76,8 +76,8 @@ p <- ggplot(ds, aes(x=Date, y=birth_rate, color=stage_id))
 p <- p + geom_line(data=dsFebruary, aes(y=Rolling), size=1, color=smoothedLinear)
 p <- p + geom_point(data=dsFebruary, aes(y=Rolling), size=4, shape=3, color=smoothedLinear)
 
-p <- p + geom_ribbon(data=dsStage1, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorBefore[2], color=NA )
-p <- p + geom_ribbon(data=dsStage2, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorAfter[2], color=NA )
+p <- p + geom_ribbon(data=ds_stage1, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorBefore[2], color=NA )
+p <- p + geom_ribbon(data=ds_stage2, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorAfter[2], color=NA )
 p <- p + geom_point(shape=1)
 p <- p + geom_line(size=1)
 p <- p + geom_line(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling), size=2)
@@ -116,18 +116,18 @@ LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showY
   g <- g + geom_point(data=dsFebruary, aes(y=Rolling), size=2, shape=3, color=smoothedLinear)
 
   if( showRibbon ) {
-    g <- g + geom_ribbon(data=dsStage1, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorBefore[2], color=NA )
-    g <- g + geom_ribbon(data=dsStage2, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorAfter[2], color=NA )
+    g <- g + geom_ribbon(data=ds_stage1, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorBefore[2], color=NA )
+    g <- g + geom_ribbon(data=ds_stage2, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorAfter[2], color=NA )
   }
   g <- g + geom_point(shape=1, alpha=.5)
 
   if( showLine ) { #g <- g + geom_line() #This produces blocky lines, b/c it's checking for color switches
-    g <- g + geom_line(data=dsStage1, color=colorBefore )
-    g <- g + geom_line(data=dsStage2, color=colorAfter )
+    g <- g + geom_line(data=ds_stage1, color=colorBefore )
+    g <- g + geom_line(data=ds_stage2, color=colorAfter )
   }
   if( showSmoother) { #g <- g + geom_path(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling)) #This produces blocky lines, b/c it's checking for color switches
-    g <- g + geom_line(data=dsStage1, aes(y=Rolling), color=colorBefore )
-    g <- g + geom_line(data=dsStage2, aes(y=Rolling), color=colorAfter )
+    g <- g + geom_line(data=ds_stage1, aes(y=Rolling), color=colorBefore )
+    g <- g + geom_line(data=ds_stage2, aes(y=Rolling), color=colorAfter )
   }
 
   if( showYears )

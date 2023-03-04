@@ -117,17 +117,17 @@ dsCart$stage_id <- floor(approx(x=ds$stage_id, n=interpolationPointsTotal)$y)
 
 dsCartBands <- data.frame(stage_id=rep(stageIDs, each=interpolationPointsPerCycle), XLower=NA_real_, YLower=NA_real_, XUpper=NA_real_, YUpper=NA_real_)
 for( stageID in stageIDs ) {
-  dsStageBands <- dsBands[dsBands$stage_id==stageID, ]
+  ds_stageBands <- dsBands[dsBands$stage_id==stageID, ]
 
-  interpolatedLowerBand <- approx(x=dsStageBands$Angle, y=dsStageBands$Lower, n=interpolationPointsPerCycle)
+  interpolatedLowerBand <- approx(x=ds_stageBands$Angle, y=ds_stageBands$Lower, n=interpolationPointsPerCycle)
   dsCartBands[dsCartBands$stage_id==stageID, "XLower"] <- (interpolatedLowerBand$y - graph_floor) * sin(interpolatedLowerBand$x)
   dsCartBands[dsCartBands$stage_id==stageID, "YLower"] <- (interpolatedLowerBand$y - graph_floor) * cos(interpolatedLowerBand$x)
 
-  interpolatedUpperBand <- approx(x=dsStageBands$Angle, y=dsStageBands$Upper, n=interpolationPointsPerCycle)
+  interpolatedUpperBand <- approx(x=ds_stageBands$Angle, y=ds_stageBands$Upper, n=interpolationPointsPerCycle)
   dsCartBands[dsCartBands$stage_id==stageID, "XUpper"] <- (interpolatedUpperBand$y - graph_floor) * sin(interpolatedUpperBand$x)
   dsCartBands[dsCartBands$stage_id==stageID, "YUpper"] <- (interpolatedUpperBand$y - graph_floor) * cos(interpolatedUpperBand$x)
 }
-rm(dsStageBands)
+rm(ds_stageBands)
 
 # curve(sinpi(x*2), 0, 6)
 
