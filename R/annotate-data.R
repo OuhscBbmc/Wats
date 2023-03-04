@@ -91,18 +91,18 @@ annotate_data <- function( ds_linear,
     dplyr::ungroup()
 
   ds_linear_temp <- ds_linear[, c("date", stage_id_name, proportion_id_name, stage_progress_name)]
-  colnames(ds_linear_temp)[colnames(ds_linear_temp)==stage_id_name] <- "StageIDTime" #Make sure `StageIDTime` matches the two calls below.
+  colnames(ds_linear_temp)[colnames(ds_linear_temp)==stage_id_name] <- "stage_id_time" #Make sure `stage_id_time` matches the two calls below.
 
-  ds_stage_cycleTemp <- ds_stage_cycle
-  colnames(ds_stage_cycleTemp)[colnames(ds_stage_cycleTemp)==stage_id_name] <- "StageIDBand" #Make sure `StageIDBand` matches the calls below.
+  ds_stage_cycle_temp <- ds_stage_cycle
+  colnames(ds_stage_cycle_temp)[colnames(ds_stage_cycle_temp)==stage_id_name] <- "stage_id_band" #Make sure `stage_id_band` matches the calls below.
 
-  # dsPeriodic2 <- merge(x=ds_linear_temp, y=ds_stage_cycleTemp, by=c(proportion_id_name), all.x=TRUE, all.y=TRUE)
+  # dsPeriodic2 <- merge(x=ds_linear_temp, y=ds_stage_cycle_temp, by=c(proportion_id_name), all.x=TRUE, all.y=TRUE)
   ds_periodic <-
     ds_linear_temp |>
-    dplyr::left_join(ds_stage_cycleTemp, by=proportion_id_name, multiple = "all") |>
-    dplyr::arrange(.data$date, .data$StageIDTime, .data$StageIDBand)
+    dplyr::left_join(ds_stage_cycle_temp, by=proportion_id_name, multiple = "all") |>
+    dplyr::arrange(.data$date, .data$stage_id_time, .data$stage_id_band)
 
-  # ds_periodic <- ds_periodic[order(ds_periodic$date, ds_periodic$StageIDTime, ds_periodic$StageIDBand), ]
+  # ds_periodic <- ds_periodic[order(ds_periodic$date, ds_periodic$stage_id_time, ds_periodic$stage_id_band), ]
 
   return( list(ds_linear=ds_linear, ds_stage_cycle=ds_stage_cycle, ds_periodic=ds_periodic) )
 }

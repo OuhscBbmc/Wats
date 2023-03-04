@@ -71,9 +71,9 @@ test_that("AnnotateDataWithMonthResolution-Median", {
 
   expectedPeriodicHead <-
     structure(list(date = structure(c(7319, 7319, 7350, 7350, 7378,
-    7378), class = "Date"), StageIDTime = c(1L, 1L, 1L, 1L, 1L, 1L
+    7378), class = "Date"), stage_id_time = c(1L, 1L, 1L, 1L, 1L, 1L
     ), proportion_id = c(1, 1, 2, 2, 3, 3), stage_progress = c(1, 1,
-    1.5, 1.5, 1.5, 1.5), StageIDBand = c(1L, 2L, 1L, 2L, 1L, 2L),
+    1.5, 1.5, 1.5, 1.5), stage_id_band = c(1L, 2L, 1L, 2L, 1L, 2L),
     proportion_through_cycle = c(0.0416666666666667, 0.0416666666666667,
     0.125, 0.125, 0.208333333333333, 0.208333333333333), PositionLower = c(`25%` = 66.82,
     `25%` = 70.755, `25%` = 68.935, `25%` = 69.3475, `25%` = 66.1325,

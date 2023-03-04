@@ -57,9 +57,9 @@ CalculateLowerBand <- function( x ) { return( quantile(x, probs=lowerQuantile) )
 CalculateUpperBand <- function( x ) { return( quantile(x, probs=upperQuantile) ) }
 
 dsBand <- ddply(ds, .variables=c("MonthIndex", "stage_id"), Summarize)
-dsBand <- rename(dsBand, replace=c("stage_id"="StageIDBand"))
+dsBand <- rename(dsBand, replace=c("stage_id"="stage_id_band"))
 dsBands <- join(x=ds, y=dsBand, by="MonthIndex")
-dsBands$InPhase <- (dsBands$stage_id == dsBands$StageIDBand)
+dsBands$InPhase <- (dsBands$stage_id == dsBands$stage_id_band)
 
 ds$Rolling <- rollapply(ds$birth_rate, 12, mean, align="right", fill=NA)
 ds$RollingLower <- rollapply(ds$birth_rate, 12, CalculateLowerBand, align="right", fill=NA)
