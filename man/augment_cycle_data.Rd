@@ -15,7 +15,7 @@ augment_year_data_with_second_resolution( ds_linear, date_name )
 \item{date_name}{The variable name in \code{ds_linear} containing the date or datetime value.}
 }
 \value{
-Returns a \link{data.frame} with additional variables: \code{CycleTally}, \code{ProportionThroughCycle}, \code{ProportionID}, and \code{TerminalPointInCycle}.
+Returns a \link{data.frame} with additional variables: \code{cycle_tally}, \code{proportion_through_cycle}, \code{proportion_id}, and \code{terminal_point_in_cycle}.
 }
 \description{
 Calculates variables necessary for WATS Plots.  This the first of two functions

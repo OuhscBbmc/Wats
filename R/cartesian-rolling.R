@@ -88,7 +88,7 @@ cartesian_rolling <- function(ds_linear, x_name, y_name, stage_id_name,
   }
 
   for (stage in stages) {
-    dsStage <- ds_linear[stage <= ds_linear$StageProgress & ds_linear$StageProgress <= (stage+1), ]
+    dsStage <- ds_linear[stage <= ds_linear$stage_progress & ds_linear$stage_progress <= (stage+1), ]
 
     if (draw_jagged_line)
       p <- p + ggplot2::geom_line(size=jagged_line_size, color=palette_dark[stage], data=dsStage)
@@ -101,8 +101,8 @@ cartesian_rolling <- function(ds_linear, x_name, y_name, stage_id_name,
   }
 
   if (draw_sparse_line_and_points) {
-    p <- p + ggplot2::geom_line(data=ds_linear[ds_linear$TerminalPointInCycle,], ggplot2::aes_string(y=rolling_center_name), size=sparse_line_size, color=color_sparse)
-    p <- p + ggplot2::geom_point(data=ds_linear[ds_linear$TerminalPointInCycle,], ggplot2::aes_string(y=rolling_center_name), size=sparse_point_size, shape=3, color=color_sparse)
+    p <- p + ggplot2::geom_line(data=ds_linear[ds_linear$terminal_point_in_cycle,], ggplot2::aes_string(y=rolling_center_name), size=sparse_line_size, color=color_sparse)
+    p <- p + ggplot2::geom_point(data=ds_linear[ds_linear$terminal_point_in_cycle,], ggplot2::aes_string(y=rolling_center_name), size=sparse_point_size, shape=3, color=color_sparse)
   }
 
   if (!is.null(change_points)) {

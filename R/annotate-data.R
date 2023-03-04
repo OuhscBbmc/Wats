@@ -47,12 +47,12 @@ annotate_data <- function( ds_linear,
                           dv_name,
                           center_function,
                           spread_function,
-                          cycle_tally_name="CycleTally",
+                          cycle_tally_name="cycle_tally",
                           stage_id_name="stage_id",
-                          stage_progress_name="StageProgress",
-                          proportion_through_cycle_name="ProportionThroughCycle",
-                          proportion_id_name="ProportionID",
-                          terminal_point_in_cycle_name="TerminalPointInCycle" ) {
+                          stage_progress_name="stage_progress",
+                          proportion_through_cycle_name="proportion_through_cycle",
+                          proportion_id_name="proportion_id",
+                          terminal_point_in_cycle_name="terminal_point_in_cycle" ) {
 
   points_in_cycle <- max(ds_linear[[proportion_id_name]])
   testit::assert("The should be at least one point in a cycle", max(points_in_cycle)>=1)
@@ -71,7 +71,7 @@ annotate_data <- function( ds_linear,
   #   positionBounds <- spread_function(d[[dv_name]])
   #   #   print(positionBounds)
   #   data.frame(
-  #     ProportionThroughCycle = mean(d$ProportionThroughCycle, na.rm=TRUE),
+  #     proportion_through_cycle = mean(d$proportion_through_cycle, na.rm=TRUE),
   #     PositionLower = positionBounds[1],
   #     PositionCenter = center_function(d[[dv_name]]),
   #     PositionUpper = positionBounds[2]
@@ -83,7 +83,7 @@ annotate_data <- function( ds_linear,
     ds_linear |>
     dplyr::group_by(!! rlang::ensym(stage_id_name), !! rlang::ensym(proportion_id_name)) |>
     dplyr::summarize(
-      ProportionThroughCycle  = mean(.data$ProportionThroughCycle, na.rm = TRUE),
+      proportion_through_cycle  = mean(.data$proportion_through_cycle, na.rm = TRUE),
       PositionLower           = spread_function(!! rlang::ensym(dv_name))[1],
       PositionCenter          = center_function(!! rlang::ensym(dv_name)),
       PositionUpper           = spread_function(!! rlang::ensym(dv_name))[2],

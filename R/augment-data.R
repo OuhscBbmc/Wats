@@ -12,7 +12,7 @@
 #' @param ds_linear The [data.frame] to containing the detailed data.
 #' @param date_name The variable name in `ds_linear` containing the date or datetime value.
 # @param stage_id_name The variable name indicating the stage. In a typical interrupted time series, these values are `1` before the interruption and `2` after.
-#' @return Returns a [data.frame] with additional variables: `CycleTally`, `ProportionThroughCycle`, `ProportionID`, and `TerminalPointInCycle`.
+#' @return Returns a [data.frame] with additional variables: `cycle_tally`, `proportion_through_cycle`, `proportion_id`, and `terminal_point_in_cycle`.
 #' @examples
 #' library(Wats)
 #' ds_linear <- county_month_birth_rate_2005_version
@@ -27,13 +27,13 @@ augment_year_data_with_month_resolution <- function( ds_linear, date_name ) {
   yearOfEvent <- lubridate::year(ds_linear[[date_name]])
 
   minYearOfEvent <- base::min(yearOfEvent)
-  ds_linear$CycleTally <- (yearOfEvent - minYearOfEvent)
+  ds_linear$cycle_tally <- (yearOfEvent - minYearOfEvent)
   monthsThroughTheYear <- lubridate::month(ds_linear[[date_name]]) - .5
   monthsInTheYear <- 12L
-  ds_linear$ProportionThroughCycle <- monthsThroughTheYear /  monthsInTheYear
-  ds_linear$ProportionID <- base::rank(ds_linear$ProportionThroughCycle, ties.method="max") / base::max(ds_linear$CycleTally + 1)
-  ds_linear$StartingPointInCycle <- (ds_linear$ProportionID==base::min(ds_linear$ProportionID))
-  ds_linear$TerminalPointInCycle <- (ds_linear$ProportionID==base::max(ds_linear$ProportionID))
+  ds_linear$proportion_through_cycle <- monthsThroughTheYear /  monthsInTheYear
+  ds_linear$proportion_id <- base::rank(ds_linear$proportion_through_cycle, ties.method="max") / base::max(ds_linear$cycle_tally + 1)
+  ds_linear$StartingPointInCycle <- (ds_linear$proportion_id==base::min(ds_linear$proportion_id))
+  ds_linear$terminal_point_in_cycle <- (ds_linear$proportion_id==base::max(ds_linear$proportion_id))
 
   # SummarizeWithinStage <- function( d ) {
   #   isMin <- (base::min(d[[date_name]]) < d[[date_name]])
@@ -48,13 +48,13 @@ augment_year_data_with_month_resolution <- function( ds_linear, date_name ) {
     ) |>
     dplyr::ungroup() |>
     dplyr::mutate(
-      StageProgress = .data$stage_id + .data$isMin*0.5,
+      stage_progress = .data$stage_id + .data$isMin*0.5,
     ) |>
     dplyr::select(
       -isMin,
     )
 
-  # ds_linear$StageProgress <- base::unlist(plyr::dlply(ds_linear, "stage_id", SummarizeWithinStage))
+  # ds_linear$stage_progress <- base::unlist(plyr::dlply(ds_linear, "stage_id", SummarizeWithinStage))
   # return( ds_linear )
 }
 augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
@@ -65,38 +65,38 @@ augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
   lastOfYear <- firstOfYear + lubridate::years(1)  #ISOdate(year=yearOfEvent + 1, month=1, day=1, tz="GMT")
 
   minYearOfEvent <- min(yearOfEvent)
-  ds_linear$CycleTally <- (yearOfEvent - minYearOfEvent)
+  ds_linear$cycle_tally <- (yearOfEvent - minYearOfEvent)
   secondsThroughTheYear <- base::as.integer(base::difftime(time1=ds_linear[[date_name]], firstOfYear, units="sec")) - .5
   secondsInTheYear <- base::as.integer(base::difftime(lastOfYear, firstOfYear, units="sec"))
-  ds_linear$ProportionThroughCycle <- secondsThroughTheYear /  secondsInTheYear
+  ds_linear$proportion_through_cycle <- secondsThroughTheYear /  secondsInTheYear
 
   # SummarizeWithinCycle <- function( d ) {
-  #   d$ProportionID <- base::rank(d$ProportionThroughCycle, ties.method="max")
-  #   d$StartingPointInCycle <- (d$ProportionID==base::min(d$ProportionID))
-  #   d$TerminalPointInCycle <- (d$ProportionID==base::max(d$ProportionID))
+  #   d$proportion_id <- base::rank(d$proportion_through_cycle, ties.method="max")
+  #   d$StartingPointInCycle <- (d$proportion_id==base::min(d$proportion_id))
+  #   d$terminal_point_in_cycle <- (d$proportion_id==base::max(d$proportion_id))
   #   return( d )
   # }
-  # ds_linear <- plyr::ddply(ds_linear, .variables="CycleTally", SummarizeWithinCycle) #base::transform,
-#                           ProportionID)
+  # ds_linear <- plyr::ddply(ds_linear, .variables="cycle_tally", SummarizeWithinCycle) #base::transform,
+#                           proportion_id)
 
   ds_linear <-
     ds_linear |>
-    dplyr::group_by(.data$CycleTally) |>
+    dplyr::group_by(.data$cycle_tally) |>
     dplyr::mutate(
-      ProportionID          = base::rank(.data$ProportionThroughCycle, ties.method="max"),
-      StartingPointInCycle  = (.data$ProportionID == base::min(.data$ProportionID)),
-      TerminalPointInCycle  = (.data$ProportionID == base::max(.data$ProportionID)),
+      proportion_id          = base::rank(.data$proportion_through_cycle, ties.method="max"),
+      StartingPointInCycle  = (.data$proportion_id == base::min(.data$proportion_id)),
+      terminal_point_in_cycle  = (.data$proportion_id == base::max(.data$proportion_id)),
     ) |>
     dplyr::ungroup()
 
-  #ds_linear$ProportionID <- as.integer(round(rank(ds_linear$ProportionThroughCycle, ties.method="max") / max(ds_linear$CycleTally + 1)))
-#   ds_linear$ProportionID <- rank(ds_linear$ProportionThroughCycle, ties.method="max") / max(ds_linear$CycleTally + 1)
-#   ds_linear$StartingPointInCycle <- (ds_linear$ProportionID==min(ds_linear$ProportionID))
-#   ds_linear$TerminalPointInCycle <- (ds_linear$ProportionID==max(ds_linear$ProportionID))
+  #ds_linear$proportion_id <- as.integer(round(rank(ds_linear$proportion_through_cycle, ties.method="max") / max(ds_linear$cycle_tally + 1)))
+#   ds_linear$proportion_id <- rank(ds_linear$proportion_through_cycle, ties.method="max") / max(ds_linear$cycle_tally + 1)
+#   ds_linear$StartingPointInCycle <- (ds_linear$proportion_id==min(ds_linear$proportion_id))
+#   ds_linear$terminal_point_in_cycle <- (ds_linear$proportion_id==max(ds_linear$proportion_id))
 #   ds_linear <- plyr::ddply(ds_linear,
-#                     "CycleTally",
+#                     "cycle_tally",
 #                     transform,
-#                     TerminalPointInCycle=(rank(ProportionThroughCycle)==max(rank(ProportionThroughCycle))))
+#                     terminal_point_in_cycle=(rank(proportion_through_cycle)==max(rank(proportion_through_cycle))))
   ds_linear |>
     tibble::as_tibble() |>
     dplyr::group_by(.data$stage_id) |>
@@ -105,7 +105,7 @@ augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
     ) |>
     dplyr::ungroup() |>
     dplyr::mutate(
-      StageProgress = .data$stage_id + .data$isMin*0.5,
+      stage_progress = .data$stage_id + .data$isMin*0.5,
     ) |>
     dplyr::select(
       -isMin,
@@ -117,8 +117,8 @@ augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
   #     isMin <-  (base::min(d[[date_name]]) < d[[date_name]])
   #     return( d$stage_id + isMin*0.5 )
   #   }
-  #   ds_linear$StageProgress <- base::unlist(plyr::dlply(ds_linear, "stage_id", SummarizeWithinStage))
-  # #   ds_linear$StageProgress <- plyr::daply(ds_linear, "stage_id", SummarizeWithinStage)
+  #   ds_linear$stage_progress <- base::unlist(plyr::dlply(ds_linear, "stage_id", SummarizeWithinStage))
+  # #   ds_linear$stage_progress <- plyr::daply(ds_linear, "stage_id", SummarizeWithinStage)
   #   return( ds_linear )
 }
 

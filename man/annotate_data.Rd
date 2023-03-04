@@ -9,12 +9,12 @@ annotate_data(
   dv_name,
   center_function,
   spread_function,
-  cycle_tally_name = "CycleTally",
+  cycle_tally_name = "cycle_tally",
   stage_id_name = "stage_id",
-  stage_progress_name = "StageProgress",
-  proportion_through_cycle_name = "ProportionThroughCycle",
-  proportion_id_name = "ProportionID",
-  terminal_point_in_cycle_name = "TerminalPointInCycle"
+  stage_progress_name = "stage_progress",
+  proportion_through_cycle_name = "proportion_through_cycle",
+  proportion_id_name = "proportion_id",
+  terminal_point_in_cycle_name = "terminal_point_in_cycle"
 )
 }
 \arguments{

@@ -86,11 +86,11 @@ cartesian_periodic <- function(ds_linear, ds_periodic,
   }
 
   for (stage in stages) {
-    dsStageLinear <- ds_linear[stage <= ds_linear$StageProgress & ds_linear$StageProgress <= (stage+1), ]
+    dsStageLinear <- ds_linear[stage <= ds_linear$stage_progress & ds_linear$stage_progress <= (stage+1), ]
 
     if (draw_periodic_band) {
       for (stageInner in stages) {
-        dsStagePeriodic <- ds_periodic[(stage <= ds_periodic$StageProgress) & (ds_periodic$StageProgress <= (stage+1)) & (ds_periodic$StageIDBand == stageInner), ]
+        dsStagePeriodic <- ds_periodic[(stage <= ds_periodic$stage_progress) & (ds_periodic$stage_progress <= (stage+1)) & (ds_periodic$StageIDBand == stageInner), ]
         ribbonAlpha <- ifelse(stage==stageInner, band_alpha_dark, band_alpha_light)
         #p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=periodic_lower_name, ymax=periodic_upper_name, y=NULL), data=dsStagePeriodic,
         #                     fill=palette_dark[stageInner], color=NA, alpha=ribbonAlpha, na.rm=TRUE)

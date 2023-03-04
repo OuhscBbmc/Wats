@@ -55,8 +55,8 @@
 #For a more polished graph, see polar_periodic().
 polarize_cartesian <- function(ds_linear, ds_stage_cycle,
                       y_name, stage_id_name,
-                      cycle_tally_name="CycleTally",
-                      proportion_through_cycle_name="ProportionThroughCycle",
+                      cycle_tally_name="cycle_tally",
+                      proportion_through_cycle_name="proportion_through_cycle",
                       periodic_lower_name="PositionLower", periodic_center_name="PositionCenter", periodic_upper_name="PositionUpper",
                       plotted_point_count_per_cycle=120,
                       graph_floor=min(base::pretty(x=ds_linear[[y_name]]))) {
@@ -79,7 +79,7 @@ polarize_cartesian <- function(ds_linear, ds_stage_cycle,
         y = d[[y_name]],
         n = pointsPerCycleCount
       )
-    stageProgress <-
+    stage_progress <-
       stats::approx(
         x = unique(d[[stage_id_name]]) + 0:1,
         n = pointsPerCycleCount + 1
@@ -88,7 +88,7 @@ polarize_cartesian <- function(ds_linear, ds_stage_cycle,
     base::data.frame(
       ObservedX = observed$x,
       ObservedY = observed$y,
-      StageProgress = stageProgress$y[seq_len(pointsPerCycleCount)] #Which chops off the last value.
+      stage_progress = stage_progress$y[seq_len(pointsPerCycleCount)] #Which chops off the last value.
     )
   }
   interpolateBand <- function(d, pointsPerCycleCount) {
@@ -119,7 +119,7 @@ polarize_cartesian <- function(ds_linear, ds_stage_cycle,
       ObservedY = (d$ObservedY - graph_floor) * cos(2 * pi * d$ObservedX),
       Theta = pi * 2 * d$ObservedX,
       Radius = d$ObservedY,
-      StageProgress = d$StageProgress,
+      stage_progress = d$stage_progress,
       StageStart = stageStart,
       StageEnd = stageEnd,
       LabelStageStart = ifelse(stageStart, paste0(d$stage_id, "S"), ""),
@@ -143,7 +143,7 @@ polarize_cartesian <- function(ds_linear, ds_stage_cycle,
       PolarCenterY = (d$CenterY - graph_floor) * cos(2 * pi * d$CenterX),
       PolarUpperX = (d$UpperY - graph_floor) * sin(2 * pi * d$UpperX),
       PolarUpperY = (d$UpperY - graph_floor) * cos(2 * pi * d$UpperX),
-#       StageProgress = d$StageProgress,
+#       stage_progress = d$stage_progress,
       StageStart = stageStart,
       StageEnd = stageEnd,
       LabelStageStart = ifelse(stageStart, paste0(d$stage_id, "S"), ""),
