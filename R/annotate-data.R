@@ -54,18 +54,18 @@ annotate_data <- function( ds_linear,
                           proportion_id_name="ProportionID",
                           terminal_point_in_cycle_name="TerminalPointInCycle" ) {
 
-  pointsInCycle <- max(ds_linear[[proportion_id_name]])
-  testit::assert("The should be at least one point in a cycle", max(pointsInCycle)>=1)
+  points_in_cycle <- max(ds_linear[[proportion_id_name]])
+  testit::assert("The should be at least one point in a cycle", max(points_in_cycle)>=1)
 
-  z <- zoo::zooreg(data=ds_linear[[dv_name]], frequency=pointsInCycle)
-  rollingBounds <- zoo::rollapply(data=z, width=pointsInCycle, FUN=spread_function)
+  z <- zoo::zooreg(data=ds_linear[[dv_name]], frequency=points_in_cycle)
+  rolling_bounds <- zoo::rollapply(data=z, width=points_in_cycle, FUN=spread_function)
 
   ds_linear$RollingLower <- NA
   ds_linear$RollingCenter <- NA
   ds_linear$RollingUpper <- NA
-  ds_linear$RollingLower[-seq_len(pointsInCycle-1) ] <- rollingBounds[, 1]
-  ds_linear$RollingCenter[-seq_len(pointsInCycle-1) ] <- zoo::rollapply(data=z, width=pointsInCycle, FUN=center_function)
-  ds_linear$RollingUpper[-seq_len(pointsInCycle-1) ] <- rollingBounds[, 2]
+  ds_linear$RollingLower[-seq_len(points_in_cycle-1) ] <- rolling_bounds[, 1]
+  ds_linear$RollingCenter[-seq_len(points_in_cycle-1) ] <- zoo::rollapply(data=z, width=points_in_cycle, FUN=center_function)
+  ds_linear$RollingUpper[-seq_len(points_in_cycle-1) ] <- rolling_bounds[, 2]
 
   # summarizeStageCycle <- function( d ) {
   #   positionBounds <- spread_function(d[[dv_name]])
@@ -90,15 +90,15 @@ annotate_data <- function( ds_linear,
     ) |>
     dplyr::ungroup()
 
-  dsLinearTemp <- ds_linear[, c("date", stage_id_name, proportion_id_name, stage_progress_name)]
-  colnames(dsLinearTemp)[colnames(dsLinearTemp)==stage_id_name] <- "StageIDTime" #Make sure `StageIDTime` matches the two calls below.
+  ds_linear_temp <- ds_linear[, c("date", stage_id_name, proportion_id_name, stage_progress_name)]
+  colnames(ds_linear_temp)[colnames(ds_linear_temp)==stage_id_name] <- "StageIDTime" #Make sure `StageIDTime` matches the two calls below.
 
   ds_stage_cycleTemp <- ds_stage_cycle
   colnames(ds_stage_cycleTemp)[colnames(ds_stage_cycleTemp)==stage_id_name] <- "StageIDBand" #Make sure `StageIDBand` matches the calls below.
 
-  # dsPeriodic2 <- merge(x=dsLinearTemp, y=ds_stage_cycleTemp, by=c(proportion_id_name), all.x=TRUE, all.y=TRUE)
+  # dsPeriodic2 <- merge(x=ds_linear_temp, y=ds_stage_cycleTemp, by=c(proportion_id_name), all.x=TRUE, all.y=TRUE)
   ds_periodic <-
-    dsLinearTemp |>
+    ds_linear_temp |>
     dplyr::left_join(ds_stage_cycleTemp, by=proportion_id_name, multiple = "all") |>
     dplyr::arrange(.data$date, .data$StageIDTime, .data$StageIDBand)
 
