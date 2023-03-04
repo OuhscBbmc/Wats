@@ -11,8 +11,8 @@ Smoothed monthly birth rates (General Fertility Rates; GFRs) for Oklahoma County
 
 <img src="./../vignettes/figure-mbr-rmd/fig-2-stylized-1.png" alt="fig-2-stylized" style="width: 600px;"/>
 
-## Figure 4: Carteisan Periodic
-Carteisan plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
+## Figure 4: Cartesian Periodic
+Cartesian plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
 
 <img src="./../vignettes/figure-mbr-rmd/fig-4-stylized-1.png" alt="fig-4-stylized" style="width: 600px;"/>
 

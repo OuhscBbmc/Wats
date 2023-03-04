@@ -169,8 +169,8 @@ grid::popViewport()
 
 <img src="figure-mbr-rmd/fig-2-stylized-1.png" alt="plot of chunk fig-2-stylized" width="600px" />
 
-## Figure 4: Carteisan Periodic
-Carteisan plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
+## Figure 4: Cartesian Periodic
+Cartesian plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
 
 
 ```r
@@ -422,29 +422,29 @@ BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.10.1
 LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.10.1
 
 locale:
- [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
- [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8    LC_PAPER=en_US.UTF-8       LC_NAME=C                 
- [9] LC_ADDRESS=C               LC_TELEPHONE=C             LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8    LC_PAPER=en_US.UTF-8       LC_NAME=C
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C             LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C
 
 attached base packages:
-[1] grid      stats     graphics  grDevices utils     datasets  methods   base     
+[1] grid      stats     graphics  grDevices utils     datasets  methods   base
 
 other attached packages:
-[1] Wats_0.11.1.9000 boot_1.3-28.1    ggplot2_3.4.1    scales_1.2.1     testit_0.13      markdown_1.5    
-[7] knitr_1.42      
+[1] Wats_0.11.1.9000 boot_1.3-28.1    ggplot2_3.4.1    scales_1.2.1     testit_0.13      markdown_1.5
+[7] knitr_1.42
 
 loaded via a namespace (and not attached):
- [1] pkgload_1.3.2      tidyr_1.3.0        bit64_4.0.5        vroom_1.6.1        shiny_1.7.4        highr_0.10        
- [7] yaml_2.3.7         remotes_2.4.2      sessioninfo_1.2.2  pillar_1.8.1       backports_1.4.1    lattice_0.20-45   
-[13] glue_1.6.2         digest_0.6.31      RColorBrewer_1.1-3 promises_1.2.0.1   checkmate_2.1.0    colorspace_2.1-0  
-[19] htmltools_0.5.4    httpuv_1.6.9       plyr_1.8.8         pkgconfig_2.0.3    devtools_2.4.5     purrr_1.0.1       
-[25] xtable_1.8-4       processx_3.8.0     archive_1.1.5      later_1.3.0        tzdb_0.3.0         timechange_0.2.0  
-[31] tibble_3.1.8       farver_2.1.1       generics_0.1.3     usethis_2.1.6      ellipsis_0.3.2     cachem_1.0.7      
-[37] withr_2.5.0        cli_3.6.0          magrittr_2.0.3     crayon_1.5.2       mime_0.12          memoise_2.0.1     
-[43] evaluate_0.20      ps_1.7.2           fs_1.6.1           fansi_1.0.4        pkgbuild_1.4.0     profvis_0.3.7     
-[49] tools_4.2.2        prettyunits_1.1.1  hms_1.1.2          lifecycle_1.0.3    stringr_1.5.0      munsell_0.5.0     
-[55] callr_3.7.3        compiler_4.2.2     rlang_1.0.6        rstudioapi_0.14    htmlwidgets_1.6.1  miniUI_0.1.1.1    
-[61] labeling_0.4.2     rmarkdown_2.20     gtable_0.3.1       R6_2.5.1           zoo_1.8-11         lubridate_1.9.2   
-[67] dplyr_1.1.0        fastmap_1.1.1      bit_4.0.5          utf8_1.2.3         readr_2.1.4        stringi_1.7.12    
-[73] parallel_4.2.2     Rcpp_1.0.10        vctrs_0.5.2        tidyselect_1.2.0   xfun_0.37          urlchecker_1.0.1  
+ [1] pkgload_1.3.2      tidyr_1.3.0        bit64_4.0.5        vroom_1.6.1        shiny_1.7.4        highr_0.10
+ [7] yaml_2.3.7         remotes_2.4.2      sessioninfo_1.2.2  pillar_1.8.1       backports_1.4.1    lattice_0.20-45
+[13] glue_1.6.2         digest_0.6.31      RColorBrewer_1.1-3 promises_1.2.0.1   checkmate_2.1.0    colorspace_2.1-0
+[19] htmltools_0.5.4    httpuv_1.6.9       plyr_1.8.8         pkgconfig_2.0.3    devtools_2.4.5     purrr_1.0.1
+[25] xtable_1.8-4       processx_3.8.0     archive_1.1.5      later_1.3.0        tzdb_0.3.0         timechange_0.2.0
+[31] tibble_3.1.8       farver_2.1.1       generics_0.1.3     usethis_2.1.6      ellipsis_0.3.2     cachem_1.0.7
+[37] withr_2.5.0        cli_3.6.0          magrittr_2.0.3     crayon_1.5.2       mime_0.12          memoise_2.0.1
+[43] evaluate_0.20      ps_1.7.2           fs_1.6.1           fansi_1.0.4        pkgbuild_1.4.0     profvis_0.3.7
+[49] tools_4.2.2        prettyunits_1.1.1  hms_1.1.2          lifecycle_1.0.3    stringr_1.5.0      munsell_0.5.0
+[55] callr_3.7.3        compiler_4.2.2     rlang_1.0.6        rstudioapi_0.14    htmlwidgets_1.6.1  miniUI_0.1.1.1
+[61] labeling_0.4.2     rmarkdown_2.20     gtable_0.3.1       R6_2.5.1           zoo_1.8-11         lubridate_1.9.2
+[67] dplyr_1.1.0        fastmap_1.1.1      bit_4.0.5          utf8_1.2.3         readr_2.1.4        stringi_1.7.12
+[73] parallel_4.2.2     Rcpp_1.0.10        vctrs_0.5.2        tidyselect_1.2.0   xfun_0.37          urlchecker_1.0.1
 ```

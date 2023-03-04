@@ -193,8 +193,8 @@ print(bottomPanel, vp=vpLayout(3, 1))
 grid::popViewport()
 ```
 
-## Figure 4: Carteisan Periodic
-Carteisan plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
+## Figure 4: Cartesian Periodic
+Cartesian plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
 
 ```{r fig-4-basic}
 cartesian_periodic <- Wats::cartesian_periodic(

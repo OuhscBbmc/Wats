@@ -151,10 +151,10 @@ print(bottomPanel, vp=vpLayout(3, 1))
 grid::popViewport()
 ```
 
-## Section 2: Carteisan Periodic
+## Section 2: Cartesian Periodic
 This section corresponds to the MBR manuscript, but with the modified dataset.
 
-Carteisan plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
+Cartesian plot of the GFR time series data in Oklahoma County, with H-spread Bands superimposed.
 
 ```{r cartesian_periodic}
 cartesian_periodic <- Wats::cartesian_periodic(
