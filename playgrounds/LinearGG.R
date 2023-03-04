@@ -62,8 +62,8 @@ dsBands <- join(x=ds, y=dsBand, by="MonthIndex")
 dsBands$InPhase <- (dsBands$stage_id == dsBands$stage_id_band)
 
 ds$Rolling <- rollapply(ds$birth_rate, 12, mean, align="right", fill=NA)
-ds$RollingLower <- rollapply(ds$birth_rate, 12, CalculateLowerBand, align="right", fill=NA)
-ds$RollingUpper <- rollapply(ds$birth_rate, 12, CalculateUpperBand, align="right", fill=NA)
+ds$rolling_lower <- rollapply(ds$birth_rate, 12, CalculateLowerBand, align="right", fill=NA)
+ds$rolling_upper <- rollapply(ds$birth_rate, 12, CalculateUpperBand, align="right", fill=NA)
 
 dsFebruary <- ds[ds$MonthIndex==2 & !is.na(ds$Rolling), ]
 dsStage1 <- ds[!is.na(ds$Rolling) & ds$MonthID<=changePoint, ]
@@ -76,8 +76,8 @@ p <- ggplot(ds, aes(x=Date, y=birth_rate, color=stage_id))
 p <- p + geom_line(data=dsFebruary, aes(y=Rolling), size=1, color=smoothedLinear)
 p <- p + geom_point(data=dsFebruary, aes(y=Rolling), size=4, shape=3, color=smoothedLinear)
 
-p <- p + geom_ribbon(data=dsStage1, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorBefore[2], color=NA )
-p <- p + geom_ribbon(data=dsStage2, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorAfter[2], color=NA )
+p <- p + geom_ribbon(data=dsStage1, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorBefore[2], color=NA )
+p <- p + geom_ribbon(data=dsStage2, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorAfter[2], color=NA )
 p <- p + geom_point(shape=1)
 p <- p + geom_line(size=1)
 p <- p + geom_line(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling), size=2)
@@ -116,8 +116,8 @@ LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showY
   g <- g + geom_point(data=dsFebruary, aes(y=Rolling), size=2, shape=3, color=smoothedLinear)
 
   if( showRibbon ) {
-    g <- g + geom_ribbon(data=dsStage1, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorBefore[2], color=NA )
-    g <- g + geom_ribbon(data=dsStage2, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorAfter[2], color=NA )
+    g <- g + geom_ribbon(data=dsStage1, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorBefore[2], color=NA )
+    g <- g + geom_ribbon(data=dsStage2, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorAfter[2], color=NA )
   }
   g <- g + geom_point(shape=1, alpha=.5)
 

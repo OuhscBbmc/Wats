@@ -61,7 +61,7 @@
 #' )
 
 cartesian_rolling <- function(ds_linear, x_name, y_name, stage_id_name,
-                              rolling_lower_name="RollingLower", rolling_center_name="RollingCenter", rolling_upper_name="RollingUpper",
+                              rolling_lower_name="rolling_lower", rolling_center_name="rolling_center", rolling_upper_name="rolling_upper",
                               palette_dark=NULL, palette_light=NULL, color_sparse=grDevices::adjustcolor("tan1", .5),
                               change_points=NULL, change_point_labels=NULL,
                               draw_jagged_line=TRUE, draw_rolling_line=TRUE, draw_rolling_band=TRUE, draw_sparse_line_and_points=TRUE,

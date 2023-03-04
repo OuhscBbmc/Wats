@@ -63,9 +63,9 @@ test_that("AnnotateDataWithMonthResolution-Median", {
     2, 3, 4, 5, 6), StartingPointInCycle = c(TRUE, FALSE, FALSE,
     FALSE, FALSE, FALSE), terminal_point_in_cycle = c(FALSE, FALSE,
     FALSE, FALSE, FALSE, FALSE), stage_progress = c(1, 1.5, 1.5,
-    1.5, 1.5, 1.5), RollingLower = c(NA_real_, NA_real_, NA_real_,
-    NA_real_, NA_real_, NA_real_), RollingCenter = c(NA_real_,
-    NA_real_, NA_real_, NA_real_, NA_real_, NA_real_), RollingUpper = c(NA_real_,
+    1.5, 1.5, 1.5), rolling_lower = c(NA_real_, NA_real_, NA_real_,
+    NA_real_, NA_real_, NA_real_), rolling_center = c(NA_real_,
+    NA_real_, NA_real_, NA_real_, NA_real_, NA_real_), rolling_upper = c(NA_real_,
     NA_real_, NA_real_, NA_real_, NA_real_, NA_real_)), row.names = c(NA,
     -6L), class = c("tbl_df", "tbl", "data.frame"))
 

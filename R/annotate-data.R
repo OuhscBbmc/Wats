@@ -60,12 +60,12 @@ annotate_data <- function( ds_linear,
   z <- zoo::zooreg(data=ds_linear[[dv_name]], frequency=points_in_cycle)
   rolling_bounds <- zoo::rollapply(data=z, width=points_in_cycle, FUN=spread_function)
 
-  ds_linear$RollingLower <- NA
-  ds_linear$RollingCenter <- NA
-  ds_linear$RollingUpper <- NA
-  ds_linear$RollingLower[-seq_len(points_in_cycle-1) ] <- rolling_bounds[, 1]
-  ds_linear$RollingCenter[-seq_len(points_in_cycle-1) ] <- zoo::rollapply(data=z, width=points_in_cycle, FUN=center_function)
-  ds_linear$RollingUpper[-seq_len(points_in_cycle-1) ] <- rolling_bounds[, 2]
+  ds_linear$rolling_lower <- NA
+  ds_linear$rolling_center <- NA
+  ds_linear$rolling_upper <- NA
+  ds_linear$rolling_lower[-seq_len(points_in_cycle-1) ] <- rolling_bounds[, 1]
+  ds_linear$rolling_center[-seq_len(points_in_cycle-1) ] <- zoo::rollapply(data=z, width=points_in_cycle, FUN=center_function)
+  ds_linear$rolling_upper[-seq_len(points_in_cycle-1) ] <- rolling_bounds[, 2]
 
   # summarizeStageCycle <- function( d ) {
   #   positionBounds <- spread_function(d[[dv_name]])
