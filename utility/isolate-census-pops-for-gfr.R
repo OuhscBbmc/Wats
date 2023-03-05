@@ -15,7 +15,7 @@ requireNamespace("readr"        )
 requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("testit"       )
 requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
-# requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
+# requireNamespace("OuhscMunge"   ) # remotes::install_github("OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
 input_dir_census_199x           <- "datasets/raw/census-199x"
@@ -231,28 +231,26 @@ rm(ds_county_year_199x, ds_county_year_2000)
 
 # ---- interpolate-within-year -------------------------------------------------
 create_next_year_pop_count <- function( d ) {
-  ceilingYear <- max(d$year)
-  nextYear <- d$year + 1L
-  nextPopCount <- d[match(nextYear, d$year), "fecund_population_count"]
-  dsOut <- data.frame(
+  ceiling_year <- max(d$year)
+  next_year <- d$year + 1L
+  next_pop_count <- d[match(next_year, d$year), "fecund_population_count"]
+  ds_out <- data.frame(
     year = d$year,
-    year_next = nextYear,
+    year_next = next_year,
     fecund_population_count = d$fecund_population_count,
-    FecundPopulationCountNext = nextPopCount
+    fecund_population_count_next = next_pop_count
   )
-  dsOut[dsOut$year < ceilingYear, ]
+  ds_out[ds_out$year < ceiling_year, ]
 }
 ds_next <- plyr::ddply(ds_county_year, .variables=c("fips", "county_name"), .fun=create_next_year_pop_count)
 
 interpolate_months <- function( d ) {
-  monthsPerYear <- 12L
-  months <- seq_len(monthsPerYear)
-  popInterpolated <- approx(x=c(d$year, d$year_next), y=c(d$fecund_population_count, d$FecundPopulationCountNext), n=monthsPerYear+1)
+  months_per_year <- 12L
+  months <- seq_len(months_per_year)
+  pop_interpolated <- approx(x=c(d$year, d$year_next), y=c(d$fecund_population_count, d$fecund_population_count_next), n=months_per_year+1)
   data.frame(
     month = months,
-    fecund_population = as.integer(popInterpolated$y[months])#,
-#     PopulationCount = d$PopulationCount,
-#     PopulationCountNext = d$PopulationCountNext
+    fecund_population = as.integer(pop_interpolated$y[months])
   )
 }
 ds_county_month <- plyr::ddply(ds_next, .variables=c("fips", "county_name", "year"), .fun=interpolate_months)

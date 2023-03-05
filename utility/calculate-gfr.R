@@ -18,15 +18,15 @@ requireNamespace("checkmate"    ) # For asserting conditions meet expected patte
 # requireNamespace("OuhscMunge"   ) # remotes::install_github(repo="OuhscBbmc/OuhscMunge")
 
 # ---- declare-globals ---------------------------------------------------------
-inputPathBirthCountCountyMonth          <- "datasets/raw/birth-count-county.csv"
-inputPathCensusCountyMonth              <- "datasets/derived/census-county-month.csv"
-outputPathBirthCountCountyMonthCsv2014  <- "datasets/derived/county-month-birth-rate-2014-version.csv"
-outputPathBirthCountCountyMonthCsv2005  <- "datasets/derived/county-month-birth-rate-2005-version.csv"
-outputPathBirthCountCountyMonthRda2014  <- "data/county_month_birth_rate_2014_version.rda"
-outputPathBirthCountCountyMonthRda2005  <- "data/county_month_birth_rate_2005_version.rda"
-change_month                            <- as.Date("1996-02-15")
+input_path_birth_count_county_month             <- "datasets/raw/birth-count-county.csv"
+input_path_census_county_month                  <- "datasets/derived/census-county-month.csv"
+output_path_birth_count_county_month_csv_2014   <- "datasets/derived/county-month-birth-rate-2014-version.csv"
+output_path_birth_count_county_month_csv_2005   <- "datasets/derived/county-month-birth-rate-2005-version.csv"
+output_path_birth_count_county_month_rda_2014   <- "data/county_month_birth_rate_2014_version.rda"
+output_path_birth_count_county_month_rda_2005   <- "data/county_month_birth_rate_2005_version.rda"
+change_month                                    <- as.Date("1996-02-15")
 
-# OuhscMunge::readr_spec_aligned(inputPathCensusCountyMonth)
+# OuhscMunge::readr_spec_aligned(input_path_census_county_month)
 col_types_census <-
   readr::cols_only(
     `fips`                = readr::col_character(),
@@ -36,7 +36,7 @@ col_types_census <-
     `fecund_population`   = readr::col_integer()
   )
 
-# OuhscMunge::readr_spec_aligned(inputPathBirthCountCountyMonth)
+# OuhscMunge::readr_spec_aligned(input_path_birth_count_county_month)
 
 col_types_birth_count <- readr::cols_only(
   `county_name`   = readr::col_character(),
@@ -45,8 +45,8 @@ col_types_birth_count <- readr::cols_only(
   `birth_count`   = readr::col_integer()
 )
 # ---- load-data ---------------------------------------------------------------
-ds_census       <- readr::read_csv(inputPathCensusCountyMonth, col_types = col_types_census)
-ds_birth_count  <- readr::read_csv(inputPathBirthCountCountyMonth, col_types = col_types_birth_count)
+ds_census       <- readr::read_csv(input_path_census_county_month     , col_types = col_types_census)
+ds_birth_count  <- readr::read_csv(input_path_birth_count_county_month, col_types = col_types_birth_count)
 
 # ---- tweak-data --------------------------------------------------------------
 # OuhscMunge::column_rename_headstart(ds_census) # Help write `dplyr::select()` call.
@@ -110,13 +110,12 @@ ds_county_month <-
 testit::assert("All left records should find a right record", all(ds_county_month$dummy))
 ds_county_month$dummy <- NULL
 
-rm(ds_census, ds_birth_count, inputPathCensusCountyMonth, inputPathBirthCountCountyMonth)
-
+rm(ds_census, ds_birth_count, input_path_census_county_month, input_path_birth_count_county_month)
 
 # ---- calculate-gfr -----------------------------------------------------------
 # Calculate GFR for the 2005 and the 2014 Versions
-ds_county_month_2014 <-  ds_county_month #This is what fertility researchers should use.
-ds_county_month_2005 <-  ds_county_month #This is better for 2014 article, and recreates the 2005 article.
+ds_county_month_2014 <-  ds_county_month # This is what fertility researchers should use.
+ds_county_month_2005 <-  ds_county_month # This is better for 2014 article, and recreates the 2005 article.
 
 #The 2014 version uses the interpolated
 ds_county_month_2014 <-
@@ -164,7 +163,7 @@ ds_county_month_2005 <-
 county_month_birth_rate_2014_version <- ds_county_month_2014
 county_month_birth_rate_2005_version <- ds_county_month_2005
 
-readr::write_csv(county_month_birth_rate_2014_version, outputPathBirthCountCountyMonthCsv2014)
-readr::write_csv(county_month_birth_rate_2005_version, outputPathBirthCountCountyMonthCsv2005)
-save(county_month_birth_rate_2014_version, file=outputPathBirthCountCountyMonthRda2014, compress="xz")
-save(county_month_birth_rate_2005_version, file=outputPathBirthCountCountyMonthRda2005, compress="xz")
+readr::write_csv(county_month_birth_rate_2014_version, file = output_path_birth_count_county_month_csv_2014)
+readr::write_csv(county_month_birth_rate_2005_version, file = output_path_birth_count_county_month_csv_2005)
+base::save(      county_month_birth_rate_2014_version, file = output_path_birth_count_county_month_rda_2014, compress="xz")
+base::save(      county_month_birth_rate_2005_version, file = output_path_birth_count_county_month_rda_2005, compress="xz")
