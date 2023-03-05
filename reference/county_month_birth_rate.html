@@ -42,7 +42,7 @@ for February through December of each year."><!-- mathjax --><script src="https:
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/MbrFigures.html">Figures for the MBR Manuscript</a>
+    <a class="dropdown-item" href="../articles/mbr-figures.html">Figures for the MBR Manuscript</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -83,7 +83,7 @@ for February through December of each year.</p>
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
     <p>A data frame with 1,440 observations on the following 11 variables.</p><dl><dt>fips</dt>
-<dd><p>The county's 5-digit value according to the <em>F</em>ederal <em>I</em>nformation <em>P</em>rocessing <em>S</em>tandards.  <code>integer</code></p></dd>
+<dd><p>The county's 5-digit value according to the Federal Information Processing Standards.  <code>integer</code></p></dd>
 
 <dt>county_name</dt>
 <dd><p>The lower case name of the county. <code>character</code></p></dd>
@@ -123,7 +123,7 @@ The monthly birth counts were copied from county records by Ronnie Coleman durin
 summer of 2001 from state vital statistics records.  It was collected
 for <a href="https://pubmed.ncbi.nlm.nih.gov/16463916/" class="external-link">Rodgers, St. John, &amp; Coleman (2005)</a>.</p>
 <p>The US Census' intercensal estimates are used for the January values of
-<code>fecund_popluation</code>.  Values for February-December are interpolated using
+<code>fecund_population</code>.  Values for February-December are interpolated using
 <code><a href="https://rdrr.io/r/stats/approxfun.html" class="external-link">approx()</a></code>.</p>
 <p>The datasets were manipulated to produce this data frame by the two R files
 <a href="https://github.com/OuhscBbmc/Wats/blob/main/utility/isolate-census-pops-for-gfr.R" class="external-link">isolate-census-pops-for-gfr.R</a>
@@ -136,7 +136,7 @@ and <a href="https://github.com/OuhscBbmc/Wats/blob/main/utility/calculate-gfr.R
 <em>Demography, 42</em>, 675-692.</p>
 <p><a href="https://www.census.gov/data/tables/time-series/demo/popest/intercensal-1990-2000-state-and-county-totals.html" class="external-link">Intercensal estimates for 199x</a></p>
 <p><a href="https://www.census.gov/data/datasets/time-series/demo/popest/intercensal-2000-2010-counties.html" class="external-link">Intercensal estimates for 200x</a></p><ul><li><p><a href="https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html" class="external-link">US Census Intercensal Estimates</a>
-for <a href="199x">199x</a>
+for <a href="https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/1990-2000-intercensal.html" class="external-link">199x</a>
 and <a href="https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/2000-2010-intercensal.html" class="external-link">200x</a>.</p></li>
 </ul></div>
     <div class="section level2">

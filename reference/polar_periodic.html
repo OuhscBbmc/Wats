@@ -24,7 +24,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/MbrFigures.html">Figures for the MBR Manuscript</a>
+    <a class="dropdown-item" href="../articles/mbr-figures.html">Figures for the MBR Manuscript</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -60,8 +60,8 @@
 <span>  <span class="va">x_name</span>,</span>
 <span>  <span class="va">y_name</span>,</span>
 <span>  <span class="va">stage_id_name</span>,</span>
-<span>  periodic_lower_name <span class="op">=</span> <span class="st">"PositionLower"</span>,</span>
-<span>  periodic_upper_name <span class="op">=</span> <span class="st">"PositionUpper"</span>,</span>
+<span>  periodic_lower_name <span class="op">=</span> <span class="st">"position_lower"</span>,</span>
+<span>  periodic_upper_name <span class="op">=</span> <span class="st">"position_upper"</span>,</span>
 <span>  palette_dark <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  palette_light <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  change_points <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -226,12 +226,12 @@
 <span class="r-in"><span><span class="va">ds_linear</span> <span class="op">&lt;-</span> <span class="va">ds_linear</span><span class="op">[</span><span class="va">ds_linear</span><span class="op">$</span><span class="va">county_name</span><span class="op">==</span><span class="st">"oklahoma"</span>, <span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">ds_linear</span> <span class="op">&lt;-</span> <span class="fu"><a href="augment_cycle_data.html">augment_year_data_with_month_resolution</a></span><span class="op">(</span>ds_linear<span class="op">=</span><span class="va">ds_linear</span>, date_name<span class="op">=</span><span class="st">"date"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">hSpread</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span> <span class="va">scores</span> <span class="op">)</span> <span class="op">{</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">scores</span>, probs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="fl">.75</span><span class="op">)</span><span class="op">)</span> <span class="op">)</span> <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="va">h_spread</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span> <span class="va">scores</span> <span class="op">)</span> <span class="op">{</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">scores</span>, probs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="fl">.75</span><span class="op">)</span><span class="op">)</span> <span class="op">)</span> <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="va">portfolio</span> <span class="op">&lt;-</span> <span class="fu"><a href="annotate_data.html">annotate_data</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  ds_linear <span class="op">=</span> <span class="va">ds_linear</span>,</span></span>
 <span class="r-in"><span>  dv_name <span class="op">=</span> <span class="st">"birth_rate"</span>,</span></span>
 <span class="r-in"><span>  center_function <span class="op">=</span> <span class="va">median</span>,</span></span>
-<span class="r-in"><span>  spread_function <span class="op">=</span> <span class="va">hSpread</span></span></span>
+<span class="r-in"><span>  spread_function <span class="op">=</span> <span class="va">h_spread</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">ds_linear</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -244,9 +244,9 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">polar_periodic</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  ds_linear <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">dsObservedPolar</span>,</span></span>
+<span class="r-in"><span>  ds_linear <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_observed_polar</span>,</span></span>
 <span class="r-in"><span>  ds_stage_cycle_polar <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_stage_cycle_polar</span>,</span></span>
-<span class="r-in"><span>  y_name <span class="op">=</span> <span class="st">"Radius"</span>,</span></span>
+<span class="r-in"><span>  y_name <span class="op">=</span> <span class="st">"radius"</span>,</span></span>
 <span class="r-in"><span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>,</span></span>
 <span class="r-in"><span>  cardinal_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
@@ -254,9 +254,9 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">polar_periodic</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  ds_linear <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">dsObservedPolar</span>,</span></span>
+<span class="r-in"><span>  ds_linear <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_observed_polar</span>,</span></span>
 <span class="r-in"><span>  ds_stage_cycle_polar <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_stage_cycle_polar</span>,</span></span>
-<span class="r-in"><span>  y_name <span class="op">=</span> <span class="st">"Radius"</span>,</span></span>
+<span class="r-in"><span>  y_name <span class="op">=</span> <span class="st">"radius"</span>,</span></span>
 <span class="r-in"><span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>,</span></span>
 <span class="r-in"><span>  draw_periodic_band <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
@@ -264,9 +264,9 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">polar_periodic</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  ds_linear <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">dsObservedPolar</span>,</span></span>
+<span class="r-in"><span>  ds_linear <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_observed_polar</span>,</span></span>
 <span class="r-in"><span>  ds_stage_cycle_polar <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_stage_cycle_polar</span>,</span></span>
-<span class="r-in"><span>  y_name <span class="op">=</span> <span class="st">"Radius"</span>,</span></span>
+<span class="r-in"><span>  y_name <span class="op">=</span> <span class="st">"radius"</span>,</span></span>
 <span class="r-in"><span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>,</span></span>
 <span class="r-in"><span>  draw_observed_line <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>  cardinal_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span></span></span>
