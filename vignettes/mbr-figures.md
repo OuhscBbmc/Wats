@@ -25,7 +25,7 @@ First, some R packages are loaded, and some variables and functions are defined.
 
 
 ```r
-changeMonth <- base::as.Date("1996-02-15") #as.Date("1995-04-19") + lubridate::weeks(39) = "1996-01-17"
+change_month <- base::as.Date("1996-02-15") #as.Date("1995-04-19") + lubridate::weeks(39) = "1996-01-17"
 set.seed(444) # So bootstrap won't trigger a git diff
 
 vpLayout <- function(x, y) {
@@ -108,7 +108,7 @@ cartesian_rolling(
   x_name = "date",
   y_name = "birth_rate",
   stage_id_name = "stage_id",
-  change_points = changeMonth,
+  change_points = change_month,
   change_point_labels = "Bombing Effect"
 )
 ```
@@ -124,7 +124,7 @@ topPanel <- Wats::cartesian_rolling(
   x_name = "date",
   y_name = "birth_rate",
   stage_id_name = "stage_id",
-  change_points = changeMonth,
+  change_points = change_month,
   y_title = "General Fertility Rate",
   change_point_labels = "Bombing Effect",
   draw_rolling_band = FALSE,
@@ -136,7 +136,7 @@ middlePanel <- Wats::cartesian_rolling(
   x_name = "date",
   y_name = "birth_rate",
   stage_id_name = "stage_id",
-  change_points = changeMonth,
+  change_points = change_month,
   y_title = "General Fertility Rate",
   change_point_labels = "",
   draw_rolling_band = FALSE,
@@ -148,7 +148,7 @@ bottomPanel <- Wats::cartesian_rolling(
   x_name = "date",
   y_name = "birth_rate",
   stage_id_name = "stage_id",
-  change_points = changeMonth,
+  change_points = change_month,
   y_title = "General Fertility Rate",
   change_point_labels = "",
 #   draw_rolling_band = FALSE,
@@ -180,7 +180,7 @@ cartesian_periodic <- Wats::cartesian_periodic(
   x_name = "date",
   y_name = "birth_rate",
   stage_id_name = "stage_id",
-  change_points = changeMonth,
+  change_points = change_month,
   change_point_labels = "Bombing Effect",
   y_title = "General Fertility Rate",
   draw_periodic_band = TRUE #The only difference from the simple linear graph above
@@ -316,12 +316,12 @@ dsLinearAll |>
 ```
 
 ```r
-GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spread_function=h_spread, changeMonth=as.Date("1996-02-15") ) {
+GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spread_function=h_spread, change_month=as.Date("1996-02-15") ) {
   ds_linear <- dsLinearAll[dsLinearAll$county_name==countyName, ]
   ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
   portfolioCartesian <- Wats::annotate_data(ds_linear, dv_name="birth_rate", center_function=stats::median, spread_function=spread_function)
   portfolioPolar <- Wats::polarize_cartesian(ds_linear=portfolioCartesian$ds_linear, ds_stage_cycle=portfolioCartesian$ds_stage_cycle, y_name="birth_rate", stage_id_name="stage_id", plotted_point_count_per_cycle=7200)
-  cartesian_periodic <- Wats::cartesian_periodic(portfolioCartesian$ds_linear, portfolioCartesian$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points=changeMonth, change_point_labels=""  )
+  cartesian_periodic <- Wats::cartesian_periodic(portfolioCartesian$ds_linear, portfolioCartesian$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points=change_month, change_point_labels=""  )
 
   grid::pushViewport(grid::viewport(
     layout=grid::grid.layout(nrow=1, ncol=3, respect=FALSE, widths=grid::unit(c(1.5,1,3), c("line", "null", "null"))),

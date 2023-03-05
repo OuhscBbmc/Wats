@@ -42,7 +42,7 @@ if( base::Sys.info()["sysname"] == "Windows" )
 ```
 
 ```{r Definitions}
-changeMonth <- base::as.Date("1996-02-15") #as.Date("1995-04-19") + lubridate::weeks(39) = "1996-01-17"
+change_month <- base::as.Date("1996-02-15") #as.Date("1995-04-19") + lubridate::weeks(39) = "1996-01-17"
 
 vpLayout <- function(x, y) { grid::viewport(layout.pos.row=x, layout.pos.col=y) }
 
@@ -109,7 +109,7 @@ topPanel <- Wats::cartesian_rolling(
   x_name = "date",
   y_name = "birth_rate",
   stage_id_name = "stage_id",
-  change_points = changeMonth,
+  change_points = change_month,
   y_title = "General Fertility Rate",
   change_point_labels = "Bombing Effect",
   draw_rolling_band = FALSE,
@@ -121,7 +121,7 @@ middlePanel <- cartesian_rolling(
   x_name = "date",
   y_name = "birth_rate",
   stage_id_name = "stage_id",
-  change_points = changeMonth,
+  change_points = change_month,
   y_title = "General Fertility Rate",
   change_point_labels = "",
   draw_rolling_band = FALSE,
@@ -133,7 +133,7 @@ bottomPanel <- Wats::cartesian_rolling(
   x_name = "date",
   y_name = "birth_rate",
   stage_id_name = "stage_id",
-  change_points = changeMonth,
+  change_points = change_month,
   y_title = "General Fertility Rate",
   change_point_labels = "",
   draw_jagged_line = FALSE
@@ -163,7 +163,7 @@ cartesian_periodic <- Wats::cartesian_periodic(
   x_name = "date",
   y_name = "birth_rate",
   stage_id_name = "stage_id",
-  change_points = changeMonth,
+  change_points = change_month,
   change_point_labels = "Bombing Effect",
   y_title = "General Fertility Rate",
   draw_periodic_band = TRUE #The only difference from the simple linear graph above

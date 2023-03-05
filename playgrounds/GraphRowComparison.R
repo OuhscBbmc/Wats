@@ -30,12 +30,12 @@ lightTheme <- ggplot2::theme(
   plot.margin        =grid::unit(c(0, 0, 0, 0), "cm")
 )
 
-GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spread_function=h_spread, changeMonth=as.Date("1996-02-15") ) {
+GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spread_function=h_spread, change_month=as.Date("1996-02-15") ) {
   ds_linear <- county_month_birth_rate_2005_version[county_month_birth_rate_2005_version$county_name==countyName, ]
   ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
   portfolioCartesian <- annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=spread_function)
   portfolioPolar <- polarize_cartesian(ds_linear=portfolioCartesian$ds_linear, ds_stage_cycle=portfolioCartesian$ds_stage_cycle, y_name="birth_rate", stage_id_name="stage_id", plotted_point_count_per_cycle=7200)
-  cartesian_periodic <- cartesian_periodic(portfolioCartesian$ds_linear, portfolioCartesian$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points=changeMonth, change_point_labels=""  )
+  cartesian_periodic <- cartesian_periodic(portfolioCartesian$ds_linear, portfolioCartesian$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points=change_month, change_point_labels=""  )
 
   pushViewport(viewport(
     layout=grid.layout(nrow=1, ncol=3, respect=FALSE, widths=unit(c(2,1,3), c("line", "null", "null"))),

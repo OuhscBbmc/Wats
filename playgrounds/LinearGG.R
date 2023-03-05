@@ -16,7 +16,7 @@ day(ds$Date) <- 15
 
 dateBombing <- as.Date("1995-04-19")
 changePoint <- 74 #The 74th month is Feb 1996
-changeMonth <- as.Date("1996-02-15") # as.Date(dateBombing + weeks(40))
+change_month <- as.Date("1996-02-15") # as.Date(dateBombing + weeks(40))
 fullFebruaryCount <- 9 #The number of Februaries with a full preceeding 12 month period.
 
 monthsPerYear <- 12
@@ -82,8 +82,8 @@ p <- p + geom_point(shape=1)
 p <- p + geom_line(size=1)
 p <- p + geom_line(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling), size=2)
 p <- p + scale_color_continuous(low=colorBefore, high=colorAfter, guide=FALSE)
-p <- p + geom_vline(xintercept=as.integer(changeMonth), color=colorAfter)
-p <- p + annotate("text", x=changeMonth, y=max(ds$birth_rate), color=colorAfter, label="Bombing Effect")
+p <- p + geom_vline(xintercept=as.integer(change_month), color=colorAfter)
+p <- p + annotate("text", x=change_month, y=max(ds$birth_rate), color=colorAfter, label="Bombing Effect")
 p <- p + theme_minimal()
 p <- p + labs(x="", y="General Fertility Rate")
 p
@@ -104,7 +104,7 @@ dsLabelsX <- data.frame(
 )
 dsLabelsX$Label <- lubridate::year(dsLabelsX$X)
 
-dsBreak <- data.frame(X=changeMonth, XEnd=changeMonth, Y=5, YEnd=6.8, Label="Bombing Effect")
+dsBreak <- data.frame(X=change_month, XEnd=change_month, Y=5, YEnd=6.8, Label="Bombing Effect")
 
 LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showYears=TRUE, labelBreak=TRUE ) {
   g <- ggplot(ds, aes(x=Date, y=birth_rate, color=stage_id))#

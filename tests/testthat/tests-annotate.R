@@ -3,7 +3,7 @@ library(testthat)
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt") #This approach accounts for working on developmental box.
 # filePathOutcomes <- file.path(devtools::inst(name="Wats"), "extdata", "BirthRatesOk.txt") #This approach accounts for working on developmental box.
 
-test_that("AnnotateDataWithMonthResolution-Median", {
+test_that("Annotate Data With Month Resolution-Median", {
   ds_linear <- county_month_birth_rate_2005_version
   ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
   ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
@@ -17,7 +17,7 @@ test_that("AnnotateDataWithMonthResolution-Median", {
   #   head(portfolio$ds_linear); dput(head(portfolio$ds_linear))
   #   head(portfolio$ds_periodic); dput(head(portfolio$ds_periodic))
 
-  expectedStageCycle <-
+  expected_stage_cycle <-
     structure(list(stage_id = c(1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L, 1L,
     1L, 1L, 1L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L, 2L),
     proportion_id = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1,
@@ -45,7 +45,7 @@ test_that("AnnotateDataWithMonthResolution-Median", {
     `75%` = 76.5675, `75%` = 72.33, `75%` = 76.55)), class = c("tbl_df",
     "tbl", "data.frame"), row.names = c(NA, -24L))
 
-  expectedLinearHead <-
+  expected_linear_head <-
     structure(list(fips = c("40109", "40109", "40109", "40109", "40109",
     "40109"), county_name = c("oklahoma", "oklahoma", "oklahoma",
     "oklahoma", "oklahoma", "oklahoma"), year = c(1990L, 1990L, 1990L,
@@ -69,7 +69,7 @@ test_that("AnnotateDataWithMonthResolution-Median", {
     NA_real_, NA_real_, NA_real_, NA_real_, NA_real_)), row.names = c(NA,
     -6L), class = c("tbl_df", "tbl", "data.frame"))
 
-  expectedPeriodicHead <-
+  expected_periodic_head <-
     structure(list(date = structure(c(7319, 7319, 7350, 7350, 7378,
     7378), class = "Date"), stage_id_time = c(1L, 1L, 1L, 1L, 1L, 1L
     ), proportion_id = c(1, 1, 2, 2, 3, 3), stage_progress = c(1, 1,
@@ -87,10 +87,10 @@ test_that("AnnotateDataWithMonthResolution-Median", {
   expect_equal(dim(portfolio$ds_linear), expected=c(120, 21), label="The dimensions of ds_linear should be correct.")
   expect_equal(dim(portfolio$ds_periodic), expected=c(240, 9), label="The dimensions of ds_periodic should be correct.")
 
-  expect_equal(portfolio$ds_stage_cycle, expected=expectedStageCycle, ignore_attr = TRUE)
-  expect_equal(head(portfolio$ds_linear), expected=expectedLinearHead, ignore_attr = TRUE)
-  #expect_equal(head(portfolio$ds_periodic), expected=expectedPeriodicHead, ignore_attr = TRUE)
+  expect_equal(portfolio$ds_stage_cycle, expected=expected_stage_cycle, ignore_attr = TRUE)
+  expect_equal(head(portfolio$ds_linear), expected=expected_linear_head, ignore_attr = TRUE)
+  expect_equal(head(portfolio$ds_periodic), expected=expected_periodic_head, ignore_attr = TRUE)
   portfolio$ds_periodic |>
     head() |>
-    expect_equal(expected=expectedPeriodicHead, ignore_attr = TRUE)
+    expect_equal(expected=expected_periodic_head, ignore_attr = TRUE)
 })

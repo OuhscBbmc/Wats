@@ -105,7 +105,7 @@ hr { border: 1px #ddd dashed; }
 <h2>Figure 2: Cartesian Rolling - 2014 Version</h2>
 <p>Smoothed monthly birth rates (General Fertility Rates; GFRs) for Oklahoma County, 1990-1999, plotted in a linear plot.  The top plot shows the connected raw data with a February smoother; the middle plot shows smoothing with a 12-month moving average, blue/green line, superimposed on a February smoother, red line); the bottom plot shows the smoothers and confidence bands, which are H-spreads defined using the distribution of GFR’s for the given month and 11 previous months.</p>
 <p>First, some R packages are loaded, and some variables and functions are defined.</p>
-<pre><code class="language-r">changeMonth &lt;- base::as.Date(&quot;1996-02-15&quot;) #as.Date(&quot;1995-04-19&quot;) + lubridate::weeks(39) = &quot;1996-01-17&quot;
+<pre><code class="language-r">change_month &lt;- base::as.Date(&quot;1996-02-15&quot;) #as.Date(&quot;1995-04-19&quot;) + lubridate::weeks(39) = &quot;1996-01-17&quot;
 set.seed(444) # So bootstrap won't trigger a git diff
 
 vpLayout &lt;- function(x, y) {
@@ -184,7 +184,7 @@ cartesian_rolling(
   x_name = &quot;date&quot;,
   y_name = &quot;birth_rate&quot;,
   stage_id_name = &quot;stage_id&quot;,
-  change_points = changeMonth,
+  change_points = change_month,
   change_point_labels = &quot;Bombing Effect&quot;
 )
 </code></pre>
@@ -195,7 +195,7 @@ cartesian_rolling(
   x_name = &quot;date&quot;,
   y_name = &quot;birth_rate&quot;,
   stage_id_name = &quot;stage_id&quot;,
-  change_points = changeMonth,
+  change_points = change_month,
   y_title = &quot;General Fertility Rate&quot;,
   change_point_labels = &quot;Bombing Effect&quot;,
   draw_rolling_band = FALSE,
@@ -207,7 +207,7 @@ middlePanel &lt;- Wats::cartesian_rolling(
   x_name = &quot;date&quot;,
   y_name = &quot;birth_rate&quot;,
   stage_id_name = &quot;stage_id&quot;,
-  change_points = changeMonth,
+  change_points = change_month,
   y_title = &quot;General Fertility Rate&quot;,
   change_point_labels = &quot;&quot;,
   draw_rolling_band = FALSE,
@@ -219,7 +219,7 @@ bottomPanel &lt;- Wats::cartesian_rolling(
   x_name = &quot;date&quot;,
   y_name = &quot;birth_rate&quot;,
   stage_id_name = &quot;stage_id&quot;,
-  change_points = changeMonth,
+  change_points = change_month,
   y_title = &quot;General Fertility Rate&quot;,
   change_point_labels = &quot;&quot;,
 #   draw_rolling_band = FALSE,
@@ -246,7 +246,7 @@ grid::popViewport()
   x_name = &quot;date&quot;,
   y_name = &quot;birth_rate&quot;,
   stage_id_name = &quot;stage_id&quot;,
-  change_points = changeMonth,
+  change_points = change_month,
   change_point_labels = &quot;Bombing Effect&quot;,
   y_title = &quot;General Fertility Rate&quot;,
   draw_periodic_band = TRUE #The only difference from the simple linear graph above
@@ -360,12 +360,12 @@ dsLinearAll |&gt;
 11 tulsa        123783.
 12 wagoner       11580.
 </code></pre>
-<pre><code class="language-r">GraphRowComparison &lt;- function( rowLabel=&quot;&quot;, countyName=&quot;oklahoma&quot;, spread_function=h_spread, changeMonth=as.Date(&quot;1996-02-15&quot;) ) {
+<pre><code class="language-r">GraphRowComparison &lt;- function( rowLabel=&quot;&quot;, countyName=&quot;oklahoma&quot;, spread_function=h_spread, change_month=as.Date(&quot;1996-02-15&quot;) ) {
   ds_linear &lt;- dsLinearAll[dsLinearAll$county_name==countyName, ]
   ds_linear &lt;- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name=&quot;date&quot;)
   portfolioCartesian &lt;- Wats::annotate_data(ds_linear, dv_name=&quot;birth_rate&quot;, center_function=stats::median, spread_function=spread_function)
   portfolioPolar &lt;- Wats::polarize_cartesian(ds_linear=portfolioCartesian$ds_linear, ds_stage_cycle=portfolioCartesian$ds_stage_cycle, y_name=&quot;birth_rate&quot;, stage_id_name=&quot;stage_id&quot;, plotted_point_count_per_cycle=7200)
-  cartesian_periodic &lt;- Wats::cartesian_periodic(portfolioCartesian$ds_linear, portfolioCartesian$ds_periodic, x_name=&quot;date&quot;, y_name=&quot;birth_rate&quot;, stage_id_name=&quot;stage_id&quot;, change_points=changeMonth, change_point_labels=&quot;&quot;  )
+  cartesian_periodic &lt;- Wats::cartesian_periodic(portfolioCartesian$ds_linear, portfolioCartesian$ds_periodic, x_name=&quot;date&quot;, y_name=&quot;birth_rate&quot;, stage_id_name=&quot;stage_id&quot;, change_points=change_month, change_point_labels=&quot;&quot;  )
 
   grid::pushViewport(grid::viewport(
     layout=grid::grid.layout(nrow=1, ncol=3, respect=FALSE, widths=grid::unit(c(1.5,1,3), c(&quot;line&quot;, &quot;null&quot;, &quot;null&quot;))),
