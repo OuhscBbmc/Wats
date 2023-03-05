@@ -20,7 +20,7 @@ pathInstallPackages <- "utility/install-packages.R"
 if( !file.exists(pathInstallPackages)) {
   base::stop("The file `", pathInstallPackages, "` was not found.  Make sure the working directory is set to the root of the repository.")
 }
-base::source(pathInstallPackages, local=new.env())
+# base::source(pathInstallPackages, local=new.env())
 
 base::rm(pathInstallPackages)
 ###################################
@@ -34,22 +34,22 @@ base::library(testit)
 # Declare the paths of the necessary files.
 
 # The raw/input data files:
-pathCensus199x <- base::paste0("datasets/CensusIntercensal/STCH-icen199", 0:9, ".txt")
-pathCensus200x <- "datasets/CensusIntercensal/CO-EST00INT-AGESEX-5YR.csv"
-pathCountyFips <- "datasets/CountyFipsCode.csv"
+pathCensus199x <- base::paste0("datasets/raw/census-199x/STCH-icen199", 0:9, ".txt")
+pathCensus200x <- "datasets/raw/census-200x/CO-EST00INT-AGESEX-5YR.csv"
+pathCountyFips <- "datasets/raw/county-fips.csv"
 
 # The derived/intermediate data files (which are produced by the repository's code files):
-pathCensusYearly <- "datasets/CensusIntercensal/CensusCountyYear.csv"
-pathCensusMonthly <- "datasets/CensusIntercensal/CensusCountyMonth.csv"
-pathDataForAnalaysis2005 <- "datasets/county_month_birth_rate_2005_version.csv"
-pathDataForAnalaysis2014 <- "datasets/county_month_birth_rate_2014_version.csv"
+pathCensusYearly <- "datasets/derived/census-county-year.csv"
+pathCensusMonthly <- "datasets/derived/census-county-month.csv"
+pathDataForAnalaysis2005 <- "datasets/derived/county-month-birth-rate-2005-version.csv"
+pathDataForAnalaysis2014 <- "datasets/derived/county-month-birth-rate-2014-version.csv"
 
 # Code Files:
-pathManipulateCensus <- "./utility/isolate-census-pops-for-gfr.R"
-pathCalculateGfr <- "./utility/calculate-gfr.R"
+pathManipulateCensus <- "utility/isolate-census-pops-for-gfr.R"
+pathCalculateGfr <- "utility/calculate-gfr.R"
 
 #Report Files:
-pathsReports <- base::file.path("./vignettes", c("MbrFigures.Rmd", "OkFertilityWithIntercensalEstimates.Rmd"))
+pathsReports <- base::file.path("./vignettes", c("mbr-figures.Rmd"))#, "OkFertilityWithIntercensalEstimates.Rmd"))
 
 ###################################
 # Verify the necessary path can be found.

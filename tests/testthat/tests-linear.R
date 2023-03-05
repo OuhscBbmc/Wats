@@ -1,9 +1,9 @@
 # library(testthat)
 #
-# ds_linear <- read.table(file="./inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=FALSE)
+# ds_linear <- read.table(file="inst/extdata/BirthRatesOk.txt", header=TRUE, sep="\t", stringsAsFactors=FALSE)
 # ds_linear$date <- as.Date(ds_linear$date)
-# changeMonth <- as.Date("1996-02-15") # as.Date(dateBombing + weeks(40))
-# ds_linear$stage_id <- ifelse(ds_linear$date < changeMonth, 1L, 2L)
+# change_month <- as.Date("1996-02-15") # as.Date(dateBombing + weeks(40))
+# ds_linear$stage_id <- ifelse(ds_linear$date < change_month, 1L, 2L)
 #
 # test_that("Smoke Test", {
 # #   Wats::LinearPlot(dsPlot=ds_linear, x_name="date", y_name="birth_rate", idName="stage_id")

@@ -9,12 +9,12 @@ annotate_data(
   dv_name,
   center_function,
   spread_function,
-  cycle_tally_name = "CycleTally",
+  cycle_tally_name = "cycle_tally",
   stage_id_name = "stage_id",
-  stage_progress_name = "StageProgress",
-  proportion_through_cycle_name = "ProportionThroughCycle",
-  proportion_id_name = "ProportionID",
-  terminal_point_in_cycle_name = "TerminalPointInCycle"
+  stage_progress_name = "stage_progress",
+  proportion_through_cycle_name = "proportion_through_cycle",
+  proportion_id_name = "proportion_id",
+  terminal_point_in_cycle_name = "terminal_point_in_cycle"
 )
 }
 \arguments{
@@ -28,21 +28,29 @@ annotate_data(
 
 \item{cycle_tally_name}{The variable name indicating how many cycles have been completed.}
 
-\item{stage_id_name}{The variable name indicating the stage. In a typical interrupted time series, these values are \code{1} before the interruption and \code{2} after.}
+\item{stage_id_name}{The variable name indicating the stage.
+In a typical interrupted time series, these values are
+\code{1} before the interruption and \code{2} after.}
 
-\item{stage_progress_name}{The variable name indicating the stage in a decimal form.  This is mostly for internal uses.}
+\item{stage_progress_name}{The variable name indicating the stage in a decimal form.
+This is mostly for internal uses.}
 
-\item{proportion_through_cycle_name}{The variable name indicating how far the point is through a cycle.  For example, 0 degrees would be \code{0}, 180 degrees would be \code{0.5}, 359 degrees would be \code{0.9972}, and 360 degrees would be \code{0}.}
+\item{proportion_through_cycle_name}{The variable name indicating how far the point
+is through a cycle.  For example, 0 degrees would be \code{0},
+180 degrees would be \code{0.5}, 359 degrees would be \code{0.9972}, and
+360 degrees would be \code{0}.}
 
 \item{proportion_id_name}{The variable name indicating the ordinal position through a cycle.}
 
-\item{terminal_point_in_cycle_name}{The variable name indicating the last point within a given cycle.}
+\item{terminal_point_in_cycle_name}{The variable name indicating the last point
+within a given cycle.}
 }
 \value{
-Returns a \code{data.frame} with additional variables <\if{html}{\out{<Say what they are>}}>.
+Returns a \code{data.frame} with additional variables.  TODO: say what the variables are.
 }
 \description{
-Finds midpoints and bands for the within and between cycles.  This the second of two functions
+Finds midpoints and bands for the within and between cycles.
+This the second of two functions
 that needs to be called to produce WATS Plots.  \code{AugmentZZZ} is the first.
 }
 \examples{
@@ -51,12 +59,12 @@ ds_linear <- county_month_birth_rate_2005_version
 ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
 ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 
-hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- annotate_data(
   ds_linear = ds_linear,
   dv_name = "birth_rate",
   center_function = median,
-  spread_function = hSpread
+  spread_function = h_spread
 )
 
 head(portfolio$ds_stage_cycle)

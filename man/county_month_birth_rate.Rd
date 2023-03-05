@@ -9,7 +9,7 @@
 \format{
 A data frame with 1,440 observations on the following 11 variables.
 \describe{
-\item{fips}{The county's 5-digit value according to the \emph{F}ederal \emph{I}nformation \emph{P}rocessing \emph{S}tandards.  \code{integer}}
+\item{fips}{The county's 5-digit value according to the Federal Information Processing Standards.  \code{integer}}
 \item{county_name}{The lower case name of the county. \code{character}}
 \item{year}{The year of the record, ranging from 1990 to 1999. \code{integer}}
 \item{month}{The month of the record, ranging from 1 to 12. \code{integer}}
@@ -44,7 +44,7 @@ summer of 2001 from state vital statistics records.  It was collected
 for \href{https://pubmed.ncbi.nlm.nih.gov/16463916/}{Rodgers, St. John, & Coleman (2005)}.
 
 The US Census' intercensal estimates are used for the January values of
-\code{fecund_popluation}.  Values for February-December are interpolated using
+\code{fecund_population}.  Values for February-December are interpolated using
 \code{\link[=approx]{approx()}}.
 
 The datasets were manipulated to produce this data frame by the two R files
@@ -85,7 +85,7 @@ Rodgers, J. L., St. John, C. A. & Coleman R. (2005).
 \href{https://www.census.gov/data/datasets/time-series/demo/popest/intercensal-2000-2010-counties.html}{Intercensal estimates for 200x}
 \itemize{
 \item \href{https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html}{US Census Intercensal Estimates}
-for \url{199x}
+for \href{https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/1990-2000-intercensal.html}{199x}
 and \href{https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/2000-2010-intercensal.html}{200x}.
 }
 }

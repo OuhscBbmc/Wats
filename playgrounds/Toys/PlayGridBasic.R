@@ -11,7 +11,7 @@ grid.newpage()
 # pushViewport(viewport(layout.pos.col=1, layout.pos.row=1))
 # #line 177 "customgrid.Rnw"
 #pushViewport(plotViewport(c(2, 2, 2, 2)))
-# #pushViewport(dataViewport(xData=x, yData=y, name="plotRegion"))
+# #pushViewport(dataViewport(xData=x, yData=y, name="plot_region"))
 #
 
 
@@ -35,7 +35,7 @@ y <- 0.5 + 0.3*sin(angle)
 # x <- seq(0.1, 0.9, length=50)
 # y <- runif(length(x), 0.1, 0.9)
 
-dv <- dataViewport(xData=x, yData=y, name="plotRegion")
+dv <- dataViewport(xData=x, yData=y, name="plot_region")
 pushViewport(dv)
 #pushViewport(viewport())
 # grid.rect()

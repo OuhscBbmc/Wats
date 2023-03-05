@@ -42,7 +42,7 @@ ds_linear$Horizontal <- ds_linear$CycleID + (ds_linear$MonthIndex-1)/12
 #totalPositionCount <- range(ds_linear$Date)[2]-range(ds_linear$Date)[1]
 #cycleCount <- monthCount / ticksPerCycle
 stageIDs <- 1:2
-stageCount <- length(stageIDs)
+stage_count <- length(stageIDs)
 stageBreaks <- as.POSIXct(c(startDate, changeDate, max(ds_linear$Date)+1))
 ds_linear$stage_id <- as.numeric(cut.POSIXt(as.POSIXct(ds_linear$Date), breaks=stageBreaks, labels=c("Pre", "Post")))
 ### Only manipulations specific the sample above this line;
@@ -52,14 +52,14 @@ upperQuantile <- .75
 
 ddply(.data=ds_linear, .variables=.(MonthIndex, stage_id), .fun=nrow)
 ds <- ds_linear[ , c("CycleID", "stage_id", "Angle", "AngleTotal")]
-ds$Radius <- ds_linear$birth_rate
+ds$radius <- ds_linear$birth_rate
 ds$AngleBin <- ds_linear$MonthIndex
 #rm(ds_linear)
 
-Bands <- function( Radius, ...) {
-  return( c(Lower=as.numeric(quantile(Radius, lowerQuantile)), Upper=as.numeric(quantile(Radius, upperQuantile))) )
+Bands <- function( radius, ...) {
+  return( c(Lower=as.numeric(quantile(radius, lowerQuantile)), Upper=as.numeric(quantile(radius, upperQuantile))) )
 }
-dsBands <- ddply(.data=ds[, c("AngleBin", "stage_id", "Radius")], .variables=.(AngleBin, stage_id), .fun=splat(Bands))
+dsBands <- ddply(.data=ds[, c("AngleBin", "stage_id", "radius")], .variables=.(AngleBin, stage_id), .fun=splat(Bands))
 dsBands$Angle <- NA
 for( binIndex in sort(unique(dsBands$AngleBin)) ) {
   meanAngle <- mean(ds[ds$AngleBin==binIndex, "Angle"], na.rm=T)
@@ -68,11 +68,11 @@ for( binIndex in sort(unique(dsBands$AngleBin)) ) {
 dsExtra <- dsBands[1:2, ]
 #dsExtra$AngleBin <- max(dsBands$AngleBin)+1
 dsExtra$AngleBin <- max(dsBands$AngleBin)
-dsExtra$Angle <- dsBands[1:stageCount, "Angle"] + 2*pi
+dsExtra$Angle <- dsBands[1:stage_count, "Angle"] + 2*pi
 dsBands <- rbind(dsBands, dsExtra)
 
-# dsBands[1:stageCount, "AngleBin"] <- max(dsBands$AngleBin)+1
-# dsBands[1:stageCount, "Angle"] <- dsBands[1:stageCount, "Angle"] + 2*pi
+# dsBands[1:stage_count, "AngleBin"] <- max(dsBands$AngleBin)+1
+# dsBands[1:stage_count, "Angle"] <- dsBands[1:stage_count, "Angle"] + 2*pi
 # dsBands[25:26, "AngleBin"] <- 12
 # dsBands[25:26, "Angle"] <- dsBands[1:2, "Angle"] + 2*pi
 
@@ -108,7 +108,7 @@ interpolationPointsPerCycle <- 12*100
 totalCycles <- max(ds$CycleID, na.rm=T) - min(ds$CycleID, na.rm=T) + 1
 interpolationPointsTotal <- interpolationPointsPerCycle*totalCycles
 
-interpolatedLine <- approx(x=ds$AngleTotal, y=ds$Radius, n=interpolationPointsTotal)
+interpolatedLine <- approx(x=ds$AngleTotal, y=ds$radius, n=interpolationPointsTotal)
 
 dsCart <- data.frame(X=rep(NA_real_, length(interpolatedLine$x)), Y=NA_real_)
 dsCart$X <- (interpolatedLine$y - graph_floor) * sin(interpolatedLine$x)
@@ -117,17 +117,17 @@ dsCart$stage_id <- floor(approx(x=ds$stage_id, n=interpolationPointsTotal)$y)
 
 dsCartBands <- data.frame(stage_id=rep(stageIDs, each=interpolationPointsPerCycle), XLower=NA_real_, YLower=NA_real_, XUpper=NA_real_, YUpper=NA_real_)
 for( stageID in stageIDs ) {
-  dsStageBands <- dsBands[dsBands$stage_id==stageID, ]
+  ds_stageBands <- dsBands[dsBands$stage_id==stageID, ]
 
-  interpolatedLowerBand <- approx(x=dsStageBands$Angle, y=dsStageBands$Lower, n=interpolationPointsPerCycle)
+  interpolatedLowerBand <- approx(x=ds_stageBands$Angle, y=ds_stageBands$Lower, n=interpolationPointsPerCycle)
   dsCartBands[dsCartBands$stage_id==stageID, "XLower"] <- (interpolatedLowerBand$y - graph_floor) * sin(interpolatedLowerBand$x)
   dsCartBands[dsCartBands$stage_id==stageID, "YLower"] <- (interpolatedLowerBand$y - graph_floor) * cos(interpolatedLowerBand$x)
 
-  interpolatedUpperBand <- approx(x=dsStageBands$Angle, y=dsStageBands$Upper, n=interpolationPointsPerCycle)
+  interpolatedUpperBand <- approx(x=ds_stageBands$Angle, y=ds_stageBands$Upper, n=interpolationPointsPerCycle)
   dsCartBands[dsCartBands$stage_id==stageID, "XUpper"] <- (interpolatedUpperBand$y - graph_floor) * sin(interpolatedUpperBand$x)
   dsCartBands[dsCartBands$stage_id==stageID, "YUpper"] <- (interpolatedUpperBand$y - graph_floor) * cos(interpolatedUpperBand$x)
 }
-rm(dsStageBands)
+rm(ds_stageBands)
 
 # curve(sinpi(x*2), 0, 6)
 
@@ -142,7 +142,7 @@ rm(dsStageBands)
 # height <- deviceWidth * heightToWidthRatio
 # windows(width=deviceWidth, height=height)
 
-vpRange <- c(-graphHeight, graphHeight) * 1.02
+vp_range <- c(-graphHeight, graphHeight) * 1.02
 
 
 
@@ -179,7 +179,7 @@ pushViewport(viewport(layout=grid.layout(nrow=2, ncol=2, respect=T, widths=unit(
 pushViewport(viewport(layout.pos.col=1, layout.pos.row=1))
 
 pushViewport(plotViewport(c(2, 2, 2, 2))) # pushViewport(plotViewport(c(0)))
-pushViewport(dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
+pushViewport(dataViewport(xscale=vp_range, yscale=vp_range, name="plot_region"))
 # grid.abline(intercept=0, slope=0, gp=gpar(col="gray80"))
 # grid.abline(intercept=0, slope=1e300, gp=gpar(col="gray80"))
 grid.lines(x=c(-2,2), y=c(0,0), gp=gpar(col="gray80"), default.units="native")
@@ -192,13 +192,13 @@ grid.text(c("A point at the origin represents a GFR of 5"), x=c(0), y=c(-2.2), g
 # grid.points(x=dsCart$X[c(1, 75, 76, nrow(dsCart))], y=dsCart$Y[c(1, 75, 76, nrow(dsCart))]) #Works when there's no interpolation
 
 for( stageID in stageIDs ) {
-  lowerX <- dsCartBands[dsCartBands$stage_id==stageID, "XLower"]
-  lowerY <- dsCartBands[dsCartBands$stage_id==stageID, "YLower"]
-  upperX <- dsCartBands[dsCartBands$stage_id==stageID, "XUpper"]
-  upperY <- dsCartBands[dsCartBands$stage_id==stageID, "YUpper"]
+  lower_x <- dsCartBands[dsCartBands$stage_id==stageID, "XLower"]
+  lower_y <- dsCartBands[dsCartBands$stage_id==stageID, "YLower"]
+  upper_x <- dsCartBands[dsCartBands$stage_id==stageID, "XUpper"]
+  upper_y <- dsCartBands[dsCartBands$stage_id==stageID, "YUpper"]
 
-  x <- c(lowerX, rev(upperX))
-  y <- c(lowerY, rev(upperY))
+  x <- c(lower_x, rev(upper_x))
+  y <- c(lower_y, rev(upper_y))
 #   grid.polygon(x=x, y=y, default.units="native", gp=gpar(fill=c2[stageID], col="transparent"))
 }
 
@@ -217,19 +217,19 @@ upViewport(n=3)
 ###
 pushViewport(viewport(layout.pos.col=2, layout.pos.row=1))
 pushViewport(plotViewport(c(2, 2, 2, 2)))
-pushViewport(dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
+pushViewport(dataViewport(xscale=vp_range, yscale=vp_range, name="plot_region"))
 grid.lines(x=c(-2,2), y=c(0,0), gp=gpar(col="gray80"), default.units="native")
 grid.lines(x=c(0,0), y=c(-2,2), gp=gpar(col="gray80"), default.units="native")
 grid.circle(x=0, y=0, r=0:2, default.units="native", gp=gpar(col="gray80"))
 
 for( stageID in stageIDs ) {
-  lowerX <- dsCartBands[dsCartBands$stage_id==stageID, "XLower"]
-  lowerY <- dsCartBands[dsCartBands$stage_id==stageID, "YLower"]
-  upperX <- dsCartBands[dsCartBands$stage_id==stageID, "XUpper"]
-  upperY <- dsCartBands[dsCartBands$stage_id==stageID, "YUpper"]
+  lower_x <- dsCartBands[dsCartBands$stage_id==stageID, "XLower"]
+  lower_y <- dsCartBands[dsCartBands$stage_id==stageID, "YLower"]
+  upper_x <- dsCartBands[dsCartBands$stage_id==stageID, "XUpper"]
+  upper_y <- dsCartBands[dsCartBands$stage_id==stageID, "YUpper"]
 
-  x <- c(lowerX, rev(upperX))
-  y <- c(lowerY, rev(upperY))
+  x <- c(lower_x, rev(upper_x))
+  y <- c(lower_y, rev(upper_y))
   grid.polygon(x=x, y=y, default.units="native", gp=gpar(fill=c2[stageID], col="transparent"))
 }
 rm(x, y)
@@ -244,11 +244,11 @@ upViewport(n=3)
 #
 #
 #
-# linearVPRangeX <- range(ds_linear$Horizontal)
-# linearVPRangeY <- range(ds_linear$birth_rate)
+# linearvp_rangeX <- range(ds_linear$Horizontal)
+# linearvp_rangeY <- range(ds_linear$birth_rate)
 # pushViewport(viewport(layout.pos.col=1:2, layout.pos.row=2))
 # pushViewport(plotViewport(c(0, 0, 0, 0)))
-# pushViewport(dataViewport(xscale=linearVPRangeX, yscale=linearVPRangeY, name="plotRegion"))
+# pushViewport(dataViewport(xscale=linearvp_rangeX, yscale=linearvp_rangeY, name="plot_region"))
 # # grid.lines(ds_linear$Horizontal, ds_linear$birth_rate, default.units="native")
 # # grid.points(ds_linear$Horizontal, ds_linear$birth_rate, default.units="native")
 # # upViewport(n=3)

@@ -16,7 +16,7 @@ day(ds$Date) <- 15
 
 dateBombing <- as.Date("1995-04-19")
 changePoint <- 74 #The 74th month is Feb 1996
-changeMonth <- as.Date("1996-02-15") # as.Date(dateBombing + weeks(40))
+change_month <- as.Date("1996-02-15") # as.Date(dateBombing + weeks(40))
 fullFebruaryCount <- 9 #The number of Februaries with a full preceeding 12 month period.
 
 monthsPerYear <- 12
@@ -57,17 +57,17 @@ CalculateLowerBand <- function( x ) { return( quantile(x, probs=lowerQuantile) )
 CalculateUpperBand <- function( x ) { return( quantile(x, probs=upperQuantile) ) }
 
 dsBand <- ddply(ds, .variables=c("MonthIndex", "stage_id"), Summarize)
-dsBand <- rename(dsBand, replace=c("stage_id"="StageIDBand"))
+dsBand <- rename(dsBand, replace=c("stage_id"="stage_id_band"))
 dsBands <- join(x=ds, y=dsBand, by="MonthIndex")
-dsBands$InPhase <- (dsBands$stage_id == dsBands$StageIDBand)
+dsBands$InPhase <- (dsBands$stage_id == dsBands$stage_id_band)
 
 ds$Rolling <- rollapply(ds$birth_rate, 12, mean, align="right", fill=NA)
-ds$RollingLower <- rollapply(ds$birth_rate, 12, CalculateLowerBand, align="right", fill=NA)
-ds$RollingUpper <- rollapply(ds$birth_rate, 12, CalculateUpperBand, align="right", fill=NA)
+ds$rolling_lower <- rollapply(ds$birth_rate, 12, CalculateLowerBand, align="right", fill=NA)
+ds$rolling_upper <- rollapply(ds$birth_rate, 12, CalculateUpperBand, align="right", fill=NA)
 
 dsFebruary <- ds[ds$MonthIndex==2 & !is.na(ds$Rolling), ]
-dsStage1 <- ds[!is.na(ds$Rolling) & ds$MonthID<=changePoint, ]
-dsStage2 <- ds[!is.na(ds$Rolling) & ds$MonthID>=changePoint, ]
+ds_stage1 <- ds[!is.na(ds$Rolling) & ds$MonthID<=changePoint, ]
+ds_stage2 <- ds[!is.na(ds$Rolling) & ds$MonthID>=changePoint, ]
 
 #################
 ### This is a quick graph that should be easy to understand & generalize to other datasets.
@@ -76,14 +76,14 @@ p <- ggplot(ds, aes(x=Date, y=birth_rate, color=stage_id))
 p <- p + geom_line(data=dsFebruary, aes(y=Rolling), size=1, color=smoothedLinear)
 p <- p + geom_point(data=dsFebruary, aes(y=Rolling), size=4, shape=3, color=smoothedLinear)
 
-p <- p + geom_ribbon(data=dsStage1, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorBefore[2], color=NA )
-p <- p + geom_ribbon(data=dsStage2, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorAfter[2], color=NA )
+p <- p + geom_ribbon(data=ds_stage1, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorBefore[2], color=NA )
+p <- p + geom_ribbon(data=ds_stage2, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorAfter[2], color=NA )
 p <- p + geom_point(shape=1)
 p <- p + geom_line(size=1)
 p <- p + geom_line(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling), size=2)
 p <- p + scale_color_continuous(low=colorBefore, high=colorAfter, guide=FALSE)
-p <- p + geom_vline(xintercept=as.integer(changeMonth), color=colorAfter)
-p <- p + annotate("text", x=changeMonth, y=max(ds$birth_rate), color=colorAfter, label="Bombing Effect")
+p <- p + geom_vline(xintercept=as.integer(change_month), color=colorAfter)
+p <- p + annotate("text", x=change_month, y=max(ds$birth_rate), color=colorAfter, label="Bombing Effect")
 p <- p + theme_minimal()
 p <- p + labs(x="", y="General Fertility Rate")
 p
@@ -104,7 +104,7 @@ dsLabelsX <- data.frame(
 )
 dsLabelsX$Label <- lubridate::year(dsLabelsX$X)
 
-dsBreak <- data.frame(X=changeMonth, XEnd=changeMonth, Y=5, YEnd=6.8, Label="Bombing Effect")
+dsBreak <- data.frame(X=change_month, XEnd=change_month, Y=5, YEnd=6.8, Label="Bombing Effect")
 
 LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showYears=TRUE, labelBreak=TRUE ) {
   g <- ggplot(ds, aes(x=Date, y=birth_rate, color=stage_id))#
@@ -116,18 +116,18 @@ LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showY
   g <- g + geom_point(data=dsFebruary, aes(y=Rolling), size=2, shape=3, color=smoothedLinear)
 
   if( showRibbon ) {
-    g <- g + geom_ribbon(data=dsStage1, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorBefore[2], color=NA )
-    g <- g + geom_ribbon(data=dsStage2, aes(ymin=RollingLower, ymax=RollingUpper), fill=bandColorAfter[2], color=NA )
+    g <- g + geom_ribbon(data=ds_stage1, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorBefore[2], color=NA )
+    g <- g + geom_ribbon(data=ds_stage2, aes(ymin=rolling_lower, ymax=rolling_upper), fill=bandColorAfter[2], color=NA )
   }
   g <- g + geom_point(shape=1, alpha=.5)
 
   if( showLine ) { #g <- g + geom_line() #This produces blocky lines, b/c it's checking for color switches
-    g <- g + geom_line(data=dsStage1, color=colorBefore )
-    g <- g + geom_line(data=dsStage2, color=colorAfter )
+    g <- g + geom_line(data=ds_stage1, color=colorBefore )
+    g <- g + geom_line(data=ds_stage2, color=colorAfter )
   }
   if( showSmoother) { #g <- g + geom_path(data=ds[!is.na(ds$Rolling), ], aes(y=Rolling)) #This produces blocky lines, b/c it's checking for color switches
-    g <- g + geom_line(data=dsStage1, aes(y=Rolling), color=colorBefore )
-    g <- g + geom_line(data=dsStage2, aes(y=Rolling), color=colorAfter )
+    g <- g + geom_line(data=ds_stage1, aes(y=Rolling), color=colorBefore )
+    g <- g + geom_line(data=ds_stage2, aes(y=Rolling), color=colorAfter )
   }
 
   if( showYears )
@@ -158,13 +158,13 @@ LinearPlot()
 top <- LinearPlot(showSmoother=FALSE, showRibbon=FALSE, showYears=FALSE) #Top Panel
 middle <- LinearPlot(showLine=FALSE, showRibbon=FALSE, showYears=FALSE, labelBreak=FALSE) #Middle Panel
 bottom <- LinearPlot(showLine=FALSE, labelBreak=FALSE) #Bottom Panel
-vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
+vp_layout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
 
 # pdf(file.path(pathDirectoryOutput, "Fig2.pdf"), width=widthTotal, height=heightTotal)
 png(file.path(pathDirectoryOutput, "Fig2.png"), width=widthTotal, height=heightTotal, units="in", res=600)
 grid.newpage()
 pushViewport(viewport(layout=grid.layout(3,1)))
-print(top, vp=vpLayout(1,1))
-print(middle, vp=vpLayout(2,1))
-print(bottom, vp=vpLayout(3,1))
+print(top, vp=vp_layout(1,1))
+print(middle, vp=vp_layout(2,1))
+print(bottom, vp=vp_layout(3,1))
 dev.off()

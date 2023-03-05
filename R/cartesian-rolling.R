@@ -39,16 +39,16 @@
 #' @keywords Cartesian
 #' @examples
 #' library(Wats) #Load the package
-#' changeMonth <- base::as.Date("1996-02-15")
+#' change_month <- base::as.Date("1996-02-15")
 #' ds_linear <- county_month_birth_rate_2005_version
 #' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
 #' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
-#' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+#' h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 #' portfolio <- annotate_data(
 #'     ds_linear,
 #'     dv_name = "birth_rate",
 #'     center_function = median,
-#'     spread_function = hSpread
+#'     spread_function = h_spread
 #' )
 #'
 #' cartesian_rolling(
@@ -56,53 +56,102 @@
 #'     x_name = "date",
 #'     y_name = "birth_rate",
 #'     stage_id_name = "stage_id",
-#'     change_points = changeMonth,
+#'     change_points = change_month,
 #'     change_point_labels = "Bombing Effect"
 #' )
 
-cartesian_rolling <- function(ds_linear, x_name, y_name, stage_id_name,
-                              rolling_lower_name="RollingLower", rolling_center_name="RollingCenter", rolling_upper_name="RollingUpper",
-                              palette_dark=NULL, palette_light=NULL, color_sparse=grDevices::adjustcolor("tan1", .5),
-                              change_points=NULL, change_point_labels=NULL,
-                              draw_jagged_line=TRUE, draw_rolling_line=TRUE, draw_rolling_band=TRUE, draw_sparse_line_and_points=TRUE,
-                              jagged_point_size=2, jagged_line_size=.5, rolling_line_size=1, sparse_point_size=4, sparse_line_size=.5,
-                              band_alpha=.4, change_line_alpha=.5, change_line_size=3,
-                              title=NULL, x_title=NULL, y_title=NULL ) {
+cartesian_rolling <- function(
+  ds_linear,
+  x_name,
+  y_name,
+  stage_id_name,
+  rolling_lower_name             = "rolling_lower",
+  rolling_center_name            = "rolling_center",
+  rolling_upper_name             = "rolling_upper",
+  palette_dark                   = NULL,
+  palette_light                  = NULL,
+  color_sparse                   = grDevices::adjustcolor("tan1", .5),
+  change_points                  = NULL,
+  change_point_labels            = NULL,
+  draw_jagged_line               = TRUE,
+  draw_rolling_line              = TRUE,
+  draw_rolling_band              = TRUE,
+  draw_sparse_line_and_points    = TRUE,
+  jagged_point_size              = 2,
+  jagged_line_size               = .5,
+  rolling_line_size              = 1,
+  sparse_point_size              = 4,
+  sparse_line_size               = .5,
+  band_alpha                     = .4,
+  change_line_alpha              = .5,
+  change_line_size               = 3,
+  title                          = NULL,
+  x_title                        = NULL,
+  y_title                        = NULL
+) {
 
   stages <- base::sort(base::unique(ds_linear[[stage_id_name]]))
-  stageCount <- length(stages)
-  testit::assert("The number of unique `stage_id` values should be 1 greater than the number of `change_points`.", stageCount==1+length(change_points))
-  if (!is.null(change_points)) testit::assert("The number of `change_points` should equal the number of `changeLabels`.", length(change_points)==length(change_point_labels))
-  if (!is.null(palette_dark))  testit::assert("The number of `palette_dark` colors should equal the number of unique `stage_id` values.", stageCount==length(palette_dark))
-  if (!is.null(palette_light)) testit::assert("The number of `palette_light` colors should equal the number of unique `stage_id` values.", stageCount==length(palette_light))
+  stage_count <- length(stages)
 
-  p <- ggplot2::ggplot(ds_linear, ggplot2::aes_string(x=x_name, y=y_name, color=stage_id_name))
+  testit::assert(
+    "The number of unique `stage_id` values should be 1 greater than the number of `change_points`.",
+    stage_count == 1 + length(change_points)
+  )
+  if (!is.null(change_points)) {
+    testit::assert(
+      "The number of `change_points` should equal the number of `changeLabels`.",
+      length(change_points) == length(change_point_labels)
+    )
+  }
+  if (!is.null(palette_dark)) {
+    testit::assert(
+      "The number of `palette_dark` colors should equal the number of unique `stage_id` values.",
+      stage_count == length(palette_dark)
+    )
+  }
+  if (!is.null(palette_light)) {
+    testit::assert(
+      "The number of `palette_light` colors should equal the number of unique `stage_id` values.",
+      stage_count == length(palette_light)
+    )
+  }
+
+  p <- ds_linear |>
+    ggplot2::ggplot(ggplot2::aes_string(x = x_name, y = y_name, color = stage_id_name))
 
   if (is.null(palette_dark)) {
-    if (length(stages) <= 4L) palette_dark <- RColorBrewer::brewer.pal(n=10, name="Paired")[c(2,4,6,8)] #There's not a risk of defining more colors than levels
-    else palette_dark <- colorspace::rainbow_hcl(n=length(stages), l=40)
+    palette_dark <-
+      if (length(stages) <= 4L) {
+        RColorBrewer::brewer.pal(n = 10, name = "Paired")[c(2, 4, 6, 8)] #There's not a risk of defining more colors than levels
+      } else {
+        colorspace::rainbow_hcl(n = length(stages), l = 40)
+      }
   }
   if (is.null(palette_light)) {
-    if (length(stages) <= 4L) palette_light <- RColorBrewer::brewer.pal(n=10, name="Paired")[c(1,3,5,7)] #There's not a risk of defining more colors than levels
-    else palette_light <- colorspace::rainbow_hcl(n=length(stages), l=70)
+    palette_light <-
+      if (length(stages) <= 4L) {
+        RColorBrewer::brewer.pal(n = 10, name = "Paired")[c(1, 3, 5, 7)] #There's not a risk of defining more colors than levels
+      } else {
+        colorspace::rainbow_hcl(n=length(stages), l = 70)
+      }
   }
 
   for (stage in stages) {
-    dsStage <- ds_linear[stage <= ds_linear$StageProgress & ds_linear$StageProgress <= (stage+1), ]
+    ds_stage <- ds_linear[stage <= ds_linear$stage_progress & ds_linear$stage_progress <= (stage+1), ]
 
     if (draw_jagged_line)
-      p <- p + ggplot2::geom_line(size=jagged_line_size, color=palette_dark[stage], data=dsStage)
+      p <- p + ggplot2::geom_line(size=jagged_line_size, color=palette_dark[stage], data=ds_stage)
     if (draw_rolling_line)
-      p <- p + ggplot2::geom_line(ggplot2::aes_string(y=rolling_center_name), data=dsStage, size=rolling_line_size, color=palette_dark[stage], na.rm=TRUE)
+      p <- p + ggplot2::geom_line(ggplot2::aes_string(y=rolling_center_name), data=ds_stage, size=rolling_line_size, color=palette_dark[stage], na.rm=TRUE)
     if (draw_rolling_band)
-      p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rolling_lower_name, ymax=rolling_upper_name), data=dsStage, fill=palette_dark[stage], color=NA, alpha=band_alpha, na.rm=TRUE)
+      p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rolling_lower_name, ymax=rolling_upper_name), data=ds_stage, fill=palette_dark[stage], color=NA, alpha=band_alpha, na.rm=TRUE)
 
-    p <- p + ggplot2::geom_point(shape=1, color=palette_dark[stage], data=dsStage, size=jagged_point_size)
+    p <- p + ggplot2::geom_point(shape=1, color=palette_dark[stage], data=ds_stage, size=jagged_point_size)
   }
 
   if (draw_sparse_line_and_points) {
-    p <- p + ggplot2::geom_line(data=ds_linear[ds_linear$TerminalPointInCycle,], ggplot2::aes_string(y=rolling_center_name), size=sparse_line_size, color=color_sparse)
-    p <- p + ggplot2::geom_point(data=ds_linear[ds_linear$TerminalPointInCycle,], ggplot2::aes_string(y=rolling_center_name), size=sparse_point_size, shape=3, color=color_sparse)
+    p <- p + ggplot2::geom_line(data  = ds_linear[ds_linear$terminal_point_in_cycle,], ggplot2::aes_string(y=rolling_center_name), size=sparse_line_size, color=color_sparse)
+    p <- p + ggplot2::geom_point(data = ds_linear[ds_linear$terminal_point_in_cycle,], ggplot2::aes_string(y=rolling_center_name), size=sparse_point_size, shape=3, color=color_sparse)
   }
 
   if (!is.null(change_points)) {

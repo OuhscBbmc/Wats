@@ -10,8 +10,8 @@ polar_periodic(
   x_name,
   y_name,
   stage_id_name,
-  periodic_lower_name = "PositionLower",
-  periodic_upper_name = "PositionUpper",
+  periodic_lower_name = "position_lower",
+  periodic_upper_name = "position_upper",
   palette_dark = NULL,
   palette_light = NULL,
   change_points = NULL,
@@ -112,12 +112,12 @@ ds_linear <- county_month_birth_rate_2005_version
 ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
 ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 
-hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 portfolio <- annotate_data(
   ds_linear = ds_linear,
   dv_name = "birth_rate",
   center_function = median,
-  spread_function = hSpread
+  spread_function = h_spread
 )
 rm(ds_linear)
 
@@ -130,27 +130,27 @@ polarized <- polarize_cartesian(
 
 grid.newpage()
 polar_periodic(
-  ds_linear = polarized$dsObservedPolar,
+  ds_linear = polarized$ds_observed_polar,
   ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
-  y_name = "Radius",
+  y_name = "radius",
   stage_id_name = "stage_id",
   cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
 )
 
 grid.newpage()
 polar_periodic(
-  ds_linear = polarized$dsObservedPolar,
+  ds_linear = polarized$ds_observed_polar,
   ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
-  y_name = "Radius",
+  y_name = "radius",
   stage_id_name = "stage_id",
   draw_periodic_band = FALSE
 )
 
 grid.newpage()
 polar_periodic(
-  ds_linear = polarized$dsObservedPolar,
+  ds_linear = polarized$ds_observed_polar,
   ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
-  y_name = "Radius",
+  y_name = "radius",
   stage_id_name = "stage_id",
   draw_observed_line = FALSE,
   cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")

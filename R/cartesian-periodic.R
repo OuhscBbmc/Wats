@@ -32,16 +32,16 @@
 #' @keywords Cartesian
 #' @examples
 #' library(Wats) #Load the package
-#' changeMonth <- base::as.Date("1996-02-15")
+#' change_month <- base::as.Date("1996-02-15")
 #' ds_linear <- county_month_birth_rate_2005_version
 #' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
 #' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
-#' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+#' h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 #' portfolio <- annotate_data(
 #'     ds_linear,
 #'     dv_name = "birth_rate",
 #'     center_function = median,
-#'     spread_function = hSpread
+#'     spread_function = h_spread
 #' )
 #'
 #' cartesian_periodic(
@@ -50,66 +50,103 @@
 #'   x_name = "date",
 #'   y_name = "birth_rate",
 #'   stage_id_name = "stage_id",
-#'   change_points = changeMonth,
+#'   change_points = change_month,
 #'   change_point_labels = "Bombing Effect"
 #' )
 
-
-
-cartesian_periodic <- function(ds_linear, ds_periodic,
-                              x_name, y_name, stage_id_name,
-                              periodic_lower_name="PositionLower", periodic_upper_name="PositionUpper",
-                              palette_dark=NULL, palette_light=NULL,
-                              change_points=NULL, change_point_labels=NULL,
-                              draw_periodic_band=TRUE,
-                              jagged_point_size=2, jagged_line_size=.5,
-                              band_alpha_dark=.4, band_alpha_light=.15,
-                              change_line_alpha=.5, change_line_size=3,
-                              title=NULL, x_title=NULL, y_title=NULL ) {
+cartesian_periodic <- function(
+  ds_linear,
+  ds_periodic,
+  x_name,
+  y_name,
+  stage_id_name,
+  periodic_lower_name  = "position_lower",
+  periodic_upper_name  = "position_upper",
+  palette_dark         = NULL,
+  palette_light        = NULL,
+  change_points        = NULL,
+  change_point_labels  = NULL,
+  draw_periodic_band   = TRUE,
+  jagged_point_size    = 2,
+  jagged_line_size     = .5,
+  band_alpha_dark      = .4,
+  band_alpha_light     = .15,
+  change_line_alpha    = .5,
+  change_line_size     = 3,
+  title                = NULL,
+  x_title              = NULL,
+  y_title              = NULL
+) {
 
   stages <- base::sort(base::unique(ds_linear[[stage_id_name]]))
-  stageCount <- length(stages)
-  testit::assert("The number of unique `stage_id` values should be 1 greater than the number of `change_points`.", stageCount==1+length(change_points))
-  if (!is.null(change_points)) testit::assert("The number of `change_points` should equal the number of `changeLabels`.", length(change_points)==length(change_point_labels))
-  if (!is.null(palette_dark))  testit::assert("The number of `palette_dark` colors should equal the number of unique `stage_id` values.", stageCount==length(palette_dark))
-  if (!is.null(palette_light)) testit::assert("The number of `palette_light` colors should equal the number of unique `stage_id` values.", stageCount==length(palette_light))
+  stage_count <- length(stages)
 
-  p <- ggplot2::ggplot(ds_linear, ggplot2::aes_string(x=x_name, y=y_name))
+  testit::assert(
+    "The number of unique `stage_id` values should be 1 greater than the number of `change_points`.",
+    stage_count == 1 + length(change_points)
+  )
+
+  if (!is.null(change_points)) {
+    testit::assert(
+      "The number of `change_points` should equal the number of `changeLabels`.",
+      length(change_points) == length(change_point_labels)
+    )
+  }
+  if (!is.null(palette_dark)) {
+    testit::assert(
+      "The number of `palette_dark` colors should equal the number of unique `stage_id` values.",
+      stage_count == length(palette_dark)
+    )
+  }
+  if (!is.null(palette_light)) {
+    testit::assert(
+      "The number of `palette_light` colors should equal the number of unique `stage_id` values.",
+      stage_count == length(palette_light)
+    )
+  }
+
+  p <- ggplot2::ggplot(ds_linear, ggplot2::aes_string(x = x_name, y = y_name))
 
   if (is.null(palette_dark)) {
-    if (length(stages) <= 4L) palette_dark <- RColorBrewer::brewer.pal(n=10, name="Paired")[c(2,4,6,8)] #There's not a risk of defining more colors than levels
-    else palette_dark <- colorspace::rainbow_hcl(n=length(stages), l=40)
+    palette_dark <-
+      if (length(stages) <= 4L) {
+        RColorBrewer::brewer.pal(n = 10, name="Paired")[c(2, 4, 6, 8)] #There's not a risk of defining more colors than levels
+      } else {
+        colorspace::rainbow_hcl(n = length(stages), l = 40)
+      }
   }
   if (is.null(palette_light)) {
-    if (length(stages) <= 4L) palette_light <- RColorBrewer::brewer.pal(n=10, name="Paired")[c(1,3,5,7)] #There's not a risk of defining more colors than levels
-    else palette_light <- colorspace::rainbow_hcl(n=length(stages), l=70)
+    palette_light <-
+      if (length(stages) <= 4L) {
+        RColorBrewer::brewer.pal(n = 10, name="Paired")[c(1, 3, 5, 7)] #There's not a risk of defining more colors than levels
+      } else {
+        colorspace::rainbow_hcl(n=length(stages), l = 70)
+      }
   }
 
   for (stage in stages) {
-    dsStageLinear <- ds_linear[stage <= ds_linear$StageProgress & ds_linear$StageProgress <= (stage+1), ]
+    ds_stage_linear <- ds_linear[stage <= ds_linear$stage_progress & ds_linear$stage_progress <= (stage+1), ]
 
     if (draw_periodic_band) {
-      for (stageInner in stages) {
-        dsStagePeriodic <- ds_periodic[(stage <= ds_periodic$StageProgress) & (ds_periodic$StageProgress <= (stage+1)) & (ds_periodic$StageIDBand == stageInner), ]
-        ribbonAlpha <- ifelse(stage==stageInner, band_alpha_dark, band_alpha_light)
-        #p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=periodic_lower_name, ymax=periodic_upper_name, y=NULL), data=dsStagePeriodic,
-        #                     fill=palette_dark[stageInner], color=NA, alpha=ribbonAlpha, na.rm=TRUE)
+      for (stage_inner in stages) {
+        ds_stage_periodic <- ds_periodic[(stage <= ds_periodic$stage_progress) & (ds_periodic$stage_progress <= (stage+1)) & (ds_periodic$stage_id_band == stage_inner), ]
+        ribbon_alpha <- ifelse(stage==stage_inner, band_alpha_dark, band_alpha_light)
 
         p <-
           p +
           ggplot2::geom_ribbon(
             ggplot2::aes_string(y=NULL, ymin=periodic_lower_name, ymax=periodic_upper_name),
-            data  = dsStagePeriodic,
-            fill  = palette_dark[stageInner],
+            data  = ds_stage_periodic,
+            fill  = palette_dark[stage_inner],
             color = NA,
-            alpha = ribbonAlpha,
+            alpha = ribbon_alpha,
             na.rm = TRUE
           )
       }
     }
 
-    p <- p + ggplot2::geom_line(size=jagged_line_size, color=palette_dark[stage], data=dsStageLinear)
-    p <- p + ggplot2::geom_point(shape=1, color=palette_light[stage], data=dsStageLinear, size=jagged_point_size)
+    p <- p + ggplot2::geom_line(size=jagged_line_size, color=palette_dark[stage], data=ds_stage_linear)
+    p <- p + ggplot2::geom_point(shape=1, color=palette_light[stage], data=ds_stage_linear, size=jagged_point_size)
   }
 
   if (!is.null(change_points)) {
@@ -120,8 +157,8 @@ cartesian_periodic <- function(ds_linear, ds_periodic,
   }
 
   p <- p + ggplot2::theme_minimal()
-  p <- p + ggplot2::theme(legend.position="none")
-  p <- p + ggplot2::labs(title=title, x=x_title, y=y_title)
+  p <- p + ggplot2::theme(legend.position = "none")
+  p <- p + ggplot2::labs(title = title, x = x_title, y = y_title)
 
   return( p )
 }
@@ -130,9 +167,9 @@ cartesian_periodic <- function(ds_linear, ds_periodic,
 # ds_linear[ds_linear$county_name=="oklahoma", ]
 # ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 #
-# hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- Wats::annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=hSpread)
+# h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+# portfolio <- Wats::annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=h_spread)
 #
-# cartesian_periodic(portfolio$ds_linear, portfolio$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points=changeMonth, change_point_labels="Bombing Effect",
+# cartesian_periodic(portfolio$ds_linear, portfolio$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points=change_month, change_point_labels="Bombing Effect",
 #                    draw_periodic_band=FALSE)
-# cartesian_periodic(portfolio$ds_linear, portfolio$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points=changeMonth, change_point_labels="Bombing Effect")
+# cartesian_periodic(portfolio$ds_linear, portfolio$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points=change_month, change_point_labels="Bombing Effect")
