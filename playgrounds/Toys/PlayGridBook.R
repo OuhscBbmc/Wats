@@ -19,7 +19,7 @@ periodID <- rep(seq_len(periodLength), totalPeriods)
 theta <- periodID * (2*pi/periodLength)
 residual <- 50 + rnorm(totalPoints, sd=5)
 
-ds <- data.frame(TimeIndex=timeIndex, PeriodID=periodID, Theta=theta, Residual=residual, LowerY=NA, UpperY=NA)#, LowerY=lowerY, UpperY=upperY )
+ds <- data.frame(TimeIndex=timeIndex, PeriodID=periodID, Theta=theta, Residual=residual, lower_y=NA, upper_y=NA)#, lower_y=lower_y, upper_y=upper_y )
 #breakPointsInside <- c(200, 400)
 breakPointsInside <- as.numeric(quantile(ds$TimeIndex, breakQuantiles))
 breakPoints <- c(min(ds$TimeIndex), breakPointsInside, max(ds$TimeIndex))
@@ -39,12 +39,12 @@ for( stageID in as.numeric(sort(unique(ds$stage_id))) ){
   for( periodID in unique(ds_stage$PeriodID)) {
     sliceY <- ds_stage[ds_stage$PeriodID == periodID, "Y"]
     bandRange <- quantile(sliceY, c(.25, .75))
-    #ds[ds$stage_id==stageID & ds$PeriodID==periodID, c("LowerY", "UpperY")] <- t(as.numeric(bandRange))
-    ds[ds$stage_id==stageID & ds$PeriodID==periodID, c("LowerY")] <- as.numeric(bandRange[1])
-    ds[ds$stage_id==stageID & ds$PeriodID==periodID, c("UpperY")] <- as.numeric(bandRange[2])
+    #ds[ds$stage_id==stageID & ds$PeriodID==periodID, c("lower_y", "upper_y")] <- t(as.numeric(bandRange))
+    ds[ds$stage_id==stageID & ds$PeriodID==periodID, c("lower_y")] <- as.numeric(bandRange[1])
+    ds[ds$stage_id==stageID & ds$PeriodID==periodID, c("upper_y")] <- as.numeric(bandRange[2])
 
-#     dsFull[dsFull$stage_id==stageID & dsFull$PeriodID==periodID, c("LowerY")] <- as.numeric(bandRange[1])
-#     dsFull[dsFull$stage_id==stageID & dsFull$PeriodID==periodID, c("UpperY")] <- as.numeric(bandRange[2])
+#     dsFull[dsFull$stage_id==stageID & dsFull$PeriodID==periodID, c("lower_y")] <- as.numeric(bandRange[1])
+#     dsFull[dsFull$stage_id==stageID & dsFull$PeriodID==periodID, c("upper_y")] <- as.numeric(bandRange[2])
   }
 }
 
@@ -71,7 +71,7 @@ pushViewport(viewport(layout=grid.layout(2, 2), gp=gpar(cex=0.6, fill=NA)))
 pushViewport(viewport(layout.pos.col=1, layout.pos.row=1))
 #from line 177 "customgrid.Rnw"
 pushViewport(plotViewport(c(2, 2, 2, 2)))
-pushViewport(dataViewport(xData=ds$X, yData=ds$Y, name="plotRegion"))
+pushViewport(dataViewport(xData=ds$X, yData=ds$Y, name="plot_region"))
 
 #from line 298 "customgrid.Rnw"
 grid.points(x=ds$X, y=ds$Y, gp=gpar(cex=.5))
@@ -92,7 +92,7 @@ popViewport(3)
 pushViewport(viewport(layout.pos.col=2, layout.pos.row=1))
 #from line 177 "customgrid.Rnw"
 pushViewport(plotViewport(c(5, 4, 2, 2)))
-pushViewport(dataViewport(pressure$temperature, pressure$pressure, name="plotRegion"))
+pushViewport(dataViewport(pressure$temperature, pressure$pressure, name="plot_region"))
 
 #from line 307 "customgrid.Rnw"
 grid.points(pressure$temperature, pressure$pressure, pch=2, gp=gpar(cex=0.5))
@@ -108,7 +108,7 @@ popViewport(3)
 pushViewport(viewport(layout.pos.col=2, layout.pos.row=2))
 #from line 177 "customgrid.Rnw"
 pushViewport(plotViewport(c(5, 4, 2, 2)))
-pushViewport(dataViewport(pressure$temperature, pressure$pressure, name="plotRegion"))
+pushViewport(dataViewport(pressure$temperature, pressure$pressure, name="plot_region"))
 
 #from line 316 "customgrid.Rnw"
 grid.points(pressure$temperature, pressure$pressure, pch=2, gp=gpar(cex=0.5))
@@ -126,7 +126,7 @@ grid.rect(gp=gpar(lty="dashed"))
 
 #from line 323 "customgrid.Rnw"
 #from line 290 "customgrid.Rnw"
-downViewport("plotRegion")
+downViewport("plot_region")
 grid.text("Pressure (mm Hg)\nversus\nTemperature (Celsius)",  x=unit(150, "native"), y=unit(600, "native"))
 upViewport(4)
 #from line 324 "customgrid.Rnw"

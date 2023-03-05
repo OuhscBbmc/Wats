@@ -75,10 +75,10 @@ polarized <- polarize_cartesian(
 library(ggplot2)
 polarized$ds_stage_cycle_polar |>
   ggplot(aes(color=factor(stage_id))) +
-  geom_path(aes(x=PolarLowerX, y=PolarLowerY), linetype=2) +
+  geom_path(aes(x=polar_lower_x, y=polar_lower_y), linetype=2) +
   geom_path(aes(x=PolarCenterX, y=PolarCenterY), linewidth=2) +
-  geom_path(aes(x=PolarUpperX, y=PolarUpperY), linetype=2) +
-  geom_path(aes(x=ObservedX, y=ObservedY), data=polarized$dsObservedPolar) +
+  geom_path(aes(x=polar_upper_x, y=polar_upper_y), linetype=2) +
+  geom_path(aes(x=observed_x, y=observed_y), data=polarized$dsObservedPolar) +
   coord_fixed(ratio=1) +
   guides(color=NULL)
 }

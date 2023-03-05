@@ -45,10 +45,10 @@
 #' library(ggplot2)
 #' polarized$ds_stage_cycle_polar |>
 #'   ggplot(aes(color=factor(stage_id))) +
-#'   geom_path(aes(x=PolarLowerX, y=PolarLowerY), linetype=2) +
+#'   geom_path(aes(x=polar_lower_x, y=polar_lower_y), linetype=2) +
 #'   geom_path(aes(x=PolarCenterX, y=PolarCenterY), linewidth=2) +
-#'   geom_path(aes(x=PolarUpperX, y=PolarUpperY), linetype=2) +
-#'   geom_path(aes(x=ObservedX, y=ObservedY), data=polarized$dsObservedPolar) +
+#'   geom_path(aes(x=polar_upper_x, y=polar_upper_y), linetype=2) +
+#'   geom_path(aes(x=observed_x, y=observed_y), data=polarized$dsObservedPolar) +
 #'   coord_fixed(ratio=1) +
 #'   guides(color=NULL)
 
@@ -86,8 +86,8 @@ polarize_cartesian <- function(ds_linear, ds_stage_cycle,
       )
     # browser()
     base::data.frame(
-      ObservedX = observed$x,
-      ObservedY = observed$y,
+      observed_x = observed$x,
+      observed_y = observed$y,
       stage_progress = stage_progress$y[seq_len(pointsPerCycleCount)] #Which chops off the last value.
     )
   }
@@ -97,12 +97,12 @@ polarize_cartesian <- function(ds_linear, ds_stage_cycle,
     upper <- stats::approx(x=d[[proportion_through_cycle_name]], y=d[[periodic_upper_name]], n=pointsPerCycleCount)
 
     base::data.frame(
-      LowerX = lower$x,
-      LowerY = lower$y,
+      lower_x = lower$x,
+      lower_y = lower$y,
       CenterX = center$x,
       CenterY = center$y,
-      UpperX = upper$x,
-      UpperY = upper$y
+      upper_x = upper$x,
+      upper_y = upper$y
     )
   }
   polarizeObserved <- function(d, graph_floor=graph_floor) {
@@ -115,10 +115,10 @@ polarize_cartesian <- function(ds_linear, ds_stage_cycle,
       stageEnd <- c(rep(FALSE, times=nrow(d)-1), TRUE)
     }
     base::data.frame(
-      ObservedX = (d$ObservedY - graph_floor) * sin(2 * pi * d$ObservedX),
-      ObservedY = (d$ObservedY - graph_floor) * cos(2 * pi * d$ObservedX),
-      Theta = pi * 2 * d$ObservedX,
-      Radius = d$ObservedY,
+      observed_x = (d$observed_y - graph_floor) * sin(2 * pi * d$observed_x),
+      observed_y = (d$observed_y - graph_floor) * cos(2 * pi * d$observed_x),
+      Theta = pi * 2 * d$observed_x,
+      Radius = d$observed_y,
       stage_progress = d$stage_progress,
       StageStart = stageStart,
       StageEnd = stageEnd,
@@ -137,12 +137,12 @@ polarize_cartesian <- function(ds_linear, ds_stage_cycle,
     }
 
     base::data.frame(
-      PolarLowerX = (d$LowerY - graph_floor) * sin(2 * pi * d$LowerX),
-      PolarLowerY = (d$LowerY - graph_floor) * cos(2 * pi * d$LowerX),
+      polar_lower_x = (d$lower_y - graph_floor) * sin(2 * pi * d$lower_x),
+      polar_lower_y = (d$lower_y - graph_floor) * cos(2 * pi * d$lower_x),
       PolarCenterX = (d$CenterY - graph_floor) * sin(2 * pi * d$CenterX),
       PolarCenterY = (d$CenterY - graph_floor) * cos(2 * pi * d$CenterX),
-      PolarUpperX = (d$UpperY - graph_floor) * sin(2 * pi * d$UpperX),
-      PolarUpperY = (d$UpperY - graph_floor) * cos(2 * pi * d$UpperX),
+      polar_upper_x = (d$upper_y - graph_floor) * sin(2 * pi * d$upper_x),
+      polar_upper_y = (d$upper_y - graph_floor) * cos(2 * pi * d$upper_x),
 #       stage_progress = d$stage_progress,
       StageStart = stageStart,
       StageEnd = stageEnd,
@@ -215,10 +215,10 @@ polarize_cartesian <- function(ds_linear, ds_stage_cycle,
 #
 # library(ggplot2)
 # ggplot(polarized$ds_stage_cycle_polar, aes(color=factor(stage_id))) +
-#   geom_path(aes(x=PolarLowerX, y=PolarLowerY), linetype=2) +
+#   geom_path(aes(x=polar_lower_x, y=polar_lower_y), linetype=2) +
 #   geom_path(aes(x=PolarCenterX, y=PolarCenterY), size=2) +
-#   geom_path(aes(x=PolarUpperX, y=PolarUpperY), linetype=2) +
-#   geom_path(aes(x=ObservedX, y=ObservedY), data=polarized$dsObservedPolar) +
+#   geom_path(aes(x=polar_upper_x, y=polar_upper_y), linetype=2) +
+#   geom_path(aes(x=observed_x, y=observed_y), data=polarized$dsObservedPolar) +
 #   coord_fixed(ratio=1) +
 #   guides(color=FALSE)
 #

@@ -142,7 +142,7 @@ rm(ds_stageBands)
 # height <- deviceWidth * heightToWidthRatio
 # windows(width=deviceWidth, height=height)
 
-vpRange <- c(-graphHeight, graphHeight) * 1.02
+vp_range <- c(-graphHeight, graphHeight) * 1.02
 
 
 
@@ -179,7 +179,7 @@ pushViewport(viewport(layout=grid.layout(nrow=2, ncol=2, respect=T, widths=unit(
 pushViewport(viewport(layout.pos.col=1, layout.pos.row=1))
 
 pushViewport(plotViewport(c(2, 2, 2, 2))) # pushViewport(plotViewport(c(0)))
-pushViewport(dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
+pushViewport(dataViewport(xscale=vp_range, yscale=vp_range, name="plot_region"))
 # grid.abline(intercept=0, slope=0, gp=gpar(col="gray80"))
 # grid.abline(intercept=0, slope=1e300, gp=gpar(col="gray80"))
 grid.lines(x=c(-2,2), y=c(0,0), gp=gpar(col="gray80"), default.units="native")
@@ -192,13 +192,13 @@ grid.text(c("A point at the origin represents a GFR of 5"), x=c(0), y=c(-2.2), g
 # grid.points(x=dsCart$X[c(1, 75, 76, nrow(dsCart))], y=dsCart$Y[c(1, 75, 76, nrow(dsCart))]) #Works when there's no interpolation
 
 for( stageID in stageIDs ) {
-  lowerX <- dsCartBands[dsCartBands$stage_id==stageID, "XLower"]
-  lowerY <- dsCartBands[dsCartBands$stage_id==stageID, "YLower"]
-  upperX <- dsCartBands[dsCartBands$stage_id==stageID, "XUpper"]
-  upperY <- dsCartBands[dsCartBands$stage_id==stageID, "YUpper"]
+  lower_x <- dsCartBands[dsCartBands$stage_id==stageID, "XLower"]
+  lower_y <- dsCartBands[dsCartBands$stage_id==stageID, "YLower"]
+  upper_x <- dsCartBands[dsCartBands$stage_id==stageID, "XUpper"]
+  upper_y <- dsCartBands[dsCartBands$stage_id==stageID, "YUpper"]
 
-  x <- c(lowerX, rev(upperX))
-  y <- c(lowerY, rev(upperY))
+  x <- c(lower_x, rev(upper_x))
+  y <- c(lower_y, rev(upper_y))
 #   grid.polygon(x=x, y=y, default.units="native", gp=gpar(fill=c2[stageID], col="transparent"))
 }
 
@@ -217,19 +217,19 @@ upViewport(n=3)
 ###
 pushViewport(viewport(layout.pos.col=2, layout.pos.row=1))
 pushViewport(plotViewport(c(2, 2, 2, 2)))
-pushViewport(dataViewport(xscale=vpRange, yscale=vpRange, name="plotRegion"))
+pushViewport(dataViewport(xscale=vp_range, yscale=vp_range, name="plot_region"))
 grid.lines(x=c(-2,2), y=c(0,0), gp=gpar(col="gray80"), default.units="native")
 grid.lines(x=c(0,0), y=c(-2,2), gp=gpar(col="gray80"), default.units="native")
 grid.circle(x=0, y=0, r=0:2, default.units="native", gp=gpar(col="gray80"))
 
 for( stageID in stageIDs ) {
-  lowerX <- dsCartBands[dsCartBands$stage_id==stageID, "XLower"]
-  lowerY <- dsCartBands[dsCartBands$stage_id==stageID, "YLower"]
-  upperX <- dsCartBands[dsCartBands$stage_id==stageID, "XUpper"]
-  upperY <- dsCartBands[dsCartBands$stage_id==stageID, "YUpper"]
+  lower_x <- dsCartBands[dsCartBands$stage_id==stageID, "XLower"]
+  lower_y <- dsCartBands[dsCartBands$stage_id==stageID, "YLower"]
+  upper_x <- dsCartBands[dsCartBands$stage_id==stageID, "XUpper"]
+  upper_y <- dsCartBands[dsCartBands$stage_id==stageID, "YUpper"]
 
-  x <- c(lowerX, rev(upperX))
-  y <- c(lowerY, rev(upperY))
+  x <- c(lower_x, rev(upper_x))
+  y <- c(lower_y, rev(upper_y))
   grid.polygon(x=x, y=y, default.units="native", gp=gpar(fill=c2[stageID], col="transparent"))
 }
 rm(x, y)
@@ -244,11 +244,11 @@ upViewport(n=3)
 #
 #
 #
-# linearVPRangeX <- range(ds_linear$Horizontal)
-# linearVPRangeY <- range(ds_linear$birth_rate)
+# linearvp_rangeX <- range(ds_linear$Horizontal)
+# linearvp_rangeY <- range(ds_linear$birth_rate)
 # pushViewport(viewport(layout.pos.col=1:2, layout.pos.row=2))
 # pushViewport(plotViewport(c(0, 0, 0, 0)))
-# pushViewport(dataViewport(xscale=linearVPRangeX, yscale=linearVPRangeY, name="plotRegion"))
+# pushViewport(dataViewport(xscale=linearvp_rangeX, yscale=linearvp_rangeY, name="plot_region"))
 # # grid.lines(ds_linear$Horizontal, ds_linear$birth_rate, default.units="native")
 # # grid.points(ds_linear$Horizontal, ds_linear$birth_rate, default.units="native")
 # # upViewport(n=3)
