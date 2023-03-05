@@ -21,29 +21,29 @@ This vignette produces the graphs included in the initial MBR manuscript.
 #| echo = FALSE,
 #| results = 'hide',
 
-library(utils)
-library(stats)
-library(grDevices)
-library(grid)
-library(scales)
-library(ggplot2)
-library(boot)
 library(Wats)
-requireNamespace("dplyr")
+suppressPackageStartupMessages({
+  requireNamespace("boot")
+  requireNamespace("dplyr")
+  requireNamespace("ggplot2")
+  requireNamespace("grDevices")
+  requireNamespace("grid")
+  requireNamespace("scales")
+})
 
 knitr::opts_chunk$set(
   comment    = NA,
   tidy       = FALSE,
   fig.width  = 6.5,
   fig.height = 1.6,
-  out.width  = "600px", #This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
+  out.width  = "600px", # This affects only the markdown, not the underlying png file.  The height will be scaled appropriately.
   fig.path   = "figure-mbr-rmd/"
-  # dev      = "pdf", #Uncomment to produce vector graphics for publication; however png (the default) works better within html (ie, the format of this vignette).
+  # dev      = "pdf", # Uncomment to produce vector graphics for publication; however png (the default) works better within html (ie, the format of this vignette).
   # dpi      = 400
 )
 
-base::options(width = 120) #So the output is 50% wider than the default.
-pdf.options(useDingbats = FALSE) #Otherwise, the circles don't get plotted correctly in some graphs
+base::options(width = 120) # So the output is 50% wider than the default.
+pdf.options(useDingbats = FALSE) # Otherwise, the circles don't get plotted correctly in some graphs
 if ( base::Sys.info()["sysname"] == "Windows")
   grDevices::windows.options(antialias = "cleartype")
 set.seed(444) # Avoid bootstrap from triggering diffs
@@ -179,7 +179,7 @@ middle_panel <-
   )
 
 bottom_panel <- 
-    Wats::cartesian_rolling(
+  Wats::cartesian_rolling(
     ds_linear             = portfolio_cartesian$ds_linear,
     x_name                = "date",
     y_name                = "birth_rate",
@@ -197,7 +197,7 @@ bottom_panel <- bottom_panel + x_scale_blank + dark_theme
 
 grid::grid.newpage()
 grid::pushViewport(grid::viewport(layout = grid::grid.layout(3,1)))
-print(top_panel, vp = vp_layout(1, 1))
+print(top_panel   , vp = vp_layout(1, 1))
 print(middle_panel, vp = vp_layout(2, 1))
 print(bottom_panel, vp = vp_layout(3, 1))
 grid::popViewport()
@@ -209,17 +209,18 @@ Cartesian plot of the GFR time series data in Oklahoma County, with H-spread Ban
 
 ```{r}
 #| fig-4-basic
-cartesian_periodic <- Wats::cartesian_periodic(
-  portfolio_cartesian$ds_linear,
-  portfolio_cartesian$ds_periodic,
-  x_name                  = "date",
-  y_name                  = "birth_rate",
-  stage_id_name           = "stage_id",
-  change_points           = change_month,
-  change_point_labels     = "Bombing Effect",
-  y_title                 = "General Fertility Rate",
-  draw_periodic_band      = TRUE #The only difference from the simple linear graph above
-)
+cartesian_periodic <- 
+  Wats::cartesian_periodic(
+    portfolio_cartesian$ds_linear,
+    portfolio_cartesian$ds_periodic,
+    x_name                  = "date",
+    y_name                  = "birth_rate",
+    stage_id_name           = "stage_id",
+    change_points           = change_month,
+    change_point_labels     = "Bombing Effect",
+    y_title                 = "General Fertility Rate",
+    draw_periodic_band      = TRUE #The only difference from the simple linear graph above
+  )
 print(cartesian_periodic)
 ```
 
@@ -282,8 +283,8 @@ grid::pushViewport(grid::viewport(
     nrow    = 2, 
     ncol    = 2, 
     respect = TRUE,
-    widths  = unit(c(1, 1), c("null", "null")),
-    heights = unit(c(1, .5), c("null", "null"))
+    widths  = grid::unit(c(1,  1), c("null", "null")),
+    heights = grid::unit(c(1, .5), c("null", "null"))
   ),
   gp = grid::gpar(cex = 1, fill = NA)
 ))
@@ -384,8 +385,8 @@ graph_row_comparison <- function(
   ))
   
   grid::pushViewport(grid::viewport(layout.pos.col = 1))
-  grid.rect(gp = gpar(fill = "gray90", col = NA))
-  grid.text(row_label, rot = 90)
+  grid::grid.rect(gp = grid::gpar(fill = "gray90", col = NA))
+  grid::grid.text(row_label, rot = 90)
   grid::popViewport()
 
   grid::pushViewport(grid::viewport(layout.pos.col = 2))
@@ -409,9 +410,9 @@ graph_row_comparison <- function(
 county_names  <- c("Comanche", "Cleveland", "Oklahoma", "Tulsa", "Rogers")
 counties      <- tolower(county_names)
 
-grid.newpage()
+grid::grid.newpage()
 grid::pushViewport(grid::viewport(
-  layout  = grid.layout(nrow = length(counties), ncol = 1), 
+  layout  = grid::grid.layout(nrow = length(counties), ncol = 1), 
   gp      = grid::gpar(cex = 1, fill = NA)
 ))
 
@@ -433,7 +434,7 @@ county_names <- c("Canadian", "Cleveland", "Comanche", "Creek", "Logan", "McClai
 
 grid::grid.newpage()
 grid::pushViewport(grid::viewport(
-  layout  = grid.layout(nrow = base::length(counties), ncol = 1), 
+  layout  = grid::grid.layout(nrow = base::length(counties), ncol = 1), 
   gp      = grid::gpar(cex = 1, fill = NA)
 ))
 
@@ -454,7 +455,10 @@ This figure demonstrates that WATS accommodates many types of error bands.
 spreads <- c("h_spread", "full_spread", "se_spread", "boot_spread")
 spread_names <- c("H-Spread", "Range", "+/-1 SE", "Bootstrap")
 grid::grid.newpage()
-grid::pushViewport(grid::viewport(layout = grid::grid.layout(nrow = base::length(spreads), ncol = 1), gp = grid::gpar(cex = 1, fill = NA)))
+grid::pushViewport(grid::viewport(
+  layout  = grid::grid.layout(nrow = base::length(spreads), ncol = 1), 
+  gp      = grid::gpar(cex = 1, fill = NA)
+))
 for (i in base::seq_along(spreads)) {
   grid::pushViewport(grid::viewport(layout.pos.row = i))
   graph_row_comparison(spread_function = base::get(spreads[i]), row_label = spread_names[i])
