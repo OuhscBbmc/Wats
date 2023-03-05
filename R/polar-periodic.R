@@ -45,9 +45,9 @@
 #' library(Wats)
 #' ds_linear <- county_month_birth_rate_2005_version
 #' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 #'
-#' h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+#' h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
 #' portfolio <- annotate_data(
 #'   ds_linear = ds_linear,
 #'   dv_name = "birth_rate",
@@ -169,40 +169,40 @@ polar_periodic <- function(
   }
 
   if (is.null(palette_dark)) {
-    if (length(stages) <= 4L) palette_dark <- RColorBrewer::brewer.pal(n=10L, name="Paired")[c(2L,4L,6L,8L)] #There's not a risk of defining more colors than levels
-    else palette_dark <- colorspace::rainbow_hcl(n=length(stages), l=40)
+    if (length(stages) <= 4L) palette_dark <- RColorBrewer::brewer.pal(n = 10L, name="Paired")[c(2L,4L,6L,8L)] #There's not a risk of defining more colors than levels
+    else palette_dark <- colorspace::rainbow_hcl(n = length(stages), l = 40)
   }
   if (is.null(palette_light)) {
-    if (length(stages) <= 4L) palette_light <- RColorBrewer::brewer.pal(n=10L, name="Paired")[c(1L,3L,5L,7L)] #There's not a risk of defining more colors than levels
-    else palette_light <- colorspace::rainbow_hcl(n=length(stages), l=70)
+    if (length(stages) <= 4L) palette_light <- RColorBrewer::brewer.pal(n = 10L, name="Paired")[c(1L,3L,5L,7L)] #There's not a risk of defining more colors than levels
+    else palette_light <- colorspace::rainbow_hcl(n = length(stages), l = 70)
   }
 #   grid.rect() #For exploring nested viewports
-  grid::pushViewport(grid::viewport(layout=grid::grid.layout(nrow=1, ncol=1, respect=TRUE), gp=grid::gpar(cex=0.6, fill=NA)))
+  grid::pushViewport(grid::viewport(layout = grid::grid.layout(nrow = 1, ncol = 1, respect = TRUE), gp = grid::gpar(cex = 0.6, fill = NA)))
 #   grid.rect() #For exploring nested viewports
-  grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=1)) #This simple viewport is very important for the respected aspect ratio of 1.
+  grid::pushViewport(grid::viewport(layout.pos.col = 1, layout.pos.row = 1)) #This simple viewport is very important for the respected aspect ratio of 1.
 #   grid.rect() #For exploring nested viewports
-  grid::grid.text(origin_label, x=0, y=0, hjust=-.1, vjust=-.2, gp=grid::gpar(cex=1.5, col=color_labels, lineheight=.8), default.units="npc")
-  grid::pushViewport(grid::plotViewport(margins=plot_margins))
+  grid::grid.text(origin_label, x = 0, y = 0, hjust=-.1, vjust=-.2, gp = grid::gpar(cex = 1.5, col = color_labels, lineheight=.8), default.units="npc")
+  grid::pushViewport(grid::plotViewport(margins = plot_margins))
 #   grid.rect() #For exploring nested viewports
-  grid::pushViewport(grid::dataViewport(xscale=vp_range, yscale=vp_range, name="plot_region"))
+  grid::pushViewport(grid::dataViewport(xscale = vp_range, yscale = vp_range, name="plot_region"))
 #   grid.rect() #For exploring nested viewports
 
-  grid::grid.lines(x=c(-graph_radius,graph_radius), y=c(0,0), gp=grid::gpar(col=color_gridlines, lty=3), default.units="native")
-  grid::grid.lines(x=c(0,0), y=c(-graph_radius,graph_radius), gp=grid::gpar(col=color_gridlines, lty=3), default.units="native")
-  grid::grid.circle(x=0, y=0, r=tick_locations_polar, default.units="native", gp=grid::gpar(col=color_gridlines))
+  grid::grid.lines(x = c(-graph_radius,graph_radius), y = c(0,0), gp = grid::gpar(col = color_gridlines, lty = 3), default.units="native")
+  grid::grid.lines(x = c(0,0), y = c(-graph_radius,graph_radius), gp = grid::gpar(col = color_gridlines, lty = 3), default.units="native")
+  grid::grid.circle(x = 0, y = 0, r = tick_locations_polar, default.units="native", gp = grid::gpar(col = color_gridlines))
   if (draw_radius_labels) {
-#     grid::grid.text(tick_locations, x=tick_locations_polar, y=0, default.units="native",
-#                     gp=grid::gpar(col=color_gridlines), just=c(-.1, 1.1))
-    grid::grid.text(tick_locations, x=tick_locations_polar/sqrt(2), y=-tick_locations_polar/sqrt(2), default.units="native",
-                    gp=grid::gpar(col=color_labels), just=c(-.05, 1.05))
+#     grid::grid.text(tick_locations, x = tick_locations_polar, y = 0, default.units="native",
+#                     gp = grid::gpar(col = color_gridlines), just = c(-.1, 1.1))
+    grid::grid.text(tick_locations, x = tick_locations_polar/sqrt(2), y=-tick_locations_polar/sqrt(2), default.units="native",
+                    gp = grid::gpar(col = color_labels), just = c(-.05, 1.05))
   }
-  grid::grid.text(cardinal_labels, x=c(0, graph_radius, 0, -graph_radius), y=c(graph_radius, 0, -graph_radius, 0), gp=grid::gpar(cex=2, col=color_labels), default.units="native")
+  grid::grid.text(cardinal_labels, x = c(0, graph_radius, 0, -graph_radius), y = c(graph_radius, 0, -graph_radius, 0), gp = grid::gpar(cex = 2, col = color_labels), default.units="native")
 
-#   lg <- grid::polylineGrob(x=ds_stage_cycle_polar$polar_lower_x, y=ds_stage_cycle_polar$polar_lower_y, id=ds_stage_cycle_polar$stage_id, gp=grid::gpar(col=palette_dark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
+#   lg <- grid::polylineGrob(x = ds_stage_cycle_polar$polar_lower_x, y = ds_stage_cycle_polar$polar_lower_y, id = ds_stage_cycle_polar$stage_id, gp = grid::gpar(col = palette_dark, lwd = 2), default.units="native", name="l") #summary(lg) #lg$gp
 #   grid::grid.draw(lg)
-#   cg <- grid::polylineGrob(x=ds_stage_cycle_polar$polar_center_x, y=ds_stage_cycle_polar$polar_center_y, id=ds_stage_cycle_polar$stage_id, gp=grid::gpar(col=palette_dark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
+#   cg <- grid::polylineGrob(x = ds_stage_cycle_polar$polar_center_x, y = ds_stage_cycle_polar$polar_center_y, id = ds_stage_cycle_polar$stage_id, gp = grid::gpar(col = palette_dark, lwd = 2), default.units="native", name="l") #summary(lg) #lg$gp
 #   grid::grid.draw(cg)
-#   ug <- grid::polylineGrob(x=ds_stage_cycle_polar$polar_upper_x, y=ds_stage_cycle_polar$polar_upper_y, id=ds_stage_cycle_polar$stage_id, gp=grid::gpar(col=palette_dark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
+#   ug <- grid::polylineGrob(x = ds_stage_cycle_polar$polar_upper_x, y = ds_stage_cycle_polar$polar_upper_y, id = ds_stage_cycle_polar$stage_id, gp = grid::gpar(col = palette_dark, lwd = 2), default.units="native", name="l") #summary(lg) #lg$gp
 #   grid::grid.draw(ug)
 
   if (draw_periodic_band) {
@@ -214,7 +214,7 @@ polar_periodic <- function(
 
       x <- c(lower_x, rev(upper_x))
       y <- c(lower_y, rev(upper_y))
-      grid::grid.polygon(x=x, y=y, default.units="native", gp=grid::gpar(fill=palette_dark[stageID], col="transparent", alpha=band_alpha_dark))
+      grid::grid.polygon(x = x, y = y, default.units="native", gp = grid::gpar(fill = palette_dark[stageID], col="transparent", alpha = band_alpha_dark))
     }
   }
 
@@ -264,23 +264,23 @@ polar_periodic <- function(
 # library(Wats)
 # ds_linear <- county_month_birth_rate_2005_version
 # ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-# ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
+# ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 #
-# h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=h_spread)
+# h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
+# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function = median, spread_function = h_spread)
 # rm(ds_linear)
 #
-# polarized <- polarize_cartesian(portfolio$ds_linear, portfolio$ds_stage_cycle, y_name="birth_rate", stage_id_name="stage_id", plotted_point_count_per_cycle=3600)
+# polarized <- polarize_cartesian(portfolio$ds_linear, portfolio$ds_stage_cycle, y_name="birth_rate", stage_id_name="stage_id", plotted_point_count_per_cycle = 3600)
 #
 # grid.newpage()
-# polar_periodic(ds_linear=polarized$ds_observed_polar, polarized$ds_stage_cycle_polar, draw_radius_labels=TRUE, draw_stage_labels=TRUE, y_name="radius", stage_id_name="stage_id", draw_periodic_band=FALSE)
+# polar_periodic(ds_linear = polarized$ds_observed_polar, polarized$ds_stage_cycle_polar, draw_radius_labels = TRUE, draw_stage_labels = TRUE, y_name="radius", stage_id_name="stage_id", draw_periodic_band = FALSE)
 
 # grid.newpage()
-# polar_periodic(ds_linear=polarized$ds_observed_polar, polarized$ds_stage_cycle_polar, y_name="radius", stage_id_name="stage_id", draw_periodic_band=FALSE)
+# polar_periodic(ds_linear = polarized$ds_observed_polar, polarized$ds_stage_cycle_polar, y_name="radius", stage_id_name="stage_id", draw_periodic_band = FALSE)
 
 # grid.newpage()
-# polar_periodic(ds_linear=polarized$ds_observed_polar, polarized$ds_stage_cycle_polar, y_name="radius", stage_id_name="stage_id", cardinal_labels=c("Jan1", "Apr1", "July1", "Oct1"))
+# polar_periodic(ds_linear = polarized$ds_observed_polar, polarized$ds_stage_cycle_polar, y_name="radius", stage_id_name="stage_id", cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1"))
 
 # #
 # grid.newpage()
-# polar_periodic(ds_linear=polarized$ds_observed_polar, polarized$ds_stage_cycle_polar, y_name="radius", stage_id_name="stage_id", draw_observed_line=FALSE, cardinal_labels=c("Jan1", "Apr1", "July1", "Oct1"))
+# polar_periodic(ds_linear = polarized$ds_observed_polar, polarized$ds_stage_cycle_polar, y_name="radius", stage_id_name="stage_id", draw_observed_line = FALSE, cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1"))

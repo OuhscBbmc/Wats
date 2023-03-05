@@ -24,9 +24,9 @@
 #' library(Wats)
 #' ds_linear <- county_month_birth_rate_2005_version
 #' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 #'
-#' h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+#' h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
 #' portfolio <- annotate_data(
 #'   ds_linear = ds_linear,
 #'   dv_name = "birth_rate",
@@ -44,13 +44,13 @@
 #'
 #' library(ggplot2)
 #' polarized$ds_stage_cycle_polar |>
-#'   ggplot(aes(color=factor(stage_id))) +
-#'   geom_path(aes(x=polar_lower_x, y=polar_lower_y), linetype=2) +
-#'   geom_path(aes(x=polar_center_x, y=polar_center_y), linewidth=2) +
-#'   geom_path(aes(x=polar_upper_x, y=polar_upper_y), linetype=2) +
-#'   geom_path(aes(x=observed_x, y=observed_y), data=polarized$ds_observed_polar) +
-#'   coord_fixed(ratio=1) +
-#'   guides(color=NULL)
+#'   ggplot(aes(color = factor(stage_id))) +
+#'   geom_path(aes(x = polar_lower_x, y = polar_lower_y), linetype = 2) +
+#'   geom_path(aes(x = polar_center_x, y = polar_center_y), linewidth = 2) +
+#'   geom_path(aes(x = polar_upper_x, y = polar_upper_y), linetype = 2) +
+#'   geom_path(aes(x = observed_x, y = observed_y), data = polarized$ds_observed_polar) +
+#'   coord_fixed(ratio = 1) +
+#'   guides(color = NULL)
 
 #For a more polished graph, see polar_periodic().
 polarize_cartesian <- function(
@@ -64,9 +64,9 @@ polarize_cartesian <- function(
   periodic_center_name            = "PositionCenter",
   periodic_upper_name             = "position_upper",
   plotted_point_count_per_cycle   = 120,
-  graph_floor                     = min(base::pretty(x=ds_linear[[y_name]]))
+  graph_floor                     = min(base::pretty(ds_linear[[y_name]]))
 ) {
-  #TODO: allow counter-clockwise and arbitrary angle for theta=0
+  #TODO: allow counter-clockwise and arbitrary angle for theta = 0
   . <- NULL # avoid "Undefined global functions or variables"
 
   close_loop <- function(d) {
@@ -107,7 +107,7 @@ polarize_cartesian <- function(
       upper_y  = upper$y
     )
   }
-  polarize_observed <- function(d, graph_floor=graph_floor) {
+  polarize_observed <- function(d, graph_floor = graph_floor) {
     #After R 3.1.0 has been out for a while, consider using sinpi()`.
     if (nrow(d) == 0L) {
       stage_start <- logical(0)
@@ -155,7 +155,7 @@ polarize_cartesian <- function(
     ds_linear |>
     dplyr::group_by(!! rlang::ensym(stage_id_name)) |>
     dplyr::do(
-      interpolate_observed(., points_per_cycle_count=plotted_point_count_per_cycle)
+      interpolate_observed(., points_per_cycle_count = plotted_point_count_per_cycle)
     ) |>
     dplyr::ungroup()
 
@@ -163,7 +163,7 @@ polarize_cartesian <- function(
     ds_observed_interpolated |>
     dplyr::group_by(!! rlang::ensym(stage_id_name)) |>
     dplyr::do(
-      polarize_observed(., graph_floor=graph_floor)
+      polarize_observed(., graph_floor = graph_floor)
     ) |>
     dplyr::ungroup()
 
@@ -201,21 +201,21 @@ polarize_cartesian <- function(
 # library(Wats)
 # ds_linear <- county_month_birth_rate_2005_version
 # ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-# ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
+# ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 #
-# h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=h_spread)
+# h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
+# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function = median, spread_function = h_spread)
 # rm(ds_linear)
 #
 # polarized <- polarize_cartesian(portfolio$ds_linear, portfolio$ds_stage_cycle, y_name="birth_rate", stage_id_name="stage_id")
 #
 # library(ggplot2)
-# ggplot(polarized$ds_stage_cycle_polar, aes(color=factor(stage_id))) +
-#   geom_path(aes(x=polar_lower_x, y=polar_lower_y), linetype=2) +
-#   geom_path(aes(x=polar_center_x, y=polar_center_y), size=2) +
-#   geom_path(aes(x=polar_upper_x, y=polar_upper_y), linetype=2) +
-#   geom_path(aes(x=observed_x, y=observed_y), data=polarized$ds_observed_polar) +
-#   coord_fixed(ratio=1) +
-#   guides(color=FALSE)
+# ggplot(polarized$ds_stage_cycle_polar, aes(color = factor(stage_id))) +
+#   geom_path(aes(x = polar_lower_x, y = polar_lower_y), linetype = 2) +
+#   geom_path(aes(x = polar_center_x, y = polar_center_y), size = 2) +
+#   geom_path(aes(x = polar_upper_x, y = polar_upper_y), linetype = 2) +
+#   geom_path(aes(x = observed_x, y = observed_y), data = polarized$ds_observed_polar) +
+#   coord_fixed(ratio = 1) +
+#   guides(color = FALSE)
 #
 # #For a more polished graph, see polar_periodic().

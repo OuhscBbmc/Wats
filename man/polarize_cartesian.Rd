@@ -15,7 +15,7 @@ polarize_cartesian(
   periodic_center_name = "PositionCenter",
   periodic_upper_name = "position_upper",
   plotted_point_count_per_cycle = 120,
-  graph_floor = min(base::pretty(x = ds_linear[[y_name]]))
+  graph_floor = min(base::pretty(ds_linear[[y_name]]))
 )
 }
 \arguments{
@@ -54,9 +54,9 @@ Third, the Cartesian points are converted to polar coordinates.
 library(Wats)
 ds_linear <- county_month_birth_rate_2005_version
 ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
+ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 
-h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
 portfolio <- annotate_data(
   ds_linear = ds_linear,
   dv_name = "birth_rate",
@@ -74,12 +74,12 @@ polarized <- polarize_cartesian(
 
 library(ggplot2)
 polarized$ds_stage_cycle_polar |>
-  ggplot(aes(color=factor(stage_id))) +
-  geom_path(aes(x=polar_lower_x, y=polar_lower_y), linetype=2) +
-  geom_path(aes(x=polar_center_x, y=polar_center_y), linewidth=2) +
-  geom_path(aes(x=polar_upper_x, y=polar_upper_y), linetype=2) +
-  geom_path(aes(x=observed_x, y=observed_y), data=polarized$ds_observed_polar) +
-  coord_fixed(ratio=1) +
-  guides(color=NULL)
+  ggplot(aes(color = factor(stage_id))) +
+  geom_path(aes(x = polar_lower_x, y = polar_lower_y), linetype = 2) +
+  geom_path(aes(x = polar_center_x, y = polar_center_y), linewidth = 2) +
+  geom_path(aes(x = polar_upper_x, y = polar_upper_y), linetype = 2) +
+  geom_path(aes(x = observed_x, y = observed_y), data = polarized$ds_observed_polar) +
+  coord_fixed(ratio = 1) +
+  guides(color = NULL)
 }
 \keyword{polar}

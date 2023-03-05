@@ -17,7 +17,7 @@
 #' library(Wats)
 #' ds_linear <- county_month_birth_rate_2005_version
 #' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 #' head(ds_linear)
 #'
 #' @importFrom rlang .data
@@ -56,12 +56,12 @@ augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
   is_min <- NULL # avoid "Undefined global functions or variables"
 
   year_of_event <- lubridate::year(ds_linear[[date_name]])
-  first_of_year <- base::ISOdate(year=year_of_event, month=1, day=1, tz="GMT")
-  last_of_year <- first_of_year + lubridate::years(1)  #ISOdate(year=year_of_event + 1, month=1, day=1, tz="GMT")
+  first_of_year <- base::ISOdate(year = year_of_event, month = 1, day = 1, tz = "GMT")
+  last_of_year <- first_of_year + lubridate::years(1)
 
   min_year_of_event <- min(year_of_event)
   ds_linear$cycle_tally <- (year_of_event - min_year_of_event)
-  seconds_through_the_year <- base::as.integer(base::difftime(time1=ds_linear[[date_name]], first_of_year, units="sec")) - .5
+  seconds_through_the_year <- base::as.integer(base::difftime(time1 = ds_linear[[date_name]], first_of_year, units="sec")) - .5
   seconds_in_the_year <- base::as.integer(base::difftime(last_of_year, first_of_year, units="sec"))
   ds_linear$proportion_through_cycle <- seconds_through_the_year /  seconds_in_the_year
 
@@ -93,8 +93,8 @@ augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
 # library(Wats)
 # ds_linear <- county_month_birth_rate_2005_version
 # ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-# # ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
+# # ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 # ds_linear
 #
 # ds_linear$date <- as.POSIXct(ds_linear$date, tz="GMT")
-# ds_linear <- augment_year_data_with_second_resolution(ds_linear=ds_linear, date_name="date")
+# ds_linear <- augment_year_data_with_second_resolution(ds_linear = ds_linear, date_name="date")

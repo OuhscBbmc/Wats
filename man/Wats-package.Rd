@@ -13,7 +13,7 @@ The release version is available through \href{https://cran.r-project.org/packag
 running \code{install.packages('Wats')}.
 The most recent development version is available through \href{https://github.com/OuhscBbmc/Wats}{GitHub} by
 running
-\code{remotes::install_github(repo = "OuhscBbmc/Wats")}.
+\code{remotes::install_github("OuhscBbmc/Wats")}.
 (make sure \href{https://cran.r-project.org/package=remotes}{remotes} is already installed).
 If you're having trouble with the package, please install the development version.  If this doesn't solve
 your problem, please create an \href{https://github.com/OuhscBbmc/Wats/issues}{issue}, or email Will.

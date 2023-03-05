@@ -10,7 +10,7 @@
 #' running `install.packages('Wats')`.
 #' The most recent development version is available through \href{https://github.com/OuhscBbmc/Wats}{GitHub} by
 #' running
-#' `remotes::install_github(repo = "OuhscBbmc/Wats")`.
+#' `remotes::install_github("OuhscBbmc/Wats")`.
 #' (make sure [remotes](https://cran.r-project.org/package=remotes) is already installed).
 #' If you're having trouble with the package, please install the development version.  If this doesn't solve
 #' your problem, please create an [issue](https://github.com/OuhscBbmc/Wats/issues), or email Will.
