@@ -158,13 +158,13 @@ LinearPlot()
 top <- LinearPlot(showSmoother=FALSE, showRibbon=FALSE, showYears=FALSE) #Top Panel
 middle <- LinearPlot(showLine=FALSE, showRibbon=FALSE, showYears=FALSE, labelBreak=FALSE) #Middle Panel
 bottom <- LinearPlot(showLine=FALSE, labelBreak=FALSE) #Bottom Panel
-vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
+vp_layout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
 
 # pdf(file.path(pathDirectoryOutput, "Fig2.pdf"), width=widthTotal, height=heightTotal)
 png(file.path(pathDirectoryOutput, "Fig2.png"), width=widthTotal, height=heightTotal, units="in", res=600)
 grid.newpage()
 pushViewport(viewport(layout=grid.layout(3,1)))
-print(top, vp=vpLayout(1,1))
-print(middle, vp=vpLayout(2,1))
-print(bottom, vp=vpLayout(3,1))
+print(top, vp=vp_layout(1,1))
+print(middle, vp=vp_layout(2,1))
+print(bottom, vp=vp_layout(3,1))
 dev.off()

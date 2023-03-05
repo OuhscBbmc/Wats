@@ -192,14 +192,14 @@ polar_periodic <- function(ds_linear, ds_stage_cycle_polar,
   }
 
   if (draw_stage_labels) {
-    gLabelStart <- grid::textGrob(label=ds_linear$label_stage_start, x=ds_linear$observed_x, y=ds_linear$observed_y,
+    g_label_start <- grid::textGrob(label=ds_linear$label_stage_start, x=ds_linear$observed_x, y=ds_linear$observed_y,
                                   gp=grid::gpar(col=label_color, lwd=jagged_line_size),
                                   default.units="native", name="l")
-    grid::grid.draw(gLabelStart)
-    gLabelEnd <- grid::textGrob(label=ds_linear$label_stage_end, x=ds_linear$observed_x, y=ds_linear$observed_y,
+    grid::grid.draw(g_label_start)
+    g_label_end <- grid::textGrob(label=ds_linear$label_stage_end, x=ds_linear$observed_x, y=ds_linear$observed_y,
                                 gp=grid::gpar(col=label_color, lwd=jagged_line_size),
                                 default.units="native", name="l")
-    grid::grid.draw(gLabelEnd)
+    grid::grid.draw(g_label_end)
   }
   grid::upViewport(n=4)
 }

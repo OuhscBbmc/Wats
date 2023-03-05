@@ -44,18 +44,18 @@ if( base::Sys.info()["sysname"] == "Windows" )
 ```{r Definitions}
 change_month <- base::as.Date("1996-02-15") #as.Date("1995-04-19") + lubridate::weeks(39) = "1996-01-17"
 
-vpLayout <- function(x, y) { grid::viewport(layout.pos.row=x, layout.pos.col=y) }
+vp_layout <- function(x, y) { grid::viewport(layout.pos.row=x, layout.pos.col=y) }
 
-fullSpread <- function( scores ) {
+full_spread <- function( scores ) {
   return( base::range(scores) ) #A new function isn't necessary.  It's defined in order to be consistent.
 }
 h_spread <- function( scores ) {
   return( stats::quantile(x=scores, probs=c(.25, .75)) )
 }
-seSpread <- function( scores ) {
+se_spread <- function( scores ) {
   return( base::mean(scores) + base::c(-1, 1) * stats::sd(scores) / base::sqrt(base::sum(!base::is.na(scores))) )
 }
-bootSpread <- function( scores, conf=.68 ) {
+boot_spread <- function( scores, conf=.68 ) {
   plugin <- function( d, i ) { base::mean(d[i]) }
 
   distribution <- boot::boot(data=scores, plugin, R=99) #999 for the publication
@@ -63,7 +63,7 @@ bootSpread <- function( scores, conf=.68 ) {
   return( ci$bca[4:5] ) #The fourth & fifth elements correspond to the lower & upper bound.
 }
 
-darkTheme <- ggplot2::theme(
+dark_theme <- ggplot2::theme(
   axis.title          = ggplot2::element_text(color="gray30", size=9),
   axis.text.x         = ggplot2::element_text(color="gray30", hjust=0),
   axis.text.y         = ggplot2::element_text(color="gray30"),
@@ -73,16 +73,16 @@ darkTheme <- ggplot2::theme(
   panel.spacing       = grid::unit(c(0, 0, 0, 0), "cm"),
   plot.margin         = grid::unit(c(0, 0, 0, 0), "cm")
 )
-lightTheme <- darkTheme + ggplot2::theme(
+light_theme <- dark_theme + ggplot2::theme(
   axis.title          = ggplot2::element_text(color="gray80", size=9),
   axis.text.x         = ggplot2::element_text(color="gray80", hjust=0),
   axis.text.y         = ggplot2::element_text(color="gray80"),
   panel.grid.minor.y  = ggplot2::element_line(color="gray99", size=.1),
   panel.grid.major    = ggplot2::element_line(color="gray95", size=.1)
 )
-dateSequence <- base::seq.Date(from=base::as.Date("1990-01-01"), to=base::as.Date("1999-01-01"), by="years")
-xScale       <- ggplot2::scale_x_date(breaks=dateSequence, labels=scales::date_format("%Y"))
-xScaleBlank  <- ggplot2::scale_x_date(breaks=dateSequence, labels=NULL) #This keeps things proportional down the three frames.
+date_sequence <- base::seq.Date(from=base::as.Date("1990-01-01"), to=base::as.Date("1999-01-01"), by="years")
+x_scale       <- ggplot2::scale_x_date(breaks=date_sequence, labels=scales::date_format("%Y"))
+x_scale_blank  <- ggplot2::scale_x_date(breaks=date_sequence, labels=NULL) #This keeps things proportional down the three frames.
 ```
 
 ## Section 1: Cartesian Rolling Plot
@@ -97,15 +97,15 @@ Smoothed monthly  birth rates (General Fertility Rates;  GFR's) for Oklahoma Cou
 
 # Uncomment this line to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
-dsLinearAll <- county_month_birth_rate_2014_version
-ds_linear <- dsLinearAll[dsLinearAll$county_name=="oklahoma", ]
+ds_linear_all <- county_month_birth_rate_2014_version
+ds_linear <- ds_linear_all[ds_linear_all$county_name=="oklahoma", ]
 
 ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
 
-portfolioCartesian <- Wats::annotate_data(ds_linear, dv_name="birth_rate", center_function=stats::median, spread_function=h_spread)
+portfolio_cartesian <- Wats::annotate_data(ds_linear, dv_name="birth_rate", center_function=stats::median, spread_function=h_spread)
 
-topPanel <- Wats::cartesian_rolling(
-  ds_linear = portfolioCartesian$ds_linear,
+top_panel <- Wats::cartesian_rolling(
+  ds_linear = portfolio_cartesian$ds_linear,
   x_name = "date",
   y_name = "birth_rate",
   stage_id_name = "stage_id",
@@ -116,8 +116,8 @@ topPanel <- Wats::cartesian_rolling(
   draw_rolling_line = FALSE
 )
 
-middlePanel <- cartesian_rolling(
-  ds_linear = portfolioCartesian$ds_linear,
+middle_panel <- cartesian_rolling(
+  ds_linear = portfolio_cartesian$ds_linear,
   x_name = "date",
   y_name = "birth_rate",
   stage_id_name = "stage_id",
@@ -128,8 +128,8 @@ middlePanel <- cartesian_rolling(
   draw_jagged_line = FALSE
 )
 
-bottomPanel <- Wats::cartesian_rolling(
-  ds_linear = portfolioCartesian$ds_linear,
+bottom_panel <- Wats::cartesian_rolling(
+  ds_linear = portfolio_cartesian$ds_linear,
   x_name = "date",
   y_name = "birth_rate",
   stage_id_name = "stage_id",
@@ -139,15 +139,15 @@ bottomPanel <- Wats::cartesian_rolling(
   draw_jagged_line = FALSE
 )
 
-topPanel <- topPanel + xScale + darkTheme
-middlePanel <- middlePanel + xScale + darkTheme
-bottomPanel <- bottomPanel + xScaleBlank + darkTheme
+top_panel <- top_panel + x_scale + dark_theme
+middle_panel <- middle_panel + x_scale + dark_theme
+bottom_panel <- bottom_panel + x_scale_blank + dark_theme
 
 grid::grid.newpage()
 grid::pushViewport(grid::viewport(layout=grid::grid.layout(3,1)))
-print(topPanel, vp=vpLayout(1, 1))
-print(middlePanel, vp=vpLayout(2, 1))
-print(bottomPanel, vp=vpLayout(3, 1))
+print(top_panel, vp=vp_layout(1, 1))
+print(middle_panel, vp=vp_layout(2, 1))
+print(bottom_panel, vp=vp_layout(3, 1))
 grid::popViewport()
 ```
 
@@ -158,8 +158,8 @@ Cartesian plot of the GFR time series data in Oklahoma County, with H-spread Ban
 
 ```{r cartesian_periodic}
 cartesian_periodic <- Wats::cartesian_periodic(
-  portfolioCartesian$ds_linear,
-  portfolioCartesian$ds_periodic,
+  portfolio_cartesian$ds_linear,
+  portfolio_cartesian$ds_periodic,
   x_name = "date",
   y_name = "birth_rate",
   stage_id_name = "stage_id",
@@ -168,7 +168,7 @@ cartesian_periodic <- Wats::cartesian_periodic(
   y_title = "General Fertility Rate",
   draw_periodic_band = TRUE #The only difference from the simple linear graph above
 )
-cartesian_periodic <- cartesian_periodic + xScale + darkTheme
+cartesian_periodic <- cartesian_periodic + x_scale + dark_theme
 print(cartesian_periodic)
 ```
 
@@ -178,9 +178,9 @@ This section corresponds to the MBR manuscript, but with the modified dataset.
 Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data, 1990-1999
 
 ```{r polar_periodic, fig.height=6.5*2/3}
-portfolioPolar <- Wats::polarize_cartesian(
-  ds_linear = portfolioCartesian$ds_linear,
-  ds_stage_cycle = portfolioCartesian$ds_stage_cycle,
+portfolio_polar <- Wats::polarize_cartesian(
+  ds_linear = portfolio_cartesian$ds_linear,
+  ds_stage_cycle = portfolio_cartesian$ds_stage_cycle,
   y_name = "birth_rate",
   stage_id_name = "stage_id",
   plotted_point_count_per_cycle = 7200
@@ -198,9 +198,9 @@ grid::pushViewport(grid::viewport(
 
 ## Create top left panel
 grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=1))
-topLeftPanel <- Wats::polar_periodic(
-  ds_linear = portfolioPolar$ds_observed_polar,
-  ds_stage_cycle_polar = portfolioPolar$ds_stage_cycle_polar,
+top_left_panel <- Wats::polar_periodic(
+  ds_linear = portfolio_polar$ds_observed_polar,
+  ds_stage_cycle_polar = portfolio_polar$ds_stage_cycle_polar,
   y_name = "radius",
   stage_id_name = "stage_id",
   cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
@@ -210,8 +210,8 @@ grid::upViewport()
 ## Create top right panel
 grid::pushViewport(grid::viewport(layout.pos.col=2, layout.pos.row=1))
 topRighttPanel <- Wats::polar_periodic(
-  ds_linear = portfolioPolar$ds_observed_polar,
-  ds_stage_cycle_polar = portfolioPolar$ds_stage_cycle_polar,
+  ds_linear = portfolio_polar$ds_observed_polar,
+  ds_stage_cycle_polar = portfolio_polar$ds_stage_cycle_polar,
   y_name = "radius",
   stage_id_name = "stage_id",
   draw_observed_line = FALSE,
@@ -222,7 +222,7 @@ grid::upViewport()
 
 ## Create bottom panel
 grid::pushViewport(grid::viewport(layout.pos.col=1:2, layout.pos.row=2, gp=grid::gpar(cex=1)))
-print(cartesian_periodic, vp=vpLayout(x=1:2, y=2)) #Print across both columns of the bottom row.
+print(cartesian_periodic, vp=vp_layout(x=1:2, y=2)) #Print across both columns of the bottom row.
 upViewport()
 ```
 

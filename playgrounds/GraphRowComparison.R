@@ -1,24 +1,24 @@
 rm(list=ls(all=TRUE))
 library(Wats)
-vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
+vp_layout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
 
-fullSpread <- function( scores ) {
+full_spread <- function( scores ) {
   return( range(scores) )
 }
 h_spread <- function( scores ) {
   return( quantile(x=scores, probs=c(.25, .75)) )
 }
-seSpread <- function( scores ) {
+se_spread <- function( scores ) {
   return( base::mean(scores) + base::c(-1, 1) * stats::sd(scores) / base::sqrt(base::sum(!base::is.na(scores))) )
 }
-bootSpread <- function( scores, conf=.68 ) {
+boot_spread <- function( scores, conf=.68 ) {
   plugin <- function( d, i ) { mean(d[i]) }
 
   distribution <- boot(data=scores, plugin, R=999)
   ci <- boot.ci(distribution, type=c("bca"), conf=conf)
   return( ci$bca[4:5] ) #The fourth & fifth elements correspond to the lower & upper bound.
 }
-lightTheme <- ggplot2::theme(
+light_theme <- ggplot2::theme(
   axis.title         =element_text(color="gray60", size=9),
   axis.text.x        =element_text(color="gray80", hjust=0),
   axis.text.y        =element_text(color="gray80"),
@@ -33,9 +33,9 @@ lightTheme <- ggplot2::theme(
 GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spread_function=h_spread, change_month=as.Date("1996-02-15") ) {
   ds_linear <- county_month_birth_rate_2005_version[county_month_birth_rate_2005_version$county_name==countyName, ]
   ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
-  portfolioCartesian <- annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=spread_function)
-  portfolioPolar <- polarize_cartesian(ds_linear=portfolioCartesian$ds_linear, ds_stage_cycle=portfolioCartesian$ds_stage_cycle, y_name="birth_rate", stage_id_name="stage_id", plotted_point_count_per_cycle=7200)
-  cartesian_periodic <- cartesian_periodic(portfolioCartesian$ds_linear, portfolioCartesian$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points=change_month, change_point_labels=""  )
+  portfolio_cartesian <- annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=spread_function)
+  portfolio_polar <- polarize_cartesian(ds_linear=portfolio_cartesian$ds_linear, ds_stage_cycle=portfolio_cartesian$ds_stage_cycle, y_name="birth_rate", stage_id_name="stage_id", plotted_point_count_per_cycle=7200)
+  cartesian_periodic <- cartesian_periodic(portfolio_cartesian$ds_linear, portfolio_cartesian$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points=change_month, change_point_labels=""  )
 
   pushViewport(viewport(
     layout=grid.layout(nrow=1, ncol=3, respect=FALSE, widths=unit(c(2,1,3), c("line", "null", "null"))),
@@ -48,17 +48,17 @@ GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spread_fu
 
   pushViewport(viewport(layout.pos.col=2))
 #   grid.rect()
-  polar_periodic <- polar_periodic(ds_linear=portfolioPolar$ds_observed_polar, ds_stage_cycle_polar=portfolioPolar$ds_stage_cycle_polar, draw_observed_line=FALSE, y_name="radius", stage_id_name="stage_id", origin_label=NULL)
+  polar_periodic <- polar_periodic(ds_linear=portfolio_polar$ds_observed_polar, ds_stage_cycle_polar=portfolio_polar$ds_stage_cycle_polar, draw_observed_line=FALSE, y_name="radius", stage_id_name="stage_id", origin_label=NULL)
   popViewport()
 
   pushViewport(viewport(layout.pos.col=3))
-  print(cartesian_periodic + lightTheme, vp=vpLayout(x=1, y=1))
+  print(cartesian_periodic + light_theme, vp=vp_layout(x=1, y=1))
   popViewport()
   popViewport() #Finish the row
 }
 
 counties <- c("tulsa", "oklahoma", "cleveland", "comanche")
-spreads <- c("h_spread", "fullSpread", "seSpread", "bootSpread")
+spreads <- c("h_spread", "full_spread", "se_spread", "boot_spread")
 
 grid.newpage()
 pushViewport(viewport(layout=grid.layout(nrow=length(counties), ncol=1), gp=gpar(cex=1, fill=NA)))
