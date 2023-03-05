@@ -26,8 +26,8 @@ augment_year_data_with_month_resolution <- function( ds_linear, date_name ) {
 
   year_of_event <- lubridate::year(ds_linear[[date_name]])
 
-  minyear_of_event <- base::min(year_of_event)
-  ds_linear$cycle_tally <- (year_of_event - minyear_of_event)
+  min_year_of_event <- base::min(year_of_event)
+  ds_linear$cycle_tally <- (year_of_event - min_year_of_event)
   months_through_the_year <- lubridate::month(ds_linear[[date_name]]) - .5
   months_in_the_year <- 12L
   ds_linear$proportion_through_cycle <- months_through_the_year /  months_in_the_year
@@ -35,11 +35,6 @@ augment_year_data_with_month_resolution <- function( ds_linear, date_name ) {
   ds_linear$starting_point_in_cycle <- (ds_linear$proportion_id==base::min(ds_linear$proportion_id))
   ds_linear$terminal_point_in_cycle <- (ds_linear$proportion_id==base::max(ds_linear$proportion_id))
 
-  # SummarizeWithinStage <- function( d ) {
-  #   is_min <- (base::min(d[[date_name]]) < d[[date_name]])
-  #   return( d$stage_id + is_min*0.5 )
-  # }
-  #
   ds_linear |>
     tibble::as_tibble() |>
     dplyr::group_by(.data$stage_id) |>
@@ -64,20 +59,11 @@ augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
   first_of_year <- base::ISOdate(year=year_of_event, month=1, day=1, tz="GMT")
   last_of_year <- first_of_year + lubridate::years(1)  #ISOdate(year=year_of_event + 1, month=1, day=1, tz="GMT")
 
-  minyear_of_event <- min(year_of_event)
-  ds_linear$cycle_tally <- (year_of_event - minyear_of_event)
+  min_year_of_event <- min(year_of_event)
+  ds_linear$cycle_tally <- (year_of_event - min_year_of_event)
   seconds_through_the_year <- base::as.integer(base::difftime(time1=ds_linear[[date_name]], first_of_year, units="sec")) - .5
   seconds_in_the_year <- base::as.integer(base::difftime(last_of_year, first_of_year, units="sec"))
   ds_linear$proportion_through_cycle <- seconds_through_the_year /  seconds_in_the_year
-
-  # SummarizeWithinCycle <- function( d ) {
-  #   d$proportion_id <- base::rank(d$proportion_through_cycle, ties.method="max")
-  #   d$starting_point_in_cycle <- (d$proportion_id==base::min(d$proportion_id))
-  #   d$terminal_point_in_cycle <- (d$proportion_id==base::max(d$proportion_id))
-  #   return( d )
-  # }
-  # ds_linear <- plyr::ddply(ds_linear, .variables="cycle_tally", SummarizeWithinCycle) #base::transform,
-#                           proportion_id)
 
   ds_linear <-
     ds_linear |>
@@ -89,14 +75,6 @@ augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
     ) |>
     dplyr::ungroup()
 
-  #ds_linear$proportion_id <- as.integer(round(rank(ds_linear$proportion_through_cycle, ties.method="max") / max(ds_linear$cycle_tally + 1)))
-#   ds_linear$proportion_id <- rank(ds_linear$proportion_through_cycle, ties.method="max") / max(ds_linear$cycle_tally + 1)
-#   ds_linear$starting_point_in_cycle <- (ds_linear$proportion_id==min(ds_linear$proportion_id))
-#   ds_linear$terminal_point_in_cycle <- (ds_linear$proportion_id==max(ds_linear$proportion_id))
-#   ds_linear <- plyr::ddply(ds_linear,
-#                     "cycle_tally",
-#                     transform,
-#                     terminal_point_in_cycle=(rank(proportion_through_cycle)==max(rank(proportion_through_cycle))))
   ds_linear |>
     tibble::as_tibble() |>
     dplyr::group_by(.data$stage_id) |>
@@ -110,16 +88,6 @@ augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
     dplyr::select(
       -is_min,
     )
-  #   SummarizeWithinStage <- function( d ) {
-  #     #     minValue <- min(d[[date_name]])
-  #     #     maxValue <- max(d[[date_name]])
-  #     #     isBetween <- ( (min(d[[date_name]]) < d[[date_name]]) & (d[[date_name]] < max(d[[date_name]])))
-  #     is_min <-  (base::min(d[[date_name]]) < d[[date_name]])
-  #     return( d$stage_id + is_min*0.5 )
-  #   }
-  #   ds_linear$stage_progress <- base::unlist(plyr::dlply(ds_linear, "stage_id", SummarizeWithinStage))
-  # #   ds_linear$stage_progress <- plyr::daply(ds_linear, "stage_id", SummarizeWithinStage)
-  #   return( ds_linear )
 }
 
 # library(Wats)

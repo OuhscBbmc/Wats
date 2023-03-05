@@ -43,16 +43,18 @@
 #' head(portfolio$ds_periodic)
 
 #' @importFrom rlang .data
-annotate_data <- function( ds_linear,
-                          dv_name,
-                          center_function,
-                          spread_function,
-                          cycle_tally_name="cycle_tally",
-                          stage_id_name="stage_id",
-                          stage_progress_name="stage_progress",
-                          proportion_through_cycle_name="proportion_through_cycle",
-                          proportion_id_name="proportion_id",
-                          terminal_point_in_cycle_name="terminal_point_in_cycle" ) {
+annotate_data <- function(
+  ds_linear,
+  dv_name,
+  center_function,
+  spread_function,
+  cycle_tally_name               = "cycle_tally",
+  stage_id_name                  = "stage_id",
+  stage_progress_name            = "stage_progress",
+  proportion_through_cycle_name  = "proportion_through_cycle",
+  proportion_id_name             = "proportion_id",
+  terminal_point_in_cycle_name   = "terminal_point_in_cycle"
+) {
 
   points_in_cycle <- max(ds_linear[[proportion_id_name]])
   testit::assert("The should be at least one point in a cycle", max(points_in_cycle)>=1)
@@ -60,33 +62,21 @@ annotate_data <- function( ds_linear,
   z <- zoo::zooreg(data=ds_linear[[dv_name]], frequency=points_in_cycle)
   rolling_bounds <- zoo::rollapply(data=z, width=points_in_cycle, FUN=spread_function)
 
-  ds_linear$rolling_lower <- NA
+  ds_linear$rolling_lower  <- NA
   ds_linear$rolling_center <- NA
-  ds_linear$rolling_upper <- NA
-  ds_linear$rolling_lower[-seq_len(points_in_cycle-1) ] <- rolling_bounds[, 1]
+  ds_linear$rolling_upper  <- NA
+  ds_linear$rolling_lower[ -seq_len(points_in_cycle-1) ] <- rolling_bounds[, 1]
   ds_linear$rolling_center[-seq_len(points_in_cycle-1) ] <- zoo::rollapply(data=z, width=points_in_cycle, FUN=center_function)
-  ds_linear$rolling_upper[-seq_len(points_in_cycle-1) ] <- rolling_bounds[, 2]
-
-  # summarizeStageCycle <- function( d ) {
-  #   positionBounds <- spread_function(d[[dv_name]])
-  #   #   print(positionBounds)
-  #   data.frame(
-  #     proportion_through_cycle = mean(d$proportion_through_cycle, na.rm=TRUE),
-  #     position_lower = positionBounds[1],
-  #     PositionCenter = center_function(d[[dv_name]]),
-  #     position_upper = positionBounds[2]
-  #   )
-  # }
-  # ds_stage_cycle2 <- plyr::ddply(ds_linear, .variables=c(stage_id_name, proportion_id_name), .fun=summarizeStageCycle)
+  ds_linear$rolling_upper[ -seq_len(points_in_cycle-1) ] <- rolling_bounds[, 2]
 
   ds_stage_cycle <-
     ds_linear |>
     dplyr::group_by(!! rlang::ensym(stage_id_name), !! rlang::ensym(proportion_id_name)) |>
     dplyr::summarize(
       proportion_through_cycle  = mean(.data$proportion_through_cycle, na.rm = TRUE),
-      position_lower           = spread_function(!! rlang::ensym(dv_name))[1],
-      PositionCenter          = center_function(!! rlang::ensym(dv_name)),
-      position_upper           = spread_function(!! rlang::ensym(dv_name))[2],
+      position_lower            = spread_function(!! rlang::ensym(dv_name))[1],
+      PositionCenter            = center_function(!! rlang::ensym(dv_name)),
+      position_upper            = spread_function(!! rlang::ensym(dv_name))[2],
     ) |>
     dplyr::ungroup()
 
