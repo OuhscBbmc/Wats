@@ -360,8 +360,8 @@ ds_linear_all |&gt;
 11 tulsa        123783.
 12 wagoner       11580.
 </code></pre>
-<pre><code class="language-r">graph_row_comparison &lt;- function( rowLabel=&quot;&quot;, countyName=&quot;oklahoma&quot;, spread_function=h_spread, change_month=as.Date(&quot;1996-02-15&quot;) ) {
-  ds_linear &lt;- ds_linear_all[ds_linear_all$county_name==countyName, ]
+<pre><code class="language-r">graph_row_comparison &lt;- function( row_label=&quot;&quot;, county_name=&quot;oklahoma&quot;, spread_function=h_spread, change_month=as.Date(&quot;1996-02-15&quot;) ) {
+  ds_linear &lt;- ds_linear_all[ds_linear_all$county_name==county_name, ]
   ds_linear &lt;- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name=&quot;date&quot;)
   portfolio_cartesian &lt;- Wats::annotate_data(ds_linear, dv_name=&quot;birth_rate&quot;, center_function=stats::median, spread_function=spread_function)
   portfolio_polar &lt;- Wats::polarize_cartesian(ds_linear=portfolio_cartesian$ds_linear, ds_stage_cycle=portfolio_cartesian$ds_stage_cycle, y_name=&quot;birth_rate&quot;, stage_id_name=&quot;stage_id&quot;, plotted_point_count_per_cycle=7200)
@@ -373,7 +373,7 @@ ds_linear_all |&gt;
   ))
   grid::pushViewport(grid::viewport(layout.pos.col=1))
   grid.rect(gp=gpar(fill=&quot;gray90&quot;, col=NA))
-  grid.text(rowLabel, rot=90)
+  grid.text(row_label, rot=90)
   grid::popViewport()
 
   grid::pushViewport(grid::viewport(layout.pos.col=2))
@@ -402,7 +402,7 @@ grid.newpage()
 grid::pushViewport(grid::viewport(layout=grid.layout(nrow=length(counties), ncol=1), gp=grid::gpar(cex=1, fill=NA)))
 for (i in base::seq_along(counties)) {
   grid::pushViewport(grid::viewport(layout.pos.row=i))
-  graph_row_comparison(countyName=counties[i], rowLabel=county_names[i])
+  graph_row_comparison(county_name=counties[i], row_label=county_names[i])
   grid::popViewport()
 }
 grid::popViewport()
@@ -416,7 +416,7 @@ grid::grid.newpage()
 grid::pushViewport(grid::viewport(layout=grid.layout(nrow=base::length(counties), ncol=1), gp=grid::gpar(cex=1, fill=NA)))
 for (i in base::seq_along(counties)) {
   grid::pushViewport(grid::viewport(layout.pos.row=i))
-  graph_row_comparison(countyName=counties[i], rowLabel=county_names[i])
+  graph_row_comparison(county_name=counties[i], row_label=county_names[i])
   grid::popViewport()
 }
 grid::popViewport()
@@ -430,7 +430,7 @@ grid::grid.newpage()
 grid::pushViewport(grid::viewport(layout=grid::grid.layout(nrow=base::length(spreads), ncol=1), gp=grid::gpar(cex=1, fill=NA)))
 for (i in base::seq_along(spreads)) {
   grid::pushViewport(grid::viewport(layout.pos.row=i))
-  graph_row_comparison(spread_function=base::get(spreads[i]), rowLabel=spread_names[i])
+  graph_row_comparison(spread_function=base::get(spreads[i]), row_label=spread_names[i])
   grid::upViewport()
 }
 grid::upViewport()

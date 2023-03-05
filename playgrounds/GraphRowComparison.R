@@ -30,8 +30,8 @@ light_theme <- ggplot2::theme(
   plot.margin        =grid::unit(c(0, 0, 0, 0), "cm")
 )
 
-GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spread_function=h_spread, change_month=as.Date("1996-02-15") ) {
-  ds_linear <- county_month_birth_rate_2005_version[county_month_birth_rate_2005_version$county_name==countyName, ]
+GraphCountyComparison <- function( row_label="", county_name="oklahoma", spread_function=h_spread, change_month=as.Date("1996-02-15") ) {
+  ds_linear <- county_month_birth_rate_2005_version[county_month_birth_rate_2005_version$county_name==county_name, ]
   ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
   portfolio_cartesian <- annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=spread_function)
   portfolio_polar <- polarize_cartesian(ds_linear=portfolio_cartesian$ds_linear, ds_stage_cycle=portfolio_cartesian$ds_stage_cycle, y_name="birth_rate", stage_id_name="stage_id", plotted_point_count_per_cycle=7200)
@@ -43,7 +43,7 @@ GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spread_fu
   ))
   pushViewport(viewport(layout.pos.col=1))
   grid.rect(gp=gpar(fill="gray90", col=NA))
-  grid.text(rowLabel, rot=90)
+  grid.text(row_label, rot=90)
   popViewport()
 
   pushViewport(viewport(layout.pos.col=2))
@@ -64,7 +64,7 @@ grid.newpage()
 pushViewport(viewport(layout=grid.layout(nrow=length(counties), ncol=1), gp=gpar(cex=1, fill=NA)))
 for( i in seq_along(counties) ) {
   pushViewport(viewport(layout.pos.col=1, layout.pos.row=i))
-  GraphCountyComparison(countyName=counties[i], rowLabel=counties[i])
+  GraphCountyComparison(county_name=counties[i], row_label=counties[i])
   popViewport()
 }
 popViewport()
@@ -73,7 +73,7 @@ popViewport()
 # pushViewport(viewport(layout=grid.layout(nrow=length(spreads), ncol=1), gp=gpar(cex=1, fill=NA)))
 # for( i in seq_along(spreads) ) {
 #   pushViewport(viewport(layout.pos.col=1, layout.pos.row=i))
-#   GraphCountyComparison(spread_function=get(spreads[i]), rowLabel=spreads[i])
+#   GraphCountyComparison(spread_function=get(spreads[i]), row_label=spreads[i])
 #   upViewport()
 # }
 # upViewport()
