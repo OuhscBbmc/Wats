@@ -53,19 +53,21 @@
 #'   guides(color=NULL)
 
 #For a more polished graph, see polar_periodic().
-polarize_cartesian <- function(ds_linear, ds_stage_cycle,
-                      y_name, stage_id_name,
-                      cycle_tally_name="cycle_tally",
-                      proportion_through_cycle_name="proportion_through_cycle",
-                      periodic_lower_name="position_lower", periodic_center_name="PositionCenter", periodic_upper_name="position_upper",
-                      plotted_point_count_per_cycle=120,
-                      graph_floor=min(base::pretty(x=ds_linear[[y_name]]))) {
+polarize_cartesian <- function(
+  ds_linear,
+  ds_stage_cycle,
+  y_name,
+  stage_id_name,
+  cycle_tally_name                = "cycle_tally",
+  proportion_through_cycle_name   = "proportion_through_cycle",
+  periodic_lower_name             = "position_lower",
+  periodic_center_name            = "PositionCenter",
+  periodic_upper_name             = "position_upper",
+  plotted_point_count_per_cycle   = 120,
+  graph_floor                     = min(base::pretty(x=ds_linear[[y_name]]))
+) {
   #TODO: allow counter-clockwise and arbitrary angle for theta=0
-#
   . <- NULL # avoid "Undefined global functions or variables"
-#   print(ds_linear[[cycle_tally_name]])
-#   print(ds_linear[[proportion_through_cycle_name]])
-#   print(ds_linear[[y_name]])
 
   close_loop <- function(d) {
     d[nrow(d) + 1, ] <- d[1, ] #Within each stage, repeat the first row at the end of the stage's data.frame.
@@ -86,69 +88,66 @@ polarize_cartesian <- function(ds_linear, ds_stage_cycle,
       )
     # browser()
     base::data.frame(
-      observed_x = observed$x,
-      observed_y = observed$y,
+      observed_x     = observed$x,
+      observed_y     = observed$y,
       stage_progress = stage_progress$y[seq_len(points_per_cycle_count)] #Which chops off the last value.
     )
   }
   interpolate_band <- function(d, points_per_cycle_count) {
-    lower <- stats::approx(x=d[[proportion_through_cycle_name]], y=d[[periodic_lower_name]], n=points_per_cycle_count)
-    center <- stats::approx(x=d[[proportion_through_cycle_name]], y=d[[periodic_center_name]], n=points_per_cycle_count)
-    upper <- stats::approx(x=d[[proportion_through_cycle_name]], y=d[[periodic_upper_name]], n=points_per_cycle_count)
+    lower  <- stats::approx(x = d[[proportion_through_cycle_name]], y = d[[periodic_lower_name ]], n = points_per_cycle_count)
+    center <- stats::approx(x = d[[proportion_through_cycle_name]], y = d[[periodic_center_name]], n = points_per_cycle_count)
+    upper  <- stats::approx(x = d[[proportion_through_cycle_name]], y = d[[periodic_upper_name ]], n = points_per_cycle_count)
 
     base::data.frame(
-      lower_x = lower$x,
-      lower_y = lower$y,
+      lower_x  = lower$x,
+      lower_y  = lower$y,
       center_x = center$x,
       center_y = center$y,
-      upper_x = upper$x,
-      upper_y = upper$y
+      upper_x  = upper$x,
+      upper_y  = upper$y
     )
   }
   polarize_observed <- function(d, graph_floor=graph_floor) {
     #After R 3.1.0 has been out for a while, consider using sinpi()`.
     if (nrow(d) == 0L) {
       stage_start <- logical(0)
-      stage_end <- logical(0)
+      stage_end   <- logical(0)
     } else {
-      stage_start <- c(TRUE, rep(FALSE, times=nrow(d)-1))
-      stage_end <- c(rep(FALSE, times=nrow(d)-1), TRUE)
+      stage_start <- c(TRUE, rep(FALSE, times = nrow(d) - 1L))
+      stage_end   <- c(rep(FALSE, times = nrow(d) - 1L), TRUE)
     }
     base::data.frame(
-      observed_x = (d$observed_y - graph_floor) * sin(2 * pi * d$observed_x),
-      observed_y = (d$observed_y - graph_floor) * cos(2 * pi * d$observed_x),
-      theta = pi * 2 * d$observed_x,
-      radius = d$observed_y,
-      stage_progress = d$stage_progress,
-      stage_start = stage_start,
-      stage_end = stage_end,
-      label_stage_start = ifelse(stage_start, paste0(d$stage_id, "S"), ""),
-      label_stage_end = ifelse(stage_end, paste0(d$stage_id, "E"), ""),
-      stringsAsFactors = FALSE
+      observed_x          = (d$observed_y - graph_floor) * sin(2 * pi * d$observed_x),
+      observed_y          = (d$observed_y - graph_floor) * cos(2 * pi * d$observed_x),
+      theta               = pi * 2 * d$observed_x,
+      radius              = d$observed_y,
+      stage_progress      = d$stage_progress,
+      stage_start         = stage_start,
+      stage_end           = stage_end,
+      label_stage_start   = dplyr::if_else(stage_start, paste0(d$stage_id, "S"), ""),
+      label_stage_end     = dplyr::if_else(stage_end  , paste0(d$stage_id, "E"), "")
     )
   }
   polarize_band <- function(d, graph_floor = graph_floor) {
     if (nrow(d) == 0L) {
       stage_start <- logical(0)
-      stage_end <- logical(0)
+      stage_end   <- logical(0)
     } else {
-      stage_start <- c(TRUE, rep(FALSE, times=nrow(d)-1))
-      stage_end <- c(rep(FALSE, times=nrow(d)-1), TRUE)
+      stage_start <- c(TRUE, rep(FALSE, times = nrow(d) - 1L))
+      stage_end   <- c(rep(FALSE, times = nrow(d) - 1L), TRUE)
     }
 
     base::data.frame(
-      polar_lower_x = (d$lower_y - graph_floor) * sin(2 * pi * d$lower_x),
-      polar_lower_y = (d$lower_y - graph_floor) * cos(2 * pi * d$lower_x),
-      polar_center_x = (d$center_y - graph_floor) * sin(2 * pi * d$center_x),
-      polar_center_y = (d$center_y - graph_floor) * cos(2 * pi * d$center_x),
-      polar_upper_x = (d$upper_y - graph_floor) * sin(2 * pi * d$upper_x),
-      polar_upper_y = (d$upper_y - graph_floor) * cos(2 * pi * d$upper_x),
-#       stage_progress = d$stage_progress,
-      stage_start = stage_start,
-      stage_end = stage_end,
-      label_stage_start = ifelse(stage_start, paste0(d$stage_id, "S"), ""),
-      label_stage_end = ifelse(stage_end, paste0(d$stage_id, "E"), ""),
-      stringsAsFactors = FALSE
+      polar_lower_x     = (d$lower_y  - graph_floor) * sin(2 * pi * d$lower_x),
+      polar_lower_y     = (d$lower_y  - graph_floor) * cos(2 * pi * d$lower_x),
+      polar_center_x    = (d$center_y - graph_floor) * sin(2 * pi * d$center_x),
+      polar_center_y    = (d$center_y - graph_floor) * cos(2 * pi * d$center_x),
+      polar_upper_x     = (d$upper_y  - graph_floor) * sin(2 * pi * d$upper_x),
+      polar_upper_y     = (d$upper_y  - graph_floor) * cos(2 * pi * d$upper_x),
+      stage_start       = stage_start,
+      stage_end         = stage_end,
+      label_stage_start = dplyr::if_else(stage_start, paste0(d$stage_id, "S"), ""),
+      label_stage_end   = dplyr::if_else(stage_end  , paste0(d$stage_id, "E"), "")
     )
   }
 
@@ -192,14 +191,11 @@ polarize_cartesian <- function(ds_linear, ds_stage_cycle,
     ) |>
     dplyr::ungroup()
 
-  # ds_observed_interpolated <- plyr::ddply(ds_linear, .variables=stage_id_name, .fun=interpolate_observed, points_per_cycle_count=plotted_point_count_per_cycle)
-  # ds_observed_polar <- plyr::ddply(ds_observed_interpolated, .variables=stage_id_name, .fun=polarize_observed, graph_floor=graph_floor)
-  #
-  # ds_stage_cycle_closed <- plyr::ddply(ds_stage_cycle, .variables=stage_id_name, .fun=close_loop)
-  # ds_stage_cycle_interpolated <- plyr::ddply(ds_stage_cycle_closed, .variables=stage_id_name, .fun=interpolate_band, points_per_cycle_count=plotted_point_count_per_cycle)
-  # ds_stage_cycle_polar <- plyr::ddply(ds_stage_cycle_interpolated, .variables=stage_id_name, .fun=polarize_band, graph_floor=graph_floor)
-
-  return( list(ds_observed_polar=ds_observed_polar, ds_stage_cycle_polar=ds_stage_cycle_polar, graph_floor=graph_floor) )
+  list(
+    ds_observed_polar    = ds_observed_polar,
+    ds_stage_cycle_polar = ds_stage_cycle_polar,
+    graph_floor          = graph_floor
+  )
 }
 
 # library(Wats)
