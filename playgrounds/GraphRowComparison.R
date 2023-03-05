@@ -22,7 +22,7 @@ light_theme <- ggplot2::theme(
   axis.title         =element_text(color="gray60", size=9),
   axis.text.x        =element_text(color="gray80", hjust=0),
   axis.text.y        =element_text(color="gray80"),
-  axis.ticks.length  =grid::unit(0, "cm"), #g <- g + theme(axis.ticks=element_blank())
+  axis.ticks         =ggplot2::element_blank(),
   axis.ticks.margin  =grid::unit(.00001, "cm"),
   panel.grid.minor.y =element_line(color="gray99", size=.1),
   panel.grid.major   =element_line(color="gray95", size=.1),

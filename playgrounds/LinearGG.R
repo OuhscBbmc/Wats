@@ -143,7 +143,7 @@ LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showY
   g <- g + theme(axis.title=element_text(color="gray60", size=9))
   g <- g + theme(axis.text.x=element_blank())
   g <- g + theme(axis.text.y=element_text(color="gray80"))
-  g <- g + theme(axis.ticks.length = unit(0, "cm")) #g <- g + theme(axis.ticks=element_blank())
+  g <- g + theme(axis.ticks = ggplot2::element_blank())
   g <- g + theme(axis.ticks.margin = unit(.00001, "cm"))
   g <- g + theme(panel.grid.minor.y=element_line(color="gray90", size=.1))
   g <- g + theme(panel.grid.major=element_line(color="gray85", size=.15))

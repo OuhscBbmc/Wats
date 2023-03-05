@@ -86,10 +86,10 @@ dark_theme <- ggplot2::theme(
   # axis.text.x         = ggplot2::element_text(color="gray30", margin   = grid::unit(.00001, "cm"), hjust = 0),
   # axis.text.y         = ggplot2::element_text(color="gray30", margin   = grid::unit(.00001, "cm")),
   axis.text.x         = ggplot2::element_text(color="gray30", hjust = 0),
-axis.text.y         = ggplot2::element_text(color="gray30"),
-  axis.ticks.length   = grid::unit(0, "cm"),
-#   panel.grid.minor.y  = element_line(color="gray95", linewidth=.1),
-#   panel.grid.major    = element_line(color="gray90", linewidth=.1),
+  axis.text.y         = ggplot2::element_text(color="gray30"),
+  axis.ticks          = ggplot2::element_blank(),
+  # panel.grid.minor.y  = element_line(color="gray95", linewidth=.1),
+  # panel.grid.major    = element_line(color="gray90", linewidth=.1),
   panel.spacing       = grid::unit(c(0, 0, 0, 0), "cm"),
   plot.margin         = grid::unit(c(0, 0, 0, 0), "cm")
 )
