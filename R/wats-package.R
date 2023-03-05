@@ -6,9 +6,9 @@
 #'
 #' @description Wrap-around Time Series (WATS) Plots for Interrupted Time Series Designs with Seasonal Patterns
 #'
-#' @note The release version is available through \href{https://cran.r-project.org/package=Wats}{CRAN} by
+#' @note The release version is available through [CRAN](https://cran.r-project.org/package=Wats) by
 #' running `install.packages('Wats')`.
-#' The most recent development version is available through \href{https://github.com/OuhscBbmc/Wats}{GitHub} by
+#' The most recent development version is available through [GitHub](https://github.com/OuhscBbmc/Wats) by
 #' running
 #' `remotes::install_github("OuhscBbmc/Wats")`.
 #' (make sure [remotes](https://cran.r-project.org/package=remotes) is already installed).
