@@ -5,7 +5,7 @@
 #If anyone encounters a package that should be on there, please add it to `./utility/package_dependency_list.csv`
 
 #Clear memory from previous runs.
-base::rm(list=base::ls(all=TRUE))
+base::rm(list = base::ls(all = TRUE))
 
 path_csv <- "./utility/package-dependency-list.csv"
 
