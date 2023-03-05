@@ -46,7 +46,7 @@ is through a cycle.  For example, 0 degrees would be \code{0},
 within a given cycle.}
 }
 \value{
-Returns a \code{data.frame} with additional variables.  TODO: say what the variables are.
+Returns a \code{\link[tibble:tibble]{tibble::tibble()}} with additional variables.  TODO: say what the variables are.
 }
 \description{
 Finds midpoints and bands for the within and between cycles.

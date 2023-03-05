@@ -21,7 +21,7 @@ polarize_cartesian(
 \arguments{
 \item{ds_linear}{The \link{data.frame} to containing the simple linear data.  There should be one record per observation.}
 
-\item{ds_stage_cycle}{The \link{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
+\item{ds_stage_cycle}{The \link{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \link[tibble:tibble]{tibble::tibble} should have three times as many rows as \code{ds_linear}.}
 
 \item{y_name}{The variable name containing the dependent/criterion variable.}
 
@@ -42,7 +42,7 @@ polarize_cartesian(
 \item{graph_floor}{The value of the criterion/dependent variable at the center of the polar plot.}
 }
 \value{
-Returns a \link{data.frame}.
+Returns a \link[tibble:tibble]{tibble::tibble}.
 }
 \description{
 Three operations are performed.

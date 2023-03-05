@@ -45,7 +45,7 @@ lag <- 1 #Significant for many different values of lag, including 1
 y <- seasonalClassic$trend[(lag+1):length(seasonalClassic$trend)]
 y1 <- seasonalClassic$trend[1:(length(seasonalClassic$trend)-lag)]
 step <- c(rep(0, times=sum(ds_linear$stage_id==1)-lag), rep(1, times=sum(ds_linear$stage_id==2)))
-dsClassic <- data.frame(y=y, y1=y1, step=step)
+dsClassic <- tibble::tibble(y=y, y1=y1, step=step)
 rm(lag, y, y1, step)
 fitClassic <-  glm(y ~ 1 + step + y1, data=dsClassic)
 summary(fitClassic)
@@ -56,7 +56,7 @@ trendLineLoess <- as.numeric(seasonalLoess$time.series[[2]])
 y <- trendLineLoess[(lag+1):length(trendLineLoess)]
 y1 <- trendLineLoess[1:(length(trendLineLoess) - lag)]
 step <- c(rep(0, times=sum(ds_linear$stage_id==1)-lag), rep(1, times=sum(ds_linear$stage_id==2)))
-dsLoess <- data.frame(y=y, y1=y1, step=step)
+dsLoess <- tibble::tibble(y=y, y1=y1, step=step)
 rm(lag, y, y1, step)
 fitLoess <-  glm(y ~ 1 + step + y1, data=dsLoess)
 summary(fitLoess)

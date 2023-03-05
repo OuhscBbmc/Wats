@@ -229,7 +229,7 @@ ds_county_year <-
 
 rm(ds_county_year_199x, ds_county_year_2000)
 
-# ---- interpotate-within-year -------------------------------------------------
+# ---- interpolate-within-year -------------------------------------------------
 create_next_year_pop_count <- function( d ) {
   ceilingYear <- max(d$year)
   nextYear <- d$year + 1L

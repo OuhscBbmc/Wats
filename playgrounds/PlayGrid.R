@@ -110,12 +110,12 @@ interpolationPointsTotal <- interpolationPointsPerCycle*totalCycles
 
 interpolatedLine <- approx(x=ds$AngleTotal, y=ds$radius, n=interpolationPointsTotal)
 
-dsCart <- data.frame(X=rep(NA_real_, length(interpolatedLine$x)), Y=NA_real_)
+dsCart <- tibble::tibble(X=rep(NA_real_, length(interpolatedLine$x)), Y=NA_real_)
 dsCart$X <- (interpolatedLine$y - graph_floor) * sin(interpolatedLine$x)
 dsCart$Y <- (interpolatedLine$y - graph_floor) * cos(interpolatedLine$x)
 dsCart$stage_id <- floor(approx(x=ds$stage_id, n=interpolationPointsTotal)$y)
 
-dsCartBands <- data.frame(stage_id=rep(stageIDs, each=interpolationPointsPerCycle), XLower=NA_real_, YLower=NA_real_, XUpper=NA_real_, YUpper=NA_real_)
+dsCartBands <- tibble::tibble(stage_id=rep(stageIDs, each=interpolationPointsPerCycle), XLower=NA_real_, YLower=NA_real_, XUpper=NA_real_, YUpper=NA_real_)
 for( stageID in stageIDs ) {
   ds_stageBands <- dsBands[dsBands$stage_id==stageID, ]
 
@@ -311,7 +311,7 @@ upViewport(n=3)
 # linearAfterUpperVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
 # monthOffset <- rep(0:(yearCount-1), each=monthsPerYear) * monthsPerYear
 #
-# ds <- data.frame(matrix(NA, nrow=monthCount, ncol=6))
+# ds <- tibble::tibble(matrix(NA, nrow=monthCount, ncol=6))
 # colnames(ds) <- c("MonthID", "MonthIndex", "Radians", "birth_rate", "X", "Y")
 #
 # for( yearIndex in 1:yearCount ) {
@@ -341,7 +341,7 @@ upViewport(n=3)
 # #maxRate <- max(ds$birth_rate)
 # tail(ds)
 #
-# dsInterpolated <-data.frame(matrix(NA, nrow=interpolatedCount, ncol=6))
+# dsInterpolated <-tibble::tibble(matrix(NA, nrow=interpolatedCount, ncol=6))
 # colnames(dsInterpolated) <- c("DurationID", "CycleID", "Radians", "birth_rate", "X", "Y")
 # dsInterpolated[1, ] <- ds[1, ]
 # rowTally <- 1
@@ -368,7 +368,7 @@ upViewport(n=3)
 # dsInterpolated$X <- dsInterpolated$birth_rate * sin(dsInterpolated$Radians)
 # dsInterpolated$Y <- dsInterpolated$birth_rate * cos(dsInterpolated$Radians)
 #
-# dsBands <- data.frame(matrix(NA, nrow=length(unique(dsInterpolated$CycleID)), ncol=14))
+# dsBands <- tibble::tibble(matrix(NA, nrow=length(unique(dsInterpolated$CycleID)), ncol=14))
 # colnames(dsBands) <- c("CycleID", "Radians", "LowerBefore", "UpperBefore", "LowerAfter", "UpperAfter",
 #                        "LowerBeforeX", "LowerBeforeY", "UpperBeforeX", "UpperBeforeY", "LowerAfterX", "LowerAfterY", "UpperAfterX", "UpperAfterY")
 #

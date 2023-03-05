@@ -49,7 +49,7 @@ ds$stage_id <- ifelse(ds$MonthID<=changePoint, 1, 2)
 # tail(ds)
 
 Summarize <- function( d ) {
-  data.frame(
+  tibble::tibble(
     Lower=quantile(d$birth_rate, probs=lowerQuantile),
     Upper=quantile(d$birth_rate, probs=upperQuantile)
 )}
@@ -96,7 +96,7 @@ ggsave(file.path(pathDirectoryOutput, "QuickFig2.png"), plot=p, dpi=600)
 
 dateLocations <- seq.Date(from=as.Date("1990-01-01"), to=as.Date("2000-01-01"), by="year")
 dateColors <- c(rep(colorBefore, 6), rep(colorAfter, 5))
-dsLabelsX <- data.frame(
+dsLabelsX <- tibble::tibble(
   X=seq.Date(from=as.Date("1990-07-01"), to=as.Date("1999-07-01"), by="year"),
   Y=graph_floor,
   Color=c(rep(colorBefore, 6), rep(colorAfter, 4)),
@@ -104,7 +104,7 @@ dsLabelsX <- data.frame(
 )
 dsLabelsX$Label <- lubridate::year(dsLabelsX$X)
 
-dsBreak <- data.frame(X=change_month, XEnd=change_month, Y=5, YEnd=6.8, Label="Bombing Effect")
+dsBreak <- tibble::tibble(X=change_month, XEnd=change_month, Y=5, YEnd=6.8, Label="Bombing Effect")
 
 LinearPlot <- function( showLine=TRUE, showSmoother=TRUE, showRibbon=TRUE, showYears=TRUE, labelBreak=TRUE ) {
   g <- ggplot(ds, aes(x=Date, y=birth_rate, color=stage_id))#

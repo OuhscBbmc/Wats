@@ -103,7 +103,7 @@ upperQuantile <- .75
 #lowerQuantile <- 0#.25
 #upperQuantile <- 1#.75
 
-ds <- data.frame(matrix(NA, nrow=monthCount, ncol=6))
+ds <- tibble::tibble(matrix(NA, nrow=monthCount, ncol=6))
 colnames(ds) <- c("MonthID", "MonthIndex", "Radians", "birth_rate", "X", "Y")
 
 for( yearIndex in 1:yearCount ) {
@@ -122,7 +122,7 @@ ds$Y <- ds$birth_rate * cos(ds$Radians)
 #maxRate <- max(ds$birth_rate)
 tail(ds)
 
-dsInterpolated <-data.frame(matrix(NA, nrow=interpolatedCount, ncol=6))
+dsInterpolated <-tibble::tibble(matrix(NA, nrow=interpolatedCount, ncol=6))
 colnames(dsInterpolated) <- c("DurationID", "CycleID", "Radians", "birth_rate", "X", "Y")
 dsInterpolated[1, ] <- ds[1, ]
 rowTally <- 1
@@ -149,7 +149,7 @@ for( pointIndex in 2:monthCount ) {
 dsInterpolated$X <- dsInterpolated$birth_rate * sin(dsInterpolated$Radians)
 dsInterpolated$Y <- dsInterpolated$birth_rate * cos(dsInterpolated$Radians)
 
-dsBands <- data.frame(matrix(NA, nrow=length(unique(dsInterpolated$CycleID)), ncol=14))
+dsBands <- tibble::tibble(matrix(NA, nrow=length(unique(dsInterpolated$CycleID)), ncol=14))
 colnames(dsBands) <- c("CycleID", "Radians", "LowerBefore", "UpperBefore", "LowerAfter", "UpperAfter",
   "LowerBeforeX", "LowerBeforeY", "UpperBeforeX", "UpperBeforeY", "LowerAfterX", "LowerAfterY", "UpperAfterX", "UpperAfterY")
 
@@ -302,9 +302,9 @@ par(op)
 ### Linear Graphs
 ########################################################
 monthsInAverage <- 12
-dsMoving <- data.frame(matrix(NA, nrow=nrow(ds), ncol=4))
+dsMoving <- tibble::tibble(matrix(NA, nrow=nrow(ds), ncol=4))
 colnames(dsMoving) <- c("MonthID", "birth_rate", "UpperQuantile", "LowerQuantile")
-dsAnnualAverage <- data.frame(matrix(NA, nrow=fullFebruaryCount, ncol=2))
+dsAnnualAverage <- tibble::tibble(matrix(NA, nrow=fullFebruaryCount, ncol=2))
 colnames(dsAnnualAverage) <- c("MonthID", "birth_rate")
 dsMoving$MonthID <- ds$MonthID
 

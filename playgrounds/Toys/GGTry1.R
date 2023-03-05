@@ -30,14 +30,14 @@ groupColors <- rev(rainbow_hcl(n=stage_count))
 # heightToWidthRatio <- .8
 # windows(width=deviceWidth, height=deviceWidth*heightToWidthRatio)
 
-ds <- data.frame(X=x, PeriodID=periodID, theta=theta, Residual=residual, lower_y=NA, upper_y=NA)#, lower_y=lower_y, upper_y=upper_y )
+ds <- tibble::tibble(X=x, PeriodID=periodID, theta=theta, Residual=residual, lower_y=NA, upper_y=NA)#, lower_y=lower_y, upper_y=upper_y )
 #breakPointsInside <- c(200, 400)
 breakPointsInside <- as.numeric(quantile(ds$X, breakQuantiles))
 breakPoints <- c(min(ds$X), breakPointsInside, max(ds$X))
 ds$stage_id <- factor(as.numeric(cut(ds$X, breaks=breakPoints, include.lowest=T)))
 ds$Y <- ds$Residual + stageDifference[ds$stage_id] + periodDifference[ds$PeriodID]
 
-dsFull <- data.frame(X=rep(ds$X, stage_count), stage_id=rep(ds$stage_id, each=nrow(ds)), X=rep(ds$X, stage_count),PeriodID=rep(ds$PeriodID, stage_count), theta=rep(ds$theta, stage_count))
+dsFull <- tibble::tibble(X=rep(ds$X, stage_count), stage_id=rep(ds$stage_id, each=nrow(ds)), X=rep(ds$X, stage_count),PeriodID=rep(ds$PeriodID, stage_count), theta=rep(ds$theta, stage_count))
 dsFull$Y <- 1000
 
 for( stageID in as.numeric(sort(unique(ds$stage_id))) ) {

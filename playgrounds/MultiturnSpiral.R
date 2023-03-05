@@ -5,7 +5,7 @@
 # direction, and equal scales.
 library(ggplot2)
 
-line <- data.frame(x = c(1, 200), y = c(100, 1))
+line <- tibble::tibble(x = c(1, 200), y = c(100, 1))
 base <- ggplot(mapping = aes(x, y)) + geom_line(data = line)
 base <- base + coord_polar("x")
 #This works:
@@ -14,7 +14,7 @@ base + scale_x_continuous(limits=c(0, 200))
 #base + scale_x_continuous(limits=c(0, 100))
 
 library(ggplot2)
-spiral <- data.frame(t=0:14,r=0:14)
+spiral <- tibble::tibble(t=0:14,r=0:14)
 ggplot(spiral) + geom_line(aes(x=t %%3,y=r,group=t %/% 3)) + coord_polar()
 
 #Hi, is still the state of multi-turn polar graphs in ggplot2?  Stavros's code produces the same described interruption, but I was curious if there's a new approach since September.  I wrote the attached graph with base graphics, and I'd like to rewrite it in ggplot2 before exposing it in a package.

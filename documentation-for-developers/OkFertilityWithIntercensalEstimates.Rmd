@@ -255,7 +255,7 @@ y <- seasonalClassic$trend[(lag1+1):length(seasonalClassic$trend)]
 y1 <- seasonalClassic$trend[1:(length(seasonalClassic$trend)-lag1)]
 # step <- c(rep(0L, times=sum(ds_linear$stage_id==1L)-lag1), rep(1L, times=sum(ds_linear$stage_id==2L)))
 step <- ds_linear$stage_id[(lag1+1):length(seasonalClassic$trend)] - 1L
-dsClassic <- data.frame(y=y, y1=y1, step=step)
+dsClassic <- tibble::tibble(y=y, y1=y1, step=step)
 rm(lag1, y, y1, step)
 fitClassic <-  glm(y ~ 1 + step + y1, data=dsClassic)
 summary(fitClassic)
@@ -267,7 +267,7 @@ y <- trendLineLoess[(lag1+1):length(trendLineLoess)]
 y1 <- trendLineLoess[1:(length(trendLineLoess) - lag1)]
 # step <- c(rep(0L, times=sum(ds_linear$stage_id==1L)-lag1), rep(1L, times=sum(ds_linear$stage_id==2L)))
 step <- ds_linear$stage_id[(lag1+1):length(trendLineLoess)] - 1L
-dsLoess <- data.frame(y=y, y1=y1, step=step)
+dsLoess <- tibble::tibble(y=y, y1=y1, step=step)
 rm(lag1, y, y1, step)
 fitLoess <-  glm(y ~ 1 + step + y1, data=dsLoess)
 summary(fitLoess)

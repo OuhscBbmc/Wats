@@ -8,7 +8,7 @@
 #' Third, the Cartesian points are converted to polar coordinates.
 #'
 #' @param ds_linear The [data.frame] to containing the simple linear data.  There should be one record per observation.
-#' @param ds_stage_cycle The [data.frame] to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this [data.frame] should have three times as many rows as `ds_linear`.
+#' @param ds_stage_cycle The [data.frame] to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this [tibble::tibble] should have three times as many rows as `ds_linear`.
 #' @param y_name The variable name containing the dependent/criterion variable.
 #' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `stage_id` is `1`, and is `2` afterwards.
 #' @param cycle_tally_name The variable name indicating how many \emph{complete} cycles have occurred at that observation.
@@ -18,7 +18,7 @@
 #' @param periodic_upper_name The variable name showing the upper bound of a stage's periodic estimate.
 #' @param plotted_point_count_per_cycle The number of points that are plotted per cycle.  If the polar graph has 'sharp corners', then increase this value.
 #' @param graph_floor The value of the criterion/dependent variable at the center of the polar plot.
-#' @return Returns a [data.frame].
+#' @return Returns a [tibble::tibble].
 #' @keywords polar
 #' @examples
 #' library(Wats)
@@ -87,7 +87,7 @@ polarize_cartesian <- function(
         n = points_per_cycle_count + 1
       )
     # browser()
-    base::data.frame(
+    tibble::tibble(
       observed_x     = observed$x,
       observed_y     = observed$y,
       stage_progress = stage_progress$y[seq_len(points_per_cycle_count)] #Which chops off the last value.
@@ -98,7 +98,7 @@ polarize_cartesian <- function(
     center <- stats::approx(x = d[[proportion_through_cycle_name]], y = d[[periodic_center_name]], n = points_per_cycle_count)
     upper  <- stats::approx(x = d[[proportion_through_cycle_name]], y = d[[periodic_upper_name ]], n = points_per_cycle_count)
 
-    base::data.frame(
+    tibble::tibble(
       lower_x  = lower$x,
       lower_y  = lower$y,
       center_x = center$x,
@@ -116,7 +116,7 @@ polarize_cartesian <- function(
       stage_start <- c(TRUE, rep(FALSE, times = nrow(d) - 1L))
       stage_end   <- c(rep(FALSE, times = nrow(d) - 1L), TRUE)
     }
-    base::data.frame(
+    tibble::tibble(
       observed_x          = (d$observed_y - graph_floor) * sin(2 * pi * d$observed_x),
       observed_y          = (d$observed_y - graph_floor) * cos(2 * pi * d$observed_x),
       theta               = pi * 2 * d$observed_x,
@@ -137,7 +137,7 @@ polarize_cartesian <- function(
       stage_end   <- c(rep(FALSE, times = nrow(d) - 1L), TRUE)
     }
 
-    base::data.frame(
+    tibble::tibble(
       polar_lower_x     = (d$lower_y  - graph_floor) * sin(2 * pi * d$lower_x),
       polar_lower_y     = (d$lower_y  - graph_floor) * cos(2 * pi * d$lower_x),
       polar_center_x    = (d$center_y - graph_floor) * sin(2 * pi * d$center_x),
