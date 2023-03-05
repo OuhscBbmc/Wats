@@ -5,7 +5,7 @@ vpLayout <- function(x, y) { viewport(layout.pos.row=x, layout.pos.col=y) }
 fullSpread <- function( scores ) {
   return( range(scores) )
 }
-hSpread <- function( scores ) {
+h_spread <- function( scores ) {
   return( quantile(x=scores, probs=c(.25, .75)) )
 }
 seSpread <- function( scores ) {
@@ -30,7 +30,7 @@ lightTheme <- ggplot2::theme(
   plot.margin        =grid::unit(c(0, 0, 0, 0), "cm")
 )
 
-GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spread_function=hSpread, changeMonth=as.Date("1996-02-15") ) {
+GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spread_function=h_spread, changeMonth=as.Date("1996-02-15") ) {
   ds_linear <- county_month_birth_rate_2005_version[county_month_birth_rate_2005_version$county_name==countyName, ]
   ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
   portfolioCartesian <- annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=spread_function)
@@ -48,7 +48,7 @@ GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spread_fu
 
   pushViewport(viewport(layout.pos.col=2))
 #   grid.rect()
-  polar_periodic <- polar_periodic(ds_linear=portfolioPolar$dsObservedPolar, ds_stage_cycle_polar=portfolioPolar$ds_stage_cycle_polar, draw_observed_line=FALSE, y_name="Radius", stage_id_name="stage_id", origin_label=NULL)
+  polar_periodic <- polar_periodic(ds_linear=portfolioPolar$ds_observed_polar, ds_stage_cycle_polar=portfolioPolar$ds_stage_cycle_polar, draw_observed_line=FALSE, y_name="radius", stage_id_name="stage_id", origin_label=NULL)
   popViewport()
 
   pushViewport(viewport(layout.pos.col=3))
@@ -58,7 +58,7 @@ GraphCountyComparison <- function( rowLabel="", countyName="oklahoma", spread_fu
 }
 
 counties <- c("tulsa", "oklahoma", "cleveland", "comanche")
-spreads <- c("hSpread", "fullSpread", "seSpread", "bootSpread")
+spreads <- c("h_spread", "fullSpread", "seSpread", "bootSpread")
 
 grid.newpage()
 pushViewport(viewport(layout=grid.layout(nrow=length(counties), ncol=1), gp=gpar(cex=1, fill=NA)))

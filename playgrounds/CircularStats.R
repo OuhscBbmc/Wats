@@ -10,7 +10,7 @@ ds_linear <- county_month_birth_rate_2014_version[county_month_birth_rate_2014_v
 ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 # base::pretty(x=ds_linear$birth_rate)
 
-hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 seSpread <- function( scores ) { return( mean(scores) + c(-1, 1)*sd(scores)/sqrt(length(scores)) ) }
 bootSpread <- function( scores, conf=.68 ) {
   plugin <- function( d, i ) { mean(d[i]) }

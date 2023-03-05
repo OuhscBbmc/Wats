@@ -35,7 +35,7 @@ vpLayout <- function(x, y) {
 fullSpread <- function( scores ) {
   return( base::range(scores) ) #A new function isn't necessary.  It's defined in order to be consistent.
 }
-hSpread <- function( scores ) {
+h_spread <- function( scores ) {
   return( stats::quantile(x=scores, probs=c(.25, .75)) )
 }
 seSpread <- function( scores ) {
@@ -101,7 +101,7 @@ dsLinearOkc <- dsLinearAll[dsLinearAll$county_name=="oklahoma", ]
 
 dsLinearOkc <- augment_year_data_with_month_resolution(ds_linear=dsLinearOkc, date_name="date")
 
-portfolioCartesian <- annotate_data(dsLinearOkc, dv_name="birth_rate", center_function=stats::median, spread_function=hSpread)
+portfolioCartesian <- annotate_data(dsLinearOkc, dv_name="birth_rate", center_function=stats::median, spread_function=h_spread)
 
 cartesian_rolling(
   ds_linear = portfolioCartesian$ds_linear,
@@ -212,9 +212,9 @@ portfolioPolar <- polarize_cartesian(
 
 grid::grid.newpage()
 polar_periodic(
-  ds_linear = portfolioPolar$dsObservedPolar,
+  ds_linear = portfolioPolar$ds_observed_polar,
   ds_stage_cycle = portfolioPolar$ds_stage_cycle_polar,
-  y_name = "Radius",
+  y_name = "radius",
   stage_id_name = "stage_id",
   draw_periodic_band = FALSE,
   draw_stage_labels = TRUE,
@@ -251,9 +251,9 @@ grid::pushViewport(grid::viewport(
 ## Create top left panel
 grid::pushViewport(grid::viewport(layout.pos.col=1, layout.pos.row=1))
 topLeftPanel <- Wats::polar_periodic(
-  ds_linear = portfolioPolar$dsObservedPolar,
+  ds_linear = portfolioPolar$ds_observed_polar,
   ds_stage_cycle_polar = portfolioPolar$ds_stage_cycle_polar,
-  y_name = "Radius",
+  y_name = "radius",
   stage_id_name = "stage_id", #graph_ceiling=7,
   cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
 )
@@ -262,9 +262,9 @@ grid::upViewport()
 ## Create top right panel
 grid::pushViewport(grid::viewport(layout.pos.col=2, layout.pos.row=1))
 topRightPanel <- Wats::polar_periodic(
-  ds_linear = portfolioPolar$dsObservedPolar,
+  ds_linear = portfolioPolar$ds_observed_polar,
   ds_stage_cycle_polar = portfolioPolar$ds_stage_cycle_polar,
-  y_name = "Radius",
+  y_name = "radius",
   stage_id_name = "stage_id", #graph_ceiling=7,
   draw_observed_line = FALSE,
   cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1"),
@@ -316,7 +316,7 @@ dsLinearAll |>
 ```
 
 ```r
-GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spread_function=hSpread, changeMonth=as.Date("1996-02-15") ) {
+GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spread_function=h_spread, changeMonth=as.Date("1996-02-15") ) {
   ds_linear <- dsLinearAll[dsLinearAll$county_name==countyName, ]
   ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
   portfolioCartesian <- Wats::annotate_data(ds_linear, dv_name="birth_rate", center_function=stats::median, spread_function=spread_function)
@@ -335,10 +335,10 @@ GraphRowComparison <- function( rowLabel="", countyName="oklahoma", spread_funct
   grid::pushViewport(grid::viewport(layout.pos.col=2))
   # polar_periodic <-
   Wats::polar_periodic(
-    ds_linear               = portfolioPolar$dsObservedPolar,
+    ds_linear               = portfolioPolar$ds_observed_polar,
     ds_stage_cycle_polar    = portfolioPolar$ds_stage_cycle_polar,
     draw_observed_line      = FALSE,
-    y_name                  = "Radius",
+    y_name                  = "radius",
     stage_id_name           = "stage_id",
     origin_label            = NULL,
     plot_margins            = c(0, 0, 0, 0)
@@ -390,7 +390,7 @@ This figure demonstrates that WATS accommodates many types of error bands.
 
 
 ```r
-spreads <- c("hSpread", "fullSpread", "seSpread", "bootSpread")
+spreads <- c("h_spread", "fullSpread", "seSpread", "bootSpread")
 spreadNames <- c("H-Spread", "Range", "+/-1 SE", "Bootstrap")
 grid::grid.newpage()
 grid::pushViewport(grid::viewport(layout=grid::grid.layout(nrow=base::length(spreads), ncol=1), gp=grid::gpar(cex=1, fill=NA)))

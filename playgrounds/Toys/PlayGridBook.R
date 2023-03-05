@@ -19,19 +19,19 @@ periodID <- rep(seq_len(periodLength), totalPeriods)
 theta <- periodID * (2*pi/periodLength)
 residual <- 50 + rnorm(totalPoints, sd=5)
 
-ds <- data.frame(TimeIndex=timeIndex, PeriodID=periodID, Theta=theta, Residual=residual, lower_y=NA, upper_y=NA)#, lower_y=lower_y, upper_y=upper_y )
+ds <- data.frame(TimeIndex=timeIndex, PeriodID=periodID, theta=theta, Residual=residual, lower_y=NA, upper_y=NA)#, lower_y=lower_y, upper_y=upper_y )
 #breakPointsInside <- c(200, 400)
 breakPointsInside <- as.numeric(quantile(ds$TimeIndex, breakQuantiles))
 breakPoints <- c(min(ds$TimeIndex), breakPointsInside, max(ds$TimeIndex))
 ds$stage_id <- factor(as.numeric(cut(ds$TimeIndex, breaks=breakPoints, include.lowest=T)))
 ds$R <- ds$Residual + stageDifference[ds$stage_id] + periodDifference[ds$PeriodID]
-ds$X <- ds$R * sin(ds$Theta)
-ds$Y <- ds$R * cos(ds$Theta)
+ds$X <- ds$R * sin(ds$theta)
+ds$Y <- ds$R * cos(ds$theta)
 
 # plot(ds$X, ds$Y)
 # lines(ds$X, ds$Y)
 
-# dsFull <- data.frame(TimeIndex=rep(ds$TimeIndex, stage_count), stage_id=rep(ds$stage_id, each=nrow(ds)), X=rep(ds$X, stage_count),PeriodID=rep(ds$PeriodID, stage_count), Theta=rep(ds$Theta, stage_count))
+# dsFull <- data.frame(TimeIndex=rep(ds$TimeIndex, stage_count), stage_id=rep(ds$stage_id, each=nrow(ds)), X=rep(ds$X, stage_count),PeriodID=rep(ds$PeriodID, stage_count), theta=rep(ds$theta, stage_count))
 # dsFull$Y <- 1000
 
 for( stageID in as.numeric(sort(unique(ds$stage_id))) ){

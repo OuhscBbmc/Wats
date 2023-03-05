@@ -52,14 +52,14 @@ upperQuantile <- .75
 
 ddply(.data=ds_linear, .variables=.(MonthIndex, stage_id), .fun=nrow)
 ds <- ds_linear[ , c("CycleID", "stage_id", "Angle", "AngleTotal")]
-ds$Radius <- ds_linear$birth_rate
+ds$radius <- ds_linear$birth_rate
 ds$AngleBin <- ds_linear$MonthIndex
 #rm(ds_linear)
 
-Bands <- function( Radius, ...) {
-  return( c(Lower=as.numeric(quantile(Radius, lowerQuantile)), Upper=as.numeric(quantile(Radius, upperQuantile))) )
+Bands <- function( radius, ...) {
+  return( c(Lower=as.numeric(quantile(radius, lowerQuantile)), Upper=as.numeric(quantile(radius, upperQuantile))) )
 }
-dsBands <- ddply(.data=ds[, c("AngleBin", "stage_id", "Radius")], .variables=.(AngleBin, stage_id), .fun=splat(Bands))
+dsBands <- ddply(.data=ds[, c("AngleBin", "stage_id", "radius")], .variables=.(AngleBin, stage_id), .fun=splat(Bands))
 dsBands$Angle <- NA
 for( binIndex in sort(unique(dsBands$AngleBin)) ) {
   meanAngle <- mean(ds[ds$AngleBin==binIndex, "Angle"], na.rm=T)
@@ -108,7 +108,7 @@ interpolationPointsPerCycle <- 12*100
 totalCycles <- max(ds$CycleID, na.rm=T) - min(ds$CycleID, na.rm=T) + 1
 interpolationPointsTotal <- interpolationPointsPerCycle*totalCycles
 
-interpolatedLine <- approx(x=ds$AngleTotal, y=ds$Radius, n=interpolationPointsTotal)
+interpolatedLine <- approx(x=ds$AngleTotal, y=ds$radius, n=interpolationPointsTotal)
 
 dsCart <- data.frame(X=rep(NA_real_, length(interpolatedLine$x)), Y=NA_real_)
 dsCart$X <- (interpolatedLine$y - graph_floor) * sin(interpolatedLine$x)

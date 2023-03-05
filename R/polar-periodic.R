@@ -47,12 +47,12 @@
 #' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
 #' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 #'
-#' hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+#' h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
 #' portfolio <- annotate_data(
 #'   ds_linear = ds_linear,
 #'   dv_name = "birth_rate",
 #'   center_function = median,
-#'   spread_function = hSpread
+#'   spread_function = h_spread
 #' )
 #' rm(ds_linear)
 #'
@@ -65,27 +65,27 @@
 #'
 #' grid.newpage()
 #' polar_periodic(
-#'   ds_linear = polarized$dsObservedPolar,
+#'   ds_linear = polarized$ds_observed_polar,
 #'   ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
-#'   y_name = "Radius",
+#'   y_name = "radius",
 #'   stage_id_name = "stage_id",
 #'   cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
 #' )
 #'
 #' grid.newpage()
 #' polar_periodic(
-#'   ds_linear = polarized$dsObservedPolar,
+#'   ds_linear = polarized$ds_observed_polar,
 #'   ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
-#'   y_name = "Radius",
+#'   y_name = "radius",
 #'   stage_id_name = "stage_id",
 #'   draw_periodic_band = FALSE
 #' )
 #'
 #' grid.newpage()
 #' polar_periodic(
-#'   ds_linear = polarized$dsObservedPolar,
+#'   ds_linear = polarized$ds_observed_polar,
 #'   ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
-#'   y_name = "Radius",
+#'   y_name = "radius",
 #'   stage_id_name = "stage_id",
 #'   draw_observed_line = FALSE,
 #'   cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
@@ -157,7 +157,7 @@ polar_periodic <- function(ds_linear, ds_stage_cycle_polar,
 
 #   lg <- grid::polylineGrob(x=ds_stage_cycle_polar$polar_lower_x, y=ds_stage_cycle_polar$polar_lower_y, id=ds_stage_cycle_polar$stage_id, gp=grid::gpar(col=palette_dark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
 #   grid::grid.draw(lg)
-#   cg <- grid::polylineGrob(x=ds_stage_cycle_polar$PolarCenterX, y=ds_stage_cycle_polar$PolarCenterY, id=ds_stage_cycle_polar$stage_id, gp=grid::gpar(col=palette_dark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
+#   cg <- grid::polylineGrob(x=ds_stage_cycle_polar$polar_center_x, y=ds_stage_cycle_polar$polar_center_y, id=ds_stage_cycle_polar$stage_id, gp=grid::gpar(col=palette_dark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
 #   grid::grid.draw(cg)
 #   ug <- grid::polylineGrob(x=ds_stage_cycle_polar$polar_upper_x, y=ds_stage_cycle_polar$polar_upper_y, id=ds_stage_cycle_polar$stage_id, gp=grid::gpar(col=palette_dark, lwd=2), default.units="native", name="l") #summary(lg) #lg$gp
 #   grid::grid.draw(ug)
@@ -192,11 +192,11 @@ polar_periodic <- function(ds_linear, ds_stage_cycle_polar,
   }
 
   if (draw_stage_labels) {
-    gLabelStart <- grid::textGrob(label=ds_linear$LabelStageStart, x=ds_linear$observed_x, y=ds_linear$observed_y,
+    gLabelStart <- grid::textGrob(label=ds_linear$label_stage_start, x=ds_linear$observed_x, y=ds_linear$observed_y,
                                   gp=grid::gpar(col=label_color, lwd=jagged_line_size),
                                   default.units="native", name="l")
     grid::grid.draw(gLabelStart)
-    gLabelEnd <- grid::textGrob(label=ds_linear$LabelStageEnd, x=ds_linear$observed_x, y=ds_linear$observed_y,
+    gLabelEnd <- grid::textGrob(label=ds_linear$label_stage_end, x=ds_linear$observed_x, y=ds_linear$observed_y,
                                 gp=grid::gpar(col=label_color, lwd=jagged_line_size),
                                 default.units="native", name="l")
     grid::grid.draw(gLabelEnd)
@@ -210,21 +210,21 @@ polar_periodic <- function(ds_linear, ds_stage_cycle_polar,
 # ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
 # ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 #
-# hSpread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=hSpread)
+# h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=h_spread)
 # rm(ds_linear)
 #
 # polarized <- polarize_cartesian(portfolio$ds_linear, portfolio$ds_stage_cycle, y_name="birth_rate", stage_id_name="stage_id", plotted_point_count_per_cycle=3600)
 #
 # grid.newpage()
-# polar_periodic(ds_linear=polarized$dsObservedPolar, polarized$ds_stage_cycle_polar, draw_radius_labels=TRUE, draw_stage_labels=TRUE, y_name="Radius", stage_id_name="stage_id", draw_periodic_band=FALSE)
+# polar_periodic(ds_linear=polarized$ds_observed_polar, polarized$ds_stage_cycle_polar, draw_radius_labels=TRUE, draw_stage_labels=TRUE, y_name="radius", stage_id_name="stage_id", draw_periodic_band=FALSE)
 
 # grid.newpage()
-# polar_periodic(ds_linear=polarized$dsObservedPolar, polarized$ds_stage_cycle_polar, y_name="Radius", stage_id_name="stage_id", draw_periodic_band=FALSE)
+# polar_periodic(ds_linear=polarized$ds_observed_polar, polarized$ds_stage_cycle_polar, y_name="radius", stage_id_name="stage_id", draw_periodic_band=FALSE)
 
 # grid.newpage()
-# polar_periodic(ds_linear=polarized$dsObservedPolar, polarized$ds_stage_cycle_polar, y_name="Radius", stage_id_name="stage_id", cardinal_labels=c("Jan1", "Apr1", "July1", "Oct1"))
+# polar_periodic(ds_linear=polarized$ds_observed_polar, polarized$ds_stage_cycle_polar, y_name="radius", stage_id_name="stage_id", cardinal_labels=c("Jan1", "Apr1", "July1", "Oct1"))
 
 # #
 # grid.newpage()
-# polar_periodic(ds_linear=polarized$dsObservedPolar, polarized$ds_stage_cycle_polar, y_name="Radius", stage_id_name="stage_id", draw_observed_line=FALSE, cardinal_labels=c("Jan1", "Apr1", "July1", "Oct1"))
+# polar_periodic(ds_linear=polarized$ds_observed_polar, polarized$ds_stage_cycle_polar, y_name="radius", stage_id_name="stage_id", draw_observed_line=FALSE, cardinal_labels=c("Jan1", "Apr1", "July1", "Oct1"))
