@@ -29,37 +29,52 @@ cartesian_periodic(
 )
 }
 \arguments{
-\item{ds_linear}{The \link{data.frame} to containing the simple linear data.  There should be one record per observation.}
+\item{ds_linear}{The \link{data.frame} to containing the simple linear data.
+There should be one record per observation.}
 
-\item{ds_periodic}{The \link{data.frame} to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
+\item{ds_periodic}{The \link{data.frame} to containing the reoccurring/periodic bands.
+There should be one record per observation per stage.
+If there are three stages, this \link{data.frame} should have three times as many rows as
+\code{ds_linear}.}
 
 \item{x_name}{The variable name containing the date.}
 
 \item{y_name}{The variable name containing the dependent/criterion variable.}
 
-\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{stage_id} is "1", and is "2" afterwards.}
+\item{stage_id_name}{The variable name indicating which stage the record belongs to.
+For example, before the first interruption, the \code{stage_id} is "1", and is "2" afterwards.}
 
-\item{periodic_lower_name}{The variable name showing the lower bound of a stage's periodic estimate.}
+\item{periodic_lower_name}{The variable name showing the lower bound
+of a stage's periodic estimate.}
 
-\item{periodic_upper_name}{The variable name showing the upper bound of a stage's periodic estimate.}
+\item{periodic_upper_name}{The variable name showing the upper bound
+of a stage's periodic estimate.}
 
-\item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{stage_id} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.
+The vector should have one color for each \code{stage_id} value.  If no vector is specified,
+a default will be chosen, based on the number of stages.}
 
-\item{palette_light}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{stage_id} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_light}{A vector of colors used for the light graphical elements.
+The vector should have one color for each \code{stage_id} value.  If no vector is specified,
+a default will be chosen, based on the number of stages.}
 
-\item{change_points}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
+\item{change_points}{A vector of values indicate the interruptions between stages.
+It typically works best as a Date or a POSIXct class.}
 
 \item{change_point_labels}{The text plotted above each interruption.}
 
-\item{draw_periodic_band}{A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodic_lower_name} and \code{periodic_upper_name}.}
+\item{draw_periodic_band}{A boolean value indicating if the bands should be plotted
+(whose values are take from the \code{periodic_lower_name} and \code{periodic_upper_name}).}
 
 \item{jagged_point_size}{The size of the observed data points.}
 
 \item{jagged_line_size}{The size of the line connecting the observed data points.}
 
-\item{band_alpha_dark}{The amount of transparency of the band appropriate for a stage's \emph{x} values.}
+\item{band_alpha_dark}{The amount of transparency of the band appropriate
+for a stage's \emph{x} values.}
 
-\item{band_alpha_light}{The amount of transparency of the band comparison stages for a given \emph{x} value.}
+\item{band_alpha_light}{The amount of transparency of the band comparison stages
+for a given \emph{x} value.}
 
 \item{change_line_alpha}{The amount of transparency marking each interruption.}
 
@@ -75,7 +90,8 @@ cartesian_periodic(
 Returns a ggplot2 graphing object
 }
 \description{
-Shows the interrupted time series in Cartesian coordinates and its a periodic/cyclic components.
+Shows the interrupted time series in Cartesian coordinates and
+its a periodic/cyclic components.
 }
 \examples{
 library(Wats) # Load the package
@@ -85,7 +101,7 @@ ds_linear <-
   dplyr::filter(county_name == "oklahoma") |>
   augment_year_data_with_month_resolution(date_name = "date")
 
-h_spread     <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
+h_spread  <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
 
 portfolio <- annotate_data(
   ds_linear,

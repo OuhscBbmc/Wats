@@ -41,7 +41,8 @@ cartesian_rolling(
 
 \item{y_name}{The variable name containing the dependent/criterion variable.}
 
-\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{stage_id} is "1", and is "2" afterwards.}
+\item{stage_id_name}{The variable name indicating which stage the record belongs to.
+For example, before the first interruption, the \code{stage_id} is "1", and is "2" afterwards.}
 
 \item{rolling_lower_name}{The variable name showing the lower bound of the rolling estimate.}
 
@@ -49,23 +50,34 @@ cartesian_rolling(
 
 \item{rolling_upper_name}{The variable name showing the upper bound of the rolling estimate.}
 
-\item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{stage_id} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.
+The vector should have one color for each \code{stage_id} value.
+If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{palette_light}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{stage_id} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_light}{A vector of colors used for the light graphical elements.
+The vector should have one color for each \code{stage_id} value.
+If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{color_sparse}{The color of the 'slowest' trend line, which plots only one value per cycle.}
+\item{color_sparse}{The color of the 'slowest' trend line,
+which plots only one value per cycle.}
 
-\item{change_points}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
+\item{change_points}{A vector of values indicate the interruptions between stages.
+It typically works best as a Date or a POSIXct class.}
 
 \item{change_point_labels}{The text plotted above each interruption.}
 
-\item{draw_jagged_line}{A boolean value indicating if a line should be plotted that connects the observed data points.}
+\item{draw_jagged_line}{A boolean value indicating if a line should be plotted
+that connects the observed data points.}
 
-\item{draw_rolling_line}{A boolean value indicating if a line should be plotted that connects the rolling estimates specified by \code{rolling_center_name}.}
+\item{draw_rolling_line}{A boolean value indicating if a line should be plotted
+that connects the rolling estimates specified by \code{rolling_center_name}.}
 
-\item{draw_rolling_band}{A boolean value indicating if a band should be plotted that envelopes the rolling estimates (whose values are take from the \code{rolling_lower_name} and \code{rolling_upper_name}.}
+\item{draw_rolling_band}{A boolean value indicating if a band should be plotted
+that envelopes the rolling estimates (whose values are take from the
+\code{rolling_lower_name} and \code{rolling_upper_name}.}
 
-\item{draw_sparse_line_and_points}{A boolean value indicating if the sparse line and points should be plotted.}
+\item{draw_sparse_line_and_points}{A boolean value indicating if the sparse line and
+points should be plotted.}
 
 \item{jagged_point_size}{The size of the observed data points.}
 
@@ -93,7 +105,8 @@ cartesian_rolling(
 Returns a ggplot2 graphing object
 }
 \description{
-Shows the interrupted time series in Cartesian coordinates without a periodic/cyclic components.
+Shows the interrupted time series in Cartesian coordinates
+without a periodic/cyclic components.
 }
 \examples{
 library(Wats) # Load the package
