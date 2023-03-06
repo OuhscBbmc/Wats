@@ -8,50 +8,63 @@ Applications to Fertility Rates and the Oklahoma City Bombing.](https://www.tand
 
 The figures can be viewed in the vignettes, or in the [Handouts](https://github.com/OuhscBbmc/Wats/blob/main/utility/handouts.md) document.  The release version of Wats is available on [CRAN](https://cran.r-project.org/package=Wats).
 
-## Article Abstract
+Article Abstract
+-------------------------
+
 > Many data structures, particular time series data, are naturally seasonal, cyclical, or otherwise circular.  Past graphical methods for time series have focused on linear plots.  In this paper, we move graphical analysis onto the circle.  We focus on two methods, one old and one new.  Rose diagrams are circular histograms, and can be produced in several different forms using the RRose software system.  In addition, we propose, develop, and illustrate a new circular graphical method, called Wrap-Around Time Series Plots (WATS plots) that is useful to support time series analyses in general, but in particular in relation to interrupted time series designs.  We illustrate the use of WATS Plots from an interrupted time series design evaluating the effect of the Oklahoma City bombing on birth rates in Oklahoma County during the ten years surrounding the bombing of the Murrah Building in Oklahoma City.  We compare WATS Plots to linear time series representations with smoothing.  Each method is shown to have advantages in relation to the other; in our example, the WATS Plots more clearly show the existence and effect size of the fertility differential.
 
-> Keywords:  time series, interrupted time series design, group differences, graphical analysis, circular data, H-spread
+> Keywords: time series, interrupted time series design, group differences, graphical analysis, circular data, H-spread
 
-## Selected Figures
+Selected Figures
+-------------------------
 
-#### Figure 2
+### Figure 2
 
 <img src="https://raw.githubusercontent.com/OuhscBbmc/Wats/main/vignettes/figure-mbr-rmd/fig-2-stylized-1.png" alt="fig-2-stylized" style="width: 600px;"/>
 
-#### Figure 4
+### Figure 4
 
 <img src="https://raw.githubusercontent.com/OuhscBbmc/Wats/main/vignettes/figure-mbr-rmd/fig-6-1.png" alt="fig-6" style="width: 600px;"/>
 
-## Reproducible Research
+Reproducible Research
+-------------------------
+
 When the Wats package is installed on your local machine, the [`Reproduce.R`](https://github.com/OuhscBbmc/Wats/blob/main/utility/reproduce.R) script starts with our initial datasets (ie, the vital statistics birth counts and the US Census population estimates) to create the derivative datasets and resulting graphs and analysis.
 
-## Nonstandard Directories
+Nonstandard Directories
+-------------------------
+
 The following directories are not part of the standard R package:
 
- * `Datasets`: CSV versions of the *.rda data.frames officially included in the package.
- * `DocumentationForDevelopers`: Notes and links that should help package *developers* set up on their computer.  Typical package *users* won't have a need for this.
- * `PublicationGraphs`: A deprecated location that contains loose graphs of older versions of the manuscript.
- * `Playgrounds`: R snippets to help developers experiment with potential new features.
- * `UtilityScripts`: R scripts that aren't incorporated into the package.  They help automate certain tasks, or document how parts of the package were created.
+ * `datasets`: CSV versions of the *.rda data.frames officially included in the package.
+ * `documentation-for-developers`: Notes and links that should help package *developers* set up on their computer.  Typical package *users* won't have a need for this.
+ * `publication-graphs`: A deprecated location that contains loose graphs of older versions of the manuscript.
+ * `playgrounds`: R snippets to help developers experiment with potential new features.
+ * `utility`: R scripts that aren't incorporated into the package.  They help automate certain tasks, or document how parts of the package were created.
 
-## Installing
+Installing
+-------------------------
 
 The released [CRAN](https://cran.r-project.org/package=Wats) version of Wats can be installed through R with.
+
 ```R
 install.packages("Wats")
 ```
 
 The latest development version of Wats can be installed from [GitHub](https://github.com/OuhscBbmc/Wats) after installing the `remotes` package.
+
 ```R
 install.packages("remotes")
 remotes::install_github("OuhscBbmc/Wats")
 ```
 
-## Code Repository
+Code Repository
+-------------------------
+
 The software is written primarily in R, under the MIT License.  The DOI of this major release of the *repository* is [10.5281/zenodo.11921](https://doi.org/10.5281/zenodo.11921).  (The DOI of the article is [10.1080/00273171.2014.946589](https://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589).)
 
-## Build Status and Package Characteristics
+Build Status and Package Characteristics
+-------------------------
 
 | [Branch](https://github.com/OuhscBbmc/Wats) | [GitHub Actions](https://github.com/OuhscBbmc/Wats/actions) | [Codecov](https://app.codecov.io/gh/OuhscBbmc/Wats) |
 | :----- | :---------------------------: | :-------: |

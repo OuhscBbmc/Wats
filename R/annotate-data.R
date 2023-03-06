@@ -23,14 +23,14 @@
 #' @param proportion_id_name The variable name indicating the ordinal position through a cycle.
 #' @param terminal_point_in_cycle_name The variable name indicating the last point
 #' within a given cycle.
-#' @return Returns a `data.frame` with additional variables.  TODO: say what the variables are.
+#' @return Returns a [tibble::tibble()] with additional variables.  TODO: say what the variables are.
 #' @examples
 #' library(Wats)
 #' ds_linear <- county_month_birth_rate_2005_version
 #' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 #'
-#' h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+#' h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
 #' portfolio <- annotate_data(
 #'   ds_linear = ds_linear,
 #'   dv_name = "birth_rate",
@@ -59,14 +59,14 @@ annotate_data <- function(
   points_in_cycle <- max(ds_linear[[proportion_id_name]])
   testit::assert("The should be at least one point in a cycle", max(points_in_cycle)>=1)
 
-  z <- zoo::zooreg(data=ds_linear[[dv_name]], frequency=points_in_cycle)
-  rolling_bounds <- zoo::rollapply(data=z, width=points_in_cycle, FUN=spread_function)
+  z <- zoo::zooreg(data = ds_linear[[dv_name]], frequency = points_in_cycle)
+  rolling_bounds <- zoo::rollapply(data = z, width = points_in_cycle, FUN = spread_function)
 
   ds_linear$rolling_lower  <- NA
   ds_linear$rolling_center <- NA
   ds_linear$rolling_upper  <- NA
   ds_linear$rolling_lower[ -seq_len(points_in_cycle-1) ] <- rolling_bounds[, 1]
-  ds_linear$rolling_center[-seq_len(points_in_cycle-1) ] <- zoo::rollapply(data=z, width=points_in_cycle, FUN=center_function)
+  ds_linear$rolling_center[-seq_len(points_in_cycle-1) ] <- zoo::rollapply(data = z, width = points_in_cycle, FUN = center_function)
   ds_linear$rolling_upper[ -seq_len(points_in_cycle-1) ] <- rolling_bounds[, 2]
 
   ds_stage_cycle <-
@@ -86,30 +86,29 @@ annotate_data <- function(
   ds_stage_cycle_temp <- ds_stage_cycle
   colnames(ds_stage_cycle_temp)[colnames(ds_stage_cycle_temp)==stage_id_name] <- "stage_id_band" #Make sure `stage_id_band` matches the calls below.
 
-  # dsPeriodic2 <- merge(x=ds_linear_temp, y=ds_stage_cycle_temp, by=c(proportion_id_name), all.x=TRUE, all.y=TRUE)
   ds_periodic <-
     ds_linear_temp |>
-    dplyr::left_join(ds_stage_cycle_temp, by=proportion_id_name, multiple = "all") |>
+    dplyr::left_join(ds_stage_cycle_temp, by = proportion_id_name, multiple = "all") |>
     dplyr::arrange(.data$date, .data$stage_id_time, .data$stage_id_band)
 
   # ds_periodic <- ds_periodic[order(ds_periodic$date, ds_periodic$stage_id_time, ds_periodic$stage_id_band), ]
 
-  return( list(ds_linear=ds_linear, ds_stage_cycle=ds_stage_cycle, ds_periodic=ds_periodic) )
+  return( list(ds_linear = ds_linear, ds_stage_cycle = ds_stage_cycle, ds_periodic = ds_periodic) )
 }
 
 # library(Wats)
 # ds_linear <- county_month_birth_rate_2005_version
 # ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-# ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
+# ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 #
-# h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=h_spread)
+# h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
+# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function = median, spread_function = h_spread)
 #
 # head(portfolio$ds_stage_cycle)
 # head(portfolio$ds_linear)
 # head(portfolio$ds_periodic)
 #
-# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function=mean, spread_function=h_spread)
+# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function = mean, spread_function = h_spread)
 #
 # head(portfolio$ds_stage_cycle)
 # head(portfolio$ds_linear)

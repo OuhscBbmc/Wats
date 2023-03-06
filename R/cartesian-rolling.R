@@ -42,8 +42,8 @@
 #' change_month <- base::as.Date("1996-02-15")
 #' ds_linear <- county_month_birth_rate_2005_version
 #' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
-#' h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
+#' h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
 #' portfolio <- annotate_data(
 #'     ds_linear,
 #'     dv_name = "birth_rate",
@@ -132,7 +132,7 @@ cartesian_rolling <- function(
       if (length(stages) <= 4L) {
         RColorBrewer::brewer.pal(n = 10, name = "Paired")[c(1, 3, 5, 7)] #There's not a risk of defining more colors than levels
       } else {
-        colorspace::rainbow_hcl(n=length(stages), l = 70)
+        colorspace::rainbow_hcl(n = length(stages), l = 70)
       }
   }
 
@@ -140,30 +140,30 @@ cartesian_rolling <- function(
     ds_stage <- ds_linear[stage <= ds_linear$stage_progress & ds_linear$stage_progress <= (stage+1), ]
 
     if (draw_jagged_line)
-      p <- p + ggplot2::geom_line(size=jagged_line_size, color=palette_dark[stage], data=ds_stage)
+      p <- p + ggplot2::geom_line(size = jagged_line_size, color = palette_dark[stage], data = ds_stage)
     if (draw_rolling_line)
-      p <- p + ggplot2::geom_line(ggplot2::aes_string(y=rolling_center_name), data=ds_stage, size=rolling_line_size, color=palette_dark[stage], na.rm=TRUE)
+      p <- p + ggplot2::geom_line(ggplot2::aes_string(y = rolling_center_name), data = ds_stage, size = rolling_line_size, color = palette_dark[stage], na.rm = TRUE)
     if (draw_rolling_band)
-      p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin=rolling_lower_name, ymax=rolling_upper_name), data=ds_stage, fill=palette_dark[stage], color=NA, alpha=band_alpha, na.rm=TRUE)
+      p <- p + ggplot2::geom_ribbon(ggplot2::aes_string(ymin = rolling_lower_name, ymax = rolling_upper_name), data = ds_stage, fill = palette_dark[stage], color = NA, alpha = band_alpha, na.rm = TRUE)
 
-    p <- p + ggplot2::geom_point(shape=1, color=palette_dark[stage], data=ds_stage, size=jagged_point_size)
+    p <- p + ggplot2::geom_point(shape = 1, color = palette_dark[stage], data = ds_stage, size = jagged_point_size)
   }
 
   if (draw_sparse_line_and_points) {
-    p <- p + ggplot2::geom_line(data  = ds_linear[ds_linear$terminal_point_in_cycle,], ggplot2::aes_string(y=rolling_center_name), size=sparse_line_size, color=color_sparse)
-    p <- p + ggplot2::geom_point(data = ds_linear[ds_linear$terminal_point_in_cycle,], ggplot2::aes_string(y=rolling_center_name), size=sparse_point_size, shape=3, color=color_sparse)
+    p <- p + ggplot2::geom_line(data  = ds_linear[ds_linear$terminal_point_in_cycle,], ggplot2::aes_string(y = rolling_center_name), size = sparse_line_size, color = color_sparse)
+    p <- p + ggplot2::geom_point(data = ds_linear[ds_linear$terminal_point_in_cycle,], ggplot2::aes_string(y = rolling_center_name), size = sparse_point_size, shape = 3, color = color_sparse)
   }
 
   if (!is.null(change_points)) {
     for (i in seq_along(change_points))  {
-      p <- p + ggplot2::geom_vline(xintercept=as.integer(change_points[i]), color=palette_light[i+1], alpha=change_line_alpha, size=change_line_size)
-      p <- p + ggplot2::annotate("text", x=change_points[i], y=Inf, vjust=1.1, color=palette_light[i+1], label=change_point_labels[i])
+      p <- p + ggplot2::geom_vline(xintercept = as.integer(change_points[i]), color = palette_light[i+1], alpha = change_line_alpha, size = change_line_size)
+      p <- p + ggplot2::annotate("text", x = change_points[i], y = Inf, vjust = 1.1, color = palette_light[i+1], label = change_point_labels[i])
     }
   }
 
   p <- p + ggplot2::theme_minimal()
   p <- p + ggplot2::theme(legend.position="none")
-  p <- p + ggplot2::labs(title=title, x=x_title, y=y_title)
+  p <- p + ggplot2::labs(title = title, x = x_title, y = y_title)
 
   return( p )
 }

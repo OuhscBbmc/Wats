@@ -35,8 +35,8 @@
 #' change_month <- base::as.Date("1996-02-15")
 #' ds_linear <- county_month_birth_rate_2005_version
 #' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
-#' h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+#' ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
+#' h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
 #' portfolio <- annotate_data(
 #'     ds_linear,
 #'     dv_name = "birth_rate",
@@ -120,7 +120,7 @@ cartesian_periodic <- function(
       if (length(stages) <= 4L) {
         RColorBrewer::brewer.pal(n = 10, name="Paired")[c(1, 3, 5, 7)] #There's not a risk of defining more colors than levels
       } else {
-        colorspace::rainbow_hcl(n=length(stages), l = 70)
+        colorspace::rainbow_hcl(n = length(stages), l = 70)
       }
   }
 
@@ -135,7 +135,7 @@ cartesian_periodic <- function(
         p <-
           p +
           ggplot2::geom_ribbon(
-            ggplot2::aes_string(y=NULL, ymin=periodic_lower_name, ymax=periodic_upper_name),
+            ggplot2::aes_string(y = NULL, ymin = periodic_lower_name, ymax = periodic_upper_name),
             data  = ds_stage_periodic,
             fill  = palette_dark[stage_inner],
             color = NA,
@@ -145,14 +145,14 @@ cartesian_periodic <- function(
       }
     }
 
-    p <- p + ggplot2::geom_line(size=jagged_line_size, color=palette_dark[stage], data=ds_stage_linear)
-    p <- p + ggplot2::geom_point(shape=1, color=palette_light[stage], data=ds_stage_linear, size=jagged_point_size)
+    p <- p + ggplot2::geom_line(size = jagged_line_size, color = palette_dark[stage], data = ds_stage_linear)
+    p <- p + ggplot2::geom_point(shape = 1, color = palette_light[stage], data = ds_stage_linear, size = jagged_point_size)
   }
 
   if (!is.null(change_points)) {
     for (i in seq_along(change_points))  {
-      p <- p + ggplot2::geom_vline(xintercept=as.integer(change_points[i]), color=palette_light[i+1], alpha=change_line_alpha, size=change_line_size)
-      p <- p + ggplot2::annotate("text", x=change_points[i], y=Inf, vjust=1.1, color=palette_light[i+1], label=change_point_labels[i])
+      p <- p + ggplot2::geom_vline(xintercept = as.integer(change_points[i]), color = palette_light[i+1], alpha = change_line_alpha, size = change_line_size)
+      p <- p + ggplot2::annotate("text", x = change_points[i], y = Inf, vjust = 1.1, color = palette_light[i+1], label = change_point_labels[i])
     }
   }
 
@@ -165,11 +165,11 @@ cartesian_periodic <- function(
 
 # ds_linear <- county_month_birth_rate_2005_version
 # ds_linear[ds_linear$county_name=="oklahoma", ]
-# ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
+# ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 #
-# h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-# portfolio <- Wats::annotate_data(ds_linear, dv_name="birth_rate", center_function=median, spread_function=h_spread)
+# h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
+# portfolio <- Wats::annotate_data(ds_linear, dv_name="birth_rate", center_function = median, spread_function = h_spread)
 #
-# cartesian_periodic(portfolio$ds_linear, portfolio$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points=change_month, change_point_labels="Bombing Effect",
-#                    draw_periodic_band=FALSE)
-# cartesian_periodic(portfolio$ds_linear, portfolio$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points=change_month, change_point_labels="Bombing Effect")
+# cartesian_periodic(portfolio$ds_linear, portfolio$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points = change_month, change_point_labels="Bombing Effect",
+#                    draw_periodic_band = FALSE)
+# cartesian_periodic(portfolio$ds_linear, portfolio$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points = change_month, change_point_labels="Bombing Effect")

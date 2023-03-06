@@ -1,5 +1,5 @@
-rm(list=ls(all.names=TRUE))
-deviceType <- ifelse(R.version$os=="linux-gnu", "X11", "windows")
+rm(list = ls(all.names = TRUE))
+deviceType <- ifelse(R.version$os == "linux-gnu", "X11", "windows")
 options(device = deviceType) #http://support.rstudio.org/help/discussions/problems/80-error-in-function-only-one-rstudio-graphics-device-is-permitted
 
 spelling::spell_check_package()
@@ -38,13 +38,9 @@ pkgdown::build_site(run_dont_run = FALSE)
 devtools::run_examples(); #dev.off() #This overwrites the NAMESPACE file too
 # devtools::run_examples(, "CountyMonthBirthRateDoc.Rd")
 test_results_checked <- devtools::test()
-test_results_checked <- devtools::test(filter = "validate.*$")
-
-# testthat::test_dir("./tests/")
-test_results_not_checked <- testthat::test_dir("./tests/manual/")
 
 # devtools::check(force_suggests = FALSE)
-devtools::check(cran=TRUE)
+devtools::check(cran = TRUE)
 devtools::check( # Equivalent of R-hub
   manual    = TRUE,
   remote    = TRUE,

@@ -46,7 +46,7 @@ is through a cycle.  For example, 0 degrees would be \code{0},
 within a given cycle.}
 }
 \value{
-Returns a \code{data.frame} with additional variables.  TODO: say what the variables are.
+Returns a \code{\link[tibble:tibble]{tibble::tibble()}} with additional variables.  TODO: say what the variables are.
 }
 \description{
 Finds midpoints and bands for the within and between cycles.
@@ -57,9 +57,9 @@ that needs to be called to produce WATS Plots.  \code{AugmentZZZ} is the first.
 library(Wats)
 ds_linear <- county_month_birth_rate_2005_version
 ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
+ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 
-h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
+h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
 portfolio <- annotate_data(
   ds_linear = ds_linear,
   dv_name = "birth_rate",

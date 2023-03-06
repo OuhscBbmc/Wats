@@ -56,22 +56,22 @@ library(ggplot2)
 
 ##2005 Version (see description above)
 ds2005 <- county_month_birth_rate_2005_version
-ggplot(ds2005, aes(x=date, y=birth_rate, color=factor(fips))) +
+ggplot(ds2005, aes(x = date, y = birth_rate, color = factor(fips))) +
 geom_line() +
 labs(title="County Fertility - Longitudinal")
 
-ggplot(ds2005, aes(x=birth_rate, color=factor(fips))) +
+ggplot(ds2005, aes(x = birth_rate, color = factor(fips))) +
 geom_density() +
 labs(title="Distributions of County Fertility")
 
 ##2014 Version (see description above)
 ds2014 <- county_month_birth_rate_2014_version
-ggplot(ds2014, aes(x=date, y=birth_rate, color=factor(fips))) +
+ggplot(ds2014, aes(x = date, y = birth_rate, color = factor(fips))) +
 geom_line() +
 labs(title="County Fertility - Longitudinal")
 
 
-ggplot(ds2014, aes(x=birth_rate, color=factor(fips))) +
+ggplot(ds2014, aes(x = birth_rate, color = factor(fips))) +
 geom_density() +
 labs(title="Distributions of County Fertility")
 }

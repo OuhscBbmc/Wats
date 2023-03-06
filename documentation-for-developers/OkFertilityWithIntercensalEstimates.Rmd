@@ -67,7 +67,7 @@ dark_theme <- ggplot2::theme(
   axis.title          = ggplot2::element_text(color="gray30", size=9),
   axis.text.x         = ggplot2::element_text(color="gray30", hjust=0),
   axis.text.y         = ggplot2::element_text(color="gray30"),
-  axis.ticks.length   = grid::unit(0, "cm"),
+  axis.ticks          = ggplot2::element_blank(),
 #   panel.grid.minor.y  = element_line(color="gray95", size=.1),
 #   panel.grid.major    = element_line(color="gray90", size=.1),
   panel.spacing       = grid::unit(c(0, 0, 0, 0), "cm"),
@@ -100,7 +100,7 @@ Smoothed monthly  birth rates (General Fertility Rates;  GFR's) for Oklahoma Cou
 ds_linear_all <- county_month_birth_rate_2014_version
 ds_linear <- ds_linear_all[ds_linear_all$county_name=="oklahoma", ]
 
-ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="Date")
+ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 
 portfolio_cartesian <- Wats::annotate_data(ds_linear, dv_name="birth_rate", center_function=stats::median, spread_function=h_spread)
 
@@ -255,7 +255,7 @@ y <- seasonalClassic$trend[(lag1+1):length(seasonalClassic$trend)]
 y1 <- seasonalClassic$trend[1:(length(seasonalClassic$trend)-lag1)]
 # step <- c(rep(0L, times=sum(ds_linear$stage_id==1L)-lag1), rep(1L, times=sum(ds_linear$stage_id==2L)))
 step <- ds_linear$stage_id[(lag1+1):length(seasonalClassic$trend)] - 1L
-dsClassic <- data.frame(y=y, y1=y1, step=step)
+dsClassic <- tibble::tibble(y=y, y1=y1, step=step)
 rm(lag1, y, y1, step)
 fitClassic <-  glm(y ~ 1 + step + y1, data=dsClassic)
 summary(fitClassic)
@@ -267,14 +267,14 @@ y <- trendLineLoess[(lag1+1):length(trendLineLoess)]
 y1 <- trendLineLoess[1:(length(trendLineLoess) - lag1)]
 # step <- c(rep(0L, times=sum(ds_linear$stage_id==1L)-lag1), rep(1L, times=sum(ds_linear$stage_id==2L)))
 step <- ds_linear$stage_id[(lag1+1):length(trendLineLoess)] - 1L
-dsLoess <- data.frame(y=y, y1=y1, step=step)
+dsLoess <- tibble::tibble(y=y, y1=y1, step=step)
 rm(lag1, y, y1, step)
 fitLoess <-  glm(y ~ 1 + step + y1, data=dsLoess)
 summary(fitLoess)
 ```
 
 ## Section 5: Confirmatory Analysis of Interrupted Time Series with Bayes Factors
-A similar set of Bayesian analyses support the claim that post-bombing fertility is higher.  The `BayesSingleSub` package by De Vries and Morey.  The third number in each row describes the test for a mean different.  The package also has tests that indicate the post-bombing slope may be more positive than the pre-bombing slope.  Significance is sugested with a Bayes Factors is less than one (and therefore its log is negative).
+A similar set of Bayesian analyses support the claim that post-bombing fertility is higher.  The `BayesSingleSub` package by De Vries and Morey.  The third number in each row describes the test for a mean different.  The package also has tests that indicate the post-bombing slope may be more positive than the pre-bombing slope.  Significance is suggested with a Bayes Factors is less than one (and therefore its log is negative).
 
 ```{r ConfirmatoryBayesFactors, fig.height=6.5}
 # Seasonality is accounted for without a smoother
@@ -296,7 +296,6 @@ beforeLoess <- seasonalLoess$time.series[ds_linear$stage_id==1L, 2]
 afterLoess <- seasonalLoess$time.series[ds_linear$stage_id==2L, 2]
 BayesSingleSub::trendtest.Gibbs.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=showMcmcProgress)
 BayesSingleSub::trendtest.MC.AR(beforeLoess, afterLoess, iterations=mcmcRepCount, progress=showMcmcProgress)
-
 ```
 
 ## Session Info
