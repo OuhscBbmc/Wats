@@ -25,7 +25,7 @@ polarize_cartesian(
 
 \item{y_name}{The variable name containing the dependent/criterion variable.}
 
-\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{stage_id} is \code{1}, and is \code{2} afterwards.}
+\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{stage_id} is "1", and is "2" afterwards.}
 
 \item{cycle_tally_name}{The variable name indicating how many \emph{complete} cycles have occurred at that observation.}
 

@@ -20,7 +20,7 @@ A data frame with 1,440 observations on the following 11 variables.
 \item{date}{The year and month of the record, with a date of the 15th. Centering the date within the month makes the value a little more representative and the graphs a little easier. \code{date}}
 \item{days_in_month}{The number of days in the specific month. \code{integer}}
 \item{days_in_year}{The number of days in the specific years \code{integer}}
-\item{stage_id}{The "Stage" of the month.  The pre-bombing records are \code{1} (accounting for 9 months of gestation); the post-bombing months are \code{2}. \code{integer}}
+\item{stage_id}{The "Stage" of the month.  The pre-bombing records are "1" (accounting for 9 months of gestation); the post-bombing months are "2". \code{integer}}
 \item{birth_rate}{The Growth Fertility Rate (GFR). \code{numeric}}
 }
 }

@@ -8,7 +8,7 @@
 #' @param ds_periodic The [data.frame] to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this [data.frame] should have three times as many rows as `ds_linear`.
 #' @param x_name The variable name containing the date.
 #' @param y_name The variable name containing the dependent/criterion variable.
-#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `stage_id` is `1`, and is `2` afterwards.
+#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `stage_id` is "1", and is "2" afterwards.
 #' @param periodic_lower_name The variable name showing the lower bound of a stage's periodic estimate.
 #' @param periodic_upper_name The variable name showing the upper bound of a stage's periodic estimate.
 #' @param palette_dark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each `stage_id` value.  If no vector is specified, a default will be chosen, based on the number of stages.

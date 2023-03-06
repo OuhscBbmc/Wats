@@ -8,7 +8,7 @@
 #' @param ds_stage_cycle_polar The [data.frame] to containing the bands for a single period.  There should be one record per theta per stage.  If there are three stages, this [data.frame] should have three times as many rows as `ds_linear`.
 #' @param x_name The variable name containing the date.
 #' @param y_name The variable name containing the dependent/criterion variable.
-#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `stage_id` is `1`, and is `2` afterwards.
+#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `stage_id` is "1", and is "2" afterwards.
 
 #' @param periodic_lower_name The variable name showing the lower bound of a stage's periodic estimate.
 #' @param periodic_upper_name The variable name showing the upper bound of a stage's periodic estimate.
@@ -23,8 +23,8 @@
 #' @param jagged_point_size The size of the observed data points.
 #' @param jagged_line_size The size of the line connecting the observed data points.
 #'
-#' @param band_alpha_dark The amount of transparency of the band appropriate for a stage's \emph{x} values.
-#' @param band_alpha_light The amount of transparency of the band comparison stages for a given \emph{x} value.
+#' @param band_alpha_dark The amount of transparency of the band appropriate for a stage's *x* values.
+#' @param band_alpha_light The amount of transparency of the band comparison stages for a given *x* value.
 #' @param change_line_alpha The amount of transparency marking each interruption.
 #' @param color_labels The color for `cardinal_labels` and `origin_label`.
 #' @param color_gridlines The color for the gridlines.

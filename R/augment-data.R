@@ -11,7 +11,7 @@
 #'
 #' @param ds_linear The [data.frame] to containing the detailed data.
 #' @param date_name The variable name in `ds_linear` containing the date or datetime value.
-# @param stage_id_name The variable name indicating the stage. In a typical interrupted time series, these values are `1` before the interruption and `2` after.
+# @param stage_id_name The variable name indicating the stage. In a typical interrupted time series, these values are "1" before the interruption and "2" after.
 #' @return Returns a [tibble::tibble] with additional variables: `cycle_tally`, `proportion_through_cycle`, `proportion_id`, and `terminal_point_in_cycle`.
 #' @examples
 #' library(Wats)

@@ -7,7 +7,7 @@
 #' @param ds_linear The [data.frame] to containing the data.
 #' @param x_name The variable name containing the date.
 #' @param y_name The variable name containing the dependent/criterion variable.
-#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `stage_id` is `1`, and is `2` afterwards.
+#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `stage_id` is "1", and is "2" afterwards.
 #' @param rolling_lower_name The variable name showing the lower bound of the rolling estimate.
 #' @param rolling_center_name The variable name showing the rolling estimate.
 #' @param rolling_upper_name The variable name showing the upper bound of the rolling estimate.

@@ -10,8 +10,8 @@
 #' @param ds_linear The [data.frame] to containing the simple linear data.  There should be one record per observation.
 #' @param ds_stage_cycle The [data.frame] to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this [tibble::tibble] should have three times as many rows as `ds_linear`.
 #' @param y_name The variable name containing the dependent/criterion variable.
-#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `stage_id` is `1`, and is `2` afterwards.
-#' @param cycle_tally_name The variable name indicating how many \emph{complete} cycles have occurred at that observation.
+#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `stage_id` is "1", and is "2" afterwards.
+#' @param cycle_tally_name The variable name indicating how many *complete* cycles have occurred at that observation.
 #' @param proportion_through_cycle_name The variable name showing how far through a cycle the observation (or summarized observations) occurred.
 #' @param periodic_lower_name The variable name showing the lower bound of a stage's periodic estimate.
 #' @param periodic_center_name The variable name showing the center estimate of a stage's periodic estimate.

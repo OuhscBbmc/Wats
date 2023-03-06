@@ -13,7 +13,7 @@
 #' @param cycle_tally_name The variable name indicating how many cycles have been completed.
 #' @param stage_id_name The variable name indicating the stage.
 #' In a typical interrupted time series, these values are
-#' `1` before the interruption and `2` after.
+#' "1" before the interruption and "2" after.
 #' @param stage_progress_name The variable name indicating the stage in a decimal form.
 #' This is mostly for internal uses.
 #' @param proportion_through_cycle_name The variable name indicating how far the point

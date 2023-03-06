@@ -37,7 +37,7 @@ cartesian_periodic(
 
 \item{y_name}{The variable name containing the dependent/criterion variable.}
 
-\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{stage_id} is \code{1}, and is \code{2} afterwards.}
+\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{stage_id} is "1", and is "2" afterwards.}
 
 \item{periodic_lower_name}{The variable name showing the lower bound of a stage's periodic estimate.}
 
