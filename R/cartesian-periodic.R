@@ -162,14 +162,3 @@ cartesian_periodic <- function(
 
   p
 }
-
-# ds_linear <- county_month_birth_rate_2005_version
-# ds_linear[ds_linear$county_name=="oklahoma", ]
-# ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
-#
-# h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
-# portfolio <- Wats::annotate_data(ds_linear, dv_name="birth_rate", center_function = median, spread_function = h_spread)
-#
-# cartesian_periodic(portfolio$ds_linear, portfolio$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points = change_month, change_point_labels="Bombing Effect",
-#                    draw_periodic_band = FALSE)
-# cartesian_periodic(portfolio$ds_linear, portfolio$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points = change_month, change_point_labels="Bombing Effect")

@@ -86,12 +86,3 @@ augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
       -is_min,
     )
 }
-
-# library(Wats)
-# ds_linear <- county_month_birth_rate_2005_version
-# ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-# # ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
-# ds_linear
-#
-# ds_linear$date <- as.POSIXct(ds_linear$date, tz="GMT")
-# ds_linear <- augment_year_data_with_second_resolution(ds_linear = ds_linear, date_name="date")

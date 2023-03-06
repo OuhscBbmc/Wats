@@ -99,21 +99,3 @@ annotate_data <- function(
     ds_periodic     = ds_periodic
   )
 }
-
-# library(Wats)
-# ds_linear <- county_month_birth_rate_2005_version
-# ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-# ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
-#
-# h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
-# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function = median, spread_function = h_spread)
-#
-# head(portfolio$ds_stage_cycle)
-# head(portfolio$ds_linear)
-# head(portfolio$ds_periodic)
-#
-# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function = mean, spread_function = h_spread)
-#
-# head(portfolio$ds_stage_cycle)
-# head(portfolio$ds_linear)
-# head(portfolio$ds_periodic)

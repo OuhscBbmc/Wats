@@ -24,7 +24,7 @@ your problem, please create an \href{https://github.com/OuhscBbmc/Wats/issues}{i
 install.packages('Wats')
 
 # Install/update Wats with the development version from GitHub
-#install.packages("remotes") #Uncomment if `remotes` isn't installed already.
+# install.packages("remotes") #Uncomment if remotes isn't installed already.
 remotes::install_github("OuhscBbmc/Wats")
 }
 }

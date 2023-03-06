@@ -201,25 +201,3 @@ polarize_cartesian <- function(
     graph_floor          = graph_floor
   )
 }
-
-# library(Wats)
-# ds_linear <- county_month_birth_rate_2005_version
-# ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-# ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
-#
-# h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) ) }
-# portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function = median, spread_function = h_spread)
-# rm(ds_linear)
-#
-# polarized <- polarize_cartesian(portfolio$ds_linear, portfolio$ds_stage_cycle, y_name="birth_rate", stage_id_name="stage_id")
-#
-# library(ggplot2)
-# ggplot(polarized$ds_stage_cycle_polar, aes(color = factor(stage_id))) +
-#   geom_path(aes(x = polar_lower_x, y = polar_lower_y), linetype = 2) +
-#   geom_path(aes(x = polar_center_x, y = polar_center_y), size = 2) +
-#   geom_path(aes(x = polar_upper_x, y = polar_upper_y), linetype = 2) +
-#   geom_path(aes(x = observed_x, y = observed_y), data = polarized$ds_observed_polar) +
-#   coord_fixed(ratio = 1) +
-#   guides(color = FALSE)
-#
-# #For a more polished graph, see polar_periodic().
