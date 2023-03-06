@@ -53,7 +53,7 @@ cartesian_rolling(
 
 \item{palette_light}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{stage_id} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{color_sparse}{The color of the `slowest' trend line, which plots only one value per cycle.}
+\item{color_sparse}{The color of the 'slowest' trend line, which plots only one value per cycle.}
 
 \item{change_points}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
 

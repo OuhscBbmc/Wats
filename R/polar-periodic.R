@@ -38,7 +38,7 @@
 #' @param origin_label Explains what the criterion variable's value is at the origin.  Use `NULL` if no explanation is desired.
 #' @param plot_margins A vector of four `numeric` values, specifying the number of lines in the bottom, left, top and right margins.
 #'
-#' @return Returns a grid graphical object (ie, a [grid::grob()].)
+#' @return Returns a grid graphical object (*i.e.*, a [grid::grob()].)
 #' @keywords polar
 #' @examples
 #' requireNamespace("grid")

@@ -13,7 +13,7 @@
 #' @param rolling_upper_name The variable name showing the upper bound of the rolling estimate.
 #' @param palette_dark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each `stage_id` value.  If no vector is specified, a default will be chosen, based on the number of stages.
 #' @param palette_light A vector of colors used for the light graphical elements.  The vector should have one color for each `stage_id` value.  If no vector is specified, a default will be chosen, based on the number of stages.
-#' @param color_sparse The color of the `slowest' trend line, which plots only one value per cycle.
+#' @param color_sparse The color of the 'slowest' trend line, which plots only one value per cycle.
 #' @param change_points A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.
 #' @param change_point_labels The text plotted above each interruption.
 #' @param draw_jagged_line A boolean value indicating if a line should be plotted that connects the observed data points.

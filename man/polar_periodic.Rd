@@ -100,7 +100,7 @@ polar_periodic(
 \item{plot_margins}{A vector of four \code{numeric} values, specifying the number of lines in the bottom, left, top and right margins.}
 }
 \value{
-Returns a grid graphical object (ie, a \code{\link[grid:grid.grob]{grid::grob()}}.)
+Returns a grid graphical object (\emph{i.e.}, a \code{\link[grid:grid.grob]{grid::grob()}}.)
 }
 \description{
 Shows the interrupted time series in Cartesian coordinates and its a periodic/cyclic components.
