@@ -38,26 +38,27 @@
 #' @return Returns a ggplot2 graphing object
 #' @keywords Cartesian
 #' @examples
-#' library(Wats) #Load the package
+#' library(Wats) # Load the package
 #' change_month <- base::as.Date("1996-02-15")
-#' ds_linear <- county_month_birth_rate_2005_version
-#' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
-#' h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
+#' ds_linear    <- county_month_birth_rate_2005_version
+#' ds_linear    <- ds_linear[ds_linear$county_name=="oklahoma", ]
+#' ds_linear    <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
+#' h_spread     <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
+#'
 #' portfolio <- annotate_data(
-#'     ds_linear,
-#'     dv_name = "birth_rate",
-#'     center_function = median,
-#'     spread_function = h_spread
+#'   ds_linear,
+#'   dv_name         = "birth_rate",
+#'   center_function = median,
+#'   spread_function = h_spread
 #' )
 #'
 #' cartesian_rolling(
-#'     portfolio$ds_linear,
-#'     x_name = "date",
-#'     y_name = "birth_rate",
-#'     stage_id_name = "stage_id",
-#'     change_points = change_month,
-#'     change_point_labels = "Bombing Effect"
+#'   portfolio$ds_linear,
+#'   x_name               = "date",
+#'   y_name               = "birth_rate",
+#'   stage_id_name        = "stage_id",
+#'   change_points        = change_month,
+#'   change_point_labels  = "Bombing Effect"
 #' )
 
 cartesian_rolling <- function(
@@ -155,7 +156,7 @@ cartesian_rolling <- function(
   }
 
   if (!is.null(change_points)) {
-    for (i in seq_along(change_points))  {
+    for (i in seq_along(change_points)) {
       p <- p + ggplot2::geom_vline(xintercept = as.integer(change_points[i]), color = palette_light[i+1], alpha = change_line_alpha, size = change_line_size)
       p <- p + ggplot2::annotate("text", x = change_points[i], y = Inf, vjust = 1.1, color = palette_light[i+1], label = change_point_labels[i])
     }

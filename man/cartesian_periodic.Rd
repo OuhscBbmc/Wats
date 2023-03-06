@@ -78,27 +78,28 @@ Returns a ggplot2 graphing object
 Shows the interrupted time series in Cartesian coordinates and its a periodic/cyclic components.
 }
 \examples{
-library(Wats) #Load the package
+library(Wats) # Load the package
 change_month <- base::as.Date("1996-02-15")
-ds_linear <- county_month_birth_rate_2005_version
-ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
-h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
+ds_linear    <- county_month_birth_rate_2005_version
+ds_linear    <- ds_linear[ds_linear$county_name=="oklahoma", ]
+ds_linear    <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
+h_spread     <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
+
 portfolio <- annotate_data(
-    ds_linear,
-    dv_name = "birth_rate",
-    center_function = median,
-    spread_function = h_spread
+  ds_linear,
+  dv_name = "birth_rate",
+  center_function = median,
+  spread_function = h_spread
 )
 
 cartesian_periodic(
   portfolio$ds_linear,
   portfolio$ds_periodic,
-  x_name = "date",
-  y_name = "birth_rate",
-  stage_id_name = "stage_id",
-  change_points = change_month,
-  change_point_labels = "Bombing Effect"
+  x_name               = "date",
+  y_name               = "birth_rate",
+  stage_id_name        = "stage_id",
+  change_points        = change_month,
+  change_point_labels  = "Bombing Effect"
 )
 }
 \keyword{Cartesian}

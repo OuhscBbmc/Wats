@@ -58,27 +58,27 @@ ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date
 
 h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
 portfolio <- annotate_data(
-  ds_linear = ds_linear,
-  dv_name = "birth_rate",
-  center_function = median,
-  spread_function = h_spread
+  ds_linear        = ds_linear,
+  dv_name          = "birth_rate",
+  center_function  = median,
+  spread_function  = h_spread
 )
 rm(ds_linear)
 
 polarized <- polarize_cartesian(
-  ds_linear = portfolio$ds_linear,
+  ds_linear      = portfolio$ds_linear,
   ds_stage_cycle = portfolio$ds_stage_cycle,
-  y_name = "birth_rate",
-  stage_id_name = "stage_id"
+  y_name         = "birth_rate",
+  stage_id_name  = "stage_id"
 )
 
 library(ggplot2)
 polarized$ds_stage_cycle_polar |>
   ggplot(aes(color = factor(stage_id))) +
-  geom_path(aes(x = polar_lower_x, y = polar_lower_y), linetype = 2) +
+  geom_path(aes(x = polar_lower_x , y = polar_lower_y ), linetype = 2) +
   geom_path(aes(x = polar_center_x, y = polar_center_y), linewidth = 2) +
-  geom_path(aes(x = polar_upper_x, y = polar_upper_y), linetype = 2) +
-  geom_path(aes(x = observed_x, y = observed_y), data = polarized$ds_observed_polar) +
+  geom_path(aes(x = polar_upper_x , y = polar_upper_y ), linetype = 2) +
+  geom_path(aes(x = observed_x    , y = observed_y    ), data = polarized$ds_observed_polar) +
   coord_fixed(ratio = 1) +
   guides(color = NULL)
 }

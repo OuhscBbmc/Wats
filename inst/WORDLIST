@@ -1,6 +1,5 @@
 BBMC
 CMD
-Cartesian
 Codecov
 DOI
 Dev
@@ -25,4 +24,5 @@ intercensal
 rda
 rdoc
 th
+tibble
 zenodo

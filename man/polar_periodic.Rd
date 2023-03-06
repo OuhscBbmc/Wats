@@ -114,8 +114,8 @@ ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date
 
 h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
 portfolio <- annotate_data(
-  ds_linear = ds_linear,
-  dv_name = "birth_rate",
+  ds_linear       = ds_linear,
+  dv_name         = "birth_rate",
   center_function = median,
   spread_function = h_spread
 )
@@ -124,36 +124,36 @@ rm(ds_linear)
 polarized <- polarize_cartesian(
   portfolio$ds_linear,
   portfolio$ds_stage_cycle,
-  y_name = "birth_rate",
+  y_name        = "birth_rate",
   stage_id_name = "stage_id"
 )
 
 grid.newpage()
 polar_periodic(
-  ds_linear = polarized$ds_observed_polar,
-  ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
-  y_name = "radius",
-  stage_id_name = "stage_id",
-  cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
+  ds_linear             = polarized$ds_observed_polar,
+  ds_stage_cycle_polar  = polarized$ds_stage_cycle_polar,
+  y_name                = "radius",
+  stage_id_name         = "stage_id",
+  cardinal_labels       = c("Jan1", "Apr1", "July1", "Oct1")
 )
 
 grid.newpage()
 polar_periodic(
-  ds_linear = polarized$ds_observed_polar,
-  ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
-  y_name = "radius",
-  stage_id_name = "stage_id",
-  draw_periodic_band = FALSE
+  ds_linear              = polarized$ds_observed_polar,
+  ds_stage_cycle_polar   = polarized$ds_stage_cycle_polar,
+  y_name                 = "radius",
+  stage_id_name          = "stage_id",
+  draw_periodic_band     = FALSE
 )
 
 grid.newpage()
 polar_periodic(
-  ds_linear = polarized$ds_observed_polar,
+  ds_linear            = polarized$ds_observed_polar,
   ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
-  y_name = "radius",
-  stage_id_name = "stage_id",
-  draw_observed_line = FALSE,
-  cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
+  y_name               = "radius",
+  stage_id_name        = "stage_id",
+  draw_observed_line   = FALSE,
+  cardinal_labels      = c("Jan1", "Apr1", "July1", "Oct1")
 )
 }
 \keyword{polar}

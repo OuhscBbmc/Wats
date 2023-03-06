@@ -61,8 +61,8 @@ ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date
 
 h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
 portfolio <- annotate_data(
-  ds_linear = ds_linear,
-  dv_name = "birth_rate",
+  ds_linear       = ds_linear,
+  dv_name         = "birth_rate",
   center_function = median,
   spread_function = h_spread
 )
