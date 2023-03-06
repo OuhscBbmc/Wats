@@ -4,19 +4,27 @@
 #'
 #' @description Three operations are performed.
 #' First, within each stage, the first row is repeated at the end, to close the loop.
-#' Second, multiple points are interpolated (still in a Cartesian coordinates) so that the polar graph doesn't have sharp edges.  These sharp edges would be artifacts of the conversion, and not reflect the observed data.
+#' Second, multiple points are interpolated (still in a Cartesian coordinates)
+#' so that the polar graph doesn't have sharp edges.
+#' These sharp edges would be artifacts of the conversion, and not reflect the observed data.
 #' Third, the Cartesian points are converted to polar coordinates.
 #'
-#' @param ds_linear The [data.frame] to containing the simple linear data.  There should be one record per observation.
-#' @param ds_stage_cycle The [data.frame] to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this [tibble::tibble] should have three times as many rows as `ds_linear`.
+#' @param ds_linear The [data.frame] to containing the simple linear data.
+#' There should be one record per observation.
+#' @param ds_stage_cycle The [data.frame] to containing the reoccurring/periodic bands.
+#' There should be one record per observation per stage.
+#' If there are three stages, this [tibble::tibble] should have three times as many rows as `ds_linear`.
 #' @param y_name The variable name containing the dependent/criterion variable.
-#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `stage_id` is "1", and is "2" afterwards.
+#' @param stage_id_name The variable name indicating which stage the record belongs to.
+#' For example, before the first interruption, the `stage_id` is "1", and is "2" afterwards.
 #' @param cycle_tally_name The variable name indicating how many *complete* cycles have occurred at that observation.
-#' @param proportion_through_cycle_name The variable name showing how far through a cycle the observation (or summarized observations) occurred.
+#' @param proportion_through_cycle_name The variable name showing how far
+#' through a cycle the observation (or summarized observations) occurred.
 #' @param periodic_lower_name The variable name showing the lower bound of a stage's periodic estimate.
 #' @param periodic_center_name The variable name showing the center estimate of a stage's periodic estimate.
 #' @param periodic_upper_name The variable name showing the upper bound of a stage's periodic estimate.
-#' @param plotted_point_count_per_cycle The number of points that are plotted per cycle.  If the polar graph has 'sharp corners', then increase this value.
+#' @param plotted_point_count_per_cycle The number of points that are plotted per cycle.
+#' If the polar graph has 'sharp corners', then increase this value.
 #' @param graph_floor The value of the criterion/dependent variable at the center of the polar plot.
 #' @return Returns a [tibble::tibble].
 #' @keywords polar

@@ -9,14 +9,17 @@
 Wrap-around Time Series (WATS) Plots for Interrupted Time Series Designs with Seasonal Patterns
 }
 \note{
-The release version is available through \href{https://cran.r-project.org/package=Wats}{CRAN} by
+The release version is available through
+\href{https://cran.r-project.org/package=Wats}{CRAN} by
 running \code{install.packages('Wats')}.
-The most recent development version is available through \href{https://github.com/OuhscBbmc/Wats}{GitHub} by
-running
+The most recent development version is available through
+\href{https://github.com/OuhscBbmc/Wats}{GitHub} by running
 \code{remotes::install_github("OuhscBbmc/Wats")}.
 (make sure \href{https://cran.r-project.org/package=remotes}{remotes} is already installed).
-If you're having trouble with the package, please install the development version.  If this doesn't solve
-your problem, please create an \href{https://github.com/OuhscBbmc/Wats/issues}{issue}, or email Will.
+If you're having trouble with the package, please install the development version.
+If this doesn't solve your problem,
+please create an \href{https://github.com/OuhscBbmc/Wats/issues}{issue},
+or email Will.
 }
 \examples{
 \dontrun{
@@ -39,13 +42,15 @@ Rodgers, J.L., St. John, C. A. & Coleman R. (2005).
 }
 \author{
 \href{http://scholar.google.com/citations?user=ffsJTC0AAAAJ}{William Howard Beasley}
---Associate Professor of Research, \href{https://ouhsc.edu/bbmc/team/}{University of Oklahoma Health Sciences Center},
+--Associate Professor of Research,
+\href{https://ouhsc.edu/bbmc/team/}{University of Oklahoma Health Sciences Center},
 \href{https://medicine.ouhsc.edu/academic-departments/pediatrics}{Dept of Pediatrics},
 Biomedical and Behavioral Methodology Core (\href{http://ouhsc.edu/bbmc/}{BBMC})
 
 \href{https://www.vanderbilt.edu/psychological_sciences/bio/joe-rodgers}{Joseph Lee Rodgers}
 --Director, Quantitative Methods, Department of Psychology and Human Development,
-Peabody College, 230 Appleton Pl #552, Hobbs 202C, Vanderbilt University, Nashville, TN 37203.
+Peabody College, 230 Appleton Pl #552, Hobbs 202C,
+Vanderbilt University, Nashville, TN 37203.
 
 \href{https://www.slu.edu/medicine/health-and-clinical-outcomes-research/faculty/schuelke-matt.php}{Matthew Schuelke}
 --Senior Statistician, Office of the Vice President for Research
