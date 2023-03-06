@@ -17,20 +17,26 @@ A data frame with 1,440 observations on the following 11 variables.
 15 to 44. \code{numeric}}
 \item{birth_count}{The number of births in a county for the given month.
 \code{integer}}
-\item{date}{The year and month of the record, with a date of the 15th. Centering the date within the month makes the value a little more representative and the graphs a little easier. \code{date}}
+\item{date}{The year and month of the record, with a date of the 15th.
+Centering the date within the month makes the value a little more representative
+and the graphs a little easier. \code{date}}
 \item{days_in_month}{The number of days in the specific month. \code{integer}}
 \item{days_in_year}{The number of days in the specific years \code{integer}}
-\item{stage_id}{The "Stage" of the month.  The pre-bombing records are "1" (accounting for 9 months of gestation); the post-bombing months are "2". \code{integer}}
+\item{stage_id}{The "Stage" of the month.  The pre-bombing records are "1"
+(accounting for 9 months of gestation); the post-bombing months are "2". \code{integer}}
 \item{birth_rate}{The Growth Fertility Rate (GFR). \code{numeric}}
 }
 }
 \description{
 Monthly Growth Fertility Rates (GFR) for 12 urban counties in Oklahoma
-between January 1990 and December 1999.  The GFR is defined as the number of births divided
+between January 1990 and December 1999.
+The GFR is defined as the number of births divided
 by the number of females (ages 15-44), multiplied by 1,000.
 
-There are two datasets in this package that are almost identical.  The 2014 version is better suited for substantive researchers
-in the areas of fertility and traumatic cultural events.  The 2005 version recreates the 2005 article
+There are two datasets in this package that are almost identical.
+The 2014 version is better suited for substantive researchers
+in the areas of fertility and traumatic cultural events.
+The 2005 version recreates the 2005 article
 and, therefore is better suited for the graphical aims of the 2014 manuscript.
 
 The difference is that the 2005 version uses constant estimate for a county population
@@ -76,15 +82,13 @@ ggplot(ds2014, aes(x = birth_rate, color = factor(fips))) +
   labs(title="Distributions of County Fertility")
 }
 \references{
-Rodgers, J. L., St. John, C. A. & Coleman R. (2005).
-\href{https://pubmed.ncbi.nlm.nih.gov/16463916/}{Did Fertility Go Up after the Oklahoma City Bombing?  An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.}
-\emph{Demography, 42}, 675-692.
-
-\href{https://www.census.gov/data/tables/time-series/demo/popest/intercensal-1990-2000-state-and-county-totals.html}{Intercensal estimates for 199x}
-
-\href{https://www.census.gov/data/datasets/time-series/demo/popest/intercensal-2000-2010-counties.html}{Intercensal estimates for 200x}
 \itemize{
-\item \href{https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html}{US Census Intercensal Estimates}
+\item Rodgers, J. L., St. John, C. A. & Coleman R. (2005).
+\href{https://pubmed.ncbi.nlm.nih.gov/16463916/}{Did Fertility Go Up after the Oklahoma City Bombing? An Analysis of Births in Metropolitan Counties in Oklahoma, 1990-1999.}
+\emph{Demography, 42}, 675-692.
+\item \href{https://www.census.gov/data/tables/time-series/demo/popest/intercensal-1990-2000-state-and-county-totals.html}{Intercensal estimates for 199x}
+\item \href{https://www.census.gov/data/datasets/time-series/demo/popest/intercensal-2000-2010-counties.html}{Intercensal estimates for 200x}
+\item DOcumentation: \href{https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html}{US Census Intercensal Estimates}
 for \href{https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/1990-2000-intercensal.html}{199x}
 and \href{https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/2000-2010-intercensal.html}{200x}.
 }
