@@ -41,33 +41,45 @@ polar_periodic(
 \arguments{
 \item{ds_linear}{The \link{data.frame} to containing the simple linear data.  There should be one record per observation.}
 
-\item{ds_stage_cycle_polar}{The \link{data.frame} to containing the bands for a single period.  There should be one record per theta per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
+\item{ds_stage_cycle_polar}{The \link{data.frame} to containing the bands for a single period.
+There should be one record per theta per stage.  If there are three stages,
+this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
 
 \item{x_name}{The variable name containing the date.}
 
 \item{y_name}{The variable name containing the dependent/criterion variable.}
 
-\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{stage_id} is "1", and is "2" afterwards.}
+\item{stage_id_name}{The variable name indicating which stage the record belongs to.
+For example, before the first interruption, the \code{stage_id} is "1", and is "2" afterwards.}
 
 \item{periodic_lower_name}{The variable name showing the lower bound of a stage's periodic estimate.}
 
 \item{periodic_upper_name}{The variable name showing the upper bound of a stage's periodic estimate.}
 
-\item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{stage_id} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.
+The vector should have one color for each \code{stage_id} value.
+If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{palette_light}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{stage_id} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_light}{A vector of colors used for the light graphical elements.
+The vector should have one color for each \code{stage_id} value.
+If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{change_points}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
+\item{change_points}{A vector of values indicate the interruptions between stages.
+It typically works best as a Date or a POSIXct class.}
 
 \item{change_point_labels}{The text plotted above each interruption.}
 
-\item{draw_observed_line}{A boolean value indicating if the longitudinal observed line should be plotted (whose values are take from \code{ds_linear}).}
+\item{draw_observed_line}{A boolean value indicating
+if the longitudinal observed line should be plotted (whose values are take from \code{ds_linear}).}
 
-\item{draw_periodic_band}{A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodic_lower_name} and \code{periodic_upper_name} fields).}
+\item{draw_periodic_band}{A boolean value indicating
+if the bands should be plotted (whose values are take from the \code{periodic_lower_name} and \code{periodic_upper_name} fields).}
 
-\item{draw_stage_labels}{A boolean value indicating if the stage labels should be plotted (whose values are take from \code{ds_linear}).}
+\item{draw_stage_labels}{A boolean value indicating
+if the stage labels should be plotted (whose values are take from \code{ds_linear}).}
 
-\item{draw_radius_labels}{A boolean value indicating if the gridline/radius labels should be plotted (whose values are take from \code{tick_locations}).}
+\item{draw_radius_labels}{A boolean value indicating
+if the gridline/radius labels should be plotted (whose values are take from \code{tick_locations}).}
 
 \item{jagged_point_size}{The size of the observed data points.}
 
@@ -95,9 +107,11 @@ polar_periodic(
 
 \item{cardinal_labels}{The four labels placed  where "North", "East", "South", and "West" typically are.}
 
-\item{origin_label}{Explains what the criterion variable's value is at the origin.  Use \code{NULL} if no explanation is desired.}
+\item{origin_label}{Explains what the criterion variable's value is at the origin.
+Use \code{NULL} if no explanation is desired.}
 
-\item{plot_margins}{A vector of four \code{numeric} values, specifying the number of lines in the bottom, left, top and right margins.}
+\item{plot_margins}{A vector of four \code{numeric} values, specifying the number of lines in the
+bottom, left, top and right margins.}
 }
 \value{
 Returns a grid graphical object (\emph{i.e.}, a \code{\link[grid:grid.grob]{grid::grob()}}.)
