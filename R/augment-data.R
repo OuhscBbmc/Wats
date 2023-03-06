@@ -48,9 +48,6 @@ augment_year_data_with_month_resolution <- function( ds_linear, date_name ) {
     dplyr::select(
       -is_min,
     )
-
-  # ds_linear$stage_progress <- base::unlist(plyr::dlply(ds_linear, "stage_id", SummarizeWithinStage))
-  # return( ds_linear )
 }
 augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
   is_min <- NULL # avoid "Undefined global functions or variables"
