@@ -21,7 +21,7 @@ your problem, please create an \href{https://github.com/OuhscBbmc/Wats/issues}{i
 \examples{
 \dontrun{
 # Install/update Wats with the release version from CRAN.
-install.packages('Wats')
+install.packages("Wats")
 
 # Install/update Wats with the development version from GitHub
 # install.packages("remotes") #Uncomment if remotes isn't installed already.

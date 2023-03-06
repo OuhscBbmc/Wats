@@ -21,11 +21,9 @@
 #'  [Dept of Pediatrics](https://medicine.ouhsc.edu/academic-departments/pediatrics),
 #'  Biomedical and Behavioral Methodology Core ([BBMC](http://ouhsc.edu/bbmc/))
 #'
-#'
 #'  [Joseph Lee Rodgers](https://www.vanderbilt.edu/psychological_sciences/bio/joe-rodgers)
 #'  --Director, Quantitative Methods, Department of Psychology and Human Development,
 #'  Peabody College, 230 Appleton Pl #552, Hobbs 202C, Vanderbilt University, Nashville, TN 37203.
-#'
 #'
 #'  [Matthew Schuelke](https://www.slu.edu/medicine/health-and-clinical-outcomes-research/faculty/schuelke-matt.php)
 #'  --Senior Statistician, Office of the Vice President for Research
@@ -44,7 +42,7 @@
 #' @examples
 #' \dontrun{
 #' # Install/update Wats with the release version from CRAN.
-#' install.packages('Wats')
+#' install.packages("Wats")
 #'
 #' # Install/update Wats with the development version from GitHub
 #' # install.packages("remotes") #Uncomment if remotes isn't installed already.

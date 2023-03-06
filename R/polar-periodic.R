@@ -34,18 +34,19 @@
 #' @param graph_floor The value of the criterion/dependent variable at the center of the polar plot.
 #' @param graph_ceiling The value of the criterion/dependent variable at the outside of the polar plot.
 #'
-#' @param cardinal_labels The four labels placed  where `North', `East', `South', and `West' typically are.
+#' @param cardinal_labels The four labels placed  where "North", "East", "South", and "West" typically are.
 #' @param origin_label Explains what the criterion variable's value is at the origin.  Use `NULL` if no explanation is desired.
 #' @param plot_margins A vector of four `numeric` values, specifying the number of lines in the bottom, left, top and right margins.
 #'
 #' @return Returns a grid graphical object (ie, a [grid::grob()].)
 #' @keywords polar
 #' @examples
-#' library(grid)
+#' requireNamespace("grid")
 #' library(Wats)
-#' ds_linear <- county_month_birth_rate_2005_version
-#' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
+#' ds_linear <-
+#'   Wats::county_month_birth_rate_2005_version |>
+#'   dplyr::filter(county_name == "oklahoma") |>
+#'   augment_year_data_with_month_resolution(date_name = "date")
 #'
 #' h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
 #' portfolio <- annotate_data(
@@ -63,7 +64,7 @@
 #'   stage_id_name = "stage_id"
 #' )
 #'
-#' grid.newpage()
+#' grid::grid.newpage()
 #' polar_periodic(
 #'   ds_linear             = polarized$ds_observed_polar,
 #'   ds_stage_cycle_polar  = polarized$ds_stage_cycle_polar,
@@ -72,7 +73,7 @@
 #'   cardinal_labels       = c("Jan1", "Apr1", "July1", "Oct1")
 #' )
 #'
-#' grid.newpage()
+#' grid::grid.newpage()
 #' polar_periodic(
 #'   ds_linear              = polarized$ds_observed_polar,
 #'   ds_stage_cycle_polar   = polarized$ds_stage_cycle_polar,
@@ -81,7 +82,7 @@
 #'   draw_periodic_band     = FALSE
 #' )
 #'
-#' grid.newpage()
+#' grid::grid.newpage()
 #' polar_periodic(
 #'   ds_linear            = polarized$ds_observed_polar,
 #'   ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,

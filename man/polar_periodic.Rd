@@ -93,7 +93,7 @@ polar_periodic(
 
 \item{graph_ceiling}{The value of the criterion/dependent variable at the outside of the polar plot.}
 
-\item{cardinal_labels}{The four labels placed  where \verb{North', }East', \verb{South', and }West' typically are.}
+\item{cardinal_labels}{The four labels placed  where "North", "East", "South", and "West" typically are.}
 
 \item{origin_label}{Explains what the criterion variable's value is at the origin.  Use \code{NULL} if no explanation is desired.}
 
@@ -106,11 +106,12 @@ Returns a grid graphical object (ie, a \code{\link[grid:grid.grob]{grid::grob()}
 Shows the interrupted time series in Cartesian coordinates and its a periodic/cyclic components.
 }
 \examples{
-library(grid)
+requireNamespace("grid")
 library(Wats)
-ds_linear <- county_month_birth_rate_2005_version
-ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
+ds_linear <-
+  Wats::county_month_birth_rate_2005_version |>
+  dplyr::filter(county_name == "oklahoma") |>
+  augment_year_data_with_month_resolution(date_name = "date")
 
 h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
 portfolio <- annotate_data(
@@ -128,7 +129,7 @@ polarized <- polarize_cartesian(
   stage_id_name = "stage_id"
 )
 
-grid.newpage()
+grid::grid.newpage()
 polar_periodic(
   ds_linear             = polarized$ds_observed_polar,
   ds_stage_cycle_polar  = polarized$ds_stage_cycle_polar,
@@ -137,7 +138,7 @@ polar_periodic(
   cardinal_labels       = c("Jan1", "Apr1", "July1", "Oct1")
 )
 
-grid.newpage()
+grid::grid.newpage()
 polar_periodic(
   ds_linear              = polarized$ds_observed_polar,
   ds_stage_cycle_polar   = polarized$ds_stage_cycle_polar,
@@ -146,7 +147,7 @@ polar_periodic(
   draw_periodic_band     = FALSE
 )
 
-grid.newpage()
+grid::grid.newpage()
 polar_periodic(
   ds_linear            = polarized$ds_observed_polar,
   ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
