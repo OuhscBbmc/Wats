@@ -272,9 +272,7 @@ polar_periodic <- function(
       grid::grid.polygon(
         x             = x,
         y             = y,
-        col           = "transparent",
-        alpha         = band_alpha_dark,
-        gp            = grid::gpar(fill = palette_dark[stageID]),
+        gp            = grid::gpar(fill = palette_dark[stageID], col = "transparent", alpha = band_alpha_dark),
         default.units = "native"
       )
     }
