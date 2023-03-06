@@ -30,7 +30,7 @@
 #' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
 #' ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 #'
-#' h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
+#' h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
 #' portfolio <- annotate_data(
 #'   ds_linear = ds_linear,
 #'   dv_name = "birth_rate",
@@ -93,7 +93,11 @@ annotate_data <- function(
 
   # ds_periodic <- ds_periodic[order(ds_periodic$date, ds_periodic$stage_id_time, ds_periodic$stage_id_band), ]
 
-  return( list(ds_linear = ds_linear, ds_stage_cycle = ds_stage_cycle, ds_periodic = ds_periodic) )
+  list(
+    ds_linear       = ds_linear,
+    ds_stage_cycle  = ds_stage_cycle,
+    ds_periodic     = ds_periodic
+  )
 }
 
 # library(Wats)
@@ -101,7 +105,7 @@ annotate_data <- function(
 # ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
 # ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 #
-# h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
+# h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
 # portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function = median, spread_function = h_spread)
 #
 # head(portfolio$ds_stage_cycle)

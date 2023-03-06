@@ -43,7 +43,7 @@
 #' ds_linear <- county_month_birth_rate_2005_version
 #' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
 #' ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
-#' h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
+#' h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
 #' portfolio <- annotate_data(
 #'     ds_linear,
 #'     dv_name = "birth_rate",
@@ -165,5 +165,5 @@ cartesian_rolling <- function(
   p <- p + ggplot2::theme(legend.position="none")
   p <- p + ggplot2::labs(title = title, x = x_title, y = y_title)
 
-  return( p )
+  p
 }

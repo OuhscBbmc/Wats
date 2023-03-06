@@ -47,7 +47,7 @@
 #' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
 #' ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 #'
-#' h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
+#' h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
 #' portfolio <- annotate_data(
 #'   ds_linear = ds_linear,
 #'   dv_name = "birth_rate",
@@ -266,7 +266,7 @@ polar_periodic <- function(
 # ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
 # ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 #
-# h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
+# h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
 # portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function = median, spread_function = h_spread)
 # rm(ds_linear)
 #

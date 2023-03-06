@@ -26,7 +26,7 @@
 #' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
 #' ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 #'
-#' h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
+#' h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
 #' portfolio <- annotate_data(
 #'   ds_linear = ds_linear,
 #'   dv_name = "birth_rate",
@@ -72,8 +72,9 @@ polarize_cartesian <- function(
   close_loop <- function(d) {
     d[nrow(d) + 1, ] <- d[1, ] #Within each stage, repeat the first row at the end of the stage's data.frame.
     d[nrow(d), proportion_through_cycle_name] <- 1 + d[nrow(d), proportion_through_cycle_name]
-    return( d )
+    d
   }
+
   interpolate_observed <- function(d, points_per_cycle_count) {
     observed <-
       stats::approx(
@@ -86,13 +87,14 @@ polarize_cartesian <- function(
         x = unique(d[[stage_id_name]]) + 0:1,
         n = points_per_cycle_count + 1
       )
-    # browser()
+
     tibble::tibble(
       observed_x     = observed$x,
       observed_y     = observed$y,
       stage_progress = stage_progress$y[seq_len(points_per_cycle_count)] #Which chops off the last value.
     )
   }
+
   interpolate_band <- function(d, points_per_cycle_count) {
     lower  <- stats::approx(x = d[[proportion_through_cycle_name]], y = d[[periodic_lower_name ]], n = points_per_cycle_count)
     center <- stats::approx(x = d[[proportion_through_cycle_name]], y = d[[periodic_center_name]], n = points_per_cycle_count)
@@ -107,6 +109,7 @@ polarize_cartesian <- function(
       upper_y  = upper$y
     )
   }
+
   polarize_observed <- function(d, graph_floor = graph_floor) {
     #After R 3.1.0 has been out for a while, consider using sinpi()`.
     if (nrow(d) == 0L) {
@@ -128,6 +131,7 @@ polarize_cartesian <- function(
       label_stage_end     = dplyr::if_else(stage_end  , paste0(d$stage_id, "E"), "")
     )
   }
+
   polarize_band <- function(d, graph_floor = graph_floor) {
     if (nrow(d) == 0L) {
       stage_start <- logical(0)
@@ -203,7 +207,7 @@ polarize_cartesian <- function(
 # ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
 # ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
 #
-# h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
+# h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) ) }
 # portfolio <- annotate_data(ds_linear, dv_name="birth_rate", center_function = median, spread_function = h_spread)
 # rm(ds_linear)
 #
