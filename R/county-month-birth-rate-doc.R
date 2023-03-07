@@ -62,7 +62,7 @@
 #'
 #' * [Intercensal estimates for 200x](https://www.census.gov/data/datasets/time-series/demo/popest/intercensal-2000-2010-counties.html)
 #'
-#' * DOcumentation: [US Census Intercensal Estimates](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html)
+#' * Documentation: [US Census Intercensal Estimates](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html)
 #' for [199x](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/1990-2000-intercensal.html)
 #' and [200x](https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/2000-2010-intercensal.html).
 #'

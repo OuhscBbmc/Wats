@@ -88,7 +88,7 @@ ggplot(ds2014, aes(x = birth_rate, color = factor(fips))) +
 \emph{Demography, 42}, 675-692.
 \item \href{https://www.census.gov/data/tables/time-series/demo/popest/intercensal-1990-2000-state-and-county-totals.html}{Intercensal estimates for 199x}
 \item \href{https://www.census.gov/data/datasets/time-series/demo/popest/intercensal-2000-2010-counties.html}{Intercensal estimates for 200x}
-\item DOcumentation: \href{https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html}{US Census Intercensal Estimates}
+\item Documentation: \href{https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts.html}{US Census Intercensal Estimates}
 for \href{https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/1990-2000-intercensal.html}{199x}
 and \href{https://www.census.gov/programs-surveys/popest/technical-documentation/file-layouts/2000-2010-intercensal.html}{200x}.
 }
