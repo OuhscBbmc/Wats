@@ -29,18 +29,18 @@ Selected Figures
 Reproducible Research
 -------------------------
 
-When the Wats package is installed on your local machine, the [`reproduce.R`](utility/reproduce.R) script starts with our initial datasets (*i.e.*, the vital statistics birth counts and the US Census population estimates) to create the derivative datasets and resulting graphs and analysis.
+When the Wats package is installed on your local machine, the [`reproduce.R`](https://github.com/OuhscBbmc/Wats/blob/main/utility/reproduce.R) script starts with our initial datasets (*i.e.*, the vital statistics birth counts and the US Census population estimates) to create the derivative datasets and resulting graphs and analysis.
 
 Nonstandard Directories
 -------------------------
 
 The following directories are not part of the standard R package:
 
-* [`datasets/`](datasets/): CSV versions of the *.rda data frames officially included in the package.  The incoming/unprocessed files are stored in [`datasets/raw/`](datasets/raw/).  The processed files are stored in [`datasets/derived/`](datasets/derived/).
-* [`documentation-for-developers/`](documentation-for-developers/): Notes and links that should help package *developers* set up on their computer.  Typical package *users* won't have a need for this.
-* [`publication-graphs/`](publication-graphs/): A deprecated location that contains loose graphs of older versions of the manuscript.
-* [`playgrounds/`](playgrounds/): R snippets to help developers experiment with potential new features.
-* [`utility/`](utility/): R scripts that aren't incorporated into the package.  They help automate certain tasks, or document how parts of the package were created.
+* [`datasets/`](https://github.com/OuhscBbmc/Wats/tree/main/datasets/): CSV versions of the *.rda data frames officially included in the package.  The incoming/unprocessed files are stored in [`datasets/raw/`](https://github.com/OuhscBbmc/Wats/tree/main/datasets/raw/).  The processed files are stored in [`datasets/derived/`](https://github.com/OuhscBbmc/Wats/tree/main/datasets/derived/).
+* [`documentation-for-developers/`](https://github.com/OuhscBbmc/Wats/tree/main/documentation-for-developers/): Notes and links that should help package *developers* set up on their computer.  Typical package *users* won't have a need for this.
+* [`publication-graphs/`](https://github.com/OuhscBbmc/Wats/tree/main/publication-graphs/): A deprecated location that contains loose graphs of older versions of the manuscript.
+* [`playgrounds/`](https://github.com/OuhscBbmc/Wats/tree/main/playgrounds/): R snippets to help developers experiment with potential new features.
+* [`utility/`](https://github.com/OuhscBbmc/Wats/tree/main/utility/): R scripts that aren't incorporated into the package.  They help automate certain tasks, or document how parts of the package were created.
 
 Installing
 -------------------------
