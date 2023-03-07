@@ -18,6 +18,13 @@
 #' please create an [issue](https://github.com/OuhscBbmc/Wats/issues),
 #' or email Will.
 #'
+#' **Funding**
+#' Continued development and maintenance of this package supported by the
+#' Oklahoma Shared Clinical and Translational Resources ([OSCTR](https://osctr.ouhsc.edu/),
+#' U54GM104938) with an Institutional Development Award (IDeA) from NIGMS.
+#' The content is solely the responsibility of the authors and does not necessarily represent
+#' the official views of the National Institutes of Health.
+#'
 #' @author
 #' [William Howard Beasley](http://scholar.google.com/citations?user=ffsJTC0AAAAJ)
 #' --Associate Professor of Research,

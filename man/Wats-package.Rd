@@ -20,6 +20,13 @@ If you're having trouble with the package, please install the development versio
 If this doesn't solve your problem,
 please create an \href{https://github.com/OuhscBbmc/Wats/issues}{issue},
 or email Will.
+
+\strong{Funding}
+Continued development and maintenance of this package supported by the
+Oklahoma Shared Clinical and Translational Resources (\href{https://osctr.ouhsc.edu/}{OSCTR},
+U54GM104938) with an Institutional Development Award (IDeA) from NIGMS.
+The content is solely the responsibility of the authors and does not necessarily represent
+the official views of the National Institutes of Health.
 }
 \examples{
 \dontrun{

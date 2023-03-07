@@ -63,6 +63,11 @@ Code Repository
 
 The software is written primarily in R, under the MIT License.  The DOI of this major release of the *repository* is [10.5281/zenodo.11921](https://doi.org/10.5281/zenodo.11921).  (The DOI of the article is [10.1080/00273171.2014.946589](https://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589).)
 
+Funding
+-------------------------
+
+Continued development and maintenance of this package supported by the Oklahoma Shared Clinical and Translational Resources ([OSCTR](https://osctr.ouhsc.edu/), U54GM104938) with an Institutional Development Award (IDeA) from NIGMS. The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.
+
 Build Status and Package Characteristics
 -------------------------
 
