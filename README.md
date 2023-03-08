@@ -29,18 +29,18 @@ Selected Figures
 Reproducible Research
 -------------------------
 
-When the Wats package is installed on your local machine, the [`Reproduce.R`](https://github.com/OuhscBbmc/Wats/blob/main/utility/reproduce.R) script starts with our initial datasets (ie, the vital statistics birth counts and the US Census population estimates) to create the derivative datasets and resulting graphs and analysis.
+When the Wats package is installed on your local machine, the [`reproduce.R`](https://github.com/OuhscBbmc/Wats/blob/main/utility/reproduce.R) script starts with our initial datasets (*i.e.*, the vital statistics birth counts and the US Census population estimates) to create the derivative datasets and resulting graphs and analysis.
 
 Nonstandard Directories
 -------------------------
 
 The following directories are not part of the standard R package:
 
- * `datasets`: CSV versions of the *.rda data.frames officially included in the package.
- * `documentation-for-developers`: Notes and links that should help package *developers* set up on their computer.  Typical package *users* won't have a need for this.
- * `publication-graphs`: A deprecated location that contains loose graphs of older versions of the manuscript.
- * `playgrounds`: R snippets to help developers experiment with potential new features.
- * `utility`: R scripts that aren't incorporated into the package.  They help automate certain tasks, or document how parts of the package were created.
+* [`datasets/`](https://github.com/OuhscBbmc/Wats/tree/main/datasets/): CSV versions of the *.rda data frames officially included in the package.  The incoming/unprocessed files are stored in [`datasets/raw/`](https://github.com/OuhscBbmc/Wats/tree/main/datasets/raw/).  The processed files are stored in [`datasets/derived/`](https://github.com/OuhscBbmc/Wats/tree/main/datasets/derived/).
+* [`documentation-for-developers/`](https://github.com/OuhscBbmc/Wats/tree/main/documentation-for-developers/): Notes and links that should help package *developers* set up on their computer.  Typical package *users* won't have a need for this.
+* [`publication-graphs/`](https://github.com/OuhscBbmc/Wats/tree/main/publication-graphs/): A deprecated location that contains loose graphs of older versions of the manuscript.
+* [`playgrounds/`](https://github.com/OuhscBbmc/Wats/tree/main/playgrounds/): R snippets to help developers experiment with potential new features.
+* [`utility/`](https://github.com/OuhscBbmc/Wats/tree/main/utility/): R scripts that aren't incorporated into the package.  They help automate certain tasks, or document how parts of the package were created.
 
 Installing
 -------------------------
@@ -51,7 +51,7 @@ The released [CRAN](https://cran.r-project.org/package=Wats) version of Wats can
 install.packages("Wats")
 ```
 
-The latest development version of Wats can be installed from [GitHub](https://github.com/OuhscBbmc/Wats) after installing the `remotes` package.
+The latest development version of Wats can be installed from [GitHub](https://github.com/OuhscBbmc/Wats) after installing the remotes package.
 
 ```R
 install.packages("remotes")
@@ -62,6 +62,11 @@ Code Repository
 -------------------------
 
 The software is written primarily in R, under the MIT License.  The DOI of this major release of the *repository* is [10.5281/zenodo.11921](https://doi.org/10.5281/zenodo.11921).  (The DOI of the article is [10.1080/00273171.2014.946589](https://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589).)
+
+Funding
+-------------------------
+
+Continued development and maintenance of this package supported by the Oklahoma Shared Clinical and Translational Resources ([OSCTR](https://osctr.ouhsc.edu/), U54GM104938) with an Institutional Development Award (IDeA) from NIGMS. The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.
 
 Build Status and Package Characteristics
 -------------------------

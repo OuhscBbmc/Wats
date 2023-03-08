@@ -30,7 +30,7 @@ annotate_data(
 
 \item{stage_id_name}{The variable name indicating the stage.
 In a typical interrupted time series, these values are
-\code{1} before the interruption and \code{2} after.}
+"1" before the interruption and "2" after.}
 
 \item{stage_progress_name}{The variable name indicating the stage in a decimal form.
 This is mostly for internal uses.}
@@ -46,7 +46,8 @@ is through a cycle.  For example, 0 degrees would be \code{0},
 within a given cycle.}
 }
 \value{
-Returns a \code{\link[tibble:tibble]{tibble::tibble()}} with additional variables.  TODO: say what the variables are.
+Returns a \code{\link[tibble:tibble]{tibble::tibble()}} with additional variables.
+TODO: say what the variables are.
 }
 \description{
 Finds midpoints and bands for the within and between cycles.
@@ -54,20 +55,23 @@ This the second of two functions
 that needs to be called to produce WATS Plots.  \code{AugmentZZZ} is the first.
 }
 \examples{
+system.time({
 library(Wats)
-ds_linear <- county_month_birth_rate_2005_version
-ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
+ds_linear <-
+  Wats::county_month_birth_rate_2005_version |>
+  dplyr::filter(county_name == "oklahoma") |>
+  augment_year_data_with_month_resolution(date_name = "date")
 
-h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
+h_spread <- \(scores) { quantile(x = scores, probs = c(.25, .75)) }
+
 portfolio <- annotate_data(
-  ds_linear = ds_linear,
-  dv_name = "birth_rate",
+  ds_linear       = ds_linear,
+  dv_name         = "birth_rate",
   center_function = median,
   spread_function = h_spread
 )
-
-head(portfolio$ds_stage_cycle)
-head(portfolio$ds_linear)
-head(portfolio$ds_periodic)
+portfolio$ds_stage_cycle
+portfolio$ds_linear
+portfolio$ds_periodic
+})
 }

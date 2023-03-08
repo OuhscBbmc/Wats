@@ -15,7 +15,8 @@ augment_year_data_with_second_resolution( ds_linear, date_name )
 \item{date_name}{The variable name in \code{ds_linear} containing the date or datetime value.}
 }
 \value{
-Returns a \link[tibble:tibble]{tibble::tibble} with additional variables: \code{cycle_tally}, \code{proportion_through_cycle}, \code{proportion_id}, and \code{terminal_point_in_cycle}.
+Returns a \link[tibble:tibble]{tibble::tibble} with additional variables:
+\code{cycle_tally}, \code{proportion_through_cycle}, \code{proportion_id}, and \code{terminal_point_in_cycle}.
 }
 \description{
 Calculates variables necessary for WATS Plots.  This the first of two functions
@@ -23,9 +24,11 @@ that needs to be called to produce WATS Plots.  \code{\link[=annotate_data]{anno
 }
 \examples{
 library(Wats)
-ds_linear <- county_month_birth_rate_2005_version
-ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
+ds_linear <-
+  Wats::county_month_birth_rate_2005_version |>
+  dplyr::filter(county_name == "oklahoma") |>
+  augment_year_data_with_month_resolution(date_name = "date")
+
 head(ds_linear)
 
 }

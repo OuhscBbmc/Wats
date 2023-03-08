@@ -2,24 +2,37 @@
 #' @export
 #' @title Linear Plot with Rolling Summaries
 #'
-#' @description Shows the interrupted time series in Cartesian coordinates without a periodic/cyclic components.
+#' @description Shows the interrupted time series in Cartesian coordinates
+#' without a periodic/cyclic components.
 #'
 #' @param ds_linear The [data.frame] to containing the data.
 #' @param x_name The variable name containing the date.
 #' @param y_name The variable name containing the dependent/criterion variable.
-#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `stage_id` is `1`, and is `2` afterwards.
+#' @param stage_id_name The variable name indicating which stage the record belongs to.
+#' For example, before the first interruption, the `stage_id` is "1", and is "2" afterwards.
 #' @param rolling_lower_name The variable name showing the lower bound of the rolling estimate.
 #' @param rolling_center_name The variable name showing the rolling estimate.
 #' @param rolling_upper_name The variable name showing the upper bound of the rolling estimate.
-#' @param palette_dark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each `stage_id` value.  If no vector is specified, a default will be chosen, based on the number of stages.
-#' @param palette_light A vector of colors used for the light graphical elements.  The vector should have one color for each `stage_id` value.  If no vector is specified, a default will be chosen, based on the number of stages.
-#' @param color_sparse The color of the `slowest' trend line, which plots only one value per cycle.
-#' @param change_points A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.
+#' @param palette_dark A vector of colors used for the dark/heavy graphical elements.
+#' The vector should have one color for each `stage_id` value.
+#' If no vector is specified, a default will be chosen, based on the number of stages.
+#' @param palette_light A vector of colors used for the light graphical elements.
+#' The vector should have one color for each `stage_id` value.
+#' If no vector is specified, a default will be chosen, based on the number of stages.
+#' @param color_sparse The color of the 'slowest' trend line,
+#' which plots only one value per cycle.
+#' @param change_points A vector of values indicate the interruptions between stages.
+#' It typically works best as a Date or a POSIXct class.
 #' @param change_point_labels The text plotted above each interruption.
-#' @param draw_jagged_line A boolean value indicating if a line should be plotted that connects the observed data points.
-#' @param draw_rolling_line A boolean value indicating if a line should be plotted that connects the rolling estimates specified by `rolling_center_name`.
-#' @param draw_rolling_band A boolean value indicating if a band should be plotted that envelopes the rolling estimates (whose values are take from the `rolling_lower_name` and `rolling_upper_name`.
-#' @param draw_sparse_line_and_points A boolean value indicating if the sparse line and points should be plotted.
+#' @param draw_jagged_line A boolean value indicating if a line should be plotted
+#' that connects the observed data points.
+#' @param draw_rolling_line A boolean value indicating if a line should be plotted
+#' that connects the rolling estimates specified by `rolling_center_name`.
+#' @param draw_rolling_band A boolean value indicating if a band should be plotted
+#' that envelopes the rolling estimates (whose values are take from the
+#' `rolling_lower_name` and `rolling_upper_name`.
+#' @param draw_sparse_line_and_points A boolean value indicating if the sparse line and
+#' points should be plotted.
 #'
 #' @param jagged_point_size The size of the observed data points.
 #' @param jagged_line_size The size of the line connecting the observed data points.
@@ -38,26 +51,29 @@
 #' @return Returns a ggplot2 graphing object
 #' @keywords Cartesian
 #' @examples
-#' library(Wats) #Load the package
+#' library(Wats) # Load the package
 #' change_month <- base::as.Date("1996-02-15")
-#' ds_linear <- county_month_birth_rate_2005_version
-#' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
-#' h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
+#' ds_linear <-
+#'   Wats::county_month_birth_rate_2005_version |>
+#'   dplyr::filter(county_name == "oklahoma") |>
+#'   augment_year_data_with_month_resolution(date_name = "date")
+#'
+#' h_spread     <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
+#'
 #' portfolio <- annotate_data(
-#'     ds_linear,
-#'     dv_name = "birth_rate",
-#'     center_function = median,
-#'     spread_function = h_spread
+#'   ds_linear,
+#'   dv_name         = "birth_rate",
+#'   center_function = median,
+#'   spread_function = h_spread
 #' )
 #'
 #' cartesian_rolling(
-#'     portfolio$ds_linear,
-#'     x_name = "date",
-#'     y_name = "birth_rate",
-#'     stage_id_name = "stage_id",
-#'     change_points = change_month,
-#'     change_point_labels = "Bombing Effect"
+#'   portfolio$ds_linear,
+#'   x_name               = "date",
+#'   y_name               = "birth_rate",
+#'   stage_id_name        = "stage_id",
+#'   change_points        = change_month,
+#'   change_point_labels  = "Bombing Effect"
 #' )
 
 cartesian_rolling <- function(
@@ -155,7 +171,7 @@ cartesian_rolling <- function(
   }
 
   if (!is.null(change_points)) {
-    for (i in seq_along(change_points))  {
+    for (i in seq_along(change_points)) {
       p <- p + ggplot2::geom_vline(xintercept = as.integer(change_points[i]), color = palette_light[i+1], alpha = change_line_alpha, size = change_line_size)
       p <- p + ggplot2::annotate("text", x = change_points[i], y = Inf, vjust = 1.1, color = palette_light[i+1], label = change_point_labels[i])
     }
@@ -165,5 +181,5 @@ cartesian_rolling <- function(
   p <- p + ggplot2::theme(legend.position="none")
   p <- p + ggplot2::labs(title = title, x = x_title, y = y_title)
 
-  return( p )
+  p
 }

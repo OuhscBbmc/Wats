@@ -5,7 +5,8 @@ A modernization of the package.  See Issue #9 for low-level details
 
 Breaking Changes:
 
-* snake_case variable names (#16)
+* snake_case functions & variable names (#16)
+* data manipulation functions accept & return tibbles instead of data.frames (#24)
 
 New Features:
 

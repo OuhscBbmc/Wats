@@ -11,13 +11,16 @@
 #'
 #' @param ds_linear The [data.frame] to containing the detailed data.
 #' @param date_name The variable name in `ds_linear` containing the date or datetime value.
-# @param stage_id_name The variable name indicating the stage. In a typical interrupted time series, these values are `1` before the interruption and `2` after.
-#' @return Returns a [tibble::tibble] with additional variables: `cycle_tally`, `proportion_through_cycle`, `proportion_id`, and `terminal_point_in_cycle`.
+# @param stage_id_name The variable name indicating the stage. In a typical interrupted time series, these values are "1" before the interruption and "2" after.
+#' @return Returns a [tibble::tibble] with additional variables:
+#' `cycle_tally`, `proportion_through_cycle`, `proportion_id`, and `terminal_point_in_cycle`.
 #' @examples
 #' library(Wats)
-#' ds_linear <- county_month_birth_rate_2005_version
-#' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
+#' ds_linear <-
+#'   Wats::county_month_birth_rate_2005_version |>
+#'   dplyr::filter(county_name == "oklahoma") |>
+#'   augment_year_data_with_month_resolution(date_name = "date")
+#'
 #' head(ds_linear)
 #'
 #' @importFrom rlang .data
@@ -48,9 +51,6 @@ augment_year_data_with_month_resolution <- function( ds_linear, date_name ) {
     dplyr::select(
       -is_min,
     )
-
-  # ds_linear$stage_progress <- base::unlist(plyr::dlply(ds_linear, "stage_id", SummarizeWithinStage))
-  # return( ds_linear )
 }
 augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
   is_min <- NULL # avoid "Undefined global functions or variables"
@@ -89,12 +89,3 @@ augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
       -is_min,
     )
 }
-
-# library(Wats)
-# ds_linear <- county_month_birth_rate_2005_version
-# ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-# # ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
-# ds_linear
-#
-# ds_linear$date <- as.POSIXct(ds_linear$date, tz="GMT")
-# ds_linear <- augment_year_data_with_second_resolution(ds_linear = ds_linear, date_name="date")

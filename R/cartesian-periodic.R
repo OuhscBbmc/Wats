@@ -2,25 +2,41 @@
 #' @export
 #' @title Linear Plot with Periodic Elements
 #'
-#' @description Shows the interrupted time series in Cartesian coordinates and its a periodic/cyclic components.
+#' @description Shows the interrupted time series in Cartesian coordinates and
+#' its a periodic/cyclic components.
 #'
-#' @param ds_linear The [data.frame] to containing the simple linear data.  There should be one record per observation.
-#' @param ds_periodic The [data.frame] to containing the reoccurring/periodic bands.  There should be one record per observation per stage.  If there are three stages, this [data.frame] should have three times as many rows as `ds_linear`.
+#' @param ds_linear The [data.frame] to containing the simple linear data.
+#' There should be one record per observation.
+#' @param ds_periodic The [data.frame] to containing the reoccurring/periodic bands.
+#' There should be one record per observation per stage.
+#' If there are three stages, this [data.frame] should have three times as many rows as
+#' `ds_linear`.
 #' @param x_name The variable name containing the date.
 #' @param y_name The variable name containing the dependent/criterion variable.
-#' @param stage_id_name The variable name indicating which stage the record belongs to.  For example, before the first interruption, the `stage_id` is `1`, and is `2` afterwards.
-#' @param periodic_lower_name The variable name showing the lower bound of a stage's periodic estimate.
-#' @param periodic_upper_name The variable name showing the upper bound of a stage's periodic estimate.
-#' @param palette_dark A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each `stage_id` value.  If no vector is specified, a default will be chosen, based on the number of stages.
-#' @param palette_light A vector of colors used for the light graphical elements.  The vector should have one color for each `stage_id` value.  If no vector is specified, a default will be chosen, based on the number of stages.
-#' @param change_points A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.
+#' @param stage_id_name The variable name indicating which stage the record belongs to.
+#' For example, before the first interruption, the `stage_id` is "1", and is "2" afterwards.
+#' @param periodic_lower_name The variable name showing the lower bound
+#' of a stage's periodic estimate.
+#' @param periodic_upper_name The variable name showing the upper bound
+#' of a stage's periodic estimate.
+#' @param palette_dark A vector of colors used for the dark/heavy graphical elements.
+#' The vector should have one color for each `stage_id` value.  If no vector is specified,
+#' a default will be chosen, based on the number of stages.
+#' @param palette_light A vector of colors used for the light graphical elements.
+#' The vector should have one color for each `stage_id` value.  If no vector is specified,
+#' a default will be chosen, based on the number of stages.
+#' @param change_points A vector of values indicate the interruptions between stages.
+#' It typically works best as a Date or a POSIXct class.
 #' @param change_point_labels The text plotted above each interruption.
-#' @param draw_periodic_band A boolean value indicating if the bands should be plotted (whose values are take from the `periodic_lower_name` and `periodic_upper_name`.
+#' @param draw_periodic_band A boolean value indicating if the bands should be plotted
+#' (whose values are take from the `periodic_lower_name` and `periodic_upper_name`).
 #' @param jagged_point_size The size of the observed data points.
 #' @param jagged_line_size The size of the line connecting the observed data points.
 #'
-#' @param band_alpha_dark The amount of transparency of the band appropriate for a stage's *x* values.
-#' @param band_alpha_light The amount of transparency of the band comparison stages for a given *x* value.
+#' @param band_alpha_dark The amount of transparency of the band appropriate
+#' for a stage's *x* values.
+#' @param band_alpha_light The amount of transparency of the band comparison stages
+#' for a given *x* value.
 #' @param change_line_alpha The amount of transparency marking each interruption.
 #' @param change_line_size The width of a line marking an interruption.
 #'
@@ -29,29 +45,33 @@
 #' @param y_title The string describing the *y*-axis.
 #'
 #' @return Returns a ggplot2 graphing object
+#'
 #' @keywords Cartesian
 #' @examples
-#' library(Wats) #Load the package
+#' library(Wats) # Load the package
 #' change_month <- base::as.Date("1996-02-15")
-#' ds_linear <- county_month_birth_rate_2005_version
-#' ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-#' ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
-#' h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
+#' ds_linear <-
+#'   Wats::county_month_birth_rate_2005_version |>
+#'   dplyr::filter(county_name == "oklahoma") |>
+#'   augment_year_data_with_month_resolution(date_name = "date")
+#'
+#' h_spread  <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
+#'
 #' portfolio <- annotate_data(
-#'     ds_linear,
-#'     dv_name = "birth_rate",
-#'     center_function = median,
-#'     spread_function = h_spread
+#'   ds_linear,
+#'   dv_name = "birth_rate",
+#'   center_function = median,
+#'   spread_function = h_spread
 #' )
 #'
 #' cartesian_periodic(
 #'   portfolio$ds_linear,
 #'   portfolio$ds_periodic,
-#'   x_name = "date",
-#'   y_name = "birth_rate",
-#'   stage_id_name = "stage_id",
-#'   change_points = change_month,
-#'   change_point_labels = "Bombing Effect"
+#'   x_name               = "date",
+#'   y_name               = "birth_rate",
+#'   stage_id_name        = "stage_id",
+#'   change_points        = change_month,
+#'   change_point_labels  = "Bombing Effect"
 #' )
 
 cartesian_periodic <- function(
@@ -160,16 +180,5 @@ cartesian_periodic <- function(
   p <- p + ggplot2::theme(legend.position = "none")
   p <- p + ggplot2::labs(title = title, x = x_title, y = y_title)
 
-  return( p )
+  p
 }
-
-# ds_linear <- county_month_birth_rate_2005_version
-# ds_linear[ds_linear$county_name=="oklahoma", ]
-# ds_linear <- Wats::augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
-#
-# h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
-# portfolio <- Wats::annotate_data(ds_linear, dv_name="birth_rate", center_function = median, spread_function = h_spread)
-#
-# cartesian_periodic(portfolio$ds_linear, portfolio$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points = change_month, change_point_labels="Bombing Effect",
-#                    draw_periodic_band = FALSE)
-# cartesian_periodic(portfolio$ds_linear, portfolio$ds_periodic, x_name="date", y_name="birth_rate", stage_id_name="stage_id", change_points = change_month, change_point_labels="Bombing Effect")

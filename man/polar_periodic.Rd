@@ -41,33 +41,45 @@ polar_periodic(
 \arguments{
 \item{ds_linear}{The \link{data.frame} to containing the simple linear data.  There should be one record per observation.}
 
-\item{ds_stage_cycle_polar}{The \link{data.frame} to containing the bands for a single period.  There should be one record per theta per stage.  If there are three stages, this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
+\item{ds_stage_cycle_polar}{The \link{data.frame} to containing the bands for a single period.
+There should be one record per theta per stage.  If there are three stages,
+this \link{data.frame} should have three times as many rows as \code{ds_linear}.}
 
 \item{x_name}{The variable name containing the date.}
 
 \item{y_name}{The variable name containing the dependent/criterion variable.}
 
-\item{stage_id_name}{The variable name indicating which stage the record belongs to.  For example, before the first interruption, the \code{stage_id} is \code{1}, and is \code{2} afterwards.}
+\item{stage_id_name}{The variable name indicating which stage the record belongs to.
+For example, before the first interruption, the \code{stage_id} is "1", and is "2" afterwards.}
 
 \item{periodic_lower_name}{The variable name showing the lower bound of a stage's periodic estimate.}
 
 \item{periodic_upper_name}{The variable name showing the upper bound of a stage's periodic estimate.}
 
-\item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each \code{stage_id} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_dark}{A vector of colors used for the dark/heavy graphical elements.
+The vector should have one color for each \code{stage_id} value.
+If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{palette_light}{A vector of colors used for the light graphical elements.  The vector should have one color for each \code{stage_id} value.  If no vector is specified, a default will be chosen, based on the number of stages.}
+\item{palette_light}{A vector of colors used for the light graphical elements.
+The vector should have one color for each \code{stage_id} value.
+If no vector is specified, a default will be chosen, based on the number of stages.}
 
-\item{change_points}{A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.}
+\item{change_points}{A vector of values indicate the interruptions between stages.
+It typically works best as a Date or a POSIXct class.}
 
 \item{change_point_labels}{The text plotted above each interruption.}
 
-\item{draw_observed_line}{A boolean value indicating if the longitudinal observed line should be plotted (whose values are take from \code{ds_linear}).}
+\item{draw_observed_line}{A boolean value indicating
+if the longitudinal observed line should be plotted (whose values are take from \code{ds_linear}).}
 
-\item{draw_periodic_band}{A boolean value indicating if the bands should be plotted (whose values are take from the \code{periodic_lower_name} and \code{periodic_upper_name} fields).}
+\item{draw_periodic_band}{A boolean value indicating
+if the bands should be plotted (whose values are take from the \code{periodic_lower_name} and \code{periodic_upper_name} fields).}
 
-\item{draw_stage_labels}{A boolean value indicating if the stage labels should be plotted (whose values are take from \code{ds_linear}).}
+\item{draw_stage_labels}{A boolean value indicating
+if the stage labels should be plotted (whose values are take from \code{ds_linear}).}
 
-\item{draw_radius_labels}{A boolean value indicating if the gridline/radius labels should be plotted (whose values are take from \code{tick_locations}).}
+\item{draw_radius_labels}{A boolean value indicating
+if the gridline/radius labels should be plotted (whose values are take from \code{tick_locations}).}
 
 \item{jagged_point_size}{The size of the observed data points.}
 
@@ -93,29 +105,32 @@ polar_periodic(
 
 \item{graph_ceiling}{The value of the criterion/dependent variable at the outside of the polar plot.}
 
-\item{cardinal_labels}{The four labels placed  where \verb{North', }East', \verb{South', and }West' typically are.}
+\item{cardinal_labels}{The four labels placed  where "North", "East", "South", and "West" typically are.}
 
-\item{origin_label}{Explains what the criterion variable's value is at the origin.  Use \code{NULL} if no explanation is desired.}
+\item{origin_label}{Explains what the criterion variable's value is at the origin.
+Use \code{NULL} if no explanation is desired.}
 
-\item{plot_margins}{A vector of four \code{numeric} values, specifying the number of lines in the bottom, left, top and right margins.}
+\item{plot_margins}{A vector of four \code{numeric} values, specifying the number of lines in the
+bottom, left, top and right margins.}
 }
 \value{
-Returns a grid graphical object (ie, a \code{\link[grid:grid.grob]{grid::grob()}}.)
+Returns a grid graphical object (\emph{i.e.}, a \code{\link[grid:grid.grob]{grid::grob()}}.)
 }
 \description{
 Shows the interrupted time series in Cartesian coordinates and its a periodic/cyclic components.
 }
 \examples{
-library(grid)
+requireNamespace("grid")
 library(Wats)
-ds_linear <- county_month_birth_rate_2005_version
-ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
-ds_linear <- augment_year_data_with_month_resolution(ds_linear = ds_linear, date_name="date")
+ds_linear <-
+  Wats::county_month_birth_rate_2005_version |>
+  dplyr::filter(county_name == "oklahoma") |>
+  augment_year_data_with_month_resolution(date_name = "date")
 
-h_spread <- function( scores ) { return( quantile(x = scores, probs = c(.25, .75)) ) }
+h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
 portfolio <- annotate_data(
-  ds_linear = ds_linear,
-  dv_name = "birth_rate",
+  ds_linear       = ds_linear,
+  dv_name         = "birth_rate",
   center_function = median,
   spread_function = h_spread
 )
@@ -124,36 +139,36 @@ rm(ds_linear)
 polarized <- polarize_cartesian(
   portfolio$ds_linear,
   portfolio$ds_stage_cycle,
-  y_name = "birth_rate",
+  y_name        = "birth_rate",
   stage_id_name = "stage_id"
 )
 
-grid.newpage()
+grid::grid.newpage()
 polar_periodic(
-  ds_linear = polarized$ds_observed_polar,
-  ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
-  y_name = "radius",
-  stage_id_name = "stage_id",
-  cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
+  ds_linear             = polarized$ds_observed_polar,
+  ds_stage_cycle_polar  = polarized$ds_stage_cycle_polar,
+  y_name                = "radius",
+  stage_id_name         = "stage_id",
+  cardinal_labels       = c("Jan1", "Apr1", "July1", "Oct1")
 )
 
-grid.newpage()
+grid::grid.newpage()
 polar_periodic(
-  ds_linear = polarized$ds_observed_polar,
-  ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
-  y_name = "radius",
-  stage_id_name = "stage_id",
-  draw_periodic_band = FALSE
+  ds_linear              = polarized$ds_observed_polar,
+  ds_stage_cycle_polar   = polarized$ds_stage_cycle_polar,
+  y_name                 = "radius",
+  stage_id_name          = "stage_id",
+  draw_periodic_band     = FALSE
 )
 
-grid.newpage()
+grid::grid.newpage()
 polar_periodic(
-  ds_linear = polarized$ds_observed_polar,
+  ds_linear            = polarized$ds_observed_polar,
   ds_stage_cycle_polar = polarized$ds_stage_cycle_polar,
-  y_name = "radius",
-  stage_id_name = "stage_id",
-  draw_observed_line = FALSE,
-  cardinal_labels = c("Jan1", "Apr1", "July1", "Oct1")
+  y_name               = "radius",
+  stage_id_name        = "stage_id",
+  draw_observed_line   = FALSE,
+  cardinal_labels      = c("Jan1", "Apr1", "July1", "Oct1")
 )
 }
 \keyword{polar}

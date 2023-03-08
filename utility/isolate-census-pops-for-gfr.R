@@ -12,7 +12,7 @@ rm(list = ls(all.names = TRUE)) # Clear the memory of variables from previous ru
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("readr"        )
 # requireNamespace("tidyr"        )
-requireNamespace("dplyr"        ) # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace("dplyr"        )
 requireNamespace("testit"       )
 requireNamespace("checkmate"    ) # For asserting conditions meet expected patterns/conditions. # remotes::install_github("mllg/checkmate")
 # requireNamespace("OuhscMunge"   ) # remotes::install_github("OuhscBbmc/OuhscMunge")
@@ -233,7 +233,7 @@ rm(ds_county_year_199x, ds_county_year_2000)
 create_next_year_pop_count <- function( d ) {
   ceiling_year <- max(d$year)
   next_year <- d$year + 1L
-  next_pop_count <- d[match(next_year, d$year), "fecund_population_count"]
+  next_pop_count <- d$fecund_population_count[match(next_year, d$year)]
   ds_out <- data.frame(
     year = d$year,
     year_next = next_year,
@@ -242,7 +242,12 @@ create_next_year_pop_count <- function( d ) {
   )
   ds_out[ds_out$year < ceiling_year, ]
 }
-ds_next <- plyr::ddply(ds_county_year, .variables=c("fips", "county_name"), .fun=create_next_year_pop_count)
+
+ds_next <-
+  ds_county_year |>
+  dplyr::group_by(fips, county_name) |>
+  dplyr::do(create_next_year_pop_count(.)) |>
+  dplyr::ungroup()
 
 interpolate_months <- function( d ) {
   months_per_year <- 12L
@@ -253,14 +258,12 @@ interpolate_months <- function( d ) {
     fecund_population = as.integer(pop_interpolated$y[months])
   )
 }
-ds_county_month <- plyr::ddply(ds_next, .variables=c("fips", "county_name", "year"), .fun=interpolate_months)
-# dsCensusCountyMonth$date <- as.Date(ISOdate(dsCensusCountyMonth$year, dsCensusCountyMonth$month, 15L))
 
-# library(ggplot2)
-# ggplot(dsInterpolated[dsCensusCountyMonth$fips==40027L, ], aes(x=date, y=Population, color=factor(fips))) +
-#   geom_line() +
-#   geom_line(aes(y=PopulationCount, ymin=0)) +
-#   geom_line(aes(y=PopulationCountNext))
+ds_county_month <-
+  ds_next |>
+  dplyr::group_by(fips, county_name, year) |>
+  dplyr::do(interpolate_months(.)) |>
+  dplyr::ungroup()
 
 # ---- save-to-disk ------------------------------------------------------------
 readr::write_csv(ds_county_year , ouput_path_census_county_year )
