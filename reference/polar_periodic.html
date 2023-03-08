@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">Wats</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,7 +96,9 @@
 
 
 <dt>ds_stage_cycle_polar</dt>
-<dd><p>The <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a> to containing the bands for a single period.  There should be one record per theta per stage.  If there are three stages, this <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a> should have three times as many rows as <code>ds_linear</code>.</p></dd>
+<dd><p>The <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a> to containing the bands for a single period.
+There should be one record per theta per stage.  If there are three stages,
+this <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a> should have three times as many rows as <code>ds_linear</code>.</p></dd>
 
 
 <dt>x_name</dt>
@@ -108,7 +110,8 @@
 
 
 <dt>stage_id_name</dt>
-<dd><p>The variable name indicating which stage the record belongs to.  For example, before the first interruption, the <code>stage_id</code> is <code>1</code>, and is <code>2</code> afterwards.</p></dd>
+<dd><p>The variable name indicating which stage the record belongs to.
+For example, before the first interruption, the <code>stage_id</code> is "1", and is "2" afterwards.</p></dd>
 
 
 <dt>periodic_lower_name</dt>
@@ -120,15 +123,20 @@
 
 
 <dt>palette_dark</dt>
-<dd><p>A vector of colors used for the dark/heavy graphical elements.  The vector should have one color for each <code>stage_id</code> value.  If no vector is specified, a default will be chosen, based on the number of stages.</p></dd>
+<dd><p>A vector of colors used for the dark/heavy graphical elements.
+The vector should have one color for each <code>stage_id</code> value.
+If no vector is specified, a default will be chosen, based on the number of stages.</p></dd>
 
 
 <dt>palette_light</dt>
-<dd><p>A vector of colors used for the light graphical elements.  The vector should have one color for each <code>stage_id</code> value.  If no vector is specified, a default will be chosen, based on the number of stages.</p></dd>
+<dd><p>A vector of colors used for the light graphical elements.
+The vector should have one color for each <code>stage_id</code> value.
+If no vector is specified, a default will be chosen, based on the number of stages.</p></dd>
 
 
 <dt>change_points</dt>
-<dd><p>A vector of values indicate the interruptions between stages.  It typically works best as a Date or a POSIXct class.</p></dd>
+<dd><p>A vector of values indicate the interruptions between stages.
+It typically works best as a Date or a POSIXct class.</p></dd>
 
 
 <dt>change_point_labels</dt>
@@ -136,19 +144,23 @@
 
 
 <dt>draw_observed_line</dt>
-<dd><p>A boolean value indicating if the longitudinal observed line should be plotted (whose values are take from <code>ds_linear</code>).</p></dd>
+<dd><p>A boolean value indicating
+if the longitudinal observed line should be plotted (whose values are take from <code>ds_linear</code>).</p></dd>
 
 
 <dt>draw_periodic_band</dt>
-<dd><p>A boolean value indicating if the bands should be plotted (whose values are take from the <code>periodic_lower_name</code> and <code>periodic_upper_name</code> fields).</p></dd>
+<dd><p>A boolean value indicating
+if the bands should be plotted (whose values are take from the <code>periodic_lower_name</code> and <code>periodic_upper_name</code> fields).</p></dd>
 
 
 <dt>draw_stage_labels</dt>
-<dd><p>A boolean value indicating if the stage labels should be plotted (whose values are take from <code>ds_linear</code>).</p></dd>
+<dd><p>A boolean value indicating
+if the stage labels should be plotted (whose values are take from <code>ds_linear</code>).</p></dd>
 
 
 <dt>draw_radius_labels</dt>
-<dd><p>A boolean value indicating if the gridline/radius labels should be plotted (whose values are take from <code>tick_locations</code>).</p></dd>
+<dd><p>A boolean value indicating
+if the gridline/radius labels should be plotted (whose values are take from <code>tick_locations</code>).</p></dd>
 
 
 <dt>jagged_point_size</dt>
@@ -200,78 +212,95 @@
 
 
 <dt>cardinal_labels</dt>
-<dd><p>The four labels placed  where <code>North', </code>East', <code>South', and </code>West' typically are.</p></dd>
+<dd><p>The four labels placed  where "North", "East", "South", and "West" typically are.</p></dd>
 
 
 <dt>origin_label</dt>
-<dd><p>Explains what the criterion variable's value is at the origin.  Use <code>NULL</code> if no explanation is desired.</p></dd>
+<dd><p>Explains what the criterion variable's value is at the origin.
+Use <code>NULL</code> if no explanation is desired.</p></dd>
 
 
 <dt>plot_margins</dt>
-<dd><p>A vector of four <code>numeric</code> values, specifying the number of lines in the bottom, left, top and right margins.</p></dd>
+<dd><p>A vector of four <code>numeric</code> values, specifying the number of lines in the
+bottom, left, top and right margins.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>Returns a grid graphical object (ie, a <code><a href="https://rdrr.io/r/grid/grid-defunct.html" class="external-link">grid::grob()</a></code>.)</p>
+<p>Returns a grid graphical object (<em>i.e.</em>, a <code><a href="https://rdrr.io/r/grid/grid-defunct.html" class="external-link">grid::grob()</a></code>.)</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">grid</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"grid"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/OuhscBbmc/Wats" class="external-link">Wats</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ds_linear</span> <span class="op">&lt;-</span> <span class="va">county_month_birth_rate_2005_version</span></span></span>
-<span class="r-in"><span><span class="va">ds_linear</span> <span class="op">&lt;-</span> <span class="va">ds_linear</span><span class="op">[</span><span class="va">ds_linear</span><span class="op">$</span><span class="va">county_name</span><span class="op">==</span><span class="st">"oklahoma"</span>, <span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">ds_linear</span> <span class="op">&lt;-</span> <span class="fu"><a href="augment_cycle_data.html">augment_year_data_with_month_resolution</a></span><span class="op">(</span>ds_linear <span class="op">=</span> <span class="va">ds_linear</span>, date_name<span class="op">=</span><span class="st">"date"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ds_linear</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">Wats</span><span class="fu">::</span><span class="va"><a href="county_month_birth_rate.html">county_month_birth_rate_2005_version</a></span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">county_name</span> <span class="op">==</span> <span class="st">"oklahoma"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="augment_cycle_data.html">augment_year_data_with_month_resolution</a></span><span class="op">(</span>date_name <span class="op">=</span> <span class="st">"date"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>restarting interrupted promise evaluation</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>internal error -3 in R_decompress1</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> lazy-load database '/home/runner/work/_temp/Library/Wats/R/Wats.rdb' is corrupt</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">h_spread</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span> <span class="va">scores</span> <span class="op">)</span> <span class="op">{</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">scores</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="fl">.75</span><span class="op">)</span><span class="op">)</span> <span class="op">)</span> <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="va">h_spread</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span> <span class="va">scores</span> <span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">scores</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="fl">.75</span><span class="op">)</span><span class="op">)</span> <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="va">portfolio</span> <span class="op">&lt;-</span> <span class="fu"><a href="annotate_data.html">annotate_data</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  ds_linear <span class="op">=</span> <span class="va">ds_linear</span>,</span></span>
-<span class="r-in"><span>  dv_name <span class="op">=</span> <span class="st">"birth_rate"</span>,</span></span>
+<span class="r-in"><span>  ds_linear       <span class="op">=</span> <span class="va">ds_linear</span>,</span></span>
+<span class="r-in"><span>  dv_name         <span class="op">=</span> <span class="st">"birth_rate"</span>,</span></span>
 <span class="r-in"><span>  center_function <span class="op">=</span> <span class="va">median</span>,</span></span>
 <span class="r-in"><span>  spread_function <span class="op">=</span> <span class="va">h_spread</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>restarting interrupted promise evaluation</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>internal error -3 in R_decompress1</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> lazy-load database '/home/runner/work/_temp/Library/Wats/R/Wats.rdb' is corrupt</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">ds_linear</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>object 'ds_linear' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">polarized</span> <span class="op">&lt;-</span> <span class="fu"><a href="polarize_cartesian.html">polarize_cartesian</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">portfolio</span><span class="op">$</span><span class="va">ds_linear</span>,</span></span>
 <span class="r-in"><span>  <span class="va">portfolio</span><span class="op">$</span><span class="va">ds_stage_cycle</span>,</span></span>
-<span class="r-in"><span>  y_name <span class="op">=</span> <span class="st">"birth_rate"</span>,</span></span>
+<span class="r-in"><span>  y_name        <span class="op">=</span> <span class="st">"birth_rate"</span>,</span></span>
 <span class="r-in"><span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>internal error -3 in R_decompress1</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> lazy-load database '/home/runner/work/_temp/Library/Wats/R/Wats.rdb' is corrupt</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">polar_periodic</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  ds_linear <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_observed_polar</span>,</span></span>
-<span class="r-in"><span>  ds_stage_cycle_polar <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_stage_cycle_polar</span>,</span></span>
-<span class="r-in"><span>  y_name <span class="op">=</span> <span class="st">"radius"</span>,</span></span>
-<span class="r-in"><span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>,</span></span>
-<span class="r-in"><span>  cardinal_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  ds_linear             <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_observed_polar</span>,</span></span>
+<span class="r-in"><span>  ds_stage_cycle_polar  <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_stage_cycle_polar</span>,</span></span>
+<span class="r-in"><span>  y_name                <span class="op">=</span> <span class="st">"radius"</span>,</span></span>
+<span class="r-in"><span>  stage_id_name         <span class="op">=</span> <span class="st">"stage_id"</span>,</span></span>
+<span class="r-in"><span>  cardinal_labels       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="polar_periodic-1.png" alt="" width="700" height="433"></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>internal error -3 in R_decompress1</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> lazy-load database '/home/runner/work/_temp/Library/Wats/R/Wats.rdb' is corrupt</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">polar_periodic</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  ds_linear <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_observed_polar</span>,</span></span>
-<span class="r-in"><span>  ds_stage_cycle_polar <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_stage_cycle_polar</span>,</span></span>
-<span class="r-in"><span>  y_name <span class="op">=</span> <span class="st">"radius"</span>,</span></span>
-<span class="r-in"><span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>,</span></span>
-<span class="r-in"><span>  draw_periodic_band <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  ds_linear              <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_observed_polar</span>,</span></span>
+<span class="r-in"><span>  ds_stage_cycle_polar   <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_stage_cycle_polar</span>,</span></span>
+<span class="r-in"><span>  y_name                 <span class="op">=</span> <span class="st">"radius"</span>,</span></span>
+<span class="r-in"><span>  stage_id_name          <span class="op">=</span> <span class="st">"stage_id"</span>,</span></span>
+<span class="r-in"><span>  draw_periodic_band     <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="polar_periodic-2.png" alt="" width="700" height="433"></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>restarting interrupted promise evaluation</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>internal error -3 in R_decompress1</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> lazy-load database '/home/runner/work/_temp/Library/Wats/R/Wats.rdb' is corrupt</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">polar_periodic</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  ds_linear <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_observed_polar</span>,</span></span>
+<span class="r-in"><span>  ds_linear            <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_observed_polar</span>,</span></span>
 <span class="r-in"><span>  ds_stage_cycle_polar <span class="op">=</span> <span class="va">polarized</span><span class="op">$</span><span class="va">ds_stage_cycle_polar</span>,</span></span>
-<span class="r-in"><span>  y_name <span class="op">=</span> <span class="st">"radius"</span>,</span></span>
-<span class="r-in"><span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span>,</span></span>
-<span class="r-in"><span>  draw_observed_line <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
-<span class="r-in"><span>  cardinal_labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  y_name               <span class="op">=</span> <span class="st">"radius"</span>,</span></span>
+<span class="r-in"><span>  stage_id_name        <span class="op">=</span> <span class="st">"stage_id"</span>,</span></span>
+<span class="r-in"><span>  draw_observed_line   <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  cardinal_labels      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="polar_periodic-3.png" alt="" width="700" height="433"></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>restarting interrupted promise evaluation</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>internal error -3 in R_decompress1</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> lazy-load database '/home/runner/work/_temp/Library/Wats/R/Wats.rdb' is corrupt</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -279,7 +308,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Will Beasley, Joe Rodgers.</p>
+  <p></p><p>Developed by Will Beasley, Joe Rodgers, Oklahoma Shared Clinical and Translational Resource (OSCTR).</p>
 </div>
 
 <div class="pkgdown-footer-right">

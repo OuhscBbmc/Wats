@@ -14,7 +14,7 @@ that needs to be called to produce WATS Plots.  AugmentZZZ is the first."><!-- m
     
     <a class="navbar-brand me-2" href="../index.html">Wats</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,7 +99,7 @@ that needs to be called to produce WATS Plots.  <code>AugmentZZZ</code> is the f
 <dt>stage_id_name</dt>
 <dd><p>The variable name indicating the stage.
 In a typical interrupted time series, these values are
-<code>1</code> before the interruption and <code>2</code> after.</p></dd>
+"1" before the interruption and "2" after.</p></dd>
 
 
 <dt>stage_progress_name</dt>
@@ -127,64 +127,34 @@ within a given cycle.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>Returns a <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> with additional variables.  TODO: say what the variables are.</p>
+<p>Returns a <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> with additional variables.
+TODO: say what the variables are.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/OuhscBbmc/Wats" class="external-link">Wats</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ds_linear</span> <span class="op">&lt;-</span> <span class="va">county_month_birth_rate_2005_version</span></span></span>
-<span class="r-in"><span><span class="va">ds_linear</span> <span class="op">&lt;-</span> <span class="va">ds_linear</span><span class="op">[</span><span class="va">ds_linear</span><span class="op">$</span><span class="va">county_name</span><span class="op">==</span><span class="st">"oklahoma"</span>, <span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">ds_linear</span> <span class="op">&lt;-</span> <span class="fu"><a href="augment_cycle_data.html">augment_year_data_with_month_resolution</a></span><span class="op">(</span>ds_linear <span class="op">=</span> <span class="va">ds_linear</span>, date_name<span class="op">=</span><span class="st">"date"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/OuhscBbmc/Wats" class="external-link">Wats</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ds_linear</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">Wats</span><span class="fu">::</span><span class="va"><a href="county_month_birth_rate.html">county_month_birth_rate_2005_version</a></span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">county_name</span> <span class="op">==</span> <span class="st">"oklahoma"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="augment_cycle_data.html">augment_year_data_with_month_resolution</a></span><span class="op">(</span>date_name <span class="op">=</span> <span class="st">"date"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">h_spread</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span> <span class="va">scores</span> <span class="op">)</span> <span class="op">{</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">scores</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="fl">.75</span><span class="op">)</span><span class="op">)</span> <span class="op">)</span> <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="va">h_spread</span> <span class="op">&lt;-</span> \<span class="op">(</span><span class="va">scores</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">scores</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="fl">.75</span><span class="op">)</span><span class="op">)</span> <span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">portfolio</span> <span class="op">&lt;-</span> <span class="fu">annotate_data</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  ds_linear <span class="op">=</span> <span class="va">ds_linear</span>,</span></span>
-<span class="r-in"><span>  dv_name <span class="op">=</span> <span class="st">"birth_rate"</span>,</span></span>
+<span class="r-in"><span>  ds_linear       <span class="op">=</span> <span class="va">ds_linear</span>,</span></span>
+<span class="r-in"><span>  dv_name         <span class="op">=</span> <span class="st">"birth_rate"</span>,</span></span>
 <span class="r-in"><span>  center_function <span class="op">=</span> <span class="va">median</span>,</span></span>
 <span class="r-in"><span>  spread_function <span class="op">=</span> <span class="va">h_spread</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">portfolio</span><span class="op">$</span><span class="va">ds_stage_cycle</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   stage_id proportion_id proportion_through_cycle position_lower Posit…¹ posit…²</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>        1             1                   0.041<span style="text-decoration: underline;">7</span>           66.8    70.1    70.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>        1             2                   0.125            68.9    69.5    71.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>        1             3                   0.208            66.1    69.7    69.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span>        1             4                   0.292            67.7    69.3    71.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span>        1             5                   0.375            67.7    68.6    70.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span>        1             6                   0.458            70.9    71.1    72.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​PositionCenter, ²​position_upper</span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">portfolio</span><span class="op">$</span><span class="va">ds_linear</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 21</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   fips  county_…¹  year month fecun…² birth…³ date       days_…⁴ days_…⁵ stage…⁶</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 40109 oklahoma   <span style="text-decoration: underline;">1</span>990     1  <span style="text-decoration: underline;">143</span>192     853 1990-01-15      31     365       1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 40109 oklahoma   <span style="text-decoration: underline;">1</span>990     2  <span style="text-decoration: underline;">143</span>278     758 1990-02-15      28     365       1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 40109 oklahoma   <span style="text-decoration: underline;">1</span>990     3  <span style="text-decoration: underline;">143</span>365     886 1990-03-15      31     365       1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 40109 oklahoma   <span style="text-decoration: underline;">1</span>990     4  <span style="text-decoration: underline;">143</span>452     871 1990-04-15      30     365       1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 40109 oklahoma   <span style="text-decoration: underline;">1</span>990     5  <span style="text-decoration: underline;">143</span>538     822 1990-05-15      31     365       1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 40109 oklahoma   <span style="text-decoration: underline;">1</span>990     6  <span style="text-decoration: underline;">143</span>625     834 1990-06-15      30     365       1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 11 more variables: birth_rate_monthly &lt;dbl&gt;, birth_rate &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cycle_tally &lt;dbl&gt;, proportion_through_cycle &lt;dbl&gt;, proportion_id &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   starting_point_in_cycle &lt;lgl&gt;, terminal_point_in_cycle &lt;lgl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   stage_progress &lt;dbl&gt;, rolling_lower &lt;dbl&gt;, rolling_center &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   rolling_upper &lt;dbl&gt;, and abbreviated variable names ¹​county_name,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​fecund_population, ³​birth_count, ⁴​days_in_month, ⁵​days_in_year, ⁶​stage_id</span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">portfolio</span><span class="op">$</span><span class="va">ds_periodic</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   date       stage_id_…¹ propo…² stage…³ stage…⁴ propo…⁵ posit…⁶ Posit…⁷ posit…⁸</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 1990-01-15           1       1     1         1  0.041<span style="text-decoration: underline;">7</span>    66.8    70.1    70.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 1990-01-15           1       1     1         2  0.041<span style="text-decoration: underline;">7</span>    70.8    73.5    73.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 1990-02-15           1       2     1.5       1  0.125     68.9    69.5    71.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 1990-02-15           1       2     1.5       2  0.125     69.3    72.0    74.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 1990-03-15           1       3     1.5       1  0.208     66.1    69.7    69.9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 1990-03-15           1       3     1.5       2  0.208     70.7    71.1    72.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with abbreviated variable names ¹​stage_id_time, ²​proportion_id,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ³​stage_progress, ⁴​stage_id_band, ⁵​proportion_through_cycle,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁶​position_lower, ⁷​PositionCenter, ⁸​position_upper</span></span>
+<span class="r-in"><span><span class="va">portfolio</span><span class="op">$</span><span class="va">ds_stage_cycle</span></span></span>
+<span class="r-in"><span><span class="va">portfolio</span><span class="op">$</span><span class="va">ds_linear</span></span></span>
+<span class="r-in"><span><span class="va">portfolio</span><span class="op">$</span><span class="va">ds_periodic</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>internal error -3 in R_decompress1</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in system.time({    library(Wats)    ds_linear &lt;- augment_year_data_with_month_resolution(dplyr::filter(Wats::county_month_birth_rate_2005_version,         county_name == "oklahoma"), date_name = "date")    h_spread &lt;- function(scores) {        quantile(x = scores, probs = c(0.25, 0.75))    }    portfolio &lt;- annotate_data(ds_linear = ds_linear, dv_name = "birth_rate",         center_function = median, spread_function = h_spread)    portfolio$ds_stage_cycle    portfolio$ds_linear    portfolio$ds_periodic}):</span> lazy-load database '/home/runner/work/_temp/Library/Wats/R/Wats.rdb' is corrupt</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Timing stopped at: 0.115 0 0.115</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -192,7 +162,7 @@ within a given cycle.</p></dd>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Will Beasley, Joe Rodgers.</p>
+  <p></p><p>Developed by Will Beasley, Joe Rodgers, Oklahoma Shared Clinical and Translational Resource (OSCTR).</p>
 </div>
 
 <div class="pkgdown-footer-right">

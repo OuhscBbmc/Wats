@@ -28,7 +28,7 @@
     
     <a class="navbar-brand me-2" href="index.html">Wats</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,7 +97,7 @@
 <div class="section level2">
 <h2 id="reproducible-research">Reproducible Research<a class="anchor" aria-label="anchor" href="#reproducible-research"></a>
 </h2>
-<p>When the Wats package is installed on your local machine, the <a href="https://github.com/OuhscBbmc/Wats/blob/main/utility/reproduce.R" class="external-link"><code>Reproduce.R</code></a> script starts with our initial datasets (ie, the vital statistics birth counts and the US Census population estimates) to create the derivative datasets and resulting graphs and analysis.</p>
+<p>When the Wats package is installed on your local machine, the <a href="https://github.com/OuhscBbmc/Wats/blob/main/utility/reproduce.R" class="external-link"><code>reproduce.R</code></a> script starts with our initial datasets (<em>i.e.</em>, the vital statistics birth counts and the US Census population estimates) to create the derivative datasets and resulting graphs and analysis.</p>
 </div>
 <div class="section level2">
 <h2 id="nonstandard-directories">Nonstandard Directories<a class="anchor" aria-label="anchor" href="#nonstandard-directories"></a>
@@ -105,15 +105,15 @@
 <p>The following directories are not part of the standard R package:</p>
 <ul>
 <li>
-<code>datasets</code>: CSV versions of the *.rda data.frames officially included in the package.</li>
+<a href="https://github.com/OuhscBbmc/Wats/tree/main/datasets/" class="external-link"><code>datasets/</code></a>: CSV versions of the *.rda data frames officially included in the package. The incoming/unprocessed files are stored in <a href="https://github.com/OuhscBbmc/Wats/tree/main/datasets/raw/" class="external-link"><code>datasets/raw/</code></a>. The processed files are stored in <a href="https://github.com/OuhscBbmc/Wats/tree/main/datasets/derived/" class="external-link"><code>datasets/derived/</code></a>.</li>
 <li>
-<code>documentation-for-developers</code>: Notes and links that should help package <em>developers</em> set up on their computer. Typical package <em>users</em> won’t have a need for this.</li>
+<a href="https://github.com/OuhscBbmc/Wats/tree/main/documentation-for-developers/" class="external-link"><code>documentation-for-developers/</code></a>: Notes and links that should help package <em>developers</em> set up on their computer. Typical package <em>users</em> won’t have a need for this.</li>
 <li>
-<code>publication-graphs</code>: A deprecated location that contains loose graphs of older versions of the manuscript.</li>
+<a href="https://github.com/OuhscBbmc/Wats/tree/main/publication-graphs/" class="external-link"><code>publication-graphs/</code></a>: A deprecated location that contains loose graphs of older versions of the manuscript.</li>
 <li>
-<code>playgrounds</code>: R snippets to help developers experiment with potential new features.</li>
+<a href="https://github.com/OuhscBbmc/Wats/tree/main/playgrounds/" class="external-link"><code>playgrounds/</code></a>: R snippets to help developers experiment with potential new features.</li>
 <li>
-<code>utility</code>: R scripts that aren’t incorporated into the package. They help automate certain tasks, or document how parts of the package were created.</li>
+<a href="https://github.com/OuhscBbmc/Wats/tree/main/utility/" class="external-link"><code>utility/</code></a>: R scripts that aren’t incorporated into the package. They help automate certain tasks, or document how parts of the package were created.</li>
 </ul>
 </div>
 <div class="section level2">
@@ -122,7 +122,7 @@
 <p>The released <a href="https://cran.r-project.org/package=Wats" class="external-link">CRAN</a> version of Wats can be installed through R with.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"Wats"</span><span class="op">)</span></span></code></pre></div>
-<p>The latest development version of Wats can be installed from <a href="https://github.com/OuhscBbmc/Wats" class="external-link">GitHub</a> after installing the <code>remotes</code> package.</p>
+<p>The latest development version of Wats can be installed from <a href="https://github.com/OuhscBbmc/Wats" class="external-link">GitHub</a> after installing the remotes package.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"OuhscBbmc/Wats"</span><span class="op">)</span></span></code></pre></div>
@@ -131,6 +131,11 @@
 <h2 id="code-repository">Code Repository<a class="anchor" aria-label="anchor" href="#code-repository"></a>
 </h2>
 <p>The software is written primarily in R, under the MIT License. The DOI of this major release of the <em>repository</em> is <a href="https://doi.org/10.5281/zenodo.11921" class="external-link">10.5281/zenodo.11921</a>. (The DOI of the article is <a href="https://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589" class="external-link">10.1080/00273171.2014.946589</a>.)</p>
+</div>
+<div class="section level2">
+<h2 id="funding">Funding<a class="anchor" aria-label="anchor" href="#funding"></a>
+</h2>
+<p>Continued development and maintenance of this package supported by the Oklahoma Shared Clinical and Translational Resources (<a href="https://osctr.ouhsc.edu/" class="external-link">OSCTR</a>, U54GM104938) with an Institutional Development Award (IDeA) from NIGMS. The content is solely the responsibility of the authors and does not necessarily represent the official views of the National Institutes of Health.</p>
 </div>
 <div class="section level2">
 <h2 id="build-status-and-package-characteristics">Build Status and Package Characteristics<a class="anchor" aria-label="anchor" href="#build-status-and-package-characteristics"></a>
@@ -231,8 +236,9 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Will Beasley <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-5613-5006" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Will Beasley <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0002-5613-5006" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Joe Rodgers <br><small class="roles"> Author </small>  </li>
+<li>Oklahoma Shared Clinical and Translational Resource (OSCTR) <br><small class="roles"> Funder </small>  </li>
 <li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
@@ -245,7 +251,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Will Beasley, Joe Rodgers.</p>
+<p>Developed by Will Beasley, Joe Rodgers, Oklahoma Shared Clinical and Translational Resource (OSCTR).</p>
 </div>
 
 <div class="pkgdown-footer-right">
