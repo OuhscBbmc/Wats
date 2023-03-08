@@ -79,7 +79,7 @@
 #' ggplot(ds2005, aes(x = birth_rate, color = factor(fips))) +
 #'   geom_density() +
 #'   labs(title="Distributions of County Fertility")
-#'
+#' \dontrun{
 #' # 2014 Version (see description above)
 #' ds2014 <- county_month_birth_rate_2014_version
 #' ggplot(ds2014, aes(x = date, y = birth_rate, color = factor(fips))) +
@@ -89,4 +89,5 @@
 #' ggplot(ds2014, aes(x = birth_rate, color = factor(fips))) +
 #'   geom_density() +
 #'   labs(title="Distributions of County Fertility")
+#' }
 NULL
