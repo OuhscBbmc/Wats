@@ -28,23 +28,26 @@
 #' TODO: say what the variables are.
 #'
 #' @examples
+#' system.time({
 #' library(Wats)
 #' ds_linear <-
 #'   Wats::county_month_birth_rate_2005_version |>
 #'   dplyr::filter(county_name == "oklahoma") |>
 #'   augment_year_data_with_month_resolution(date_name = "date")
 #'
-#' h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
+#' h_spread <- \(scores) { quantile(x = scores, probs = c(.25, .75)) }
+#'
 #' portfolio <- annotate_data(
 #'   ds_linear       = ds_linear,
 #'   dv_name         = "birth_rate",
 #'   center_function = median,
 #'   spread_function = h_spread
 #' )
-#'
-#' head(portfolio$ds_stage_cycle)
-#' head(portfolio$ds_linear)
-#' head(portfolio$ds_periodic)
+
+#' portfolio$ds_stage_cycle
+#' portfolio$ds_linear
+#' portfolio$ds_periodic
+#' })
 
 #' @importFrom rlang .data
 annotate_data <- function(
