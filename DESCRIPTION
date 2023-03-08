@@ -2,7 +2,7 @@ Package: Wats
 Title: Wrap Around Time Series Graphics
 Description: Wrap-around Time Series (WATS) plots for interrupted time series
     designs with seasonal patterns.
-Version: 0.11.1.9000
+Version: 1.0.0
 Authors@R: c(person("Will", "Beasley", role = c("aut", "cre", "cph"), email =
     "wibeasley@hotmail.com", comment = c(ORCID = "0000-0002-5613-5006")),
      person("Joe", "Rodgers", role = "aut", email =

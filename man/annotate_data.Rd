@@ -58,7 +58,7 @@ that needs to be called to produce WATS Plots.  \code{AugmentZZZ} is the first.
 system.time({
 library(Wats)
 ds_linear <-
-  county_month_birth_rate_2005_version |>
+  Wats::county_month_birth_rate_2005_version |>
   dplyr::filter(county_name == "oklahoma") |>
   augment_year_data_with_month_resolution(date_name = "date")
 
