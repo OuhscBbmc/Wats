@@ -12,7 +12,7 @@ that needs to be called to produce WATS Plots.  annotate_data() is the second.">
     
     <a class="navbar-brand me-2" href="../index.html">Wats</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,8 +57,8 @@ that needs to be called to produce WATS Plots.  <code><a href="annotate_data.htm
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">augment_year_data_with_month_resolution</span><span class="op">(</span> <span class="va">ds_linear</span>, <span class="va">date_name</span> <span class="op">)</span></span>
-<span><span class="fu">augment_year_data_with_second_resolution</span><span class="op">(</span> <span class="va">ds_linear</span>, <span class="va">date_name</span> <span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">augment_year_data_with_month_resolution</span><span class="op">(</span><span class="va">ds_linear</span>, <span class="va">date_name</span><span class="op">)</span></span>
+<span><span class="fu">augment_year_data_with_second_resolution</span><span class="op">(</span><span class="va">ds_linear</span>, <span class="va">date_name</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -81,17 +81,27 @@ that needs to be called to produce WATS Plots.  <code><a href="annotate_data.htm
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/OuhscBbmc/Wats" class="external-link">Wats</a></span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ouhscbbmc.github.io/Wats/">Wats</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">ds_linear</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">Wats</span><span class="fu">::</span><span class="va"><a href="county_month_birth_rate.html">county_month_birth_rate_2005_version</a></span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">county_name</span> <span class="op">==</span> <span class="st">"oklahoma"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">augment_year_data_with_month_resolution</span><span class="op">(</span>date_name <span class="op">=</span> <span class="st">"date"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>restarting interrupted promise evaluation</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>internal error -3 in R_decompress1</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> lazy-load database '/home/runner/work/_temp/Library/Wats/R/Wats.rdb' is corrupt</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ds_linear</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in head(ds_linear):</span> object 'ds_linear' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 18</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   fips  county_…¹  year month fecun…² birth…³ date       days_…⁴ days_…⁵ stage…⁶</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 40109 oklahoma   <span style="text-decoration: underline;">1</span>990     1  <span style="text-decoration: underline;">143</span>192     853 1990-01-15      31     365       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 40109 oklahoma   <span style="text-decoration: underline;">1</span>990     2  <span style="text-decoration: underline;">143</span>278     758 1990-02-15      28     365       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 40109 oklahoma   <span style="text-decoration: underline;">1</span>990     3  <span style="text-decoration: underline;">143</span>365     886 1990-03-15      31     365       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 40109 oklahoma   <span style="text-decoration: underline;">1</span>990     4  <span style="text-decoration: underline;">143</span>452     871 1990-04-15      30     365       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 40109 oklahoma   <span style="text-decoration: underline;">1</span>990     5  <span style="text-decoration: underline;">143</span>538     822 1990-05-15      31     365       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 40109 oklahoma   <span style="text-decoration: underline;">1</span>990     6  <span style="text-decoration: underline;">143</span>625     834 1990-06-15      30     365       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 8 more variables: birth_rate_monthly &lt;dbl&gt;, birth_rate &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   cycle_tally &lt;dbl&gt;, proportion_through_cycle &lt;dbl&gt;, proportion_id &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   starting_point_in_cycle &lt;lgl&gt;, terminal_point_in_cycle &lt;lgl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   stage_progress &lt;dbl&gt;, and abbreviated variable names ¹​county_name,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ²​fecund_population, ³​birth_count, ⁴​days_in_month, ⁵​days_in_year, ⁶​stage_id</span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">Wats</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -235,27 +235,20 @@ bottom, left, top and right margins.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"grid"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/OuhscBbmc/Wats" class="external-link">Wats</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ouhscbbmc.github.io/Wats/">Wats</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">ds_linear</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">Wats</span><span class="fu">::</span><span class="va"><a href="county_month_birth_rate.html">county_month_birth_rate_2005_version</a></span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">county_name</span> <span class="op">==</span> <span class="st">"oklahoma"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="augment_cycle_data.html">augment_year_data_with_month_resolution</a></span><span class="op">(</span>date_name <span class="op">=</span> <span class="st">"date"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>restarting interrupted promise evaluation</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>internal error -3 in R_decompress1</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> lazy-load database '/home/runner/work/_temp/Library/Wats/R/Wats.rdb' is corrupt</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">h_spread</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span> <span class="va">scores</span> <span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">scores</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="fl">.75</span><span class="op">)</span><span class="op">)</span> <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="va">h_spread</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">scores</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">scores</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="fl">.75</span><span class="op">)</span><span class="op">)</span> <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="va">portfolio</span> <span class="op">&lt;-</span> <span class="fu"><a href="annotate_data.html">annotate_data</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  ds_linear       <span class="op">=</span> <span class="va">ds_linear</span>,</span></span>
 <span class="r-in"><span>  dv_name         <span class="op">=</span> <span class="st">"birth_rate"</span>,</span></span>
 <span class="r-in"><span>  center_function <span class="op">=</span> <span class="va">median</span>,</span></span>
 <span class="r-in"><span>  spread_function <span class="op">=</span> <span class="va">h_spread</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>restarting interrupted promise evaluation</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>internal error -3 in R_decompress1</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> lazy-load database '/home/runner/work/_temp/Library/Wats/R/Wats.rdb' is corrupt</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span><span class="va">ds_linear</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>object 'ds_linear' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">polarized</span> <span class="op">&lt;-</span> <span class="fu"><a href="polarize_cartesian.html">polarize_cartesian</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">portfolio</span><span class="op">$</span><span class="va">ds_linear</span>,</span></span>
@@ -263,8 +256,6 @@ bottom, left, top and right margins.</p></dd>
 <span class="r-in"><span>  y_name        <span class="op">=</span> <span class="st">"birth_rate"</span>,</span></span>
 <span class="r-in"><span>  stage_id_name <span class="op">=</span> <span class="st">"stage_id"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>internal error -3 in R_decompress1</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> lazy-load database '/home/runner/work/_temp/Library/Wats/R/Wats.rdb' is corrupt</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">polar_periodic</span><span class="op">(</span></span></span>
@@ -274,8 +265,7 @@ bottom, left, top and right margins.</p></dd>
 <span class="r-in"><span>  stage_id_name         <span class="op">=</span> <span class="st">"stage_id"</span>,</span></span>
 <span class="r-in"><span>  cardinal_labels       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>internal error -3 in R_decompress1</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> lazy-load database '/home/runner/work/_temp/Library/Wats/R/Wats.rdb' is corrupt</span>
+<span class="r-plt img"><img src="polar_periodic-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">polar_periodic</span><span class="op">(</span></span></span>
@@ -285,9 +275,7 @@ bottom, left, top and right margins.</p></dd>
 <span class="r-in"><span>  stage_id_name          <span class="op">=</span> <span class="st">"stage_id"</span>,</span></span>
 <span class="r-in"><span>  draw_periodic_band     <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>restarting interrupted promise evaluation</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>internal error -3 in R_decompress1</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> lazy-load database '/home/runner/work/_temp/Library/Wats/R/Wats.rdb' is corrupt</span>
+<span class="r-plt img"><img src="polar_periodic-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">polar_periodic</span><span class="op">(</span></span></span>
@@ -298,9 +286,7 @@ bottom, left, top and right margins.</p></dd>
 <span class="r-in"><span>  draw_observed_line   <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>  cardinal_labels      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>restarting interrupted promise evaluation</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>internal error -3 in R_decompress1</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> lazy-load database '/home/runner/work/_temp/Library/Wats/R/Wats.rdb' is corrupt</span>
+<span class="r-plt img"><img src="polar_periodic-3.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

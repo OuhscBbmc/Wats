@@ -14,7 +14,7 @@ that needs to be called to produce WATS Plots.  AugmentZZZ is the first."><!-- m
     
     <a class="navbar-brand me-2" href="../index.html">Wats</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -134,7 +134,7 @@ TODO: say what the variables are.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="op">{</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/OuhscBbmc/Wats" class="external-link">Wats</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ouhscbbmc.github.io/Wats/">Wats</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">ds_linear</span> <span class="op">&lt;-</span></span></span>
 <span class="r-in"><span>  <span class="fu">Wats</span><span class="fu">::</span><span class="va"><a href="county_month_birth_rate.html">county_month_birth_rate_2005_version</a></span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">county_name</span> <span class="op">==</span> <span class="st">"oklahoma"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
@@ -152,9 +152,8 @@ TODO: say what the variables are.</p>
 <span class="r-in"><span><span class="va">portfolio</span><span class="op">$</span><span class="va">ds_linear</span></span></span>
 <span class="r-in"><span><span class="va">portfolio</span><span class="op">$</span><span class="va">ds_periodic</span></span></span>
 <span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>internal error -3 in R_decompress1</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in system.time({    library(Wats)    ds_linear &lt;- augment_year_data_with_month_resolution(dplyr::filter(Wats::county_month_birth_rate_2005_version,         county_name == "oklahoma"), date_name = "date")    h_spread &lt;- function(scores) {        quantile(x = scores, probs = c(0.25, 0.75))    }    portfolio &lt;- annotate_data(ds_linear = ds_linear, dv_name = "birth_rate",         center_function = median, spread_function = h_spread)    portfolio$ds_stage_cycle    portfolio$ds_linear    portfolio$ds_periodic}):</span> lazy-load database '/home/runner/work/_temp/Library/Wats/R/Wats.rdb' is corrupt</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Timing stopped at: 0.115 0 0.115</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.481   0.028   0.510 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
