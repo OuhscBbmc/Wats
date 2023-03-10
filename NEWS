@@ -1,6 +1,9 @@
 Upcoming Version
 ------------------------------------------------------------------------------
 
+Version 1.0.1 (Released 2023-03-10)
+------------------------------------------------------------------------------
+
 A modernization of the package.  See Issue #9 for low-level details
 
 Breaking Changes:

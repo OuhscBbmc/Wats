@@ -10,7 +10,7 @@ Description: Wrap-around Time Series (WATS) plots for interrupted time series
     by Rodgers, Beasley, & Schuelke (2014)
     <doi:10.1080/00273171.2014.946589>;
     see 'citation("Wats")' for details.
-Version: 1.0.1
+Version: 1.0.1.9000
 Authors@R: c(person("Will", "Beasley", role = c("aut", "cre", "cph"), email =
     "wibeasley@hotmail.com", comment = c(ORCID = "0000-0002-5613-5006")),
      person("Joe", "Rodgers", role = "aut", email =
