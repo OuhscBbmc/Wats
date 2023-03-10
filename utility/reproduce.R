@@ -10,14 +10,14 @@ base::rm(list=base::ls(all=TRUE))
 
 ###################################
 # Verify the working directory has been set correctly.  Much of the code assumes the working directory is the repository's root directory.
-if( base::basename(base::getwd()) != "Wats" ) {
+if (base::basename(base::getwd()) != "Wats") {
   base::stop("The working directory should be set to the root of the package/repository.  ",
              "It's currently set to `", base::getwd(), "`.")
 }
 ###################################
 # Install the necessary packages.
 pathInstallPackages <- "utility/install-packages.R"
-if( !file.exists(pathInstallPackages)) {
+if ( !file.exists(pathInstallPackages)) {
   base::stop("The file `", pathInstallPackages, "` was not found.  Make sure the working directory is set to the root of the repository.")
 }
 # base::source(pathInstallPackages, local=new.env())
@@ -85,7 +85,7 @@ testit::assert("The CSV for the 2014 Version should exist.", base::file.exists(p
 
 ###################################
 # Build the reports
-for( pathRmd in pathsReports ) {
+for (pathRmd in pathsReports) {
   pathMd <- base::gsub(pattern=".Rmd$", replacement=".md", x=pathRmd)
   pathHtml <- base::gsub(pattern=".Rmd$", replacement=".html", x=pathRmd)
   knitr::knit(input=pathRmd, output=pathMd)

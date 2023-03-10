@@ -6,8 +6,8 @@
 \alias{augment_year_data_with_second_resolution}
 \title{Calculates variables necessary for WATS Plots}
 \usage{
-augment_year_data_with_month_resolution( ds_linear, date_name )
-augment_year_data_with_second_resolution( ds_linear, date_name )
+augment_year_data_with_month_resolution(ds_linear, date_name)
+augment_year_data_with_second_resolution(ds_linear, date_name)
 }
 \arguments{
 \item{ds_linear}{The \link{data.frame} to containing the detailed data.}

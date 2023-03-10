@@ -16,38 +16,38 @@ monthCount <- nrow(dsOkc)
 yearCount <- monthCount / monthsPerYear
 #lineColors <- terrain.colors(n=monthCount)[monthCount:1]
 colorSchemeVersion <-6
-if( colorSchemeVersion == 1) {
+if (colorSchemeVersion == 1) {
   colorBefore <- "peru"
   colorAfter <- "springgreen4"
 }
-if( colorSchemeVersion == 2) {
+if (colorSchemeVersion == 2) {
   offset <- 150+180
   colorBefore <- rainbow_hcl(3, start=0+offset, end=240+offset, c=100, l=65)[1]
   colorAfter <- rainbow_hcl(2, start=0+offset, end=240+offset, c=100, l=65)[2]
 }
-if( colorSchemeVersion == 3) {
+if (colorSchemeVersion == 3) {
   offset <- 300
   colorBefore <- rainbow_hcl(2, start=0+offset, end=240+offset, c=100, l=65)[1]
   colorAfter <- rainbow_hcl(2, start=0+offset, end=240+offset, c=100, l=65)[2]
 }
-if( colorSchemeVersion == 4) {
+if (colorSchemeVersion == 4) {
   offset <- 40
   colorBefore <- rainbow_hcl(2, start=0+offset, end=180+offset, c=100, l=65)[1]
   colorAfter <- rainbow_hcl(2, start=0+offset, end=180+offset, c=100, l=65)[2]
 }
-if( colorSchemeVersion == 5) {
+if (colorSchemeVersion == 5) {
   offset <- 0
   colorBefore <- rainbow_hcl(2, start=0+offset, end=240+offset, c=100, l=65)[1]
   colorAfter <- rainbow_hcl(2, start=0+offset, end=240+offset, c=100, l=65)[2]
 }
-if( colorSchemeVersion == 6) {
+if (colorSchemeVersion == 6) {
   offset <- 240
   colorBefore <- rainbow_hcl(2, start=0+offset, end=240+offset, c=100, l=65)[1]
   colorAfter <- rainbow_hcl(2, start=0+offset, end=240+offset, c=100, l=65)[2] #h=120
   smoothedLinear <- hcl(h=40, c=150, l=45)
 }
 windows.options(antialias = "cleartype")
-# if( names(dev.cur()) != "null device" ) dev.off()
+# if (names(dev.cur()) != "null device" ) dev.off()
 # scale <- 2
 #Linear is 1/3 the height of the polars
 deviceWidth <- 9 #20 #10 #6.5
@@ -69,7 +69,7 @@ transparencyBackground <- .3
 #transparencyBackground <- .4
 # transparencyFocus <- 0
 # transparencyBackground <- 0
-FadeColor <- function( color, transparency ) {
+FadeColor <- function(color, transparency) {
     rgb <- col2rgb(color) / 255 #break it into components and rescale
 		color <- rgb(red=rgb[1], green=rgb[2], blue=rgb[3], alpha=transparency)
 }
@@ -106,8 +106,8 @@ upperQuantile <- .75
 ds <- tibble::tibble(matrix(NA, nrow=monthCount, ncol=6))
 colnames(ds) <- c("MonthID", "MonthIndex", "Radians", "birth_rate", "X", "Y")
 
-for( yearIndex in 1:yearCount ) {
-  for( monthIndex in 1:monthsPerYear ) {
+for (yearIndex in 1:yearCount) {
+  for (monthIndex in 1:monthsPerYear) {
     monthID <- (yearIndex - 1) * monthsPerYear + monthIndex
 
     ds[monthID, 'MonthID'] <- monthID
@@ -126,14 +126,14 @@ dsInterpolated <-tibble::tibble(matrix(NA, nrow=interpolatedCount, ncol=6))
 colnames(dsInterpolated) <- c("DurationID", "CycleID", "Radians", "birth_rate", "X", "Y")
 dsInterpolated[1, ] <- ds[1, ]
 rowTally <- 1
-for( pointIndex in 2:monthCount ) {
+for (pointIndex in 2:monthCount) {
   monthStart <- ds[pointIndex - 1, 'MonthIndex']
   monthStop <- ds[pointIndex, 'MonthIndex']
   birthStart <- ds[pointIndex - 1, 'birth_rate']
   birthStop <- ds[pointIndex, 'birth_rate']
 
-  for( interpolationIndex in 1:(interpolationPoints+1) ) {
-    if( monthStop < monthStart ) monthStart <- 0
+  for (interpolationIndex in 1:(interpolationPoints+1)) {
+    if (monthStop < monthStart) monthStart <- 0
     proportion <- interpolationIndex / (interpolationPoints + 1)
     monthEst <- monthStart + proportion * (monthStop - monthStart)
     birthRateEst <- birthStart + proportion * (birthStop - birthStart)
@@ -154,7 +154,7 @@ colnames(dsBands) <- c("CycleID", "Radians", "LowerBefore", "UpperBefore", "Lowe
   "LowerBeforeX", "LowerBeforeY", "UpperBeforeX", "UpperBeforeY", "LowerAfterX", "LowerAfterY", "UpperAfterX", "UpperAfterY")
 
 rowTally <- 1
-for( cycleID in sort(unique(dsInterpolated$CycleID)) ) {
+for (cycleID in sort(unique(dsInterpolated$CycleID))) {
   dsSliceBefore <- subset(dsInterpolated, CycleID==cycleID & DurationID <= changePoint * (interpolationPoints + 1))
   dsSliceAfter <- subset(dsInterpolated, CycleID==cycleID & DurationID > changePoint * (interpolationPoints + 1))
 
@@ -179,7 +179,7 @@ dsBands$UpperAfterY <- dsBands$UpperAfter * cos(dsBands$Radians)
 
 
 circle <- function(radius, segments=100, color=gray(0)) {
-  for( i in 1:length(radius) ) {
+  for (i in 1:length(radius)) {
     angles <- (0:segments)*2*pi/segments
     unit.circle <- cbind(cos(angles), sin(angles))
     ellipse <- radius[i] * unit.circle
@@ -187,24 +187,24 @@ circle <- function(radius, segments=100, color=gray(0)) {
   }
 }
 
-PlotPolar <- function( drawLines ) {
+PlotPolar <- function(drawLines) {
   plot(dsInterpolated$X, dsInterpolated$Y, xlim=c(-graphHeight, graphHeight), ylim=c(-graphHeight, graphHeight), type="n", xaxt="n", yaxt="n",  bty="n",
     xlab="", ylab="", cex.axis=1.5)
 #    main=substitute(list(beta[Season]==slopeSeasonal, beta[Duration]==slopeDuration, paste(italic(e), "~", italic(N)(0, sigma))),
     #main=substitute(list(beta[Season]==over(1,slopeSeasonalInv), beta[Duration]==over(1,slopeDurationInv), paste(italic(e), "~", italic(N)(0, over(1,sigmaInv)))),
 #      list(slopeSeasonalInv=1/slopeSeasonal, slopeDurationInv=1/slopeDuration,sigmaInv=1/sigma))
-  if( drawLines ) mtext(paste("A point at the origin represents a GFR of", graph_floor), side=1, col=label_color, cex=1.2)
+  if (drawLines) mtext(paste("A point at the origin represents a GFR of", graph_floor), side=1, col=label_color, cex=1.2)
   abline(v=0, col=gridColor, lty=polarGridLty)
   abline(h=0, col=gridColor, lty=polarGridLty)
   text(c("Dec","Mar","June","Sept"), x=c(0, graphHeight, 0, -graphHeight), y=c(graphHeight, 0, -graphHeight, 0), xpd=T, col=label_color, cex=1.5)
   circle(radius=seq(from=0, to=graphHeight, by=graphHeight/3), color=gridColor)
 
-  for( i in 2:interpolatedCount ) {
+  for (i in 2:interpolatedCount) {
     x1 <- dsInterpolated[i-1, 'X']
     x2 <- dsInterpolated[i, 'X']
     y1 <- dsInterpolated[i-1, 'Y']
     y2 <- dsInterpolated[i, 'Y']
-    if( drawLines ) lines(x=c(x1, x2), y=c(y1, y2),  lwd=1, col=lineColors[floor(i/(interpolationPoints+1))+1])
+    if (drawLines) lines(x=c(x1, x2), y=c(y1, y2),  lwd=1, col=lineColors[floor(i/(interpolationPoints+1))+1])
   }
   polarBeforeVerticesX <- c(dsBands$LowerBeforeX, dsBands$LowerBeforeX[1], dsBands$UpperBeforeX[1], rev(dsBands$UpperBeforeX))
   polarBeforeVerticesY <- c(dsBands$LowerBeforeY, dsBands$LowerBeforeY[1], dsBands$UpperBeforeY[1], rev(dsBands$UpperBeforeY))
@@ -216,7 +216,7 @@ PlotPolar <- function( drawLines ) {
 
 ### Start Graphing ###
 layout(rbind(c(1,2), c(3)), heights=c(1,.5))
-op <- par( pty="s", mar=c(1, 0, 0, 0) + 0.1)
+op <- par(pty="s", mar=c(1, 0, 0, 0) + 0.1)
 
 PlotPolar(drawLines=TRUE)
 PlotPolar(drawLines=FALSE)
@@ -240,7 +240,7 @@ plot(NA, xlim=c(0, monthCount), ylim=c(graph_floor, graph_ceiling), type="n", xa
 #  axis(1, at=seq(from=6, to=(monthCount), by=6), labels=rep(c("(Jun)", "(Dec)"), 5), col.axis=label_color, line=0, tick=FALSE, lty=0, cex.axis=.7)
 
   abline(v=seq(from=monthsPerYear, to=monthCount, by=monthsPerYear), col=gridColor, lty=2)
-  for( i in 2:monthCount ) {
+  for (i in 2:monthCount) {
     x1 <- ds[i-1, 'MonthID'] + xOffset
     x2 <- ds[i, 'MonthID'] + xOffset
     y1 <- ds[i-1, 'birth_rate'] + graph_floor
@@ -254,17 +254,17 @@ linearVerticesXPre <- rep(NA,changePoint)
 linearVerticesXPost <- numeric(0)
 linearBeforeLowerVerticesYPre <- rep(NA,changePoint)
 linearBeforeUpperVerticesYPre <- rep(NA,changePoint)
-linearBeforeLowerVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
-linearBeforeUpperVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
+linearBeforeLowerVerticesYPost <- rep(NA,monthCount - (changePoint+1))
+linearBeforeUpperVerticesYPost <- rep(NA,monthCount - (changePoint+1))
 linearAfterLowerVerticesYPre <- rep(NA,changePoint)
 linearAfterUpperVerticesYPre <- rep(NA,changePoint)
-linearAfterLowerVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
-linearAfterUpperVerticesYPost <- rep(NA,monthCount - (changePoint+1) )
+linearAfterLowerVerticesYPost <- rep(NA,monthCount - (changePoint+1))
+linearAfterUpperVerticesYPost <- rep(NA,monthCount - (changePoint+1))
 monthOffset <- rep(0:(yearCount-1), each=monthsPerYear) * monthsPerYear
 
-for( monthID in 1:changePoint ) {
+for (monthID in 1:changePoint) {
   desiredCycle <- monthID %% monthsPerYear
-  if(desiredCycle==0) desiredCycle <- 12
+  if (desiredCycle==0) desiredCycle <- 12
 
   linearVerticesXPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$CycleID + monthOffset[monthID]
   linearBeforeLowerVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$LowerBefore
@@ -272,9 +272,9 @@ for( monthID in 1:changePoint ) {
   linearAfterLowerVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$LowerAfter
   linearAfterUpperVerticesYPre[monthID] <- subset(dsBands, CycleID==desiredCycle)$UpperAfter
 }
-for( monthID in (changePoint+1):monthCount ) {
+for (monthID in (changePoint+1):monthCount) {
   desiredCycle <- monthID %% monthsPerYear
-  if(desiredCycle==0) desiredCycle <- 12
+  if (desiredCycle==0) desiredCycle <- 12
 
   linearVerticesXPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$CycleID + monthOffset[monthID]
   linearBeforeLowerVerticesYPost[monthID] <- subset(dsBands, CycleID==desiredCycle)$LowerBefore
@@ -310,14 +310,14 @@ dsMoving$MonthID <- ds$MonthID
 
 annualAverageTally <- 1
 
-for( i in monthsInAverage:monthCount ) {
+for (i in monthsInAverage:monthCount) {
   startRow <- i - (monthsInAverage-1)
   stopRow <- i
   dsMoving$birth_rate[i] <- mean(ds$birth_rate[startRow:stopRow])
 #  dsMoving$birth_rate[i] <- quantile(ds$birth_rate[startRow:stopRow], .5)
   dsMoving$UpperQuantile[i] <- quantile(ds$birth_rate[startRow:stopRow], upperQuantile)
   dsMoving$LowerQuantile[i] <- quantile(ds$birth_rate[startRow:stopRow], lowerQuantile)
-  if( (i >= monthsInAverage) && (i %% monthsInAverage == 2) ) {
+  if ((i >= monthsInAverage) && (i %% monthsInAverage == 2)) {
     dsAnnualAverage$MonthID[annualAverageTally] <- ds$MonthID[i]
     dsAnnualAverage$birth_rate[annualAverageTally] <- mean(ds$birth_rate[startRow:stopRow])
     annualAverageTally <- annualAverageTally + 1
@@ -327,11 +327,11 @@ for( i in monthsInAverage:monthCount ) {
 
 
 
-PlotBlank <- function( ) {
+PlotBlank <- function() {
   plot(NA, xlim=c(-1,1), ylim=c(-1, 1), xlab="", ylab="", xaxt="n", yaxt="n", bty="n")
 }
-PlotLinear <- function( displayMovingAverage=TRUE, displayMovingAverageBands=TRUE ) {
-  if( displayMovingAverageBands )
+PlotLinear <- function(displayMovingAverage=TRUE, displayMovingAverageBands=TRUE) {
+  if (displayMovingAverageBands)
     subTitle <- paste("(Bands mark the", lowerQuantile, "and", upperQuantile, "quantiles for the previous", monthsInAverage, "months)")
   else
     subTitle <- ""
@@ -347,8 +347,8 @@ PlotLinear <- function( displayMovingAverage=TRUE, displayMovingAverageBands=TRU
   mtext("General Fertility Rate", side=2,line=2.5, cex=1)
 
   abline(v=seq(from=monthsPerYear, to=monthCount, by=monthsPerYear), col=gridColor, lty=2)
-  if( displayMovingAverage ) {
-    for( i in 2:monthCount ) {
+  if (displayMovingAverage) {
+    for (i in 2:monthCount){
       x1 <- dsMoving[i-1, 'MonthID'] + xOffset
       x2 <- dsMoving[i, 'MonthID'] + xOffset
       y1 <- dsMoving[i-1, 'birth_rate'] + graph_floor
@@ -357,7 +357,7 @@ PlotLinear <- function( displayMovingAverage=TRUE, displayMovingAverageBands=TRU
     }
   }
   else {
-    for( i in 2:monthCount ) {
+    for (i in 2:monthCount) {
       x1 <- ds[i-1, 'MonthID'] + xOffset
       x2 <- ds[i, 'MonthID'] + xOffset
       y1 <- ds[i-1, 'birth_rate'] + graph_floor
@@ -369,20 +369,20 @@ PlotLinear <- function( displayMovingAverage=TRUE, displayMovingAverageBands=TRU
   points(x=ds$MonthID + xOffset, y=ds$birth_rate+ graph_floor, col=lineColors, cex=1, xpd=NA)
   abline(v=changePoint + xOffset, col=colorAfter)
   mtext("Bombing Effect", side=3, at=changePoint + xOffset, col=colorAfter, cex=.8)
-  if( displayMovingAverageBands ) {
+  if (displayMovingAverageBands) {
     linearVerticesXPre <- rep(NA,changePoint)
     linearVerticesXPost <- numeric(0)
     linearBeforeLowerVerticesY <- rep(NA,changePoint)
     linearBeforeUpperVerticesY <- rep(NA,changePoint)
-    linearAfterLowerVerticesY <- rep(NA,monthCount - (changePoint+1) )
-    linearAfterUpperVerticesY <- rep(NA,monthCount - (changePoint+1) )
+    linearAfterLowerVerticesY <- rep(NA,monthCount - (changePoint+1))
+    linearAfterUpperVerticesY <- rep(NA,monthCount - (changePoint+1))
 
-    for( monthID in 1:changePoint ) {
+    for (monthID in 1:changePoint) {
       linearVerticesXPre[monthID] <- dsMoving$MonthID[monthID]
       linearBeforeLowerVerticesY[monthID] <- dsMoving$LowerQuantile[monthID]
       linearBeforeUpperVerticesY[monthID] <- dsMoving$UpperQuantile[monthID]
     }
-    for( monthID in changePoint:monthCount ) {
+    for (monthID in changePoint:monthCount) {
       linearVerticesXPost[monthID] <- dsMoving$MonthID[monthID]
       linearAfterLowerVerticesY[monthID] <- dsMoving$LowerQuantile[monthID]
       linearAfterUpperVerticesY[monthID] <- dsMoving$UpperQuantile[monthID]

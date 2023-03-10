@@ -58,7 +58,7 @@
 #'   dplyr::filter(county_name == "oklahoma") |>
 #'   augment_year_data_with_month_resolution(date_name = "date")
 #'
-#' h_spread     <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
+#' h_spread     <- function(scores) { quantile(x = scores, probs = c(.25, .75)) }
 #'
 #' portfolio <- annotate_data(
 #'   ds_linear,

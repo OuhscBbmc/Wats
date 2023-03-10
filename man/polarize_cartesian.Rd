@@ -65,7 +65,7 @@ ds_linear <-
   dplyr::filter(county_name == "oklahoma") |>
   augment_year_data_with_month_resolution(date_name = "date")
 
-h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
+h_spread <- function(scores) { quantile(x = scores, probs = c(.25, .75)) }
 portfolio <- annotate_data(
   ds_linear        = ds_linear,
   dv_name          = "birth_rate",
@@ -84,10 +84,10 @@ polarized <- polarize_cartesian(
 library(ggplot2)
 polarized$ds_stage_cycle_polar |>
   ggplot(aes(color = factor(stage_id))) +
-  geom_path(aes(x = polar_lower_x , y = polar_lower_y ), linetype = 2) +
+  geom_path(aes(x = polar_lower_x , y = polar_lower_y), linetype = 2) +
   geom_path(aes(x = polar_center_x, y = polar_center_y), linewidth = 2) +
-  geom_path(aes(x = polar_upper_x , y = polar_upper_y ), linetype = 2) +
-  geom_path(aes(x = observed_x    , y = observed_y    ), data = polarized$ds_observed_polar) +
+  geom_path(aes(x = polar_upper_x , y = polar_upper_y), linetype = 2) +
+  geom_path(aes(x = observed_x    , y = observed_y), data = polarized$ds_observed_polar) +
   coord_fixed(ratio = 1) +
   guides(color = NULL)
 }

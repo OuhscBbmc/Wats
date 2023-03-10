@@ -4,7 +4,6 @@ Codecov
 DOI
 Dev
 GFR
-GFR's
 GFRs
 IDeA
 Intercensal
@@ -15,10 +14,12 @@ OSCTR
 POSIXct
 RDoc
 RRose
+Schuelke
 Translational
 Zenodo
 codecov
 datetime
+doi
 gfr
 ggplot
 gridline

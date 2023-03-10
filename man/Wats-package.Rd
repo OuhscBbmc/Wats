@@ -28,16 +28,6 @@ U54GM104938) with an Institutional Development Award (IDeA) from NIGMS.
 The content is solely the responsibility of the authors and does not necessarily represent
 the official views of the National Institutes of Health.
 }
-\examples{
-\dontrun{
-# Install/update Wats with the release version from CRAN.
-install.packages("Wats")
-
-# Install/update Wats with the development version from GitHub
-# install.packages("remotes") #Uncomment if remotes isn't installed already.
-remotes::install_github("OuhscBbmc/Wats")
-}
-}
 \references{
 Rodgers, J.L., Beasley, W.H., and Schuelke, M. (2014).
 \href{https://www.tandfonline.com/doi/abs/10.1080/00273171.2014.946589}{Graphical Data Analysis on the Circle:  Wrap-around Time Series Plots for (Interrupted) Time Series Designs.}

@@ -62,7 +62,7 @@
 #'   dplyr::filter(county_name == "oklahoma") |>
 #'   augment_year_data_with_month_resolution(date_name = "date")
 #'
-#' h_spread <- function( scores ) { quantile(x = scores, probs = c(.25, .75)) }
+#' h_spread <- function(scores) { quantile(x = scores, probs = c(.25, .75)) }
 #' portfolio <- annotate_data(
 #'   ds_linear       = ds_linear,
 #'   dv_name         = "birth_rate",
@@ -164,19 +164,19 @@ polar_periodic <- function(
   stage_count  <- length(stages)
   #     testit::assert("The number of unique `stage_id` values should be 1 greater than the number of `change_points`.", stage_count==1+length(change_points))
 
-  if (!is.null(change_points )) {
+  if (!is.null(change_points)) {
     testit::assert(
       "The number of `change_points` should equal the number of `changeLabels`.",
       length(change_points) == length(change_point_labels)
     )
   }
-  if (!is.null(palette_dark  )) {
+  if (!is.null(palette_dark)) {
     testit::assert(
       "The number of `palette_dark` colors should equal the number of unique `stage_id` values.",
       stage_count == length(palette_dark)
     )
   }
-  if (!is.null(palette_light )) {
+  if (!is.null(palette_light)) {
     testit::assert(
       "The number of `palette_light` colors should equal the number of unique `stage_id` values.",
       stage_count == length(palette_light)
