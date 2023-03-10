@@ -9,11 +9,11 @@ base::rm(list = base::ls(all = TRUE))
 
 path_csv <- "./utility/package-dependency-list.csv"
 
-if( !file.exists(path_csv)) {
+if (!file.exists(path_csv)) {
   base::stop("The path `", path_csv, "` was not found.  Make sure the working directory is set to the root of the repository.")
 }
 
-if( !base::requireNamespace("remotes") ) {
+if (!base::requireNamespace("remotes")) {
   utils::install.packages("remotes", repos="http://cran.rstudio.com")
 }
 
