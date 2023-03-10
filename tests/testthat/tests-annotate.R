@@ -8,7 +8,7 @@ test_that("Annotate Data With Month Resolution-Median", {
   ds_linear <- ds_linear[ds_linear$county_name=="oklahoma", ]
   ds_linear <- augment_year_data_with_month_resolution(ds_linear, date_name="date")
 
-  h_spread <- function( scores ) {
+  h_spread <- function(scores) {
     quantile(x = scores, probs = c(.25, .75))
   }
   portfolio <-
@@ -89,7 +89,7 @@ test_that("Annotate Data With Month Resolution-Median", {
     )), row.names = c(NA, -6L), class = c("tbl_df", "tbl", "data.frame"
     ))
 
-  expect_equal(dim(portfolio$ds_stage_cycle), expected = c( 24,  6), label="The dimensions of ds_stage_cycle should be correct.")
+  expect_equal(dim(portfolio$ds_stage_cycle), expected = c(24,  6), label="The dimensions of ds_stage_cycle should be correct.")
   expect_equal(dim(portfolio$ds_linear     ), expected = c(120, 21), label="The dimensions of ds_linear should be correct.")
   expect_equal(dim(portfolio$ds_periodic   ), expected = c(240,  9), label="The dimensions of ds_periodic should be correct.")
 

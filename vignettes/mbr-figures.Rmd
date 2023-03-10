@@ -43,7 +43,7 @@ knitr::opts_chunk$set(
 )
 
 pdf.options(useDingbats = FALSE) # Otherwise, the circles don't get plotted correctly in some graphs
-if ( base::Sys.info()["sysname"] == "Windows")
+if (base::Sys.info()["sysname"] == "Windows")
   grDevices::windows.options(antialias = "cleartype")
 set.seed(444) # Avoid bootstrap from triggering diffs
 ```
@@ -78,7 +78,7 @@ se_spread <- function(scores) {
   base::mean(scores) + base::c(-1, 1) * stats::sd(scores) / base::sqrt(base::sum(!base::is.na(scores)))
 }
 boot_spread <- function(scores, conf = .68) {
-  plugin <- function( d, i ) {
+  plugin <- function(d, i) {
     base::mean(d[i])
   }
 

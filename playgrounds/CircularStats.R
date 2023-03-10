@@ -10,14 +10,14 @@ ds_linear <- county_month_birth_rate_2014_version[county_month_birth_rate_2014_v
 ds_linear <- augment_year_data_with_month_resolution(ds_linear=ds_linear, date_name="date")
 # base::pretty(x=ds_linear$birth_rate)
 
-h_spread <- function( scores ) { return( quantile(x=scores, probs=c(.25, .75)) ) }
-se_spread <- function( scores ) { return( mean(scores) + c(-1, 1)*sd(scores)/sqrt(length(scores)) ) }
-boot_spread <- function( scores, conf=.68 ) {
-  plugin <- function( d, i ) { mean(d[i]) }
+h_spread <- function(scores) { return(quantile(x=scores, probs=c(.25, .75))) }
+se_spread <- function(scores) { return(mean(scores) + c(-1, 1)*sd(scores)/sqrt(length(scores))) }
+boot_spread <- function(scores, conf=.68) {
+  plugin <- function(d, i) { mean(d[i]) }
 
   distribution <- boot(data=scores, plugin, R=99)
   ci <- boot.ci(distribution, type = c("bca"), conf=conf)
-  return( ci$bca[4:5] )
+  return(ci$bca[4:5])
 }
 # b <- boot_spread(ds_linear$birth_rate)
 

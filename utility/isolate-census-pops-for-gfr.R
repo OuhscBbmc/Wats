@@ -64,8 +64,8 @@ eligible_age_labels <- c("15-19", "20-24", "25-29", "30-34", "35-39", "40-44")
 
 cols_positions_199x <-
   readr::fwf_cols(
-    year                = c( 1,  2),
-    fips                = c( 5,  9),
+    year                = c(1,  2),
+    fips                = c(5,  9),
     age_group_id        = c(11, 13),
     race_gender_id      = c(14, 15),
     latino              = c(16, 16),
@@ -230,7 +230,7 @@ ds_county_year <-
 rm(ds_county_year_199x, ds_county_year_2000)
 
 # ---- interpolate-within-year -------------------------------------------------
-create_next_year_pop_count <- function( d ) {
+create_next_year_pop_count <- function(d) {
   ceiling_year <- max(d$year)
   next_year <- d$year + 1L
   next_pop_count <- d$fecund_population_count[match(next_year, d$year)]
@@ -249,7 +249,7 @@ ds_next <-
   dplyr::do(create_next_year_pop_count(.)) |>
   dplyr::ungroup()
 
-interpolate_months <- function( d ) {
+interpolate_months <- function(d) {
   months_per_year <- 12L
   months <- seq_len(months_per_year)
   pop_interpolated <- approx(x=c(d$year, d$year_next), y=c(d$fecund_population_count, d$fecund_population_count_next), n=months_per_year+1)
@@ -266,5 +266,5 @@ ds_county_month <-
   dplyr::ungroup()
 
 # ---- save-to-disk ------------------------------------------------------------
-readr::write_csv(ds_county_year , ouput_path_census_county_year )
+readr::write_csv(ds_county_year , ouput_path_census_county_year)
 readr::write_csv(ds_county_month, ouput_path_census_county_month)

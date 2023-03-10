@@ -1,8 +1,8 @@
 #' @name augment_cycle_data
 #' @aliases augment_year_data_with_month_resolution augment_year_data_with_second_resolution
 #' @export augment_year_data_with_month_resolution augment_year_data_with_second_resolution
-#' @usage augment_year_data_with_month_resolution( ds_linear, date_name )
-#' augment_year_data_with_second_resolution( ds_linear, date_name )
+#' @usage augment_year_data_with_month_resolution(ds_linear, date_name)
+#' augment_year_data_with_second_resolution(ds_linear, date_name)
 #'
 #' @title Calculates variables necessary for WATS Plots
 #'
@@ -24,7 +24,7 @@
 #' head(ds_linear)
 #'
 #' @importFrom rlang .data
-augment_year_data_with_month_resolution <- function( ds_linear, date_name ) {
+augment_year_data_with_month_resolution <- function(ds_linear, date_name) {
   is_min <- NULL # avoid "Undefined global functions or variables"
 
   year_of_event <- lubridate::year(ds_linear[[date_name]])
@@ -52,7 +52,7 @@ augment_year_data_with_month_resolution <- function( ds_linear, date_name ) {
       -is_min,
     )
 }
-augment_year_data_with_second_resolution <- function( ds_linear, date_name ) {
+augment_year_data_with_second_resolution <- function(ds_linear, date_name) {
   is_min <- NULL # avoid "Undefined global functions or variables"
 
   year_of_event <- lubridate::year(ds_linear[[date_name]])

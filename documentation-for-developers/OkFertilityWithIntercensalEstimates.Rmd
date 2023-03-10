@@ -36,7 +36,7 @@ knitr::opts_chunk$set(
     dpi=200
 )
 
-if( base::Sys.info()["sysname"] == "Windows" )
+if(base::Sys.info()["sysname"] == "Windows")
   grDevices::windows.options(antialias = "cleartype")
 ```
 
@@ -45,21 +45,21 @@ change_month <- base::as.Date("1996-02-15") #as.Date("1995-04-19") + lubridate::
 
 vp_layout <- function(x, y) { grid::viewport(layout.pos.row=x, layout.pos.col=y) }
 
-full_spread <- function( scores ) {
-  return( base::range(scores) ) #A new function isn't necessary.  It's defined in order to be consistent.
+full_spread <- function(scores) {
+  return(base::range(scores)) #A new function isn't necessary.  It's defined in order to be consistent.
 }
-h_spread <- function( scores ) {
-  return( stats::quantile(x=scores, probs=c(.25, .75)) )
+h_spread <- function(scores) {
+  return(stats::quantile(x=scores, probs=c(.25, .75)))
 }
-se_spread <- function( scores ) {
-  return( base::mean(scores) + base::c(-1, 1) * stats::sd(scores) / base::sqrt(base::sum(!base::is.na(scores))) )
+se_spread <- function(scores) {
+  return(::mean(scores) + base::c(-1, 1) * stats::sd(scores) / base::sqrt(base::sum(!base::is.na(scores))))
 }
-boot_spread <- function( scores, conf=.68 ) {
-  plugin <- function( d, i ) { base::mean(d[i]) }
+boot_spread <- function(scores, conf=.68) {
+  plugin <- function(d, i) { base::mean(d[i]) }
 
   distribution <- boot::boot(data=scores, plugin, R=99) #999 for the publication
   ci <- boot::boot.ci(distribution, type = c("bca"), conf=conf)
-  return( ci$bca[4:5] ) #The fourth & fifth elements correspond to the lower & upper bound.
+  return(ci$bca[4:5]) #The fourth & fifth elements correspond to the lower & upper bound.
 }
 
 dark_theme <- ggplot2::theme(
