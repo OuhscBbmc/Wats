@@ -19,8 +19,7 @@ Authors@R: c(person("Will", "Beasley", role = c("aut", "cre", "cph"), email =
     "Coleman", role = "ctb"), person("Mark Joseph", "Lachowicz", role =
     "ctb", email = "mark.j.lachowicz@vanderbilt.edu"),
     person("Oklahoma Shared Clinical and Translational Resource (OSCTR)", role = "fnd"))
-URL: https://github.com/OuhscBbmc/Wats,
-    https://ouhscbbmc.github.io/Wats/
+URL: https://ouhscbbmc.github.io/Wats/, https://github.com/OuhscBbmc/Wats
 BugReports: https://github.com/OuhscBbmc/Wats/issues
 Depends:
     R (>= 4.2.0)
