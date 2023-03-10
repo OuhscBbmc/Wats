@@ -15,11 +15,11 @@ Please tell me if there's anything I can modify to improve the quality of the pa
 ## Test environments
 
 * Local Ubuntu, R 4.2.2 patched
-* win-builder (version="R-devel"); https://win-builder.r-project.org/0Px7c9ja34aq
+* win-builder (version="R-devel"); https://win-builder.r-project.org/B137tudl1V6e
 * GitHub Actions, Ubuntu LTS; https://github.com/OuhscBbmc/Wats/actions
-* R-hub Windows Server: https://builder.r-hub.io/status/Wats_1.0.0.tar.gz-393bad9aa18948efbcf004f50fb5b432
-* R-hub Ubuntu: https://builder.r-hub.io/status/Wats_1.0.0.tar.gz-58056f8fd01f4108b5d9c11dfc9425c2
-* R-hub Fedora: https://builder.r-hub.io/status/Wats_1.0.0.tar.gz-023d2d700406418c93761fbee03837cc
+* R-hub Windows Server: https://builder.r-hub.io/status/Wats_1.0.1.tar.gz-af05daf88ecc49aabb3d90e3704df552
+* R-hub Ubuntu: https://builder.r-hub.io/status/Wats_1.0.1.tar.gz-fb2f91510cab4d759b32b02a830e8495
+* R-hub Fedora: https://builder.r-hub.io/status/Wats_1.0.1.tar.gz-c07f9758c4c74863a8e2c66b865a122b
 
 ## R CMD check results
 
