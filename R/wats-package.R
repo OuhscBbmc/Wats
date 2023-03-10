@@ -53,13 +53,4 @@
 #' *Demography, 42*, 675-692.
 #'
 #' @keywords package
-#' @examples
-#' \dontrun{
-#' # Install/update Wats with the release version from CRAN.
-#' install.packages("Wats")
-#'
-#' # Install/update Wats with the development version from GitHub
-#' # install.packages("remotes") #Uncomment if remotes isn't installed already.
-#' remotes::install_github("OuhscBbmc/Wats")
-#' }
 NULL
