@@ -4,6 +4,8 @@ options(device = deviceType) # http://support.rstudio.org/help/discussions/probl
 
 spelling::spell_check_package()
 # spelling::update_wordlist()
+# https://ropensci.org/blog/2022/01/21/ropensci-news-digest-january-2022/#to-quote-or-not-to-quote-non-existing-words-in-description
+# saveRDS(c("Schuelke"), file = ".aspell/Wats.rds", version = 2)
 lintr::lint_package()
 # lintr::lint("R/redcap-metadata-coltypes.R")
 urlchecker::url_check(); urlchecker::url_update()
