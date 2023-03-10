@@ -42,7 +42,6 @@ knitr::opts_chunk$set(
   # dpi      = 400
 )
 
-base::options(width = 120) # So the output is 50% wider than the default.
 pdf.options(useDingbats = FALSE) # Otherwise, the circles don't get plotted correctly in some graphs
 if ( base::Sys.info()["sysname"] == "Windows")
   grDevices::windows.options(antialias = "cleartype")
