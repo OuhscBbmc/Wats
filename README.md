@@ -82,6 +82,6 @@ Build Status and Package Characteristics
 | [License](https://choosealicense.com/) | [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.com/licenses/mit/) |
 | [CRAN Version](https://cran.r-project.org/package=Wats) | [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/Wats)](https://cran.r-project.org/package=Wats) |
 | [CRAN Rate](https://cranlogs.r-pkg.org/) | ![CRAN Pace](https://cranlogs.r-pkg.org/badges/Wats) |
-| [Zenodo Archive](https://zenodo.org/search?ln=en&p=Wats) | [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.11921.svg)](https://doi.org/10.5281/zenodo.11921) |
+| [Zenodo Archive](https://zenodo.org/search?ln=en&p=Wats) | [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7719674.svg)](https://doi.org/10.5281/zenodo.7719674) |
 | [Production Doc](https://www.rdocumentation.org/) | [![RDoc](https://api.rdocumentation.org/badges/version/Wats)](https://www.rdocumentation.org/packages/Wats) |
 | [Development Doc](https://ouhscbbmc.github.io/Wats/) | [![rdoc](https://img.shields.io/badge/pkgdown-GitHub.io-orange.svg?longCache=true&style=style=for-the-badge)](https://ouhscbbmc.github.io/Wats/) |
