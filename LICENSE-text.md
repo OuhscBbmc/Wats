@@ -1,0 +1,4 @@
+# License
+
+    YEAR: 2014-2023
+    COPYRIGHT HOLDER: Will Beasley, University of Oklahoma Heath Sciences Center, Department of Pediatrics, Biomedical & Behavioral Methodology Core (BBMC)

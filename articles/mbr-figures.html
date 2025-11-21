@@ -186,11 +186,28 @@ This first (unpublished) graph displays all components.</p>
 <span>  change_points       <span class="op">=</span> <span class="va">change_month</span>,</span>
 <span>  change_point_labels <span class="op">=</span> <span class="st">"Bombing Effect"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure-mbr-rmd/fig-2-individual-basic-1.png" width="600px"></p>
+<pre><code>Warning:  [1m [22m`aes_string()` was deprecated in ggplot2 3.0.0.
+ [36mℹ [39m Please use tidy evaluation idioms with `aes()`.
+ [36mℹ [39m See also `vignette("ggplot2-in-packages")` for more information.
+ [36mℹ [39m The deprecated feature was likely used in the  [34mWats [39m package.
+  Please report the issue at  [3m [34m&lt;https://github.com/OuhscBbmc/Wats/issues&gt; [39m [23m.
+ [90mThis warning is displayed once every 8 hours. [39m
+ [90mCall `lifecycle::last_lifecycle_warnings()` to see where this warning was [39m
+ [90mgenerated. [39m</code></pre>
+<pre><code>Warning:  [1m [22mUsing `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ [36mℹ [39m Please use `linewidth` instead.
+ [36mℹ [39m The deprecated feature was likely used in the  [34mWats [39m package.
+  Please report the issue at  [3m [34m&lt;https://github.com/OuhscBbmc/Wats/issues&gt; [39m [23m.
+ [90mThis warning is displayed once every 8 hours. [39m
+ [90mCall `lifecycle::last_lifecycle_warnings()` to see where this warning was [39m
+ [90mgenerated. [39m</code></pre>
+<pre><code>Warning in scale_x_date():  [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.</code></pre>
+<p><img src="figure-mbr-rmd/fig-2-individual-basic-1.png" class="r-plt" width="600px"></p>
 <p>The version for the manuscript was tweaked to take advantage of
 certain features of the dataset. This is what it looks like when all
 three stylized panels are combined.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">top_panel</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/cartesian_rolling.html">cartesian_rolling</a></span><span class="op">(</span></span>
 <span>    ds_linear             <span class="op">=</span> <span class="va">portfolio_cartesian</span><span class="op">$</span><span class="va">ds_linear</span>,</span>
@@ -236,11 +253,20 @@ three stylized panels are combined.</p>
 <span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">pushViewport</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.layout.html" class="external-link">grid.layout</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">top_panel</span>   , vp <span class="op">=</span> <span class="fu">vp_layout</span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">middle_panel</span>, vp <span class="op">=</span> <span class="fu">vp_layout</span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">bottom_panel</span>, vp <span class="op">=</span> <span class="fu">vp_layout</span><span class="op">(</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure-mbr-rmd/fig-2-stylized-1.png" width="600px"></p>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">top_panel</span>   , vp <span class="op">=</span> <span class="fu">vp_layout</span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Warning in ggplot2::scale_x_date(breaks = date_sequence, labels = scales::date_format("%Y")):  [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.</code></pre>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">middle_panel</span>, vp <span class="op">=</span> <span class="fu">vp_layout</span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Warning in ggplot2::scale_x_date(breaks = date_sequence, labels = scales::date_format("%Y")):  [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.</code></pre>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">bottom_panel</span>, vp <span class="op">=</span> <span class="fu">vp_layout</span><span class="op">(</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>Warning in ggplot2::scale_x_date(breaks = date_sequence, labels = NULL):  [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.</code></pre>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="figure-mbr-rmd/fig-2-stylized-1.png" class="r-plt" width="600px"></p>
 </div>
 </div>
 <div class="section level2">
@@ -248,7 +274,7 @@ three stylized panels are combined.</p>
 </h2>
 <p>Cartesian plot of the GFR time series data in Oklahoma County, with
 H-spread Bands superimposed.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cartesian_periodic</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/cartesian_periodic.html">cartesian_periodic</a></span><span class="op">(</span></span>
 <span>    <span class="va">portfolio_cartesian</span><span class="op">$</span><span class="va">ds_linear</span>,</span>
@@ -262,18 +288,22 @@ H-spread Bands superimposed.</p>
 <span>    draw_periodic_band      <span class="op">=</span> <span class="cn">TRUE</span> <span class="co">#The only difference from the simple linear graph above</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cartesian_periodic</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure-mbr-rmd/fig-4-basic-1.png" width="600px"></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<pre><code>Warning in scale_x_date():  [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.</code></pre>
+<p><img src="figure-mbr-rmd/fig-4-basic-1.png" class="r-plt" width="600px"></p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cartesian_periodic</span> <span class="op">&lt;-</span> <span class="va">cartesian_periodic</span> <span class="op">+</span> <span class="va">x_scale</span> <span class="op">+</span> <span class="va">dark_theme</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cartesian_periodic</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure-mbr-rmd/fig-4-stylized-1.png" width="600px"></p>
+<pre><code>Warning in ggplot2::scale_x_date(breaks = date_sequence, labels = scales::date_format("%Y")):  [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.</code></pre>
+<p><img src="figure-mbr-rmd/fig-4-stylized-1.png" class="r-plt" width="600px"></p>
 </div>
 <div class="section level2">
 <h2 id="figure-5-polar-periodic">Figure 5: Polar Periodic<a class="anchor" aria-label="anchor" href="#figure-5-polar-periodic"></a>
 </h2>
 <p>Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data,
 1990-1999.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">portfolio_polar</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu"><a href="../reference/polarize_cartesian.html">polarize_cartesian</a></span><span class="op">(</span></span>
 <span>    ds_linear                       <span class="op">=</span> <span class="va">portfolio_cartesian</span><span class="op">$</span><span class="va">ds_linear</span>,</span>
@@ -294,14 +324,14 @@ H-spread Bands superimposed.</p>
 <span>  draw_radius_labels    <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  cardinal_labels       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Jan1"</span>, <span class="st">"Apr1"</span>, <span class="st">"July1"</span>, <span class="st">"Oct1"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure-mbr-rmd/fig-5-1.png" width="300px"></p>
+<p><img src="figure-mbr-rmd/fig-5-1.png" class="r-plt" width="300px"></p>
 </div>
 <div class="section level2">
 <h2 id="figure-6-wats-and-cartesian">Figure 6: WATS and Cartesian<a class="anchor" aria-label="anchor" href="#figure-6-wats-and-cartesian"></a>
 </h2>
 <p>Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data,
 1990-1999.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">portfolio_polar</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">Wats</span><span class="fu">::</span><span class="fu"><a href="../reference/polarize_cartesian.html">polarize_cartesian</a></span><span class="op">(</span></span>
 <span>    ds_linear                     <span class="op">=</span> <span class="va">portfolio_cartesian</span><span class="op">$</span><span class="va">ds_linear</span>,</span>
@@ -351,16 +381,19 @@ H-spread Bands superimposed.</p>
 <span></span>
 <span><span class="co">## Create bottom panel</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">pushViewport</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span>layout.pos.col <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, layout.pos.row <span class="op">=</span> <span class="fl">2</span>, gp <span class="op">=</span> <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/gpar.html" class="external-link">gpar</a></span><span class="op">(</span>cex <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cartesian_periodic</span>, vp <span class="op">=</span> <span class="fu">vp_layout</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co"># Print across both columns of the bottom row.</span></span>
-<span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">upViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure-mbr-rmd/fig-6-1.png" width="600px"></p>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cartesian_periodic</span>, vp <span class="op">=</span> <span class="fu">vp_layout</span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, y <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co"># Print across both columns of the bottom row.</span></span></code></pre></div>
+<pre><code>Warning in ggplot2::scale_x_date(breaks = date_sequence, labels = scales::date_format("%Y")):  [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.</code></pre>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">upViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="figure-mbr-rmd/fig-6-1.png" class="r-plt" width="600px"></p>
 </div>
 <div class="section level2">
 <h2 id="figure-7-county-comparison">Figure 7: County Comparison<a class="anchor" aria-label="anchor" href="#figure-7-county-comparison"></a>
 </h2>
 <p>This figure compares Oklahoma County against the (other) largest
 urban counties.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># ds_linear_all &lt;- Wats::augment_year_data_with_month_resolution(ds_linear = county_month_birth_rate_2005_version, date_name="date")</span></span>
 <span></span>
 <span><span class="co"># Identify the average size of the fecund population</span></span>
@@ -385,7 +418,7 @@ urban counties.</p>
  [38;5;250m10 [39m rogers         [4m1 [24m [4m3 [24m383.
  [38;5;250m11 [39m tulsa         [4m1 [24m [4m2 [24m [4m3 [24m783.
  [38;5;250m12 [39m wagoner        [4m1 [24m [4m1 [24m580.</code></pre>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">graph_row_comparison</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
 <span>    <span class="va">row_label</span>       <span class="op">=</span> <span class="st">""</span>,</span>
 <span>    <span class="va">.county_name</span>    <span class="op">=</span> <span class="st">"oklahoma"</span>,</span>
@@ -472,12 +505,23 @@ urban counties.</p>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">pushViewport</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span>layout.pos.row <span class="op">=</span> <span class="va">i</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="fu">graph_row_comparison</span><span class="op">(</span>.county_name <span class="op">=</span> <span class="va">counties</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, row_label <span class="op">=</span> <span class="va">county_names</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure-mbr-rmd/fig-7-1.png" width="600px"></p>
+<span><span class="op">}</span></span></code></pre></div>
+<pre><code>Warning in ggplot2::scale_x_date(breaks = date_sequence, labels = scales::date_format("%Y")):  [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.</code></pre>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="figure-mbr-rmd/fig-7-1.png" class="r-plt" width="600px"></p>
 <p>Here are all 12 counties that Ronnie collected birth records for.
 This extended graph is not in the manuscript.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">counties</span> <span class="op">&lt;-</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">ds_linear_all</span><span class="op">$</span><span class="va">county_name</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">county_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Canadian"</span>, <span class="st">"Cleveland"</span>, <span class="st">"Comanche"</span>, <span class="st">"Creek"</span>, <span class="st">"Logan"</span>, <span class="st">"McClain"</span>, <span class="st">"Oklahoma"</span>, <span class="st">"Osage"</span>, <span class="st">"Pottawatomie"</span>, <span class="st">"Rogers"</span>, <span class="st">"Tulsa"</span>, <span class="st">"Wagoner"</span><span class="op">)</span></span>
 <span></span>
@@ -491,16 +535,41 @@ This extended graph is not in the manuscript.</p>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">pushViewport</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span>layout.pos.row <span class="op">=</span> <span class="va">i</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="fu">graph_row_comparison</span><span class="op">(</span>.county_name <span class="op">=</span> <span class="va">counties</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, row_label <span class="op">=</span> <span class="va">county_names</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure-mbr-rmd/fig-7-all-counties-1.png" width="600px"></p>
+<span><span class="op">}</span></span></code></pre></div>
+<pre><code>Warning in ggplot2::scale_x_date(breaks = date_sequence, labels = scales::date_format("%Y")):  [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.</code></pre>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">popViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="figure-mbr-rmd/fig-7-all-counties-1.png" class="r-plt" width="600px"></p>
 </div>
 <div class="section level2">
 <h2 id="figure-8-error-band-comparison">Figure 8: Error Band Comparison<a class="anchor" aria-label="anchor" href="#figure-8-error-band-comparison"></a>
 </h2>
 <p>This figure demonstrates that WATS accommodates many types of error
 bands.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spreads</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"h_spread"</span>, <span class="st">"full_spread"</span>, <span class="st">"se_spread"</span>, <span class="st">"boot_spread"</span><span class="op">)</span></span>
 <span><span class="va">spread_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"H-Spread"</span>, <span class="st">"Range"</span>, <span class="st">"+/-1 SE"</span>, <span class="st">"Bootstrap"</span><span class="op">)</span></span>
 <span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -512,19 +581,28 @@ bands.</p>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">pushViewport</a></span><span class="op">(</span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></span><span class="op">(</span>layout.pos.row <span class="op">=</span> <span class="va">i</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="fu">graph_row_comparison</span><span class="op">(</span>spread_function <span class="op">=</span> <span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">spreads</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span>, row_label <span class="op">=</span> <span class="va">spread_names</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span>  <span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">upViewport</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">upViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figure-mbr-rmd/fig-8-1.png" width="600px"></p>
+<span><span class="op">}</span></span></code></pre></div>
+<pre><code>Warning in ggplot2::scale_x_date(breaks = date_sequence, labels = scales::date_format("%Y")):  [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.
+ [1m [22mA  [34m&lt;numeric&gt; [39m value was passed to a  [32mDate [39m scale.
+ [36mℹ [39m The value was converted to a &lt;Date&gt; object.</code></pre>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">grid</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/viewports.html" class="external-link">upViewport</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="figure-mbr-rmd/fig-8-1.png" class="r-plt" width="600px"></p>
 </div>
 <div class="section level2">
 <h2 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
 </h2>
 <p>The current vignette was build on a system using the following
 software.</p>
-<pre><code>Report created by runner at Mon Aug 18 14:33:37 2025, +0000</code></pre>
-<pre><code>R version 4.5.1 (2025-06-13)
+<pre><code>Report created by runner at Fri Nov 21 16:56:04 2025, +0000</code></pre>
+<pre><code>R version 4.5.2 (2025-10-31)
 Platform: x86_64-pc-linux-gnu
-Running under: Ubuntu 24.04.2 LTS
+Running under: Ubuntu 24.04.3 LTS
 
 Matrix products: default
 BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
@@ -546,19 +624,19 @@ other attached packages:
 [1] Wats_1.0.1.9000
 
 loaded via a namespace (and not attached):
- [1] gtable_0.3.6       jsonlite_2.0.0     dplyr_1.1.4        compiler_4.5.1    
- [5] tidyselect_1.2.1   jquerylib_0.1.4    systemfonts_1.2.3  scales_1.4.0      
- [9] textshaping_1.0.1  testit_0.13        boot_1.3-31        yaml_2.3.10       
-[13] fastmap_1.2.0      lattice_0.22-7     ggplot2_3.5.2      R6_2.6.1          
-[17] labeling_0.4.3     generics_0.1.4     knitr_1.50         htmlwidgets_1.6.4 
-[21] tibble_3.3.0       desc_1.4.3         lubridate_1.9.4    bslib_0.9.0       
-[25] pillar_1.11.0      RColorBrewer_1.1-3 rlang_1.1.6        utf8_1.2.6        
-[29] cachem_1.1.0       xfun_0.52          fs_1.6.6           sass_0.4.10       
-[33] timechange_0.3.0   cli_3.6.5          withr_3.0.2        pkgdown_2.1.3     
-[37] magrittr_2.0.3     digest_0.6.37      grid_4.5.1         lifecycle_1.0.4   
-[41] vctrs_0.6.5        evaluate_1.0.4     glue_1.8.0         farver_2.1.2      
-[45] zoo_1.8-14         ragg_1.4.0         rmarkdown_2.29     tools_4.5.1       
-[49] pkgconfig_2.0.3    htmltools_0.5.8.1 </code></pre>
+ [1] gtable_0.3.6       jsonlite_2.0.0     crayon_1.5.3       dplyr_1.1.4       
+ [5] compiler_4.5.2     tidyselect_1.2.1   jquerylib_0.1.4    systemfonts_1.3.1 
+ [9] scales_1.4.0       textshaping_1.0.4  testit_0.13        boot_1.3-32       
+[13] yaml_2.3.10        fastmap_1.2.0      lattice_0.22-7     ggplot2_4.0.1     
+[17] R6_2.6.1           labeling_0.4.3     generics_0.1.4     knitr_1.50        
+[21] htmlwidgets_1.6.4  tibble_3.3.0       desc_1.4.3         lubridate_1.9.4   
+[25] bslib_0.9.0        pillar_1.11.1      RColorBrewer_1.1-3 rlang_1.1.6       
+[29] utf8_1.2.6         cachem_1.1.0       xfun_0.54          fs_1.6.6          
+[33] sass_0.4.10        S7_0.2.1           timechange_0.3.0   cli_3.6.5         
+[37] withr_3.0.2        pkgdown_2.2.0      magrittr_2.0.4     digest_0.6.39     
+[41] grid_4.5.2         lifecycle_1.0.4    vctrs_0.6.5        evaluate_1.0.5    
+[45] glue_1.8.0         farver_2.1.2       zoo_1.8-14         ragg_1.5.0        
+[49] rmarkdown_2.30     tools_4.5.2        pkgconfig_2.0.3    htmltools_0.5.8.1 </code></pre>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -571,7 +649,7 @@ loaded via a namespace (and not attached):
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
