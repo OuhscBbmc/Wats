@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   mbr-figures: mbr-figures.html
-last_built: 2025-11-21T16:55Z
+last_built: 2025-11-24T17:13Z
 urls:
   reference: https://ouhscbbmc.github.io/Wats/reference
   article: https://ouhscbbmc.github.io/Wats/articles

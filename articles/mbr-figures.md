@@ -588,7 +588,7 @@ grid::upViewport()
 
 The current vignette was build on a system using the following software.
 
-    Report created by runner at Fri Nov 21 16:56:04 2025, +0000
+    Report created by runner at Mon Nov 24 17:13:40 2025, +0000
 
     R version 4.5.2 (2025-10-31)
     Platform: x86_64-pc-linux-gnu
