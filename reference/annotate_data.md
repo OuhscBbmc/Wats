@@ -97,5 +97,5 @@ portfolio$ds_linear
 portfolio$ds_periodic
 })
 #>    user  system elapsed 
-#>   0.244   0.016   0.259 
+#>   0.250   0.016   0.266 
 ```

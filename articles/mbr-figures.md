@@ -132,7 +132,7 @@ cartesian_rolling(
      [36mℹ [39m See also `vignette("ggplot2-in-packages")` for more information.
      [36mℹ [39m The deprecated feature was likely used in the  [34mWats [39m package.
       Please report the issue at  [3m [34m<https://github.com/OuhscBbmc/Wats/issues> [39m [23m.
-     [90mThis warning is displayed once every 8 hours. [39m
+     [90mThis warning is displayed once per session. [39m
      [90mCall `lifecycle::last_lifecycle_warnings()` to see where this warning was [39m
      [90mgenerated. [39m
 
@@ -140,7 +140,7 @@ cartesian_rolling(
      [36mℹ [39m Please use `linewidth` instead.
      [36mℹ [39m The deprecated feature was likely used in the  [34mWats [39m package.
       Please report the issue at  [3m [34m<https://github.com/OuhscBbmc/Wats/issues> [39m [23m.
-     [90mThis warning is displayed once every 8 hours. [39m
+     [90mThis warning is displayed once per session. [39m
      [90mCall `lifecycle::last_lifecycle_warnings()` to see where this warning was [39m
      [90mgenerated. [39m
 
@@ -588,7 +588,7 @@ grid::upViewport()
 
 The current vignette was build on a system using the following software.
 
-    Report created by runner at Mon Dec 15 21:44:23 2025, +0000
+    Report created by runner at Mon Jan 12 16:00:55 2026, +0000
 
     R version 4.5.2 (2025-10-31)
     Platform: x86_64-pc-linux-gnu
@@ -614,16 +614,16 @@ The current vignette was build on a system using the following software.
     [1] Wats_1.0.1.9000
 
     loaded via a namespace (and not attached):
-     [1] gtable_0.3.6       jsonlite_2.0.0     crayon_1.5.3       dplyr_1.1.4       
-     [5] compiler_4.5.2     tidyselect_1.2.1   jquerylib_0.1.4    systemfonts_1.3.1 
-     [9] scales_1.4.0       textshaping_1.0.4  testit_0.14        boot_1.3-32       
-    [13] yaml_2.3.12        fastmap_1.2.0      lattice_0.22-7     ggplot2_4.0.1     
-    [17] R6_2.6.1           labeling_0.4.3     generics_0.1.4     knitr_1.50        
-    [21] htmlwidgets_1.6.4  tibble_3.3.0       desc_1.4.3         lubridate_1.9.4   
-    [25] bslib_0.9.0        pillar_1.11.1      RColorBrewer_1.1-3 rlang_1.1.6       
-    [29] utf8_1.2.6         cachem_1.1.0       xfun_0.54          fs_1.6.6          
-    [33] sass_0.4.10        S7_0.2.1           timechange_0.3.0   cli_3.6.5         
+     [1] gtable_0.3.6       jsonlite_2.0.0     dplyr_1.1.4        compiler_4.5.2    
+     [5] tidyselect_1.2.1   jquerylib_0.1.4    systemfonts_1.3.1  scales_1.4.0      
+     [9] textshaping_1.0.4  testit_0.15        boot_1.3-32        yaml_2.3.12       
+    [13] fastmap_1.2.0      lattice_0.22-7     ggplot2_4.0.1      R6_2.6.1          
+    [17] labeling_0.4.3     generics_0.1.4     knitr_1.51         htmlwidgets_1.6.4 
+    [21] tibble_3.3.1       desc_1.4.3         lubridate_1.9.4    bslib_0.9.0       
+    [25] pillar_1.11.1      RColorBrewer_1.1-3 rlang_1.1.7        utf8_1.2.6        
+    [29] cachem_1.1.0       xfun_0.55          S7_0.2.1           fs_1.6.6          
+    [33] sass_0.4.10        otel_0.2.0         timechange_0.3.0   cli_3.6.5         
     [37] withr_3.0.2        pkgdown_2.2.0      magrittr_2.0.4     digest_0.6.39     
-    [41] grid_4.5.2         lifecycle_1.0.4    vctrs_0.6.5        evaluate_1.0.5    
-    [45] glue_1.8.0         farver_2.1.2       zoo_1.8-14         ragg_1.5.0        
+    [41] grid_4.5.2         lifecycle_1.0.5    vctrs_0.6.5        evaluate_1.0.5    
+    [45] glue_1.8.0         farver_2.1.2       zoo_1.8-15         ragg_1.5.0        
     [49] rmarkdown_2.30     tools_4.5.2        pkgconfig_2.0.3    htmltools_0.5.9   
