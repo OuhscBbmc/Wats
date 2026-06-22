@@ -86,6 +86,7 @@ The released [CRAN](https://cran.r-project.org/package=Wats) version of
 Wats can be installed through R with.
 
 ``` r
+
 install.packages("Wats")
 ```
 
@@ -94,6 +95,7 @@ The latest development version of Wats can be installed from
 package.
 
 ``` r
+
 install.packages("remotes")
 remotes::install_github("OuhscBbmc/Wats")
 ```
@@ -117,17 +119,17 @@ official views of the National Institutes of Health.
 
 ## Build Status and Package Characteristics
 
-| [Branch](https://github.com/OuhscBbmc/Wats)         |                                        [GitHub Actions](https://github.com/OuhscBbmc/Wats/actions)                                         |                                         [Codecov](https://app.codecov.io/gh/OuhscBbmc/Wats)                                          |
-|:----------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------:|
+| [Branch](https://github.com/OuhscBbmc/Wats) | [GitHub Actions](https://github.com/OuhscBbmc/Wats/actions) | [Codecov](https://app.codecov.io/gh/OuhscBbmc/Wats) |
+|:---|:--:|:--:|
 | [Main](https://github.com/OuhscBbmc/Wats/tree/main) | [![R-CMD-check](https://github.com/OuhscBbmc/Wats/workflows/R-CMD-check/badge.svg?branch=main)](https://github.com/OuhscBbmc/Wats/actions) | [![codecov](https://codecov.io/gh/OuhscBbmc/Wats/branch/main/graph/badge.svg)](https://app.codecov.io/gh/OuhscBbmc/Wats/branch/main) |
-| [Dev](https://github.com/OuhscBbmc/Wats/tree/dev)   | [![R-CMD-check](https://github.com/OuhscBbmc/Wats/workflows/R-CMD-check/badge.svg?branch=dev)](https://github.com/OuhscBbmc/Wats/actions)  |  [![codecov](https://codecov.io/gh/OuhscBbmc/Wats/branch/dev/graph/badge.svg)](https://app.codecov.io/gh/OuhscBbmc/Wats/branch/dev)  |
-|                                                     |                                                              *Ubuntu Latest*                                                               |                                                           *Test Coverage*                                                            |
+| [Dev](https://github.com/OuhscBbmc/Wats/tree/dev) | [![R-CMD-check](https://github.com/OuhscBbmc/Wats/workflows/R-CMD-check/badge.svg?branch=dev)](https://github.com/OuhscBbmc/Wats/actions) | [![codecov](https://codecov.io/gh/OuhscBbmc/Wats/branch/dev/graph/badge.svg)](https://app.codecov.io/gh/OuhscBbmc/Wats/branch/dev) |
+|  | *Ubuntu Latest* | *Test Coverage* |
 
-| Key                                                      | Value                                                                                                                                            |
-|:---------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------|
-| [License](https://choosealicense.com/)                   | [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.com/licenses/mit/)                                   |
-| [CRAN Version](https://cran.r-project.org/package=Wats)  | [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/Wats)](https://cran.r-project.org/package=Wats)                                       |
-| [CRAN Rate](https://cranlogs.r-pkg.org/)                 | ![CRAN Pace](https://cranlogs.r-pkg.org/badges/Wats)                                                                                             |
-| [Zenodo Archive](https://zenodo.org/search?ln=en&p=Wats) | [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7719674.svg)](https://doi.org/10.5281/zenodo.7719674)                                        |
-| [Production Doc](https://www.rdocumentation.org/)        | [![RDoc](https://api.rdocumentation.org/badges/version/Wats)](https://www.rdocumentation.org/packages/Wats)                                      |
-| [Development Doc](https://ouhscbbmc.github.io/Wats/)     | [![rdoc](https://img.shields.io/badge/pkgdown-GitHub.io-orange.svg?longCache=true&style=style=for-the-badge)](https://ouhscbbmc.github.io/Wats/) |
+| Key | Value |
+|:---|:---|
+| [License](https://choosealicense.com/) | [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.com/licenses/mit/) |
+| [CRAN Version](https://cran.r-project.org/package=Wats) | [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/Wats)](https://cran.r-project.org/package=Wats) |
+| [CRAN Rate](https://cranlogs.r-pkg.org/) | ![CRAN Pace](https://cranlogs.r-pkg.org/badges/Wats) |
+| [Zenodo Archive](https://zenodo.org/search?ln=en&p=Wats) | [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7719674.svg)](https://doi.org/10.5281/zenodo.7719674) |
+| [Production Doc](https://www.rdocumentation.org/) | [![RDoc](https://api.rdocumentation.org/badges/version/Wats)](https://www.rdocumentation.org/packages/Wats) |
+| [Development Doc](https://ouhscbbmc.github.io/Wats/) | [![rdoc](https://img.shields.io/badge/pkgdown-GitHub.io-orange.svg?longCache=true&style=style=for-the-badge)](https://ouhscbbmc.github.io/Wats/) |

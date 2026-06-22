@@ -25,6 +25,7 @@ First, some R packages are loaded, and some variables and functions are
 defined.
 
 ``` r
+
 change_month <- base::as.Date("1996-02-15") #as.Date("1995-04-19") + lubridate::weeks(39) = "1996-01-17"
 set.seed(444) # So bootstrap won't trigger a git diff
 
@@ -97,6 +98,7 @@ specification, and will work with a wide range of appropriate datasets.
 This first (unpublished) graph displays all components.
 
 ``` r
+
 # Uncomment the next two lines to use the version built into the package.  By default, it uses the
 # CSV to promote reproducible research, since the CSV format is more open and accessible to more software.
 
@@ -154,6 +156,7 @@ features of the dataset. This is what it looks like when all three
 stylized panels are combined.
 
 ``` r
+
 top_panel <-
   Wats::cartesian_rolling(
     ds_linear             = portfolio_cartesian$ds_linear,
@@ -206,6 +209,7 @@ print(top_panel   , vp = vp_layout(1, 1))
      [36mℹ [39m The value was converted to a <Date> object.
 
 ``` r
+
 print(middle_panel, vp = vp_layout(2, 1))
 ```
 
@@ -213,6 +217,7 @@ print(middle_panel, vp = vp_layout(2, 1))
      [36mℹ [39m The value was converted to a <Date> object.
 
 ``` r
+
 print(bottom_panel, vp = vp_layout(3, 1))
 ```
 
@@ -220,6 +225,7 @@ print(bottom_panel, vp = vp_layout(3, 1))
      [36mℹ [39m The value was converted to a <Date> object.
 
 ``` r
+
 grid::popViewport()
 ```
 
@@ -231,6 +237,7 @@ Cartesian plot of the GFR time series data in Oklahoma County, with
 H-spread Bands superimposed.
 
 ``` r
+
 cartesian_periodic <-
   Wats::cartesian_periodic(
     portfolio_cartesian$ds_linear,
@@ -252,6 +259,7 @@ print(cartesian_periodic)
 ![](figure-mbr-rmd/fig-4-basic-1.png)
 
 ``` r
+
 cartesian_periodic <- cartesian_periodic + x_scale + dark_theme
 print(cartesian_periodic)
 ```
@@ -267,6 +275,7 @@ Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data,
 1990-1999.
 
 ``` r
+
 portfolio_polar <-
   polarize_cartesian(
     ds_linear                       = portfolio_cartesian$ds_linear,
@@ -297,6 +306,7 @@ Wrap Around Time Series (WATS Plot) of the Oklahoma City GFR data,
 1990-1999.
 
 ``` r
+
 portfolio_polar <-
   Wats::polarize_cartesian(
     ds_linear                     = portfolio_cartesian$ds_linear,
@@ -353,6 +363,7 @@ print(cartesian_periodic, vp = vp_layout(x = 1:2, y = 2)) # Print across both co
      [36mℹ [39m The value was converted to a <Date> object.
 
 ``` r
+
 grid::upViewport()
 ```
 
@@ -364,6 +375,7 @@ This figure compares Oklahoma County against the (other) largest urban
 counties.
 
 ``` r
+
 # ds_linear_all <- Wats::augment_year_data_with_month_resolution(ds_linear = county_month_birth_rate_2005_version, date_name="date")
 
 # Identify the average size of the fecund population
@@ -392,6 +404,7 @@ ds_linear_all |>
      [38;5;250m12 [39m wagoner        [4m1 [24m [4m1 [24m580.
 
 ``` r
+
 graph_row_comparison <- function(
     row_label       = "",
     .county_name    = "oklahoma",
@@ -493,6 +506,7 @@ for (i in base::seq_along(counties)) {
      [36mℹ [39m The value was converted to a <Date> object.
 
 ``` r
+
 grid::popViewport()
 ```
 
@@ -502,6 +516,7 @@ Here are all 12 counties that Ronnie collected birth records for. This
 extended graph is not in the manuscript.
 
 ``` r
+
 counties <- base::sort(base::unique(ds_linear_all$county_name))
 county_names <- c("Canadian", "Cleveland", "Comanche", "Creek", "Logan", "McClain", "Oklahoma", "Osage", "Pottawatomie", "Rogers", "Tulsa", "Wagoner")
 
@@ -544,6 +559,7 @@ for (i in base::seq_along(counties)) {
      [36mℹ [39m The value was converted to a <Date> object.
 
 ``` r
+
 grid::popViewport()
 ```
 
@@ -555,6 +571,7 @@ This figure demonstrates that WATS accommodates many types of error
 bands.
 
 ``` r
+
 spreads <- c("h_spread", "full_spread", "se_spread", "boot_spread")
 spread_names <- c("H-Spread", "Range", "+/-1 SE", "Bootstrap")
 grid::grid.newpage()
@@ -579,6 +596,7 @@ for (i in base::seq_along(spreads)) {
      [36mℹ [39m The value was converted to a <Date> object.
 
 ``` r
+
 grid::upViewport()
 ```
 
@@ -588,11 +606,11 @@ grid::upViewport()
 
 The current vignette was build on a system using the following software.
 
-    Report created by runner at Mon Jan 12 16:00:55 2026, +0000
+    Report created by runner at Mon Jun 22 15:15:15 2026, +0000
 
-    R version 4.5.2 (2025-10-31)
+    R version 4.6.0 (2026-04-24)
     Platform: x86_64-pc-linux-gnu
-    Running under: Ubuntu 24.04.3 LTS
+    Running under: Ubuntu 24.04.4 LTS
 
     Matrix products: default
     BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
@@ -614,16 +632,16 @@ The current vignette was build on a system using the following software.
     [1] Wats_1.0.1.9000
 
     loaded via a namespace (and not attached):
-     [1] gtable_0.3.6       jsonlite_2.0.0     dplyr_1.1.4        compiler_4.5.2    
-     [5] tidyselect_1.2.1   jquerylib_0.1.4    systemfonts_1.3.1  scales_1.4.0      
-     [9] textshaping_1.0.4  testit_0.15        boot_1.3-32        yaml_2.3.12       
-    [13] fastmap_1.2.0      lattice_0.22-7     ggplot2_4.0.1      R6_2.6.1          
+     [1] gtable_0.3.6       jsonlite_2.0.0     dplyr_1.2.1        compiler_4.6.0    
+     [5] tidyselect_1.2.1   jquerylib_0.1.4    systemfonts_1.3.2  scales_1.4.0      
+     [9] textshaping_1.0.5  testit_1.1         boot_1.3-32        yaml_2.3.12       
+    [13] fastmap_1.2.0      lattice_0.22-9     ggplot2_4.0.3      R6_2.6.1          
     [17] labeling_0.4.3     generics_0.1.4     knitr_1.51         htmlwidgets_1.6.4 
-    [21] tibble_3.3.1       desc_1.4.3         lubridate_1.9.4    bslib_0.9.0       
-    [25] pillar_1.11.1      RColorBrewer_1.1-3 rlang_1.1.7        utf8_1.2.6        
-    [29] cachem_1.1.0       xfun_0.55          S7_0.2.1           fs_1.6.6          
-    [33] sass_0.4.10        otel_0.2.0         timechange_0.3.0   cli_3.6.5         
-    [37] withr_3.0.2        pkgdown_2.2.0      magrittr_2.0.4     digest_0.6.39     
-    [41] grid_4.5.2         lifecycle_1.0.5    vctrs_0.6.5        evaluate_1.0.5    
-    [45] glue_1.8.0         farver_2.1.2       zoo_1.8-15         ragg_1.5.0        
-    [49] rmarkdown_2.30     tools_4.5.2        pkgconfig_2.0.3    htmltools_0.5.9   
+    [21] tibble_3.3.1       desc_1.4.3         lubridate_1.9.5    bslib_0.11.0      
+    [25] pillar_1.11.1      RColorBrewer_1.1-3 rlang_1.2.0        utf8_1.2.6        
+    [29] cachem_1.1.0       xfun_0.59          S7_0.2.2           fs_2.1.0          
+    [33] sass_0.4.10        otel_0.2.0         timechange_0.4.0   cli_3.6.6         
+    [37] withr_3.0.3        pkgdown_2.2.0      magrittr_2.0.5     digest_0.6.39     
+    [41] grid_4.6.0         lifecycle_1.0.5    vctrs_0.7.3        evaluate_1.0.5    
+    [45] glue_1.8.1         farver_2.1.2       zoo_1.8-15         ragg_1.5.2        
+    [49] rmarkdown_2.31     tools_4.6.0        pkgconfig_2.0.3    htmltools_0.5.9   

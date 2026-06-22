@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Wrap Around Time Series Graphics • Wats</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Wrap Around Time Series Graphics">
 <meta name="description" content='Wrap-around Time Series (WATS) plots for interrupted time series designs with seasonal patterns. Longitudinal trajectories are shown in both Cartesian and polar coordinates. In many scenarios, a WATS plot more clearly shows the existence and effect size of of an intervention. This package accompanies "Graphical Data Analysis on the Circle: Wrap-Around Time Series Plots for (Interrupted) Time Series Designs" by Rodgers, Beasley, &amp; Schuelke (2014) &lt;doi:10.1080/00273171.2014.946589&gt;; see citation("Wats") for details.'>
@@ -112,7 +112,7 @@
 <p>The latest development version of Wats can be installed from <a href="https://github.com/OuhscBbmc/Wats" class="external-link">GitHub</a> after installing the remotes package.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"OuhscBbmc/Wats"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"OuhscBbmc/Wats"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="code-repository">Code Repository<a class="anchor" aria-label="anchor" href="#code-repository"></a>
@@ -133,23 +133,23 @@
 <col width="65%">
 <col width="20%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th align="left"><a href="https://github.com/OuhscBbmc/Wats" class="external-link">Branch</a></th>
 <th align="center"><a href="https://github.com/OuhscBbmc/Wats/actions" class="external-link">GitHub Actions</a></th>
 <th align="center"><a href="https://app.codecov.io/gh/OuhscBbmc/Wats" class="external-link">Codecov</a></th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td align="left"><a href="https://github.com/OuhscBbmc/Wats/tree/main" class="external-link">Main</a></td>
 <td align="center"><a href="https://github.com/OuhscBbmc/Wats/actions" class="external-link"><img src="https://github.com/OuhscBbmc/Wats/workflows/R-CMD-check/badge.svg?branch=main" alt="R-CMD-check"></a></td>
 <td align="center"><a href="https://app.codecov.io/gh/OuhscBbmc/Wats/branch/main" class="external-link"><img src="https://codecov.io/gh/OuhscBbmc/Wats/branch/main/graph/badge.svg" alt="codecov"></a></td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left"><a href="https://github.com/OuhscBbmc/Wats/tree/dev" class="external-link">Dev</a></td>
 <td align="center"><a href="https://github.com/OuhscBbmc/Wats/actions" class="external-link"><img src="https://github.com/OuhscBbmc/Wats/workflows/R-CMD-check/badge.svg?branch=dev" alt="R-CMD-check"></a></td>
 <td align="center"><a href="https://app.codecov.io/gh/OuhscBbmc/Wats/branch/dev" class="external-link"><img src="https://codecov.io/gh/OuhscBbmc/Wats/branch/dev/graph/badge.svg" alt="codecov"></a></td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left"></td>
 <td align="center"><em>Ubuntu Latest</em></td>
 <td align="center"><em>Test Coverage</em></td>
@@ -161,32 +161,32 @@
 <col width="40%">
 <col width="60%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th align="left">Key</th>
 <th align="left">Value</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td align="left"><a href="https://choosealicense.com/" class="external-link">License</a></td>
 <td align="left"><a href="https://choosealicense.com/licenses/mit/" class="external-link"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a></td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left"><a href="https://cran.r-project.org/package=Wats" class="external-link">CRAN Version</a></td>
 <td align="left"><a href="https://cran.r-project.org/package=Wats" class="external-link"><img src="https://www.r-pkg.org/badges/version/Wats" alt="CRAN_Status_Badge"></a></td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left"><a href="https://cranlogs.r-pkg.org/" class="external-link">CRAN Rate</a></td>
 <td align="left"><img src="https://cranlogs.r-pkg.org/badges/Wats" alt="CRAN Pace"></td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left"><a href="https://zenodo.org/search?ln=en&amp;p=Wats" class="external-link">Zenodo Archive</a></td>
 <td align="left"><a href="https://doi.org/10.5281/zenodo.7719674" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.7719674.svg" alt="DOI"></a></td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left"><a href="https://www.rdocumentation.org/" class="external-link">Production Doc</a></td>
 <td align="left"><a href="https://www.rdocumentation.org/packages/Wats" class="external-link"><img src="https://api.rdocumentation.org/badges/version/Wats" alt="RDoc"></a></td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left"><a href="https://ouhscbbmc.github.io/Wats/">Development Doc</a></td>
 <td align="left"><a href="https://ouhscbbmc.github.io/Wats/"><img src="https://img.shields.io/badge/pkgdown-GitHub.io-orange.svg?longCache=true&amp;style=style=for-the-badge" alt="rdoc"></a></td>
 </tr>
